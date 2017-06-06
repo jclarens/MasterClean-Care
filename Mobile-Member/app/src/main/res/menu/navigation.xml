@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_home"/>
+    <item
+        android:id="@+id/menu_buku"
+        android:icon="@drawable/ic_library_books_black_24dp"
+        android:title="@string/buku"/>
+    <item
+        android:id="@+id/menu_musik"
+        android:icon="@drawable/ic_library_music_black_24dp"
+        android:title="@string/musik"/>
+    <item
+        android:id="@+id/menu_film"
+        android:icon="@drawable/ic_movie_black_24dp"
+        android:title="@string/film"/>
+    <item
+        android:id="@+id/menu_dashboard"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="@string/title_dashboard"/>
+
+</menu>
