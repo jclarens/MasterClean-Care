@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menu_home"
+        android:id="@+id/menu_beranda"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home"/>
+        android:title="@string/menu_beranda"/>
     <item
-        android:id="@+id/menu_buku"
-        android:icon="@drawable/ic_library_books_black_24dp"
-        android:title="@string/buku"/>
+        android:id="@+id/menu_cari"
+        android:icon="@drawable/ic_cari"
+        android:title="@string/menu_cari"/>
     <item
-        android:id="@+id/menu_musik"
-        android:icon="@drawable/ic_library_music_black_24dp"
-        android:title="@string/musik"/>
+        android:id="@+id/menu_status"
+        android:icon="@drawable/ic_status"
+        android:title="@string/menu_status"/>
     <item
-        android:id="@+id/menu_film"
-        android:icon="@drawable/ic_movie_black_24dp"
-        android:title="@string/film"/>
+        android:id="@+id/menu_pesan"
+        android:icon="@drawable/ic_pesan"
+        android:title="@string/menu_pesan"/>
     <item
-        android:id="@+id/menu_dashboard"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_dashboard"/>
+        android:id="@+id/menu_lainnya"
+        android:icon="@drawable/ic_other"
+        android:title="@string/menu_lainnya"/>
 
 </menu>

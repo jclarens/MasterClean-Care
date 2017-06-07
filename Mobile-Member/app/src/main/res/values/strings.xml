@@ -1,8 +1,14 @@
 <resources>
-    <string name="app_name">ButtomNavigationViewFragmented</string>
+    <string name="app_name">Master Clean - Care</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <string name="menu_beranda">Beranda</string>
+    <string name="menu_cari">Cari</string>
+    <string name="menu_status">Status</string>
+    <string name="menu_pesan">Pesan</string>
+    <string name="menu_lainnya">Lainnya</string>
 
     <string name="buku">Buku</string>
     <string name="musik">Musik</string>

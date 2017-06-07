@@ -1,4 +1,4 @@
-package com.TA.MVP.appmobilemember;
+package com.TA.MVP.appmobilemember.View.Activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,6 +8,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+
+import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.View.Fragment.FragmentCari;
+import com.TA.MVP.appmobilemember.View.Fragment.FragmentHome;
+import com.TA.MVP.appmobilemember.View.Fragment.FragmentLainnya;
+import com.TA.MVP.appmobilemember.View.Fragment.FragmentPesan;
+import com.TA.MVP.appmobilemember.View.Fragment.FragmentStatus;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -24,31 +31,28 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.inflateMenu(R.menu.navigation);
         fragmentManager = getSupportFragmentManager();
 
-        //Untuk inisialisasi fragment pertama kali
         fragmentManager.beginTransaction().replace(R.id.main_container, new FragmentHome()).commit();
 
-        //Memberikan listener saat menu item di bottom navigation diklik
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
                 switch (id){
-                    case R.id.menu_home:
+                    case R.id.menu_beranda:
                         fragment = new FragmentHome();
                         break;
-                    case R.id.menu_buku:
-                        fragment = new FragmentBuku();
+                    case R.id.menu_cari:
+                        fragment = new FragmentCari();
                         break;
-                    case R.id.menu_musik:
-                        fragment = new FragmentMusik();
+                    case R.id.menu_status:
+                        fragment = new FragmentStatus();
                         break;
-                    case R.id.menu_film:
-                        fragment = new FragmentFilm();
+                    case R.id.menu_pesan:
+                        fragment = new FragmentPesan();
                         break;
-                    case R.id.menu_dashboard:
-                        fragment = new FragmentDashboard();
+                    case R.id.menu_lainnya:
+                        fragment = new FragmentLainnya();
                         break;
-
                 }
                 final FragmentTransaction transaction = fragmentManager.beginTransaction();
                 transaction.replace(R.id.main_container, fragment).commit();
