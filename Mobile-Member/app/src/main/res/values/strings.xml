@@ -10,6 +10,8 @@
     <string name="menu_pesan">Pesan</string>
     <string name="menu_lainnya">Lainnya</string>
 
+    <string name="action_alarm">SOS</string>
+
     <string name="buku">Buku</string>
     <string name="musik">Musik</string>
     <string name="film">Film</string>
