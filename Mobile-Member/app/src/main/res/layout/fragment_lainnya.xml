@@ -1,14 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.TA.MVP.appmobilemember.View.Fragment.FragmentLainnya">
+    tools:context="com.TA.MVP.appmobilemember.View.Fragment.FragmentLainnya"
+    android:padding="10dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/menu_lainnya"
-        android:textStyle="bold"
-        android:layout_gravity="center"/>
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="@string/menu_lainnya"-->
+        <!--android:textStyle="bold"-->
+        <!--android:layout_gravity="center"/>-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:id="@+id/linearlayout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_profile"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_dashboard_black_24dp"
+                android:contentDescription="@string/profile"/>
+
+            <ImageView
+                android:id="@+id/iv_wallet"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_dashboard_black_24dp"
+                android:contentDescription="@string/wallet"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearlayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_profile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/profile"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/tv_wallet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/wallet"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearlayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_pengaturan"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_dashboard_black_24dp"
+                android:contentDescription="@string/pengaturan"/>
+
+            <ImageView
+                android:id="@+id/iv_bantuan"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_dashboard_black_24dp"
+                android:contentDescription="@string/bantuan"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearlayout4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_pengaturan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/pengaturan"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/tv_bantuan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/bantuan"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearlayout5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/iv_ketentuan"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_dashboard_black_24dp"
+                android:contentDescription="@string/ketentuan"/>
+
+            <ImageView
+                android:id="@+id/iv_logout"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1"
+                app:srcCompat="@drawable/ic_dashboard_black_24dp"
+                android:contentDescription="@string/logout"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearlayout6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_ketentuan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/ketentuan"
+                android:textAlignment="center" />
+
+            <TextView
+                android:id="@+id/tv_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/logout"
+                android:textAlignment="center" />
+        </LinearLayout>
+    </LinearLayout>
 </FrameLayout>
