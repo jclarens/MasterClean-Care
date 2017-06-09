@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Activity.AuthActivity;
 import com.TA.MVP.appmobilemember.View.Activity.MainActivity;
+import com.TA.MVP.appmobilemember.View.Activity.ProfileActivity;
 
 /**
  * Created by Zackzack on 07/06/2017.
@@ -49,6 +50,7 @@ public class FragmentLainnya extends Fragment {
             @Override
             public void onClick(View view) {
                 Toast.makeText(context,"Profile", Toast.LENGTH_SHORT).show();
+                MainActivity.doStartActivity(getContext(), ProfileActivity.class);
             }
         });
         imagewallet.setOnClickListener(new View.OnClickListener() {

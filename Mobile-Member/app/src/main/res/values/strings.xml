@@ -9,6 +9,9 @@
     <string name="menu_status">Status</string>
     <string name="menu_pesan">Pesan</string>
     <string name="menu_lainnya">Lainnya</string>
+    <string name="menu_editprofile">Edit Profile</string>
+    <string name="menu_editks">Ubah Kata Sandi</string>
+    <string name="menu_editdoc">Document Tambahan</string>
 
     <string name="action_alarm">SOS</string>
 
@@ -30,6 +33,15 @@
     <string name="konfkatasandi">Konfirmasi Kata Sandi</string>
     <string name="notelp">No.Telp</string>
     <string name="alamat">Alamat</string>
+    <string name="information">Information</string>
+    <string name="description">Description</string>
+    <string name="isiulang">Isi Ulang</string>
+    <string name="nominalangka">Rp. 1.000.000</string>
+    <string name="simpan">Simpan</string>
+    <string name="batal">Batal</string>
+
+    <string name="toolbar_editprofile">Edit Profile</string>
+
 
 
     <string name="fragment_buku">Fragment Buku</string>

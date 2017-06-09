@@ -1,14 +1,12 @@
 package com.TA.MVP.appmobilemember.View.Activity;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +18,7 @@ import com.TA.MVP.appmobilemember.View.Fragment.FragmentLainnya;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentPesan;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentStatus;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends ParentActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
     private BottomNavigationView bottomNavigation;
     private Fragment fragment;
@@ -69,12 +67,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-    }
-
-    public static void doChangeActivity(Context context, Class activityClass){
-        Intent _intent = new Intent(context, activityClass);
-        _intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        context.startActivity(_intent);
     }
 
     @Override
