@@ -11,6 +11,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.View.Activity.AuthActivity;
+import com.TA.MVP.appmobilemember.View.Activity.MainActivity;
 
 /**
  * Created by Zackzack on 07/06/2017.
@@ -77,6 +79,7 @@ public class FragmentLainnya extends Fragment {
             @Override
             public void onClick(View view) {
                 Toast.makeText(context,"Logout", Toast.LENGTH_SHORT).show();
+                MainActivity.doChangeActivity(getContext(), AuthActivity.class);
             }
         });
 

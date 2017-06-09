@@ -1,5 +1,7 @@
 package com.TA.MVP.appmobilemember.View.Activity;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private Fragment fragment;
     private FragmentManager fragmentManager;
     private Toolbar toolbar;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +40,9 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.inflateMenu(R.menu.navigation);
         fragmentManager = getSupportFragmentManager();
 
-        fragmentManager.beginTransaction().replace(R.id.main_container, new FragmentHome()).commit();
+        context = getApplicationContext();
 
+        fragmentManager.beginTransaction().replace(R.id.main_container, new FragmentHome()).commit();
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -67,6 +71,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public static void doChangeActivity(Context context, Class activityClass){
+        Intent _intent = new Intent(context, activityClass);
+        _intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(_intent);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -75,9 +85,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_alarm)
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_alarm:
+//                return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 }

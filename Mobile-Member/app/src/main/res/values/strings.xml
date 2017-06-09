@@ -18,7 +18,19 @@
     <string name="pengaturan">Pengaturan</string>
     <string name="bantuan">Bantuan</string>
     <string name="ketentuan">Ketentuan</string>
+    <string name="username">Username</string>
+    <string name="katasandi">Kata Sandi</string>
+    <string name="daftarmember">Daftar Member</string>
+    <string name="login">Login</string>
     <string name="logout">Log Out</string>
+    <string name="pendaftaran">Pendaftaran Member</string>
+    <string name="namalengkap">Nama Lengkap</string>
+    <string name="daftar">Daftar</string>
+    <string name="email">Email</string>
+    <string name="konfkatasandi">Konfirmasi Kata Sandi</string>
+    <string name="notelp">No.Telp</string>
+    <string name="alamat">Alamat</string>
+
 
     <string name="fragment_buku">Fragment Buku</string>
     <string name="fragment_film">Fragment Film</string>
