@@ -1,11 +1,15 @@
 package com.TA.MVP.appmobilemember.View.Fragment;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.TA.MVP.appmobilemember.Model.Adapter.PagerAdapterStatus;
 import com.TA.MVP.appmobilemember.R;
 
 /**
@@ -13,11 +17,24 @@ import com.TA.MVP.appmobilemember.R;
  */
 
 public class FragmentStatus extends Fragment {
-    public FragmentStatus() {
+    private TabLayout tabLayoutstatus;
+    private ViewPager viewPagerstatus;
+    private PagerAdapter pagerAdapterstatus;
+    public FragmentStatus(){
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_status, container, false);
+        View _view = inflater.inflate(R.layout.fragment_status, container, false);
+
+        tabLayoutstatus = (TabLayout) _view.findViewById(R.id.tablayout_status);
+        viewPagerstatus = (ViewPager) _view.findViewById(R.id.viewpager_status);
+
+        pagerAdapterstatus = new PagerAdapterStatus(getChildFragmentManager(), getContext());
+        viewPagerstatus.setAdapter(pagerAdapterstatus);
+        tabLayoutstatus.setupWithViewPager(viewPagerstatus);
+
+        return _view;
     }
 }

@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.TA.MVP.appmobilemember.View.Fragment.FragmentPesan">
 
-    <TextView
+    <android.support.design.widget.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tablayout_pesan"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorPrimaryDark"/>
+
+    <android.support.v4.view.ViewPager
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/menu_pesan"
-        android:textStyle="bold"
-        android:layout_gravity="center"/>
-</FrameLayout>
+        android:id="@+id/viewpager_pesan"
+        android:layout_below="@+id/tablayout_pesan" />
+</RelativeLayout>

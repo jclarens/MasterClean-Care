@@ -25,6 +25,7 @@ public class MainActivity extends ParentActivity {
     private FragmentManager fragmentManager;
     private Toolbar toolbar;
     private Context context;
+    private Menu menutoolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,9 +72,21 @@ public class MainActivity extends ParentActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        menutoolbar = menu;
         getMenuInflater().inflate(R.menu.menu_main, menu);
+//        hideOption(R.id.action_alarm);//ganti
         return true;
     }
+
+//    private void hideOption(int id){
+//        MenuItem item = menutoolbar.findItem(id);
+//        item.setVisible(false);
+//    }
+//
+//    private void showOption(int id){
+//        MenuItem item = menutoolbar.findItem(id);
+//        item.setVisible(false);
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
