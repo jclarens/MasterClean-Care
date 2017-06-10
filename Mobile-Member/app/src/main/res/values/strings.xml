@@ -23,6 +23,8 @@
     <string name="ketentuan">Ketentuan</string>
     <string name="username">Username</string>
     <string name="katasandi">Kata Sandi</string>
+    <string name="katasandibaru">Kata Sandi Baru</string>
+    <string name="katasandibarukonfirm">Konfirmasi Kata Sandi Baru</string>
     <string name="daftarmember">Daftar Member</string>
     <string name="login">Login</string>
     <string name="logout">Log Out</string>
@@ -39,8 +41,11 @@
     <string name="nominalangka">Rp. 1.000.000</string>
     <string name="simpan">Simpan</string>
     <string name="batal">Batal</string>
+    <string name="fotoktp">Foto KTP</string>
 
     <string name="toolbar_editprofile">Edit Profile</string>
+    <string name="toolbar_editpass">Ubah Kata Sandi</string>
+    <string name="toolbar_doctmbh">Dokumen Tambahan</string>
 
 
 

@@ -57,9 +57,11 @@ public class ProfileActivity extends ParentActivity {
                 break;
             case R.id.prof_menu_editks:
                 //dostartactivity
+                doStartActivity(ProfileActivity.this, EditPassActivity.class);
                 break;
             case R.id.prof_menu_editdoc:
                 //dostartactivity
+                doStartActivity(ProfileActivity.this, DokumenTambahanActivity.class);
                 break;
         }
         return super.onOptionsItemSelected(item);

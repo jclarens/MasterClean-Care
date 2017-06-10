@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/toolbar_main"
+        layout="@layout/toolbar_main" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <EditText
+            android:id="@+id/epass_et_pass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/katasandi"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/epass_et_newpass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/katasandibaru"
+            android:inputType="textPassword" />
+
+        <EditText
+            android:id="@+id/epass_et_knewpass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="@string/katasandibarukonfirm"
+            android:inputType="textPassword" />
+
+        <Button
+            android:id="@+id/epass_btn_simpan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/simpan"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/epass_btn_batal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/batal"
+            android:textAllCaps="false" />
+
+    </LinearLayout>
+
+</LinearLayout>
