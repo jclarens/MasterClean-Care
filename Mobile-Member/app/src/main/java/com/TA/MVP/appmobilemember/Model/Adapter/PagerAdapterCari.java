@@ -42,9 +42,9 @@ public class PagerAdapterCari extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position){
             case 0:
-                return thiscontext.getResources().getString(R.string.pageer_cari_map);
+                return thiscontext.getResources().getString(R.string.pager_cari_map);
             case 1:
-                return thiscontext.getResources().getString(R.string.pageer_cari_list);
+                return thiscontext.getResources().getString(R.string.pager_cari_list);
             default:
                 return null;
         }

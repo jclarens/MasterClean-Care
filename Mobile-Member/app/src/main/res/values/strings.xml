@@ -44,10 +44,13 @@
     <string name="simpan">Simpan</string>
     <string name="batal">Batal</string>
     <string name="fotoktp">Foto KTP</string>
+    <string name="carilokasi">Cari Lokasi</string>
+    <string name="filter">Filter</string>
 
     <string name="toolbar_editprofile">Edit Profile</string>
     <string name="toolbar_editpass">Ubah Kata Sandi</string>
     <string name="toolbar_doctmbh">Dokumen Tambahan</string>
+    <string name="toolbar_filter">Filter</string>
 
     <string name="pager_cari_map">Map</string>
     <string name="pager_cari_list">List</string>
@@ -56,6 +59,25 @@
     <string name="pager_status_riwayat">Riwayat</string>
     <string name="pager_pesan_masuk">Pesan Masuk</string>
     <string name="pager_pesan_terkirim">Pesan Terkirim</string>
+
+    <string name="filter_nama">Nama:</string>
+    <string name="filter_usiamin">Usia (min):</string>
+    <string name="filter_usiamax">Usia (max):</string>
+    <string name="filter_pengalamankrj">Pengalaman Kerja (Thn):</string>
+    <string name="filter_kota">Kota :</string>
+    <string name="filter_agama">Agama :</string>
+    <string name="filter_suku">Suku :</string>
+    <string name="filter_bahasa">Bahasa :</string>
+    <string name="filter_bahasainggris">Inggris</string>
+    <string name="filter_bahasamandarin">Mandarin</string>
+    <string name="filter_bahasamelayu">Melayu</string>
+    <string name="filter_profesi">Profesi :</string>
+    <string name="filter_waktukerja">Waktu Kerja :</string>
+    <string name="filter_gajijam">Gaji per Jam</string>
+    <string name="filter_gajihari">Gaji per Hari</string>
+    <string name="filter_gajibulan">Gaji per Bulan</string>
+    <string name="filter_cari">Cari</string>
+    <string name="filter_batal">Batal</string>
 
     <string name="fragment_buku">Fragment Buku</string>
     <string name="fragment_film">Fragment Film</string>

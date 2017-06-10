@@ -41,9 +41,9 @@ public class PagerAdapterPesan extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position){
             case 0:
-                return thiscontext.getResources().getString(R.string.pageer_pesan_masuk);
+                return thiscontext.getResources().getString(R.string.pager_pesan_masuk);
             case 1:
-                return thiscontext.getResources().getString(R.string.pageer_pesan_terkirim);
+                return thiscontext.getResources().getString(R.string.pager_pesan_terkirim);
             default:
                 return null;
         }

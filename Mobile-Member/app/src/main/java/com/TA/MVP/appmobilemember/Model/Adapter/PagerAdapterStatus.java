@@ -44,11 +44,11 @@ public class PagerAdapterStatus extends FragmentPagerAdapter{
     public CharSequence getPageTitle(int position) {
         switch (position){
             case 0:
-                return thiscontext.getResources().getString(R.string.pageer_status_pending);
+                return thiscontext.getResources().getString(R.string.pager_status_pending);
             case 1:
-                return thiscontext.getResources().getString(R.string.pageer_status_disetujui);
+                return thiscontext.getResources().getString(R.string.pager_status_disetujui);
             case 2:
-                return thiscontext.getResources().getString(R.string.pageer_status_riwayat);
+                return thiscontext.getResources().getString(R.string.pager_status_riwayat);
             default:
                 return null;
         }
