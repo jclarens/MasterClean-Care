@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux'
-import userReducer from './RdcUser'
+import UserReducer from './UserReducer'
+import NotificationReducer from './NotificationReducer'
 
 const mcc = combineReducers({
-    userReducer,
+    UserReducer,
+    NotificationReducer,
 })
 
 export default mcc

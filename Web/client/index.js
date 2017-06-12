@@ -3,11 +3,13 @@ import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import { BrowserRouter as Router, Route, browserHistory } from "react-router-dom"
-import configureStore from './store/configureStore'
+import configureStore from './js/stores/configureStore'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import App from './js/components/App'
 import LoginContainer from './js/containers/LoginContainer'
 import injectTapEventPlugin from 'react-tap-event-plugin'
+import "./css/less/materialize.less"
+import "./css/less/default.less"
 
 injectTapEventPlugin()
 

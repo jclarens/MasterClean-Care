@@ -3,7 +3,6 @@ import { Route, Redirect } from 'react-router-dom'
 import FilterBar from '../containers/FilterBar'
 import TodoLink from './TodoLink'
 import { simpleAuthentication } from '../containers/LoginContainer'
-import VisibleTodoList from '../containers/VisibleTodoList'
 import NotificationContainer from '../containers/NotificationContainer'
 
 const App = () => (

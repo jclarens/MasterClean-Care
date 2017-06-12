@@ -5,7 +5,7 @@ const allowedUser = {
     password: 'admin'
 }
 
-const userReducer = (state = '', action) => {
+const UserReducer = (state = '', action) => {
     switch (action.type) {
         case LOGIN:
             if (action.data.username == allowedUser.username
@@ -18,4 +18,4 @@ const userReducer = (state = '', action) => {
     }
 }
 
-export default userReducer
+export default UserReducer

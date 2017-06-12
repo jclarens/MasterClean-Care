@@ -4,7 +4,7 @@ import { resetSnack } from '../actions/DefaultAction'
 
 const mapStateToProps = (state) => {
     return {
-        status: state.notif
+        status: state.NotificationReducer
     }
 }
 
