@@ -23,14 +23,16 @@
                 android:id="@+id/textView4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/filter_nama" />
+                android:text="@string/filter_nama"
+                android:textColor="@android:color/black" />
 
             <EditText
                 android:id="@+id/filter_et_nama"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textColor="@android:color/black" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -51,7 +53,8 @@
                         android:id="@+id/textView9"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/filter_usiamin" />
+                        android:text="@string/filter_usiamin"
+                        android:textColor="@android:color/black" />
 
                     <NumberPicker
                         android:id="@+id/filter_np_usiamin"
@@ -73,7 +76,8 @@
                         android:id="@+id/textView17"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/filter_usiamax" />
+                        android:text="@string/filter_usiamax"
+                        android:textColor="@android:color/black" />
 
                     <NumberPicker
                         android:id="@+id/filter_np_usiamax"
@@ -96,7 +100,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="9"
                     android:gravity="center_vertical"
-                    android:text="@string/filter_pengalamankrj" />
+                    android:text="@string/filter_pengalamankrj"
+                    android:textColor="@android:color/black" />
 
                 <NumberPicker
                     android:id="@+id/filter_np_pengalamankrj"
@@ -110,7 +115,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@string/filter_kota" />
+                android:text="@string/filter_kota"
+                android:textColor="@android:color/black" />
 
             <Spinner
                 android:id="@+id/filter_spinner_kota"
@@ -122,7 +128,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@string/filter_agama" />
+                android:text="@string/filter_agama"
+                android:textColor="@android:color/black" />
 
             <Spinner
                 android:id="@+id/filter_spinner_agama"
@@ -134,7 +141,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@string/filter_suku" />
+                android:text="@string/filter_suku"
+                android:textColor="@android:color/black" />
 
             <Spinner
                 android:id="@+id/filter_spinner_suku"
@@ -146,7 +154,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@string/filter_bahasa" />
+                android:text="@string/filter_bahasa"
+                android:textColor="@android:color/black" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -177,7 +186,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@string/filter_profesi" />
+                android:text="@string/filter_profesi"
+                android:textColor="@android:color/black" />
 
             <Spinner
                 android:id="@+id/filter_spinner_profesi"
@@ -189,7 +199,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@string/filter_waktukerja" />
+                android:text="@string/filter_waktukerja"
+                android:textColor="@android:color/black" />
 
             <Spinner
                 android:id="@+id/filter_spinner_waktukrj"
@@ -201,14 +212,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@string/filter_gajijam" />
+                android:text="@string/filter_gajijam"
+                android:textColor="@android:color/black" />
 
             <EditText
                 android:id="@+id/filter_et_gaji"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:textColor="@android:color/black" />
 
             <Button
                 android:id="@+id/filter_btn_cari"

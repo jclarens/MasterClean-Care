@@ -2,9 +2,9 @@ package com.TA.MVP.appmobilemember.View.Activity;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -12,6 +12,9 @@ import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.TA.MVP.appmobilemember.Model.Adapter.SpinnerAdapter;
+import com.TA.MVP.appmobilemember.Model.Array.ArrayKota;
+import com.TA.MVP.appmobilemember.Model.Array.FilterArrays;
 import com.TA.MVP.appmobilemember.R;
 
 /**
@@ -25,12 +28,61 @@ public class FilterActivity extends ParentActivity{
     private Spinner spinnerkota, spinneragama, spinnersuku, spinnerprofesi, spinnerwaktukrj;
     private CheckBox inggris, mandarin, melayu;
     private Button btncari, btnbatal;
+    private TextView textgaji;
+    private SpinnerAdapter spinnerAdapterkota, spinnerAdapteragama, spinnerAdapterprofesi, spinnerAdaptersuku, spinnerAdapterwktkrj;
+    private FilterArrays filterArrays;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
 
+        initAllView();
+
+        spinnerkota.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                Toast.makeText(getApplicationContext(),adapterView.getItemAtPosition(i)+ " Selected.", Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        btncari.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+        btnbatal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void setnumberpickervalue(NumberPicker np, int min, int max){
+        np.setMinValue(min);
+        np.setMaxValue(max);
+    }
+
+    private void initAllView(){
+        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        textgaji = (TextView) findViewById(R.id.filter_tv_gaji);
         nama = (EditText) findViewById(R.id.filter_et_nama);
         gaji = (EditText) findViewById(R.id.filter_et_gaji);
         usiamin = (NumberPicker) findViewById(R.id.filter_np_usiamin);
@@ -47,41 +99,32 @@ public class FilterActivity extends ParentActivity{
         btncari = (Button) findViewById(R.id.filter_btn_cari);
         btnbatal = (Button) findViewById(R.id.filter_btn_batal);
 
-        usiamin.setMinValue(20);
-        usiamin.setMaxValue(50);
-        usiamax.setMinValue(20);
-        usiamax.setMaxValue(50);
-        pengalamankrj.setMinValue(0);
-        pengalamankrj.setMaxValue(20);
+        setAll();
+    }
 
-        btncari.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
-        btnbatal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+    private void setAll(){
+        //toolbar
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.toolbar_filter);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
+        //NumberPicker
+        setnumberpickervalue(usiamin,20,50);
+        setnumberpickervalue(usiamax,20,50);
+        setnumberpickervalue(pengalamankrj,0,20);
+
+        //Spinner
+        filterArrays = new FilterArrays();
+        spinnerAdapteragama = new SpinnerAdapter(this, filterArrays.getArrayAgama().getArrayList());
+        spinnerAdapterkota = new SpinnerAdapter(this, filterArrays.getArrayKota().getArrayList());
+        spinnerAdapterprofesi = new SpinnerAdapter(this, filterArrays.getArrayProfesi().getArrayList());
+        spinnerAdaptersuku = new SpinnerAdapter(this, filterArrays.getArraySuku().getArrayList());
+        spinnerAdapterwktkrj = new SpinnerAdapter(this, filterArrays.getArrayWaktukrj().getArrayList());
+        spinneragama.setAdapter(spinnerAdapteragama.getArrayAdapter());
+        spinnerkota.setAdapter(spinnerAdapterkota.getArrayAdapter());
+        spinnerprofesi.setAdapter(spinnerAdapterprofesi.getArrayAdapter());
+        spinnersuku.setAdapter(spinnerAdaptersuku.getArrayAdapter());
+        spinnerwaktukrj.setAdapter(spinnerAdapterwktkrj.getArrayAdapter());
     }
 }
