@@ -13,6 +13,18 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+//middleware('auth:api')->
+Route::group(['prefix' => 'user'], function () {
+    Route::get('/', 'UsersController@index');
+
+    Route::post('/', 'UsersController@store');
+
+    Route::get('/{id}', 'UsersController@show')->where('id', '[0-9]+');
+
+    Route::patch('/{id}', 'UsersController@update')->where('id', '[0-9]+');
+
+    Route::delete('/{id}', 'UsersController@destroy')->where('id', '[0-9]+');
+
+    Route::get('search/{text}', 'UsersController@search');
+    Route::get('search/{param}/{text}', 'UsersController@searchByParam');
 });

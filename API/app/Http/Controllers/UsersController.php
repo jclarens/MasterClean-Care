@@ -12,9 +12,10 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user)
     {
         //
+        return $user::all();
     }
 
     /**
@@ -36,17 +37,33 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         //
+        $data = $request->all();
+        
+        $email = $data['email'];
+        
+        $exists = User::where('email', $email)->get()->first();
+        if (!is_null($exists)) {
+            return response()->json([
+                'error' => "A user with the email $email already exists!"
+            ]);
+        }
+
+        $user = User::create($data);
+
+        return response()->json($user, 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\User  $user
+     * @param  \App\User $user
      * @return \Illuminate\Http\Response
      */
     public function show(User $user)
     {
         //
+
+        return $user;
     }
 
     /**
@@ -70,6 +87,57 @@ class UsersController extends Controller
     public function update(Request $request, User $user)
     {
         //
+        $data = $request->all();
+
+        if (array_key_exists('email', $data)) {
+            $email = $data['email'];
+            
+            $exists = User::where('email', $email)->where('id', '!=', $user->id)->get()->first();
+            if (!is_null($exists)) {
+                return response()->json([
+                    'error' => "A user with the email $email already exists!"
+                ]);
+            }
+            $user->email = $email;
+        }
+
+        if (array_key_exists('name', $data)) {
+            $user->name = $data['name'];
+        }
+        if (array_key_exists('password', $data)) {
+            $user->password = $data['password'];
+        }
+        if (array_key_exists('gender', $data)) {
+            $user->gender = $data['gender'];
+        }
+        if (array_key_exists('address', $data)) {
+            $user->address = $data['address'];
+        }
+        if (array_key_exists('bornPlace', $data)) {
+            $user->bornPlace = $data['bornPlace'];
+        }
+        if (array_key_exists('bornDate', $data)) {
+            $user->bornDate = $data['bornDate'];
+        }
+        if (array_key_exists('phone', $data)) {
+            $user->phone = $data['phone'];
+        }
+        if (array_key_exists('city', $data)) {
+            $user->city = $data['city'];
+        }
+        if (array_key_exists('religion', $data)) {
+            $user->religion = $data['religion'];
+        }
+        if (array_key_exists('location', $data)) {
+            $user->location = $data['location'];
+        }
+        if (array_key_exists('userType', $data)) {
+            $user->userType = $data['userType'];
+        }
+
+        $user->save();
+
+        return response()->json($user, 200);
     }
 
     /**
@@ -78,8 +146,50 @@ class UsersController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($user)
     {
         //
+        $user->delete();
+
+        return response()->json('Deleted', 200);
+    }
+
+    /**
+     * Search the specified resource from storage by parameter.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\User  $user
+     * @param  Parameter  $param
+     * @param  Text  $text
+     * @return \Illuminate\Http\Response
+     */
+    public function searchByParam(Request $request, User $user, $param, $text)
+    {
+        return $user
+            ->where($param,
+                'like',
+                '%'.$text.'%')
+            ->get();
+    }
+
+    /**
+     * Search the specified resource from storage by parameter.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\User  $user
+     * @param  Parameter  $param
+     * @param  Text  $text
+     * @return \Illuminate\Http\Response
+     */
+    public function search(Request $request, User $user, $text)
+    {
+        return $user
+            ->where('name',
+                'like',
+                '%'.$text.'%')
+            ->orWhere('city',
+                'like',
+                '%'.$text.'%')
+            ->get();
     }
 }

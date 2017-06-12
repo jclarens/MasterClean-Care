@@ -14,8 +14,3 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/users/insert', function () {
-    App\Category::create(array('name' => 'Music'));
-    return 'category added';
-});
