@@ -1,6 +1,6 @@
 # Master Clean & Care API
 
-## Application Instalation
+## Application Installation
 
 1. Clone project.
 2. Enter to project directory `cd API`
