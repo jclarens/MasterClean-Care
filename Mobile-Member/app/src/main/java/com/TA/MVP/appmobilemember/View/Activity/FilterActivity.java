@@ -62,7 +62,6 @@ public class FilterActivity extends ParentActivity{
                 finish();
             }
         });
-
     }
 
     @Override

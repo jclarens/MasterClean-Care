@@ -46,11 +46,36 @@
     <string name="fotoktp">Foto KTP</string>
     <string name="carilokasi">Cari Lokasi</string>
     <string name="filter">Filter</string>
+    <string name="foto">Foto</string>
+    <string name="pengalaman">Pengalaman</string>
+    <string name="keterangan">Keterangan</string>
+    <string name="status">Status</string>
+    <string name="review">Review</string>
+    <string name="pemesanan">Pemesanan</string>
+    <string name="kirimpesan">Kirim Pesan</string>
+    <string name="lhtjdwl">Lihat Jadwal</string>
+    <string name="docpndkg">Dokumen Pendukung</string>
+    <string name="tktanjg">Takut Anjing</string>
+    <string name="tersedia">Tersedia</string>
+    <string name="usia">Usia</string>
+    <string name="mulai">Mulai Kerja</string>
+    <string name="selesai">Selesai Kerja</string>
+    <string name="estimasi">Estimasi</string>
+    <string name="cttn">Catatan Tambahan</string>
+    <string name="total">Total :</string>
+    <string name="tutup">Tutup</string>
+    <string name="sos">SOS</string>
+
+    <string name="prof_prt">Pengurus Rumah Tangga</string>
+    <string name="prof_bs">Baby Sitter</string>
+    <string name="prof_n">Nanny</string>
+    <string name="prof_pl">Pengurus Lansia</string>
 
     <string name="toolbar_editprofile">Edit Profile</string>
     <string name="toolbar_editpass">Ubah Kata Sandi</string>
     <string name="toolbar_doctmbh">Dokumen Tambahan</string>
     <string name="toolbar_filter">Filter</string>
+    <string name="toolbar_pemesanan">Pemesanan</string>
 
     <string name="pager_cari_map">Map</string>
     <string name="pager_cari_list">List</string>
@@ -82,6 +107,15 @@
     <string name="fragment_buku">Fragment Buku</string>
     <string name="fragment_film">Fragment Film</string>
     <string name="fragment_musik">Fragment Musik</string>
+
+    <string name="step1">STEP 1/3</string>
+    <string name="step2">STEP 2/3</string>
+    <string name="step3">STEP 3/3</string>
+
+    <string name="btn_selengkapnya">Selengkapnya</string>
+    <string name="btn_next">Next</string>
+    <string name="btn_prev">Prev</string>
+    <string name="btn_pesan">Pesan</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

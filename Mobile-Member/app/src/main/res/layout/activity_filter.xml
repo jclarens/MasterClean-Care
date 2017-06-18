@@ -38,14 +38,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:orientation="horizontal"
-                android:baselineAligned="false">
+                android:baselineAligned="false"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="5dp"
                     android:layout_marginEnd="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
@@ -60,7 +60,7 @@
                         android:id="@+id/filter_np_usiamin"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
-                        android:descendantFocusability="blocksDescendants"/>
+                        android:descendantFocusability="blocksDescendants" />
 
                 </LinearLayout>
 
