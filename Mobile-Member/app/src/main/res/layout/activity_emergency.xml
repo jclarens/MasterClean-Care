@@ -35,16 +35,16 @@
         android:textAlignment="center" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/sos_et_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="0.08"
         android:ems="10"
         android:inputType="numberPassword"
-        android:textAlignment="center"
-        android:layout_weight="0.08" />
+        android:textAlignment="center" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/sos_btn_tutup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"

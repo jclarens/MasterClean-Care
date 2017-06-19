@@ -14,6 +14,7 @@
     <string name="menu_editdoc">Document Tambahan</string>
     <string name="menu_pesantulis">Tulis Pesan</string>
     <string name="menu_pesanhapus">Hapus</string>
+    <string name="menu_isikodevoucher">Isi Kode Voucher</string>
 
     <string name="action_alarm">SOS</string>
 
@@ -116,6 +117,8 @@
     <string name="btn_next">Next</string>
     <string name="btn_prev">Prev</string>
     <string name="btn_pesan">Pesan</string>
+    <string name="btn_konf">Konfirmasi</string>
+    <string name="btn_btl">Batal</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
