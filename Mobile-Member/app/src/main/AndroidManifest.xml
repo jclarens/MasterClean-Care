@@ -15,6 +15,13 @@
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.EditPassActivity"/>
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.DokumenTambahanActivity"/>
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.FilterActivity"/>
+        <activity android:name="com.TA.MVP.appmobilemember.View.Activity.BantuanActivity"/>
+        <activity android:name="com.TA.MVP.appmobilemember.View.Activity.KetentuanActivity"/>
+        <activity android:name="com.TA.MVP.appmobilemember.View.Activity.EmergencyActivity"/>
+        <activity android:name="com.TA.MVP.appmobilemember.View.Activity.PemesananActivity"/>
+        <activity android:name="com.TA.MVP.appmobilemember.View.Activity.WalletActivity"/>
+        <activity android:name="com.TA.MVP.appmobilemember.View.Activity.WalletVoucherActivity"/>
+        <activity android:name="com.TA.MVP.appmobilemember.View.Activity.PengaturanActivity"/>
         <activity
             android:name="com.TA.MVP.appmobilemember.View.Activity.MainActivity"
             android:label="@string/app_name">

@@ -12,8 +12,12 @@ import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Activity.AuthActivity;
+import com.TA.MVP.appmobilemember.View.Activity.BantuanActivity;
+import com.TA.MVP.appmobilemember.View.Activity.KetentuanActivity;
 import com.TA.MVP.appmobilemember.View.Activity.MainActivity;
+import com.TA.MVP.appmobilemember.View.Activity.PengaturanActivity;
 import com.TA.MVP.appmobilemember.View.Activity.ProfileActivity;
+import com.TA.MVP.appmobilemember.View.Activity.WalletActivity;
 
 /**
  * Created by Zackzack on 07/06/2017.
@@ -56,25 +60,25 @@ public class FragmentLainnya extends Fragment {
         imagewallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"Wallet", Toast.LENGTH_SHORT).show();
+                MainActivity.doStartActivity(getContext(), WalletActivity.class);
             }
         });
         imagepengaturan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"Pengaturan", Toast.LENGTH_SHORT).show();
+                MainActivity.doStartActivity(getContext(), PengaturanActivity.class);
             }
         });
         imagebantuan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"Bantuan", Toast.LENGTH_SHORT).show();
+                MainActivity.doStartActivity(getContext(), BantuanActivity.class);
             }
         });
         imageketentuan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"Ketentuan", Toast.LENGTH_SHORT).show();
+                MainActivity.doStartActivity(getContext(), KetentuanActivity.class);
             }
         });
         imagelogout.setOnClickListener(new View.OnClickListener() {

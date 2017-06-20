@@ -27,7 +27,8 @@ public class EmergencyActivity extends ParentActivity {
             @Override
             public void onClick(View view) {
                 //validasi code
-                finish();
+                doChangeActivity(EmergencyActivity.this, MainActivity.class);
+//                finish();
             }
         });
     }

@@ -27,7 +27,7 @@ public class WalletActivity extends ParentActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.wallet);
+        getSupportActionBar().setTitle(R.string.toolbar_wallet);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
@@ -45,7 +45,7 @@ public class WalletActivity extends ParentActivity {
                 finish();
                 break;
             case R.id.menu_isi_code:
-                //dopopout
+                doChangeActivity(WalletActivity.this, WalletVoucherActivity.class);
                 break;
         }
         return super.onOptionsItemSelected(item);

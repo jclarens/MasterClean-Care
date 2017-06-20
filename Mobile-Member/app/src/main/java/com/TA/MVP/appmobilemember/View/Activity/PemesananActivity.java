@@ -31,6 +31,8 @@ public class PemesananActivity extends ParentActivity {
         getSupportActionBar().setTitle(R.string.toolbar_pemesanan);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.layout_pemesanan, fragp1).commit();
     }
 
     public void doChangeFragment(int nmrfrag){

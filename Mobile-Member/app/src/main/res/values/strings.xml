@@ -77,6 +77,8 @@
     <string name="toolbar_doctmbh">Dokumen Tambahan</string>
     <string name="toolbar_filter">Filter</string>
     <string name="toolbar_pemesanan">Pemesanan</string>
+    <string name="toolbar_wallet">ISI ulang Wallet</string>
+    <string name="toolbar_walletvoucher">Voucher</string>
 
     <string name="pager_cari_map">Map</string>
     <string name="pager_cari_list">List</string>
