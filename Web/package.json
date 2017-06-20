@@ -4,20 +4,31 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": "webpack"
+    "start": "if-env NODE_ENV=production && npm run start:prod || npm run start:dev",
+    "start:dev": "webpack-dev-server --inline --content-base public/ --history-api-fallback",
+    "start:prod": "npm run build && node server.bundle.js",
+    "build:client": "webpack",
+    "build:server": "webpack --config webpack.server.config.js",
+    "build": "npm run build:client && npm run build:server"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.16.2",
     "babel-core": "^6.25.0",
+    "babel-loader": "^7.0.0",
+    "babel-preset-react": "^6.24.1",
+    "css-loader": "^0.28.4",
+    "file-loader": "^0.11.2",
     "json-loader": "^0.5.4",
+    "html-webpack-plugin": "^2.28.0",
     "less": "^2.7.2",
+    "less-loader": "^4.0.4",
     "material-ui": "^0.18.3",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-redux": "^5.0.5",
+    "react-redux-form": "^1.12.1",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "react-router-redux": "^4.0.8",
@@ -25,12 +36,15 @@
     "redux": "^3.6.0",
     "redux-form": "^6.8.0",
     "redux-thunk": "^2.2.0",
+    "style-loader": "^0.18.2",
+    "url-loader": "^0.5.8",
     "webpack": "^2.6.1"
   },
   "devDependencies": {
     "babel-loader": "^7.0.0",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.4",
+    "express": "^4.15.3",
     "extract-text-webpack-plugin": "^2.1.2",
     "file-loader": "^0.11.2",
     "html-webpack-plugin": "^2.28.0",
@@ -41,6 +55,7 @@
     "url-loader": "^0.5.8",
     "webpack": "^2.6.1",
     "webpack-bundle-analyzer": "^2.8.2",
-    "webpack-dev-server": "^2.4.5"
+    "webpack-dev-server": "^2.4.5",
+    "webpack-manifest-plugin": "^1.1.0"
   }
 }

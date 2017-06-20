@@ -46,12 +46,12 @@ class Logout extends Component {
                     rightIcon={<FontIcon className="material-icons">power_settings_new</FontIcon>}
                     onClick={ () => this.handleOpen() }/>
                 <Dialog
-                        title="Logout Confirmation"
+                        title="Confirmation"
                         actions={ actions }
                         modal={ true }
                         open={ this.state.openModal }
                     >
-                    Logout?
+                    Are you sure you want to logout?
                 </Dialog>
             </div>
         )

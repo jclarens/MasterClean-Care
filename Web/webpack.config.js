@@ -1,146 +1,124 @@
-const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require('path');
+const ManifestPlugin = require('webpack-manifest-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const noVisualization = process.env.NODE_ENV === 'production' 
-        || process.argv.slice(-1)[0] == '-p'
-        || process.argv.some(arg => arg.indexOf('webpack-dev-server') >= 0);
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-const HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
-  template: './client/index.html',
-  filename: 'index.html',
-  inject: 'body'
-})
+const getAbsoluteDir = dir => path.resolve(__dirname, dir)
+const isProduction = process.env.NODE_ENV === 'production'
 
 const extractLess = new ExtractTextPlugin({
-    filename: "[name].[contenthash].css",
-    disable: noVisualization
-});
+  filename: isProduction ? '[name].[contenthash].css' : '[name].css',
+  disable: !isProduction,
+})
+const extractCss = new ExtractTextPlugin({
+  filename: isProduction ? '[name].[contenthash].css' : '[name].css',
+  disable: !isProduction,
+})
 
-const config = {
+let webpackPlugins = [
+  new HtmlWebpackPlugin({
+    template: 'client/index.html',
+    filename: 'index.html',
+    inject: 'body',
+  }),
+  new webpack.optimize.CommonsChunkPlugin({
+    name: 'vendor',
+    minChunks: module => module.context && module.context.indexOf('node_modules') !== -1,
+  }),
+  new webpack.optimize.CommonsChunkPlugin({
+    name: 'manifest',
+    minChunks: Infinity,
+  }),
+  new webpack.DefinePlugin({
+    'process.env.NODE_ENV': JSON.stringify(isProduction ? 'production' : 'development'),
+  }),
+  extractLess,
+  extractCss,
+]
+
+if (isProduction) {
+  webpackPlugins = webpackPlugins.concat([
+    new webpack.optimize.UglifyJsPlugin({
+      comments: false,
+    }),
+    new ManifestPlugin({
+      fileName: 'mix-manifest.json',
+    }),
+  ])
+}
+
+let babelPresets = [['es2015', { modules: false }], 'react']
+if (isProduction) {
+  babelPresets = babelPresets.concat(['react-optimize'])
+}
+
+module.exports = {
+  devServer: {
+    contentBase: "./web/assets/client",
+    port: 8080,
+  },
+
   entry: {
-    main: './client/index.js'
+    app: getAbsoluteDir('client/index.js'),
   },
+
+  plugins: webpackPlugins,
+
   output: {
-    path: path.resolve(__dirname, 'destination'),
-    filename: '[name]-bundle.js'  
+    path: getAbsoluteDir('web/assets/client'),
+    publicPath: '/assets/client/',
+    filename: isProduction ? '[name].[chunkhash].js' : '[name].js',
+    chunkFilename: isProduction ? '[name].[chunkhash].js' : '[name].js',
   },
+
   resolve: {
-    alias: {
-      'jscolor': 'util/jscolor.js'
-    },
+    extensions: ['.js', '.jsx'],
     modules: [
-      path.resolve('./'),
-      path.resolve('./node_modules')
-    ]
+      getAbsoluteDir('client/js'),
+      getAbsoluteDir('node_modules'),
+    ],
   },
+
   module: {
-    loaders: [
-      // jsx loader
-      { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
-      { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ },
+    rules: [
       {
-          test: /\.es6$/,
-          include: /materialize/,
+        test: /\.js?$/,
+        exclude: /node_modules/,
+        use: [{
           loader: 'babel-loader',
-          query: {
-              presets: ['react', 'es2015-rollup', 'stage-1', 'stage-2'],
-              plugins: ['transform-decorators-legacy', 'external-helpers']
-          }
+          options: {
+            presets: babelPresets,
+            babelrc: false,
+          },
+        }],
       },
-      // less loader
       {
         test: /\.less$/,
         use: extractLess.extract({
-              use: [{
-                  loader: "css-loader"
-              }, {
-                  loader: "less-loader"
-              }],
-              // use style-loader in development
-              fallback: "style-loader"
-          })
+          use: ['css-loader', 'less-loader'],
+          fallback: 'style-loader',
+        }),
       },
-
       {
-        test: /\.css$/,
-        loader: 'style-loader!css-loader!postcss-loader',
-        include: path.join(__dirname, 'node_modules'), // oops, this also includes flexboxgrid
-        exclude: /flexboxgrid/ // so we have to exclude it
+        test: /\.css/,
+        use: extractCss.extract({
+          use: ['css-loader'],
+          fallback: 'style-loader',
+        }),
       },
-      
-      // fonts loader
       {
-        test: /\.(woff2|woff|ttf|eot|svg|otf)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
-        loaders: ["url-loader?limit=100&name=fonts/[name].[ext]"]
+        test: /\.(eot|svg|ttf|woff|woff2)$/,
+        use: isProduction ? 'file-loader?name=fonts/[name].[hash].[ext]' : 'file-loader?name=fonts/[name].[ext]',
       },
-
-      // image loader
       {
-        test: /\.(jpg|png|svg)$/,
-        loader: 'url-loader',
-        options: {
-          limit: 25000
-        }
-      }
-    ]
+        test: /\.(gif|png|jpe?g|svg)$/,
+        use: 'file-loader'
+      },
+    ],
   },
-  plugins: [
-    HtmlWebpackPluginConfig,
-    extractLess,
-    (!noVisualization ? 
-    new BundleAnalyzerPlugin() : null),
 
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor',
-      minChunks: function (module) {
-        // this assumes your vendor imports exist in the node_modules directory
-        return module.context && module.context.indexOf('node_modules') !== -1;
-      }
-    }),
-
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'react-build',
-      minChunks(module, count) {
-        var context = module.context;
-        return context && (context.indexOf('node_modules\\react\\') >= 0 || context.indexOf('node_modules\\react-dom\\') >= 0);
-      },
-    }),
-
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'manifest'
-    }),        
-
-    //*********************************** async chunks*************************
-
-    //catch all - anything used in more than one place
-    new webpack.optimize.CommonsChunkPlugin({
-        async: 'used-twice',
-        minChunks(module, count) {
-            return count >= 2;
-        },
-    }),
-
-    // //specifically bundle these large things
-    // new webpack.optimize.CommonsChunkPlugin({
-    //     async: 'react-dnd',
-    //     minChunks(module, count) {
-    //         var context = module.context;
-    //         var targets = ['react-dnd', 'react-dnd-html5-backend', 'react-dnd-touch-backend', 'dnd-core']
-    //         return context && context.indexOf('node_modules') >= 0 && targets.find(t => new RegExp('\\\\' + t + '\\\\', 'i').test(context));
-    //     },
-    // }),
-  ].filter(p => p),
-  devServer: {
-    historyApiFallback: true,
-    proxy: {
-      "/subject": "http://localhost:8088",
-      "/tag": "http://localhost:8088",
-      "/book": "http://localhost:8088",
-      "/static": "http://localhost:8088"
-    }
-  }
+  watchOptions: {
+    poll: true,
+  },
 }
-
-module.exports = config;

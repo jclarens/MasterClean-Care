@@ -56,7 +56,7 @@ class Login extends Component {
                     <form onSubmit={(e) => this.loginHandler(e)}>
                         <div className="row">
                             <div className="col s12">
-                                <h4 className="center-align">Mini Todo</h4>
+                                <h4 className="center-align">Login</h4>
                             </div>
                             <div className="col s12">
                                 <TextField

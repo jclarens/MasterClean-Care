@@ -18,7 +18,7 @@ import Header from './Header'
 import BgImg from '../../img/bg.jpg'
 import LockImg from '../../img/lock.jpg'
 
-class TodoLink extends Component {
+class AppDrawer extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -45,7 +45,7 @@ class TodoLink extends Component {
         return (
             <div>
                 <AppBar 
-                    title="Mini Todo"
+                    title="Master Clean & Care"
                     iconElementLeft={<IconButton><ActionHome onClick={() => this.onAddTodoItemClick(this.props.history, this.state.actHome)}/></IconButton>}
                     iconElementRight={
                             <IconButton onTouchTap={() => this.handleToggle() } ><FontIcon className="material-icons">dehaze</FontIcon></IconButton>
@@ -85,4 +85,4 @@ class TodoLink extends Component {
     }
 }
 
-export default TodoLink
+export default AppDrawer

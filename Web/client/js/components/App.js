@@ -1,24 +1,18 @@
 import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import FilterBar from '../containers/FilterBar'
-import TodoLink from './TodoLink'
+import AppDrawer from './AppDrawer'
 import { simpleAuthentication } from '../containers/LoginContainer'
 import NotificationContainer from '../containers/NotificationContainer'
+import history from '../modules/history'
 
-const App = () => (
-    <Route render={props => (
-        simpleAuthentication.isAuthenticated() ? (
-            <div>
-                <TodoLink history={props.history}/>
-                <NotificationContainer />
-            </div>
-        ) : (
-            <Redirect to={{
-                pathname: '/login',
-                state: { from: props.location }
-            }}/>
-        )
-    )}/>
-)
+const App = () => {
+    return (
+        <div>
+            <AppDrawer history={history}/>
+            <NotificationContainer />
+        </div>
+    )
+}
 
 export default App
