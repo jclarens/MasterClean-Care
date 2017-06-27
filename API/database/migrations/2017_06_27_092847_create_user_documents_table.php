@@ -14,8 +14,14 @@ class CreateUserDocumentsTable extends Migration
     public function up()
     {
         Schema::create('user_documents', function (Blueprint $table) {
-            $table->increments('id');
+            $table->integer('userId');
+            $table->string('documentName');
+            $table->string('documentLocation');
+            $table->tinyInteger('documentType');
+            $table->integer('experience');
             $table->timestamps();
+
+            $table->foreign('userId')->references('id')->on('users');
         });
     }
 

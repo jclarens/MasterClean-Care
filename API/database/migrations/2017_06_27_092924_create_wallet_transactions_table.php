@@ -15,7 +15,15 @@ class CreateWalletTransactionsTable extends Migration
     {
         Schema::create('wallet_transactions', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('userId');
+            $table->integer('walletId');
+            $table->integer('trcType');
+            $table->dateTime('trcTime');
+            $table->string('walletCode');
             $table->timestamps();
+
+            $table->foreign('userId')->references('id')->on('users');
+            $table->foreign('walletId')->references('id')->on('wallets');
         });
     }
 

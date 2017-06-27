@@ -14,8 +14,12 @@ class CreateUserJobsTable extends Migration
     public function up()
     {
         Schema::create('user_jobs', function (Blueprint $table) {
-            $table->increments('id');
+            $table->integer('userId');
+            $table->integer('jobId');
             $table->timestamps();
+
+            $table->foreign('userId')->references('id')->on('users');
+            $table->foreign('jobId')->references('id')->on('jobs');
         });
     }
 

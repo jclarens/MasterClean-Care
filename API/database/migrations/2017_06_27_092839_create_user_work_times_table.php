@@ -14,8 +14,13 @@ class CreateUserWorkTimesTable extends Migration
     public function up()
     {
         Schema::create('user_work_times', function (Blueprint $table) {
-            $table->increments('id');
+            $table->integer('userId');
+            $table->integer('workTimeId');
+            $table->decimal('cost');
             $table->timestamps();
+
+            $table->foreign('userId')->references('id')->on('users');
+            $table->foreign('workTimeId')->references('id')->on('work_times');
         });
     }
 
