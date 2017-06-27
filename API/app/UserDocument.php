@@ -25,4 +25,12 @@ class UserDocument extends Model
      * @var array
      */
     protected $hidden = [ ];
+
+    /**
+     * Get the user record associated with the userDocument.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'userId');
+    }
 }

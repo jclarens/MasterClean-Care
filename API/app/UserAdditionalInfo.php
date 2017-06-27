@@ -22,4 +22,20 @@ class UserAdditionalInfo extends Model
      * @var array
      */
     protected $hidden = [ ];
+
+    /**
+     * Get the user record associated with the userAdditionalInfo.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'userId');
+    }
+
+    /**
+     * Get the additionalInfo record associated with the userAdditionalInfo.
+     */
+    public function additionalInfo()
+    {
+        return $this->belongsTo('App\AdditionalInfo', 'infoId');
+    }
 }

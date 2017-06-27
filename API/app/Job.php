@@ -21,4 +21,12 @@ class Job extends Model
      * @var array
      */
     protected $hidden = [ ];
+
+    /**
+     * Get the userJob record associated with the job.
+     */
+    public function userJob()
+    {
+        return $this->hasMany('App\UserJob');
+    }
 }

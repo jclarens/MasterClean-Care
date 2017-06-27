@@ -25,4 +25,20 @@ class WalletTransaction extends Model
      * @var array
      */
     protected $hidden = [ ];
+
+    /**
+     * Get the user record associated with the walletTransaction.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'userId');
+    }
+
+    /**
+     * Get the wallet record associated with the walletTransaction.
+     */
+    public function wallet()
+    {
+        return $this->belongsTo('App\Wallet', 'walletId');
+    }
 }

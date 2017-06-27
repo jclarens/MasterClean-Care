@@ -22,4 +22,12 @@ class UserWallet extends Model
      * @var array
      */
     protected $hidden = [ ];
+
+    /**
+     * Get the user record associated with the userWallet.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'userId');
+    }
 }

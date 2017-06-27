@@ -21,4 +21,12 @@ class WorkTime extends Model
      * @var array
      */
     protected $hidden = [ ];
+
+    /**
+     * Get the userWorkTime record associated with the workTime.
+     */
+    public function userWorkTime()
+    {
+        return $this->hasMany('App\UserWorkTime');
+    }
 }

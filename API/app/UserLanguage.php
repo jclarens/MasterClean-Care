@@ -22,4 +22,20 @@ class UserLanguage extends Model
      * @var array
      */
     protected $hidden = [ ];
+
+    /**
+     * Get the user record associated with the userLanguage.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'userId');
+    }
+
+    /**
+     * Get the language record associated with the userLanguage.
+     */
+    public function language()
+    {
+        return $this->belongsTo('App\Language', 'languageId');
+    }
 }

@@ -22,4 +22,20 @@ class UserJob extends Model
      * @var array
      */
     protected $hidden = [ ];
+
+    /**
+     * Get the user record associated with the userJob.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'userId');
+    }
+
+    /**
+     * Get the job record associated with the userJob.
+     */
+    public function job()
+    {
+        return $this->belongsTo('App\Job', 'jobId');
+    }
 }

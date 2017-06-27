@@ -23,4 +23,20 @@ class UserWorkTime extends Model
      * @var array
      */
     protected $hidden = [ ];
+
+    /**
+     * Get the user record associated with the userWorkTime.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'userId');
+    }
+
+    /**
+     * Get the workTime record associated with the userWorkTime.
+     */
+    public function workTime()
+    {
+        return $this->belongsTo('App\WorkTime', 'workTimeId');
+    }
 }

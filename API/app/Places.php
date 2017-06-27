@@ -22,4 +22,12 @@ class Places extends Model
      * @var array
      */
     protected $hidden = [ ];
+
+    /**
+     * Get the userPlaces record associated with the places.
+     */
+    public function userPlaces()
+    {
+        return $this->hasMany('App\UserPlaces');
+    }
 }

@@ -22,4 +22,20 @@ class Wallet extends Model
      * @var array
      */
     protected $hidden = [ ];
+
+    /**
+     * Get the userWallet record associated with the wallet.
+     */
+    public function userWallet()
+    {
+        return $this->hasMany('App\UserWallet');
+    }
+
+    /**
+     * Get the walletTransaction record associated with the wallet.
+     */
+    public function walletTransaction()
+    {
+        return $this->hasMany('App\WalletTransaction');
+    }
 }
