@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\User;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use \Iterator;
+use \DirectoryIterator;
 
 class RouteServiceProvider extends ServiceProvider
 {
@@ -70,6 +72,14 @@ class RouteServiceProvider extends ServiceProvider
         Route::prefix('api')
              ->middleware('api')
              ->namespace($this->namespace)
-             ->group(base_path('routes/api.php'));
+             ->group(function($router) {
+                $files = \File::allFiles(base_path('routes/api'));
+
+                foreach($files as $file) {
+                    if ($file->isFile()) {
+                        require_once $file->getPathName();
+                    }
+                }
+             });
     }
 }

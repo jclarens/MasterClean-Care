@@ -12,10 +12,10 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(User $user)
+    public function index()
     {
         //
-        return $user::all();
+        return User::all();
     }
 
     /**
@@ -62,7 +62,6 @@ class UsersController extends Controller
     public function show(User $user)
     {
         //
-
         return $user;
     }
 
@@ -86,9 +85,11 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
         $data = $request->all();
 
+        if (array_key_exists('name', $data)) {
+            $user->name = $data['name'];
+        }
         if (array_key_exists('email', $data)) {
             $email = $data['email'];
             
@@ -100,18 +101,11 @@ class UsersController extends Controller
             }
             $user->email = $email;
         }
-
-        if (array_key_exists('name', $data)) {
-            $user->name = $data['name'];
-        }
         if (array_key_exists('password', $data)) {
             $user->password = $data['password'];
         }
         if (array_key_exists('gender', $data)) {
             $user->gender = $data['gender'];
-        }
-        if (array_key_exists('address', $data)) {
-            $user->address = $data['address'];
         }
         if (array_key_exists('bornPlace', $data)) {
             $user->bornPlace = $data['bornPlace'];
@@ -122,17 +116,29 @@ class UsersController extends Controller
         if (array_key_exists('phone', $data)) {
             $user->phone = $data['phone'];
         }
+        if (array_key_exists('province', $data)) {
+            $user->city = $data['province'];
+        }
         if (array_key_exists('city', $data)) {
             $user->city = $data['city'];
         }
-        if (array_key_exists('religion', $data)) {
-            $user->religion = $data['religion'];
+        if (array_key_exists('address', $data)) {
+            $user->address = $data['address'];
         }
         if (array_key_exists('location', $data)) {
             $user->location = $data['location'];
         }
+        if (array_key_exists('religion', $data)) {
+            $user->religion = $data['religion'];
+        }
+        if (array_key_exists('race', $data)) {
+            $user->race = $data['race'];
+        }
         if (array_key_exists('userType', $data)) {
             $user->userType = $data['userType'];
+        }
+        if (array_key_exists('status', $data)) {
+            $user->status = $data['status'];
         }
 
         $user->save();
