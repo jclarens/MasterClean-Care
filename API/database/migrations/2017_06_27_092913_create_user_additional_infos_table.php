@@ -18,8 +18,12 @@ class CreateUserAdditionalInfosTable extends Migration
             $table->integer('infoId');
             $table->timestamps();
 
-            $table->foreign('userId')->references('id')->on('users');
-            $table->foreign('infoId')->references('id')->on('additional_infos');
+            $table->foreign('userId')
+                  ->references('id')->on('users')
+                  ->onDelete('cascade');
+            $table->foreign('infoId')
+                  ->references('id')->on('additional_infos')
+                  ->onDelete('cascade');
         });
     }
 

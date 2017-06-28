@@ -75,6 +75,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the language record associated with the user.
+     */
+    public function language()
+    {
+        return $this->hasManyThrough('App\Language', 'App\UserLanguage');
+    }
+
+    /**
      * Get the userJob record associated with the user.
      */
     public function userJob()
@@ -83,11 +91,27 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the job record associated with the user.
+     */
+    public function job()
+    {
+        return $this->hasManyThrough('App\Job', 'App\UserJob');
+    }
+
+    /**
      * Get the userWorkTime record associated with the user.
      */
     public function userWorkTime()
     {
         return $this->hasMany('App\UserWorkTime');
+    }
+
+    /**
+     * Get the workTime record associated with the user.
+     */
+    public function workTime()
+    {
+        return $this->hasManyThrough('App\WorkTime', 'App\UserWorkTime');
     }
 
     /**
@@ -107,10 +131,26 @@ class User extends Authenticatable
     }
 
     /**
+     * Get the additionalInfo record associated with the user.
+     */
+    public function additionalInfo()
+    {
+        return $this->hasManyThrough('App\AdditionalInfo', 'App\UserAdditionalInfo');
+    }
+
+    /**
      * Get the walletTransaction record associated with the user.
      */
     public function walletTransaction()
     {
         return $this->hasMany('App\WalletTransaction');
+    }
+
+    /**
+     * Get the wallet record associated with the user.
+     */
+    public function wallet()
+    {
+        return $this->hasManyThrough('App\Wallet', 'App\WalletTransaction');
     }
 }

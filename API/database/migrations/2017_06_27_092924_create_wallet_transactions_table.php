@@ -22,8 +22,12 @@ class CreateWalletTransactionsTable extends Migration
             $table->string('walletCode');
             $table->timestamps();
 
-            $table->foreign('userId')->references('id')->on('users');
-            $table->foreign('walletId')->references('id')->on('wallets');
+            $table->foreign('userId')
+                  ->references('id')->on('users')
+                  ->onDelete('cascade');
+            $table->foreign('walletId')
+                  ->references('id')->on('wallets')
+                  ->onDelete('cascade');
         });
     }
 

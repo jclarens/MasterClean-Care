@@ -18,7 +18,9 @@ class CreateUserWalletsTable extends Migration
             $table->decimal('amt');
             $table->timestamps();
 
-            $table->foreign('userId')->references('id')->on('users');
+            $table->foreign('userId')
+                  ->references('id')->on('users')
+                  ->onDelete('cascade');
         });
     }
 

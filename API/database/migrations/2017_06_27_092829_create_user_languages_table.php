@@ -18,8 +18,12 @@ class CreateUserLanguagesTable extends Migration
             $table->integer('languageId');
             $table->timestamps();
 
-            $table->foreign('userId')->references('id')->on('users');
-            $table->foreign('languageId')->references('id')->on('languages');
+            $table->foreign('userId')
+                  ->references('id')->on('users')
+                  ->onDelete('cascade');
+            $table->foreign('languageId')
+                  ->references('id')->on('languages')
+                  ->onDelete('cascade');
         });
     }
 

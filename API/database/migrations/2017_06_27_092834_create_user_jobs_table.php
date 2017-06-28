@@ -18,8 +18,12 @@ class CreateUserJobsTable extends Migration
             $table->integer('jobId');
             $table->timestamps();
 
-            $table->foreign('userId')->references('id')->on('users');
-            $table->foreign('jobId')->references('id')->on('jobs');
+            $table->foreign('userId')
+                  ->references('id')->on('users')
+                  ->onDelete('cascade');
+            $table->foreign('jobId')
+                  ->references('id')->on('jobs')
+                  ->onDelete('cascade');
         });
     }
 

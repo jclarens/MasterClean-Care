@@ -19,8 +19,12 @@ class CreateUserWorkTimesTable extends Migration
             $table->decimal('cost');
             $table->timestamps();
 
-            $table->foreign('userId')->references('id')->on('users');
-            $table->foreign('workTimeId')->references('id')->on('work_times');
+            $table->foreign('userId')
+                  ->references('id')->on('users')
+                  ->onDelete('cascade');
+            $table->foreign('workTimeId')
+                  ->references('id')->on('work_times')
+                  ->onDelete('cascade');
         });
     }
 
