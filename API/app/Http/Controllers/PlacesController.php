@@ -14,7 +14,7 @@ class PlacesController extends Controller
      */
     public function index()
     {
-        //
+        return Places::all();
     }
 
     /**
@@ -35,7 +35,11 @@ class PlacesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $places = Places::create($data);
+
+        return response()->json($places, 201);
     }
 
     /**
@@ -46,7 +50,7 @@ class PlacesController extends Controller
      */
     public function show(Places $places)
     {
-        //
+        return $places;
     }
 
     /**
@@ -69,7 +73,18 @@ class PlacesController extends Controller
      */
     public function update(Request $request, Places $places)
     {
-        //
+        $data = $request->all();
+
+        if (array_key_exists('name', $data)) {
+            $places->name = $data['name'];
+        }
+        if (array_key_exists('parent', $data)) {
+            $places->parent = $data['parent'];
+        }
+
+        $places->save();
+
+        return response()->json($places, 200);
     }
 
     /**
@@ -80,6 +95,26 @@ class PlacesController extends Controller
      */
     public function destroy(Places $places)
     {
-        //
+        $places->delete();
+
+        return response()->json('Deleted', 200);
+    }
+
+    /**
+     * Search the specified resource from storage by parameter.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Places  $places
+     * @param  Parameter  $param
+     * @param  Text  $text
+     * @return \Illuminate\Http\Response
+     */
+    public function searchByParam(Request $request, Places $places, $param = 'name', $text)
+    {
+        return $language
+            ->where($param,
+                'like',
+                '%'.$text.'%')
+            ->get();
     }
 }

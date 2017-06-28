@@ -14,7 +14,7 @@ class UserAdditionalInfoController extends Controller
      */
     public function index()
     {
-        //
+        return UserAdditionalInfo::all();
     }
 
     /**
@@ -35,7 +35,11 @@ class UserAdditionalInfoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $userAdditionalInfo = UserAdditionalInfo::create($data);
+
+        return response()->json($userAdditionalInfo, 201);
     }
 
     /**
@@ -46,7 +50,7 @@ class UserAdditionalInfoController extends Controller
      */
     public function show(UserAdditionalInfo $userAdditionalInfo)
     {
-        //
+        return $userAdditionalInfo;
     }
 
     /**
@@ -69,7 +73,18 @@ class UserAdditionalInfoController extends Controller
      */
     public function update(Request $request, UserAdditionalInfo $userAdditionalInfo)
     {
-        //
+        $data = $request->all();
+
+        if (array_key_exists('name', $data)) {
+            $places->name = $data['name'];
+        }
+        if (array_key_exists('parent', $data)) {
+            $places->parent = $data['parent'];
+        }
+
+        $places->save();
+
+        return response()->json($places, 200);
     }
 
     /**
@@ -80,6 +95,8 @@ class UserAdditionalInfoController extends Controller
      */
     public function destroy(UserAdditionalInfo $userAdditionalInfo)
     {
-        //
+        $userAdditionalInfo->delete();
+
+        return response()->json('Deleted', 200);
     }
 }

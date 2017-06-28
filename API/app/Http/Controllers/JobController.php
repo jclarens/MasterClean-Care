@@ -14,7 +14,7 @@ class JobController extends Controller
      */
     public function index()
     {
-        //
+        return Job::all();
     }
 
     /**
@@ -35,7 +35,11 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        
+        $job = Job::create($data);
+
+        return response()->json($job, 201);
     }
 
     /**
@@ -46,7 +50,7 @@ class JobController extends Controller
      */
     public function show(Job $job)
     {
-        //
+        return $job;
     }
 
     /**
@@ -69,7 +73,15 @@ class JobController extends Controller
      */
     public function update(Request $request, Job $job)
     {
-        //
+        $data = $request->all();
+
+        if (array_key_exists('job', $data)) {
+            $job->job = $data['job'];
+        }
+
+        $job->save();
+
+        return response()->json($job, 200);
     }
 
     /**
@@ -80,6 +92,26 @@ class JobController extends Controller
      */
     public function destroy(Job $job)
     {
-        //
+        $job->delete();
+
+        return response()->json('Deleted', 200);
+    }
+
+    /**
+     * Search the specified resource from storage by parameter.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Job  $job
+     * @param  Parameter  $param
+     * @param  Text  $text
+     * @return \Illuminate\Http\Response
+     */
+    public function searchByParam(Request $request, Job $job, $param = 'job', $text)
+    {
+        return $job
+            ->where($param,
+                'like',
+                '%'.$text.'%')
+            ->get();
     }
 }

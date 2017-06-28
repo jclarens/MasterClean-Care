@@ -14,7 +14,7 @@ class UserLanguageController extends Controller
      */
     public function index()
     {
-        //
+        return UserLanguage::all();
     }
 
     /**
@@ -35,7 +35,11 @@ class UserLanguageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $userLanguage = UserLanguage::create($data);
+
+        return response()->json($userLanguage, 201);
     }
 
     /**
@@ -46,7 +50,7 @@ class UserLanguageController extends Controller
      */
     public function show(UserLanguage $userLanguage)
     {
-        //
+        return $userLanguage;
     }
 
     /**
@@ -69,7 +73,18 @@ class UserLanguageController extends Controller
      */
     public function update(Request $request, UserLanguage $userLanguage)
     {
-        //
+        $data = $request->all();
+
+        if (array_key_exists('userId', $data)) {
+            $userLanguage->userId = $data['userId'];
+        }
+        if (array_key_exists('languageId', $data)) {
+            $userLanguage->languageId = $data['languageId'];
+        }
+
+        $userLanguage->save();
+
+        return response()->json($userLanguage, 200);
     }
 
     /**
@@ -80,6 +95,8 @@ class UserLanguageController extends Controller
      */
     public function destroy(UserLanguage $userLanguage)
     {
-        //
+        $userLanguage->delete();
+
+        return response()->json('Deleted', 200);
     }
 }

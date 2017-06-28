@@ -14,7 +14,6 @@ class UsersController extends Controller
      */
     public function index()
     {
-        //
         return User::all();
     }
 
@@ -36,7 +35,6 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $data = $request->all();
         
         $email = $data['email'];
@@ -61,7 +59,6 @@ class UsersController extends Controller
      */
     public function show(User $user)
     {
-        //
         return $user;
     }
 
@@ -154,7 +151,6 @@ class UsersController extends Controller
      */
     public function destroy($user)
     {
-        //
         $user->delete();
 
         return response()->json('Deleted', 200);

@@ -14,7 +14,7 @@ class UserWorkTimeController extends Controller
      */
     public function index()
     {
-        //
+        return UserWorkTime::all();
     }
 
     /**
@@ -35,7 +35,11 @@ class UserWorkTimeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $userWorkTime = UserWorkTime::create($data);
+
+        return response()->json($userWorkTime, 201);
     }
 
     /**
@@ -46,7 +50,7 @@ class UserWorkTimeController extends Controller
      */
     public function show(UserWorkTime $userWorkTime)
     {
-        //
+        return $userWorkTime;
     }
 
     /**
@@ -69,7 +73,21 @@ class UserWorkTimeController extends Controller
      */
     public function update(Request $request, UserWorkTime $userWorkTime)
     {
-        //
+        $data = $request->all();
+
+        if (array_key_exists('userId', $data)) {
+            $userWorkTime->userId = $data['userId'];
+        }
+        if (array_key_exists('workTimeId', $data)) {
+            $userWorkTime->workTimeId = $data['workTimeId'];
+        }
+        if (array_key_exists('cost', $data)) {
+            $userWorkTime->cost = $data['cost'];
+        }
+
+        $userWorkTime->save();
+
+        return response()->json($userWorkTime, 200);
     }
 
     /**
@@ -80,6 +98,8 @@ class UserWorkTimeController extends Controller
      */
     public function destroy(UserWorkTime $userWorkTime)
     {
-        //
+        $userWorkTime->delete();
+
+        return response()->json('Deleted', 200);
     }
 }

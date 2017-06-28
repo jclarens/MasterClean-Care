@@ -14,7 +14,7 @@ class WorkTimeController extends Controller
      */
     public function index()
     {
-        //
+        return WorkTime::all();
     }
 
     /**
@@ -35,7 +35,11 @@ class WorkTimeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $workTime = WorkTime::create($data);
+
+        return response()->json($workTime, 201);
     }
 
     /**
@@ -46,7 +50,7 @@ class WorkTimeController extends Controller
      */
     public function show(WorkTime $workTime)
     {
-        //
+        return $workTime;
     }
 
     /**
@@ -69,7 +73,15 @@ class WorkTimeController extends Controller
      */
     public function update(Request $request, WorkTime $workTime)
     {
-        //
+        $data = $request->all();
+
+        if (array_key_exists('workTime', $data)) {
+            $workTime->workTime = $data['workTime'];
+        }
+        
+        $workTime->save();
+
+        return response()->json($workTime, 200);
     }
 
     /**
@@ -80,6 +92,8 @@ class WorkTimeController extends Controller
      */
     public function destroy(WorkTime $workTime)
     {
-        //
+        $workTime->delete();
+
+        return response()->json('Deleted', 200);
     }
 }

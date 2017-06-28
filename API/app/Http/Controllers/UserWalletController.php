@@ -14,7 +14,7 @@ class UserWalletController extends Controller
      */
     public function index()
     {
-        //
+        return UserWallet::all();
     }
 
     /**
@@ -35,7 +35,11 @@ class UserWalletController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $userWallet = UserWallet::create($data);
+
+        return response()->json($userWallet, 201);
     }
 
     /**
@@ -46,7 +50,7 @@ class UserWalletController extends Controller
      */
     public function show(UserWallet $userWallet)
     {
-        //
+        return $userWallet;
     }
 
     /**
@@ -69,7 +73,18 @@ class UserWalletController extends Controller
      */
     public function update(Request $request, UserWallet $userWallet)
     {
-        //
+        $data = $request->all();
+
+        if (array_key_exists('userId', $data)) {
+            $userWallet->userId = $data['userId'];
+        }
+        if (array_key_exists('walletId', $data)) {
+            $userWallet->walletId = $data['walletId'];
+        }
+
+        $userWallet->save();
+
+        return response()->json($userWallet, 200);
     }
 
     /**
@@ -80,6 +95,8 @@ class UserWalletController extends Controller
      */
     public function destroy(UserWallet $userWallet)
     {
-        //
+        $userWallet->delete();
+
+        return response()->json('Deleted', 200);
     }
 }

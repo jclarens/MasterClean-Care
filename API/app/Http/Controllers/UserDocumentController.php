@@ -14,7 +14,7 @@ class UserDocumentController extends Controller
      */
     public function index()
     {
-        //
+        return UserDocument::all();
     }
 
     /**
@@ -35,7 +35,11 @@ class UserDocumentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $userDocument = UserDocument::create($data);
+
+        return response()->json($userDocument, 201);
     }
 
     /**
@@ -46,7 +50,7 @@ class UserDocumentController extends Controller
      */
     public function show(UserDocument $userDocument)
     {
-        //
+        return $userDocument;
     }
 
     /**
@@ -69,7 +73,27 @@ class UserDocumentController extends Controller
      */
     public function update(Request $request, UserDocument $userDocument)
     {
-        //
+        $data = $request->all();
+
+        if (array_key_exists('userId', $data)) {
+            $userDocument->userId = $data['userId'];
+        }
+        if (array_key_exists('documentName', $data)) {
+            $userDocument->documentName = $data['documentName'];
+        }
+        if (array_key_exists('documentLocation', $data)) {
+            $userDocument->documentLocation = $data['documentLocation'];
+        }
+        if (array_key_exists('documentType', $data)) {
+            $userDocument->documentType = $data['documentType'];
+        }
+        if (array_key_exists('experience', $data)) {
+            $userDocument->experience = $data['experience'];
+        }
+
+        $userDocument->save();
+
+        return response()->json($userDocument, 200);
     }
 
     /**
@@ -80,6 +104,8 @@ class UserDocumentController extends Controller
      */
     public function destroy(UserDocument $userDocument)
     {
-        //
+        $userDocument->delete();
+
+        return reponse()->json('Deleted', 200);
     }
 }

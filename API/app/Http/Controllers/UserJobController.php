@@ -14,7 +14,7 @@ class UserJobController extends Controller
      */
     public function index()
     {
-        //
+        return UserJob::all();
     }
 
     /**
@@ -35,7 +35,11 @@ class UserJobController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+
+        $userJob = UserJob::create($data);
+
+        return response()->json($userJob, 201);
     }
 
     /**
@@ -46,7 +50,7 @@ class UserJobController extends Controller
      */
     public function show(UserJob $userJob)
     {
-        //
+        return $userJob;
     }
 
     /**
@@ -69,7 +73,18 @@ class UserJobController extends Controller
      */
     public function update(Request $request, UserJob $userJob)
     {
-        //
+        $data = $request->all();
+
+        if (array_key_exists('userId', $data)) {
+            $userJob->userId = $data['userId'];
+        }
+        if (array_key_exists('jobId', $data)) {
+            $userJob->jobId = $data['jobId'];
+        }
+
+        $userJob->save();
+
+        return response()->json($userJob, 200);
     }
 
     /**
@@ -80,6 +95,8 @@ class UserJobController extends Controller
      */
     public function destroy(UserJob $userJob)
     {
-        //
+        $userJob->delete();
+
+        return response()->json('Deleted', 200);
     }
 }

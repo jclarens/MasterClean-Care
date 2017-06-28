@@ -14,7 +14,7 @@ class LanguageController extends Controller
      */
     public function index()
     {
-        //
+        return Language::all();
     }
 
     /**
@@ -35,7 +35,11 @@ class LanguageController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        
+        $language = Language::create($data);
+
+        return response()->json($language, 201);
     }
 
     /**
@@ -46,7 +50,7 @@ class LanguageController extends Controller
      */
     public function show(Language $language)
     {
-        //
+        return $language;
     }
 
     /**
@@ -69,7 +73,15 @@ class LanguageController extends Controller
      */
     public function update(Request $request, Language $language)
     {
-        //
+        $data = $request->all();
+
+        if (array_key_exists('language', $data)) {
+            $language->language = $data['language'];
+        }
+
+        $language->save();
+
+        return response()->json($language, 200);
     }
 
     /**
@@ -80,6 +92,26 @@ class LanguageController extends Controller
      */
     public function destroy(Language $language)
     {
-        //
+        $language->delete();
+
+        return response()->json('Deleted', 200);
+    }
+
+    /**
+     * Search the specified resource from storage by parameter.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Language  $language
+     * @param  Parameter  $param
+     * @param  Text  $text
+     * @return \Illuminate\Http\Response
+     */
+    public function searchByParam(Request $request, Language $language, $param = 'language', $text)
+    {
+        return $language
+            ->where($param,
+                'like',
+                '%'.$text.'%')
+            ->get();
     }
 }

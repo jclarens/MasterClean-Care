@@ -14,7 +14,7 @@ class AdditionalInfoController extends Controller
      */
     public function index()
     {
-        //
+        return AdditionalInfo::all();
     }
 
     /**
@@ -35,7 +35,11 @@ class AdditionalInfoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        
+        $additionalInfo = AdditionalInfo::create($data);
+
+        return response()->json($additionalInfo, 201);
     }
 
     /**
@@ -46,7 +50,7 @@ class AdditionalInfoController extends Controller
      */
     public function show(AdditionalInfo $additionalInfo)
     {
-        //
+        return $additionalInfo;
     }
 
     /**
@@ -69,7 +73,15 @@ class AdditionalInfoController extends Controller
      */
     public function update(Request $request, AdditionalInfo $additionalInfo)
     {
-        //
+        $data = $request->all();
+
+        if (array_key_exists('info', $data)) {
+            $additionalInfo->info = $data['info'];
+        }
+
+        $additionalInfo->save();
+
+        return response()->json($additionalInfo, 200);
     }
 
     /**
@@ -80,6 +92,26 @@ class AdditionalInfoController extends Controller
      */
     public function destroy(AdditionalInfo $additionalInfo)
     {
-        //
+        $additionalInfo->delete();
+
+        return response()->json('Deleted', 200);
+    }
+
+    /**
+     * Search the specified resource from storage by parameter.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\AdditionalInfo  $additionalInfo
+     * @param  Parameter  $param
+     * @param  Text  $text
+     * @return \Illuminate\Http\Response
+     */
+    public function searchByParam(Request $request, AdditionalInfo $additionalInfo, $param = 'info', $text)
+    {
+        return $additionalInfo
+            ->where($param,
+                'like',
+                '%'.$text.'%')
+            ->get();
     }
 }
