@@ -134,6 +134,12 @@ class UsersController extends Controller
         if (array_key_exists('userType', $data)) {
             $user->userType = $data['userType'];
         }
+        if (array_key_exists('profileImgName', $data)) {
+            $user->profileImgName = $data['profileImgName'];
+        }
+        if (array_key_exists('profileImgPath', $data)) {
+            $user->profileImgPath = $data['profileImgPath'];
+        }
         if (array_key_exists('status', $data)) {
             $user->status = $data['status'];
         }

@@ -29,6 +29,8 @@ class CreateUsersTable extends Migration
             $table->int('religion');
             $table->int('race');
             $table->tinyInteger('userType');
+            $table->string('profileImgName');
+            $table->string('profileImgPath');
             $table->tinyInteger('status');
             $table->rememberToken();
             $table->timestamps();

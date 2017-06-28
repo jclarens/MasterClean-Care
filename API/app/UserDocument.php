@@ -14,7 +14,7 @@ class UserDocument extends Model
     protected $fillable = [
         'userId',
         'documentName',
-        'documentLocation',
+        'documentPath',
         'documentType',
         'experience',
     ];

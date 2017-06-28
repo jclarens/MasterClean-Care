@@ -30,6 +30,8 @@ class User extends Authenticatable
         'religion',
         'race',
         'userType',
+        'profileImgName',
+        'profileImgPath',
         'status',
     ];
 

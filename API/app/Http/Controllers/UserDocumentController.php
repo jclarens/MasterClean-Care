@@ -81,8 +81,8 @@ class UserDocumentController extends Controller
         if (array_key_exists('documentName', $data)) {
             $userDocument->documentName = $data['documentName'];
         }
-        if (array_key_exists('documentLocation', $data)) {
-            $userDocument->documentLocation = $data['documentLocation'];
+        if (array_key_exists('documentPath', $data)) {
+            $userDocument->documentPath = $data['documentPath'];
         }
         if (array_key_exists('documentType', $data)) {
             $userDocument->documentType = $data['documentType'];

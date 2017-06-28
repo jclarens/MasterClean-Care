@@ -16,7 +16,7 @@ class CreateUserDocumentsTable extends Migration
         Schema::create('user_documents', function (Blueprint $table) {
             $table->integer('userId');
             $table->string('documentName');
-            $table->string('documentLocation');
+            $table->string('documentPath');
             $table->tinyInteger('documentType');
             $table->integer('experience');
             $table->timestamps();
