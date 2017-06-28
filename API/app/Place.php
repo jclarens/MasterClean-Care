@@ -4,7 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Places extends Model
+class Place extends Model
 {
     /**
      * The attributes that are mass assignable.
@@ -24,9 +24,9 @@ class Places extends Model
     protected $hidden = [ ];
 
     /**
-     * Get the userPlaces record associated with the places.
+     * Get the userPlace record associated with the places.
      */
-    public function userPlaces()
+    public function userPlace()
     {
         return $this->hasMany('App\UserPlaces');
     }

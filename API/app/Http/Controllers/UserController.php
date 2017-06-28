@@ -3,9 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\UserWallet;
+use App\UserLanguage;
+use App\UserJob;
+use App\UserWorkTime;
+use App\UserDocument;
+use App\UserAdditionalInfo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+// use Exception;
+// use DB;
 
-class UsersController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -46,9 +55,47 @@ class UsersController extends Controller
             ]);
         }
 
-        $user = User::create($data);
+        // Insert User
+        try {
+            DB::beginTransaction();
+            
+            $user = User::create($data);
+            // $user = new User;
+            // $user->name = $data['name'];
+            // $user->email = $data['email'];
+            // $user->password = Hash::make($data['password']);
+            // $user->gender = $data['gender'];
+            // $user->bornPlace = $data['bornPlace'];
+            // $user->bornDate = $data['bornDate'];
+            // $user->phone = $data['phone'];
+            // $user->province = $data['province'];
+            // $user->city = $data['city'];
+            // $user->address = $data['address'];
+            // $user->location = $data['location'];
+            // $user->religion = $data['religion'];
+            // $user->race = $data['race'];
+            // $user->userType = $data['userType'];
+            // $user->profileImgName = $data['profileImgName'];
+            // $user->profileImgPath = $data['profileImgPath'];
+            // $user->status = $data['status'];
 
-        return response()->json($user, 201);
+            // $userWallet = new UserWallet;
+            // $userWallet->amt = 0; 
+            // $user->userWallet()->save($userWallet);
+
+            // $userLangugage = new UserLanguage;
+
+            // $user->userWallet()->save(new UserWallet(array('amt' => 0)));
+
+            DB::commit();
+
+            return response()->json($user, 201);
+        }
+        catch(Exception $e) {
+            DB::rollBack();
+            return response()->json([ 'message' => $e->getMessage(), 
+                                      'status' => 400 ]);
+        }
     }
 
     /**

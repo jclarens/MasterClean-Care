@@ -14,7 +14,7 @@ class CreateUserWalletsTable extends Migration
     public function up()
     {
         Schema::create('user_wallets', function (Blueprint $table) {
-            $table->integer('userId');
+            $table->integer('userId')->unsigned();
             $table->decimal('amt');
             $table->timestamps();
 

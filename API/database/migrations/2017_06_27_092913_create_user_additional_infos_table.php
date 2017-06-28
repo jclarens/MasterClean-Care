@@ -14,8 +14,8 @@ class CreateUserAdditionalInfosTable extends Migration
     public function up()
     {
         Schema::create('user_additional_infos', function (Blueprint $table) {
-            $table->integer('userId');
-            $table->integer('infoId');
+            $table->integer('userId')->unsigned();
+            $table->integer('infoId')->unsigned();
             $table->timestamps();
 
             $table->foreign('userId')

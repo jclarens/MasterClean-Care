@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Places;
+use App\Place;
 use Illuminate\Http\Request;
 
-class PlacesController extends Controller
+class PlaceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class PlacesController extends Controller
      */
     public function index()
     {
-        return Places::all();
+        return Place::all();
     }
 
     /**
@@ -37,29 +37,29 @@ class PlacesController extends Controller
     {
         $data = $request->all();
 
-        $places = Places::create($data);
+        $place = Place::create($data);
 
-        return response()->json($places, 201);
+        return response()->json($place, 201);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Places  $places
+     * @param  \App\Place  $place
      * @return \Illuminate\Http\Response
      */
-    public function show(Places $places)
+    public function show(Place $place)
     {
-        return $places;
+        return $place;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Places  $places
+     * @param  \App\Place  $place
      * @return \Illuminate\Http\Response
      */
-    public function edit(Places $places)
+    public function edit(Place $place)
     {
         //
     }
@@ -68,34 +68,34 @@ class PlacesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Places  $places
+     * @param  \App\Place  $place
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Places $places)
+    public function update(Request $request, Place $place)
     {
         $data = $request->all();
 
         if (array_key_exists('name', $data)) {
-            $places->name = $data['name'];
+            $place->name = $data['name'];
         }
         if (array_key_exists('parent', $data)) {
-            $places->parent = $data['parent'];
+            $place->parent = $data['parent'];
         }
 
-        $places->save();
+        $place->save();
 
-        return response()->json($places, 200);
+        return response()->json($place, 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Places  $places
+     * @param  \App\Place  $place
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Places $places)
+    public function destroy(Place $place)
     {
-        $places->delete();
+        $place->delete();
 
         return response()->json('Deleted', 200);
     }
@@ -104,14 +104,14 @@ class PlacesController extends Controller
      * Search the specified resource from storage by parameter.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Places  $places
+     * @param  \App\Place  $place
      * @param  Parameter  $param
      * @param  Text  $text
      * @return \Illuminate\Http\Response
      */
-    public function searchByParam(Request $request, Places $places, $param = 'name', $text)
+    public function searchByParam(Request $request, Place $place, $param = 'name', $text)
     {
-        return $language
+        return $place
             ->where($param,
                 'like',
                 '%'.$text.'%')

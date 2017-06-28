@@ -9,17 +9,17 @@ use Illuminate\Http\Request;
 */
 
 Route::group(['prefix' => 'user', 'middleware' => ['api']], function () {
-    Route::get('/', 'UsersController@index');
+    Route::get('/', 'UserController@index');
 
-    Route::post('/', 'UsersController@store');
+    Route::post('/', 'UserController@store');
 
-    Route::get('/{id}', 'UsersController@show')->where('id', '[0-9]+');
+    Route::get('/{id}', 'UserController@show')->where('id', '[0-9]+');
 
-    Route::patch('/{id}', 'UsersController@update')->where('id', '[0-9]+');
+    Route::patch('/{id}', 'UserController@update')->where('id', '[0-9]+');
 
-    Route::delete('/{id}', 'UsersController@destroy')->where('id', '[0-9]+');
+    Route::delete('/{id}', 'UserController@destroy')->where('id', '[0-9]+');
 
-    Route::get('/search/{text}', 'UsersController@search');
+    Route::get('/search/{text}', 'UserController@search');
     
-    Route::get('/search/{param}/{text}', 'UsersController@searchByParam');
+    Route::get('/search/{param}/{text}', 'UserController@searchByParam');
 });

@@ -14,8 +14,8 @@ class CreateUserJobsTable extends Migration
     public function up()
     {
         Schema::create('user_jobs', function (Blueprint $table) {
-            $table->integer('userId');
-            $table->integer('jobId');
+            $table->integer('userId')->unsigned();
+            $table->integer('jobId')->unsigned();
             $table->timestamps();
 
             $table->foreign('userId')

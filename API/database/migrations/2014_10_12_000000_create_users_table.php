@@ -22,18 +22,23 @@ class CreateUsersTable extends Migration
             $table->string('bornPlace');
             $table->date('bornDate');
             $table->string('phone');
-            $table->integer('province');
-            $table->integer('city');
+            $table->integer('province')->unsigned();
+            $table->integer('city')->unsigned();
             $table->string('address')->nullable();
             $table->string('location');
-            $table->int('religion');
-            $table->int('race');
+            $table->integer('religion');
+            $table->integer('race');
             $table->tinyInteger('userType');
             $table->string('profileImgName');
             $table->string('profileImgPath');
             $table->tinyInteger('status');
             $table->rememberToken();
             $table->timestamps();
+
+            $table->foreign('province')
+                  ->references('id')->on('places');
+            $table->foreign('city')
+                  ->references('id')->on('places');
         });
     }
 
