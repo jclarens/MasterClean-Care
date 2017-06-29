@@ -110,7 +110,7 @@ class JobController extends Controller
     {
         return $job
             ->where($param,
-                'like',
+                Operator::LIKE,
                 '%'.$text.'%')
             ->get();
     }

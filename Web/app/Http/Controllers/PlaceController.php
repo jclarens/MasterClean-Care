@@ -113,7 +113,7 @@ class PlaceController extends Controller
     {
         return $place
             ->where($param,
-                'like',
+                Operator::LIKE,
                 '%'.$text.'%')
             ->get();
     }

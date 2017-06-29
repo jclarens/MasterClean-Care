@@ -110,7 +110,7 @@ class AdditionalInfoController extends Controller
     {
         return $additionalInfo
             ->where($param,
-                'like',
+                Operator::LIKE,
                 '%'.$text.'%')
             ->get();
     }

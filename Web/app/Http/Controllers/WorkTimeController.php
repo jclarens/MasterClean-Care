@@ -96,4 +96,22 @@ class WorkTimeController extends Controller
 
         return response()->json('Deleted', 200);
     }
+
+    /**
+     * Search the specified resource from storage by parameter.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\WorkTime  $WorkTime
+     * @param  Parameter  $param
+     * @param  Text  $text
+     * @return \Illuminate\Http\Response
+     */
+    public function searchByParam(Request $request, WorkTime $workTime, $param = 'amt', $text)
+    {
+        return $workTime
+            ->where($param,
+                Operator::EQUAL,
+                '%'.$text.'%')
+            ->get();
+    }
 }

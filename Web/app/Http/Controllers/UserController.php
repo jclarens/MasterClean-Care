@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Collection;
 use Exception;
 use DB;
+use App\Helper\Operator;
 
 class UserController extends Controller
 {
@@ -287,7 +288,7 @@ class UserController extends Controller
     {
         return $user
             ->where($param,
-                'like',
+                Operator::LIKE,
                 '%'.$text.'%')
             ->get();
     }
@@ -305,10 +306,10 @@ class UserController extends Controller
     {
         return $user
             ->where('name',
-                'like',
+                Operator::LIKE,
                 '%'.$text.'%')
             ->orWhere('city',
-                'like',
+                Operator::LIKE,
                 '%'.$text.'%')
             ->get();
     }

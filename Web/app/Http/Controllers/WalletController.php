@@ -99,4 +99,22 @@ class WalletController extends Controller
 
         return response()->json('Deleted', 200);
     }
+
+    /**
+     * Search the specified resource from storage by parameter.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Wallet  $wallet
+     * @param  Parameter  $param
+     * @param  Text  $text
+     * @return \Illuminate\Http\Response
+     */
+    public function searchByParam(Request $request, Wallet $wallet, $param = 'amt', $text)
+    {
+        return $wallet
+            ->where($param,
+                Operator::EQUAL,
+                '%'.$text.'%')
+            ->get();
+    }
 }

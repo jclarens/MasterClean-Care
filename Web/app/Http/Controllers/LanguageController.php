@@ -110,7 +110,7 @@ class LanguageController extends Controller
     {
         return $language
             ->where($param,
-                'like',
+                Operator::LIKE,
                 '%'.$text.'%')
             ->get();
     }
