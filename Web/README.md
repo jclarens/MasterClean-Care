@@ -1,13 +1,16 @@
-# Master Clean & Care API
+# Master Clean & Care
 
-## Application Installation
+## API Installation
 
-1. Clone project.
-2. Enter to project directory `cd API`
-3. Download Composer `curl -Ss https://getcomposer.org/installer | php`
-4. Run `./composer.phar install`
+1. Download Composer `curl -Ss https://getcomposer.org/installer | php`.
+2. Run `./composer.phar install`.
 
 ## Database Instalation
 
 1. Configure `/config/database.php` settings.
-2. Run `php artisan migrate`
+2. Run `php artisan migrate`.
+
+## Web Instalation
+
+1. Run `npm install` to install package.
+2. Run `npm start` to run Web.
