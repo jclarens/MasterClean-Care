@@ -13,4 +13,5 @@
 ## Web Instalation
 
 1. Run `npm install` to install package.
-2. Run `npm start` to run Web.
+2. Run `npm run build` to build assets before run.
+3. Run `npm run start` to run Web.
