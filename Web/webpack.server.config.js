@@ -2,6 +2,7 @@ const fs = require('fs')
 const path = require('path')
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const isProduction = process.env.NODE_ENV === 'production'
+const getAbsoluteDir = dir => path.resolve(__dirname, dir)
 
 const extractLess = new ExtractTextPlugin({
   filename: isProduction ? '[name].[contenthash].css' : '[name].css',
@@ -17,6 +18,7 @@ module.exports = {
   entry: path.resolve(__dirname, 'client/server.js'),
 
   output: {
+    path: getAbsoluteDir('web/assets/client'),
     filename: 'server.bundle.js'
   },
 

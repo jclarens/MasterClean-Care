@@ -5,6 +5,7 @@
 /vendor
 /.idea
 /.vagrant
+/web
 composer.phar
 Homestead.json
 Homestead.yaml
