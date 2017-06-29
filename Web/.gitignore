@@ -1,2 +1,12 @@
 /node_modules
-/web
+/public/hot
+/public/storage
+/storage/*.key
+/vendor
+/.idea
+/.vagrant
+composer.phar
+Homestead.json
+Homestead.yaml
+npm-debug.log
+.env
