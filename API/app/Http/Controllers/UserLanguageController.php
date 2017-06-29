@@ -75,11 +75,11 @@ class UserLanguageController extends Controller
     {
         $data = $request->all();
 
-        if (array_key_exists('userId', $data)) {
-            $userLanguage->userId = $data['userId'];
+        if (array_key_exists('user_id', $data)) {
+            $userLanguage->user_id = $data['user_id'];
         }
-        if (array_key_exists('languageId', $data)) {
-            $userLanguage->languageId = $data['languageId'];
+        if (array_key_exists('language_id', $data)) {
+            $userLanguage->language_id = $data['language_id'];
         }
 
         $userLanguage->save();

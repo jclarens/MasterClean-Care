@@ -14,15 +14,15 @@ class CreateUserWorkTimesTable extends Migration
     public function up()
     {
         Schema::create('user_work_times', function (Blueprint $table) {
-            $table->integer('userId')->unsigned();
-            $table->integer('workTimeId')->unsigned();
-            $table->decimal('cost');
+            $table->integer('user_id')->unsigned();
+            $table->integer('work_time_id')->unsigned();
+            $table->decimal('cost', 14, 2);
             $table->timestamps();
 
-            $table->foreign('userId')
+            $table->foreign('user_id')
                   ->references('id')->on('users')
                   ->onDelete('cascade');
-            $table->foreign('workTimeId')
+            $table->foreign('work_time_id')
                   ->references('id')->on('work_times')
                   ->onDelete('cascade');
         });

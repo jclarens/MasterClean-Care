@@ -12,7 +12,7 @@ class WorkTime extends Model
      * @var array
      */
     protected $fillable = [
-        'workTime',
+        'work_time',
     ];
 
     /**

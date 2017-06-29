@@ -78,7 +78,7 @@ class WalletController extends Controller
         if (array_key_exists('amt', $data)) {
             $wallet->amt = $data['amt'];
         }
-        if (array_key_exists('workTimeId', $data)) {
+        if (array_key_exists('price', $data)) {
             $wallet->price = $data['price'];
         }
 

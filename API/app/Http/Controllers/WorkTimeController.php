@@ -75,8 +75,8 @@ class WorkTimeController extends Controller
     {
         $data = $request->all();
 
-        if (array_key_exists('workTime', $data)) {
-            $workTime->workTime = $data['workTime'];
+        if (array_key_exists('work_time', $data)) {
+            $workTime->workTime = $data['work_time'];
         }
         
         $workTime->save();

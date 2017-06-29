@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class PlaceTableSeeder extends Seeder
+class AdditionalInfosTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,9 +11,10 @@ class PlaceTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('places')->insert([
-            'name' => str_random(10),
-            'parent' => rand(0, 12)
+        DB::table('additional_infos')->insert([
+            [
+                'info' => 'Takut Anjing',
+            ],
         ]);
     }
 }

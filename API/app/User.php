@@ -20,8 +20,8 @@ class User extends Authenticatable
         'email', 
         'password', 
         'gender', 
-        'bornPlace', 
-        'bornDate', 
+        'born_place', 
+        'born_date', 
         'phone',
         'province',
         'city',
@@ -29,9 +29,9 @@ class User extends Authenticatable
         'location',
         'religion',
         'race',
-        'userType',
-        'profileImgName',
-        'profileImgPath',
+        'user_type',
+        'profile_img_name',
+        'profile_img_path',
         'status',
     ];
 

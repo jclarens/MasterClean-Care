@@ -24,10 +24,10 @@ class Place extends Model
     protected $hidden = [ ];
 
     /**
-     * Get the userPlace record associated with the places.
+     * Get the user record associated with the places.
      */
-    public function userPlace()
+    public function user()
     {
-        return $this->hasMany('App\UserPlaces');
+        return $this->hasMany('App\User');
     }
 }

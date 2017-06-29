@@ -12,8 +12,8 @@ class UserJob extends Model
      * @var array
      */
     protected $fillable = [
-        'userId',
-        'jobId',
+        'user_id',
+        'job_id',
     ];
 
     /**
@@ -28,7 +28,7 @@ class UserJob extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\User', 'userId');
+        return $this->belongsTo('App\User');
     }
 
     /**
@@ -36,6 +36,6 @@ class UserJob extends Model
      */
     public function job()
     {
-        return $this->belongsTo('App\Job', 'jobId');
+        return $this->belongsTo('App\Job');
     }
 }

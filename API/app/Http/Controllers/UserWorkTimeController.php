@@ -75,11 +75,11 @@ class UserWorkTimeController extends Controller
     {
         $data = $request->all();
 
-        if (array_key_exists('userId', $data)) {
-            $userWorkTime->userId = $data['userId'];
+        if (array_key_exists('user_id', $data)) {
+            $userWorkTime->user_id = $data['user_id'];
         }
-        if (array_key_exists('workTimeId', $data)) {
-            $userWorkTime->workTimeId = $data['workTimeId'];
+        if (array_key_exists('work_time_id', $data)) {
+            $userWorkTime->work_time_id = $data['work_time_id'];
         }
         if (array_key_exists('cost', $data)) {
             $userWorkTime->cost = $data['cost'];

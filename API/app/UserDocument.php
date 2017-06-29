@@ -12,10 +12,10 @@ class UserDocument extends Model
      * @var array
      */
     protected $fillable = [
-        'userId',
-        'documentName',
-        'documentPath',
-        'documentType',
+        'user_id',
+        'document_name',
+        'document_path',
+        'document_type',
         'experience',
     ];
 
@@ -31,6 +31,6 @@ class UserDocument extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\User', 'userId');
+        return $this->belongsTo('App\User');
     }
 }

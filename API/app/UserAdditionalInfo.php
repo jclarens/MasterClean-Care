@@ -12,8 +12,8 @@ class UserAdditionalInfo extends Model
      * @var array
      */
     protected $fillable = [
-        'userId',
-        'infoId',
+        'user_id',
+        'info_id',
     ];
 
     /**
@@ -28,7 +28,7 @@ class UserAdditionalInfo extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\User', 'userId');
+        return $this->belongsTo('App\User');
     }
 
     /**
@@ -36,6 +36,6 @@ class UserAdditionalInfo extends Model
      */
     public function additionalInfo()
     {
-        return $this->belongsTo('App\AdditionalInfo', 'infoId');
+        return $this->belongsTo('App\AdditionalInfo');
     }
 }

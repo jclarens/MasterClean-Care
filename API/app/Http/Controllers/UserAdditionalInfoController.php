@@ -75,11 +75,11 @@ class UserAdditionalInfoController extends Controller
     {
         $data = $request->all();
 
-        if (array_key_exists('name', $data)) {
-            $places->name = $data['name'];
+        if (array_key_exists('user_id', $data)) {
+            $userAdditionalInfo->user_id = $data['user_id'];
         }
-        if (array_key_exists('parent', $data)) {
-            $places->parent = $data['parent'];
+        if (array_key_exists('info_id', $data)) {
+            $userAdditionalInfo->info_id = $data['info_id'];
         }
 
         $places->save();

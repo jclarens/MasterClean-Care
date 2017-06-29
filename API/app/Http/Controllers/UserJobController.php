@@ -75,11 +75,11 @@ class UserJobController extends Controller
     {
         $data = $request->all();
 
-        if (array_key_exists('userId', $data)) {
-            $userJob->userId = $data['userId'];
+        if (array_key_exists('user_id', $data)) {
+            $userJob->user_id = $data['user_id'];
         }
-        if (array_key_exists('jobId', $data)) {
-            $userJob->jobId = $data['jobId'];
+        if (array_key_exists('job_id', $data)) {
+            $userJob->job_id = $data['job_id'];
         }
 
         $userJob->save();

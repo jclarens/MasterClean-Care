@@ -12,8 +12,8 @@ class UserLanguage extends Model
      * @var array
      */
     protected $fillable = [
-        'userId',
-        'languageId',
+        'user_id',
+        'language_id',
     ];
 
     /**
@@ -28,7 +28,7 @@ class UserLanguage extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\User', 'userId');
+        return $this->belongsTo('App\User');
     }
 
     /**
@@ -36,6 +36,6 @@ class UserLanguage extends Model
      */
     public function language()
     {
-        return $this->belongsTo('App\Language', 'languageId');
+        return $this->belongsTo('App\Language');
     }
 }

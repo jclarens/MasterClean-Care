@@ -75,20 +75,20 @@ class WalletTransactionController extends Controller
     {
         $data = $request->all();
 
-        if (array_key_exists('userId', $data)) {
-            $walletTransaction->userId = $data['userId'];
+        if (array_key_exists('user_id', $data)) {
+            $walletTransaction->user_id = $data['user_id'];
         }
-        if (array_key_exists('walletId', $data)) {
-            $walletTransaction->walletId = $data['walletId'];
+        if (array_key_exists('wallet_id', $data)) {
+            $walletTransaction->wallet_id = $data['wallet_id'];
         }
-        if (array_key_exists('trcType', $data)) {
-            $walletTransaction->trcType = $data['trcType'];
+        if (array_key_exists('trc_type', $data)) {
+            $walletTransaction->trc_type = $data['trc_type'];
         }
-        if (array_key_exists('trcTime', $data)) {
-            $walletTransaction->trcTime = $data['trcTime'];
+        if (array_key_exists('trc_time', $data)) {
+            $walletTransaction->trc_time = $data['trc_time'];
         }
-        if (array_key_exists('walletCode', $data)) {
-            $walletTransaction->walletCode = $data['walletCode'];
+        if (array_key_exists('wallet_code', $data)) {
+            $walletTransaction->wallet_code = $data['wallet_code'];
         }
 
         $walletTransaction->save();

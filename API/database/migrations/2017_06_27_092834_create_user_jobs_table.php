@@ -14,14 +14,14 @@ class CreateUserJobsTable extends Migration
     public function up()
     {
         Schema::create('user_jobs', function (Blueprint $table) {
-            $table->integer('userId')->unsigned();
-            $table->integer('jobId')->unsigned();
+            $table->integer('user_id')->unsigned();
+            $table->integer('job_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('userId')
+            $table->foreign('user_id')
                   ->references('id')->on('users')
                   ->onDelete('cascade');
-            $table->foreign('jobId')
+            $table->foreign('job_id')
                   ->references('id')->on('jobs')
                   ->onDelete('cascade');
         });

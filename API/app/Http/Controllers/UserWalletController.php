@@ -75,11 +75,11 @@ class UserWalletController extends Controller
     {
         $data = $request->all();
 
-        if (array_key_exists('userId', $data)) {
-            $userWallet->userId = $data['userId'];
+        if (array_key_exists('user_id', $data)) {
+            $userWallet->user_id = $data['user_id'];
         }
-        if (array_key_exists('walletId', $data)) {
-            $userWallet->walletId = $data['walletId'];
+        if (array_key_exists('wallet_id', $data)) {
+            $userWallet->wallet_id = $data['wallet_id'];
         }
 
         $userWallet->save();

@@ -75,17 +75,17 @@ class UserDocumentController extends Controller
     {
         $data = $request->all();
 
-        if (array_key_exists('userId', $data)) {
-            $userDocument->userId = $data['userId'];
+        if (array_key_exists('user_id', $data)) {
+            $userDocument->user_id = $data['user_id'];
         }
-        if (array_key_exists('documentName', $data)) {
-            $userDocument->documentName = $data['documentName'];
+        if (array_key_exists('document_name', $data)) {
+            $userDocument->document_name = $data['document_name'];
         }
-        if (array_key_exists('documentPath', $data)) {
-            $userDocument->documentPath = $data['documentPath'];
+        if (array_key_exists('document_path', $data)) {
+            $userDocument->document_path = $data['document_path'];
         }
-        if (array_key_exists('documentType', $data)) {
-            $userDocument->documentType = $data['documentType'];
+        if (array_key_exists('document_type', $data)) {
+            $userDocument->document_type = $data['document_type'];
         }
         if (array_key_exists('experience', $data)) {
             $userDocument->experience = $data['experience'];

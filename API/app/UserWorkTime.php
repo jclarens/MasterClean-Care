@@ -12,8 +12,8 @@ class UserWorkTime extends Model
      * @var array
      */
     protected $fillable = [
-        'userId',
-        'workTimeId',
+        'user_id',
+        'work_time_id',
         'cost',
     ];
 
@@ -29,7 +29,7 @@ class UserWorkTime extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\User', 'userId');
+        return $this->belongsTo('App\User');
     }
 
     /**
@@ -37,6 +37,6 @@ class UserWorkTime extends Model
      */
     public function workTime()
     {
-        return $this->belongsTo('App\WorkTime', 'workTimeId');
+        return $this->belongsTo('App\WorkTime');
     }
 }

@@ -12,11 +12,11 @@ class WalletTransaction extends Model
      * @var array
      */
     protected $fillable = [
-        'userId',
-        'walletId',
-        'trcType',
-        'trcTime',
-        'walletCode',
+        'user_id',
+        'wallet_id',
+        'trc_type',
+        'trc_time',
+        'wallet_code',
     ];
 
     /**
@@ -31,7 +31,7 @@ class WalletTransaction extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\User', 'userId');
+        return $this->belongsTo('App\User');
     }
 
     /**
@@ -39,6 +39,6 @@ class WalletTransaction extends Model
      */
     public function wallet()
     {
-        return $this->belongsTo('App\Wallet', 'walletId');
+        return $this->belongsTo('App\Wallet');
     }
 }

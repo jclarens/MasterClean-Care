@@ -12,7 +12,7 @@ class UserWallet extends Model
      * @var array
      */
     protected $fillable = [
-        'userId',
+        'user_id',
         'amt',
     ];
 
@@ -28,6 +28,6 @@ class UserWallet extends Model
      */
     public function user()
     {
-        return $this->belongsTo('App\User', 'userId');
+        return $this->belongsTo('App\User');
     }
 }
