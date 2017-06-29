@@ -117,6 +117,29 @@ class UserController extends Controller
     }
 
     /**
+     * Login user for authentication.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function login(Request $request)
+    {
+        $data = $request->all();
+        
+        $email = $data['email'];
+        $password = $data['password'];
+        
+        if (Auth::attempt([ 'email' => $email, 'password' => $password])) {
+            return response()->json([
+                'user' => $user, 
+                'status' => 200]);
+        }
+        return response()->json([
+            'message' => 'Your email and password combination not correct.', 
+            'status' => 400]);
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  \App\User $user

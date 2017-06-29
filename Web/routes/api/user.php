@@ -13,6 +13,8 @@ Route::group(['prefix' => 'user', 'middleware' => ['api']], function () {
 
     Route::post('/', 'UserController@store');
 
+    Route::post('/login', 'UserController@login');
+
     Route::get('/{id}', 'UserController@show')->where('id', '[0-9]+');
 
     Route::patch('/{id}', 'UserController@update')->where('id', '[0-9]+');
