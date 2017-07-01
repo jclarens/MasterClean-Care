@@ -9,14 +9,118 @@
     <string name="menu_status">Status</string>
     <string name="menu_pesan">Pesan</string>
     <string name="menu_lainnya">Lainnya</string>
+    <string name="menu_editprofile">Edit Profile</string>
+    <string name="menu_editks">Ubah Kata Sandi</string>
+    <string name="menu_editdoc">Document Tambahan</string>
+    <string name="menu_pesantulis">Tulis Pesan</string>
+    <string name="menu_pesanhapus">Hapus</string>
+    <string name="menu_isikodevoucher">Isi Kode Voucher</string>
 
-    <string name="buku">Buku</string>
-    <string name="musik">Musik</string>
-    <string name="film">Film</string>
+    <string name="action_alarm">SOS</string>
+
+
+    <string name="profile">Profile</string>
+    <string name="wallet">Wallet</string>
+    <string name="pengaturan">Pengaturan</string>
+    <string name="bantuan">Bantuan</string>
+    <string name="ketentuan">Ketentuan</string>
+    <string name="username">Username</string>
+    <string name="katasandi">Kata Sandi</string>
+    <string name="katasandibaru">Kata Sandi Baru</string>
+    <string name="katasandibarukonfirm">Konfirmasi Kata Sandi Baru</string>
+    <string name="daftarmember">Daftar Member</string>
+    <string name="login">Login</string>
+    <string name="logout">Log Out</string>
+    <string name="pendaftaran">Pendaftaran Member</string>
+    <string name="namalengkap">Nama Lengkap</string>
+    <string name="daftar">Daftar</string>
+    <string name="email">Email</string>
+    <string name="konfkatasandi">Konfirmasi Kata Sandi</string>
+    <string name="notelp">No.Telp</string>
+    <string name="alamat">Alamat</string>
+    <string name="information">Information</string>
+    <string name="description">Description</string>
+    <string name="isiulang">Isi Ulang</string>
+    <string name="nominalangka">Rp. 1.000.000</string>
+    <string name="simpan">Simpan</string>
+    <string name="batal">Batal</string>
+    <string name="fotoktp">Foto KTP</string>
+    <string name="carilokasi">Cari Lokasi</string>
+    <string name="filter">Filter</string>
+    <string name="foto">Foto</string>
+    <string name="pengalaman">Pengalaman</string>
+    <string name="keterangan">Keterangan</string>
+    <string name="status">Status</string>
+    <string name="review">Review</string>
+    <string name="pemesanan">Pemesanan</string>
+    <string name="kirimpesan">Kirim Pesan</string>
+    <string name="lhtjdwl">Lihat Jadwal</string>
+    <string name="docpndkg">Dokumen Pendukung</string>
+    <string name="tktanjg">Takut Anjing</string>
+    <string name="tersedia">Tersedia</string>
+    <string name="usia">Usia</string>
+    <string name="mulai">Mulai Kerja</string>
+    <string name="selesai">Selesai Kerja</string>
+    <string name="estimasi">Estimasi</string>
+    <string name="cttn">Catatan Tambahan</string>
+    <string name="total">Total :</string>
+    <string name="tutup">Tutup</string>
+    <string name="sos">SOS</string>
+
+    <string name="prof_prt">Pengurus Rumah Tangga</string>
+    <string name="prof_bs">Baby Sitter</string>
+    <string name="prof_n">Nanny</string>
+    <string name="prof_pl">Pengurus Lansia</string>
+
+    <string name="toolbar_editprofile">Edit Profile</string>
+    <string name="toolbar_editpass">Ubah Kata Sandi</string>
+    <string name="toolbar_doctmbh">Dokumen Tambahan</string>
+    <string name="toolbar_filter">Filter</string>
+    <string name="toolbar_pemesanan">Pemesanan</string>
+    <string name="toolbar_wallet">ISI ulang Wallet</string>
+    <string name="toolbar_walletvoucher">Voucher</string>
+
+    <string name="pager_cari_map">Map</string>
+    <string name="pager_cari_list">List</string>
+    <string name="pager_status_pending">Pending</string>
+    <string name="pager_status_disetujui">Disetujui</string>
+    <string name="pager_status_riwayat">Riwayat</string>
+    <string name="pager_pesan_masuk">Pesan Masuk</string>
+    <string name="pager_pesan_terkirim">Pesan Terkirim</string>
+
+    <string name="filter_nama">Nama:</string>
+    <string name="filter_usiamin">Usia (min):</string>
+    <string name="filter_usiamax">Usia (max):</string>
+    <string name="filter_pengalamankrj">Pengalaman Kerja (Thn):</string>
+    <string name="filter_kota">Kota :</string>
+    <string name="filter_agama">Agama :</string>
+    <string name="filter_suku">Suku :</string>
+    <string name="filter_bahasa">Bahasa :</string>
+    <string name="filter_bahasainggris">Inggris</string>
+    <string name="filter_bahasamandarin">Mandarin</string>
+    <string name="filter_bahasamelayu">Melayu</string>
+    <string name="filter_profesi">Profesi :</string>
+    <string name="filter_waktukerja">Waktu Kerja :</string>
+    <string name="filter_gajijam">Gaji per Jam</string>
+    <string name="filter_gajihari">Gaji per Hari</string>
+    <string name="filter_gajibulan">Gaji per Bulan</string>
+    <string name="filter_cari">Cari</string>
+    <string name="filter_batal">Batal</string>
 
     <string name="fragment_buku">Fragment Buku</string>
     <string name="fragment_film">Fragment Film</string>
     <string name="fragment_musik">Fragment Musik</string>
+
+    <string name="step1">STEP 1/3</string>
+    <string name="step2">STEP 2/3</string>
+    <string name="step3">STEP 3/3</string>
+
+    <string name="btn_selengkapnya">Selengkapnya</string>
+    <string name="btn_next">Next</string>
+    <string name="btn_prev">Prev</string>
+    <string name="btn_pesan">Pesan</string>
+    <string name="btn_konf">Konfirmasi</string>
+    <string name="btn_btl">Batal</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

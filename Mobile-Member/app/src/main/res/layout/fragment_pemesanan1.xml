@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <TextView
+                android:id="@+id/textView25"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="@string/step1"
+                android:textAlignment="center"
+                android:textColor="@android:color/black"
+                android:textSize="24sp" />
+
+            <EditText
+                android:id="@+id/pms1_et_nama"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/namalengkap"
+                android:inputType="textPersonName" />
+
+            <EditText
+                android:id="@+id/pms1_et_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress" />
+
+            <EditText
+                android:id="@+id/pms1_et_notelp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/notelp"
+                android:inputType="phone" />
+
+            <Spinner
+                android:id="@+id/pms1_spinner_prov"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/pms1_spinner_kota"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/pms1_et_alamat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/alamat"
+                android:inputType="textPersonName" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/pms1_tv_asisname"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/namalengkap"
+                    android:textColor="@android:color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/pms1_tv_asisusia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/pms1_tv_asisname"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/usia"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/pms1_tv_asisagama"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/pms1_tv_asisusia"
+                    android:layout_marginBottom="5dp"
+                    android:text="@string/filter_agama"
+                    android:textColor="@android:color/black" />
+
+                <Button
+                    android:id="@+id/pms1_btn_selengkapnya"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/pms1_tv_asisagama"
+                    android:text="@string/btn_selengkapnya"
+                    android:textAllCaps="false" />
+
+                <ImageView
+                    android:id="@+id/pms1_img_asis"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:contentDescription="@string/foto"
+                    app:srcCompat="@mipmap/ic_launcher" />
+
+                <RatingBar
+                    android:id="@+id/pms1_rate_asis"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_alignLeft="@+id/pms3_img_asis"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignStart="@+id/pms3_img_asis"
+                    android:layout_below="@+id/pms3_img_asis"
+                    android:numStars="5"
+                    android:rating="5" />
+            </RelativeLayout>
+
+            <Button
+                android:id="@+id/pms1_btn_next"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_next"
+                android:textAllCaps="false" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

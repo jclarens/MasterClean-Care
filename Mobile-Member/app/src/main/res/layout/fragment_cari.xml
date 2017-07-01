@@ -1,14 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.TA.MVP.appmobilemember.View.Fragment.FragmentCari">
 
-    <TextView
+    <android.support.design.widget.TabLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tablayout_cari"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/colorPrimaryDark"/>
+    <!--app:tabMode="fixed"-->
+    <!--app:tabGravity="fill"-->
+
+
+    <android.support.v4.view.ViewPager
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/menu_cari"
-        android:textStyle="bold"
-        android:layout_gravity="center"/>
-</FrameLayout>
+        android:id="@+id/viewpager_cari"
+        android:layout_below="@+id/tablayout_cari" />
+
+</RelativeLayout>
