@@ -15,8 +15,8 @@ import Drawer from 'material-ui/Drawer'
 import Avatar from 'material-ui/Avatar'
 import { simpleAuthentication } from '../containers/LoginContainer'
 import Header from './Header'
-import BgImg from '../../img/bg.jpg'
-import LockImg from '../../img/lock.jpg'
+const BgImg = '/img/bg.jpg'
+const LockImg = '/img/lock.jpg'
 
 class AppDrawer extends Component {
     constructor(props) {

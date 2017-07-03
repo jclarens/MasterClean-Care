@@ -15,6 +15,7 @@ use Illuminate\Support\Collection;
 use Exception;
 use DB;
 use App\Helper\Operator;
+use Auth;
 
 class UserController extends Controller
 {

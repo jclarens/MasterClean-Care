@@ -87,19 +87,20 @@ const mapDispatchToProps = (dispatch) => {
             }))
         },
         onLogin: (data, history) => {
-            axios.post('/api/login', {
+            axios.post('/api/check_login', {
                 email: data.email,
                 password: data.password
             })
             .then(function (response) {
-                console.log(JSON.parse(response.data.data))
-                return
-                let status = simpleAuthentication.authenticate(JSON.parse(response.data.data), history)
-                if (status === undefined) {
+                let data = response.data
+                if (data.status === 200) {
                     history.push('/')
                 }
                 else {
-                    dispatch(updateSnack(status))
+                    dispatch(updateSnack({
+                        open: true,
+                        message: data.message
+                    }))
                 }
             })
             .catch(function (error) {

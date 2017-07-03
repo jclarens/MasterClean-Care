@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 |--------------------------------------------------------------------------
 */
 
-Route::post('/check_login', 'UserController@login');
+Route::post('/check_login', 'UserController@login')->middleware('api');
 
 Route::group(['prefix' => 'user', 'middleware' => ['api']], function () {
     Route::get('/', 'UserController@index');

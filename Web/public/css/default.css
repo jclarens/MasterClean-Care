@@ -1,0 +1,18 @@
+.full-width {
+  width: 100%;
+}
+
+.line-through,
+.line-through * {
+  text-decoration: line-through;
+}
+
+.all-transition {
+  transition: .5s;
+}
+
+input[type=password]:not(.browser-default):focus:not([readonly]),
+input[type=text]:not(.browser-default):focus:not([readonly]) {
+  border-bottom: initial;
+  box-shadow: initial;
+}
