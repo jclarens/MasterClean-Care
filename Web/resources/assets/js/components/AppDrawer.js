@@ -15,6 +15,7 @@ import Drawer from 'material-ui/Drawer'
 import Avatar from 'material-ui/Avatar'
 import { simpleAuthentication } from '../containers/LoginContainer'
 import Header from './Header'
+
 const BgImg = '/img/bg.jpg'
 const LockImg = '/img/lock.jpg'
 
@@ -48,7 +49,7 @@ class AppDrawer extends Component {
                     title="Master Clean & Care"
                     iconElementLeft={<IconButton><ActionHome onClick={() => this.onAddTodoItemClick(this.props.history, this.state.actHome)}/></IconButton>}
                     iconElementRight={
-                            <IconButton onTouchTap={() => this.handleToggle() } ><FontIcon className="material-icons">dehaze</FontIcon></IconButton>
+                        <IconButton onTouchTap={() => this.handleToggle() } ><FontIcon className="material-icons">dehaze</FontIcon></IconButton>
                     }
                     style={{ position: "fixed" }}
                 />

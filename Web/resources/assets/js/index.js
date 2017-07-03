@@ -17,7 +17,7 @@ render(
     <MuiThemeProvider>
         <Provider store={ store }>
             <Router history={ history } >
-                { routes() }
+                { routes(store) }
             </Router>
         </Provider>
     </MuiThemeProvider>,

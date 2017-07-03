@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import Login from '../components/Login'
+// import UserProfile from '../components/UserProfile'
 import {
     Route, 
     Redirect,
@@ -10,44 +10,6 @@ import {
     updateSnack
 } from '../actions/DefaultAction'
 import axios from 'axios'
-
-export const simpleAuthentication = {
-    isAuthenticated() {
-        if (localStorage.getItem('authState') !== undefined) {
-            let authState = JSON.parse(localStorage.getItem('authState'))
-            if (authState !== undefined && authState !== null) {
-                return authState.isAuthenticated === true
-            }
-            else {
-                return false
-            }
-        }
-        else {
-            return false
-        }
-    },
-    authenticate(e, history) {
-        return
-    },
-    signout(history) {
-        localStorage.removeItem('authState')
-        history.push('/login')        
-    },
-    getUsername() {
-        if (localStorage.getItem('authState') !== undefined) {
-            let authState = JSON.parse(localStorage.getItem('authState'))
-            if (authState !== undefined && authState !== null) {
-                return authState.username
-            }
-            else {
-                return 'Username'
-            }
-        }
-        else {
-            return 'Username'
-        }
-    }
-}
 
 const mapStateToProps = (state) => {
     return {
@@ -91,15 +53,24 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-const LoginContainer = withRouter(connect(
+const UserProfileContainer = withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
 )(({ history, onUpdateSnack, onLogin, status }) => (
-    <div className="container">
-        <Login onLogin={ (data) => onLogin(data, history) }
-            onUpdateSnack={onUpdateSnack}
-            status={ status } />
-    </div>
+     <Route render={props => (
+        simpleAuthentication.isAuthenticated() ? (
+            <Redirect to={{
+                pathname: '/',
+                state: { from: props.location }
+            }}/>
+        ) : (
+            <div className="container">
+                <Login onLogin={(data) => onLogin(data, history)}
+                    onUpdateSnack={onUpdateSnack}
+                    status={status} />
+            </div>
+        )
+    )}/>
 )))
 
-export default LoginContainer
+export default UserProfileContainer

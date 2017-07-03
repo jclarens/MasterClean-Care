@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import Paper from 'material-ui/Paper'
 import NotificationContainer from '../containers/NotificationContainer'
+import history from '../modules/history'
+import RegisterOption from './RegisterOption'
 
 class Login extends Component {
     constructor(props){
@@ -78,9 +81,14 @@ class Login extends Component {
                                     onChange={(e) => this.onChangeHandler(e)}
                                 />
                             </div>
-                            <div className="col m6 xl8 hide-on-small-only"></div>
-                            <div className="input-field col s12 m6 xl4">
-                                <RaisedButton label="Login" fullWidth={true} type="submit"/>
+                            <div className="input-field col s12 m6">
+                                <RegisterOption />
+                            </div>
+                            <div className="input-field col s12 m6">
+                                <RaisedButton 
+                                    label="Login" 
+                                    fullWidth={true} 
+                                    type="submit"/>
                             </div>                      
                         </div>
                     </form>

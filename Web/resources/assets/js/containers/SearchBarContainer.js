@@ -34,9 +34,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     }
 }
 
-const FilterBar = connect(
+const SearchBarContainer = connect(
     mapStateToProps,
     mapDispatchToProps    
 )(SearchBar)
 
-export default FilterBar
+export default SearchBarContainer

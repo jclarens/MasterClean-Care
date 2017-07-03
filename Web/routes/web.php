@@ -11,6 +11,7 @@
 |
 */
 
-Route::get('/', function () {
+// ->middleware('auth')
+Route::get('{reactRoutes}', function () {
     return view('index');
-});
+})->where('reactRoutes', '^((?!api).)*$');

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
-import FilterBar from '../containers/FilterBar'
+import SearchBarContainer from '../containers/SearchBarContainer'
 import AppDrawer from './AppDrawer'
 import { simpleAuthentication } from '../containers/LoginContainer'
 import NotificationContainer from '../containers/NotificationContainer'

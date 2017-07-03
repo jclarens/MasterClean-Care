@@ -1,5 +1,3 @@
 <?php
 
-use routes\api\user;
-
-// Not used
+require_once(base_path('routes/api/index.php'));
