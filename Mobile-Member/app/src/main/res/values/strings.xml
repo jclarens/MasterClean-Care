@@ -79,6 +79,7 @@
     <string name="toolbar_pemesanan">Pemesanan</string>
     <string name="toolbar_wallet">ISI ulang Wallet</string>
     <string name="toolbar_walletvoucher">Voucher</string>
+    <string name="toolbar_pmsa">Pemesanan Active</string>
 
     <string name="pager_cari_map">Map</string>
     <string name="pager_cari_list">List</string>
@@ -121,6 +122,11 @@
     <string name="btn_pesan">Pesan</string>
     <string name="btn_konf">Konfirmasi</string>
     <string name="btn_btl">Batal</string>
+    <string name="btn_krm">Kirim</string>
+    <string name="btn_btlkn">Batalkan</string>
+    <string name="btn_kmbl">Kembali</string>
+    <string name="btn_hps">Hapus</string>
+    <string name="btn_bls">Balas</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
