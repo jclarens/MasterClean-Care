@@ -9,7 +9,7 @@ class Login extends Component {
     constructor(props){
         super(props)
         this.state = {
-            username: '',
+            email: '',
             password: ''
         }
     }
@@ -18,10 +18,10 @@ class Login extends Component {
         e.preventDefault()
         let locErrMessage = ''
 
-        if (this.state.username== '' && this.state.password == '') {
+        if (this.state.email== '' && this.state.password == '') {
             locErrMessage = 'Username & Password cannot be empty!'
         }
-        else if (this.state.username == '') {
+        else if (this.state.email == '') {
             locErrMessage = 'Username cannot be empty!'
         }
         else if (this.state.password == '') {
@@ -33,7 +33,7 @@ class Login extends Component {
         }
         else {
             this.props.onLogin({
-                username: this.state.username,
+                email: this.state.email,
                 password: this.state.password
             })
         }
@@ -60,15 +60,13 @@ class Login extends Component {
                             </div>
                             <div className="col s12">
                                 <TextField
-                                    hintText="Username"
-                                    floatingLabelText="Username"
+                                    hintText="Email"
+                                    floatingLabelText="Email"
                                     fullWidth={true}
-                                    name="username"
+                                    name="email"
                                     onChange={(e) => this.onChangeHandler(e)}
                                     autoComplete={false}
                                 />
-                                {/*<input id="username" type="text" className="validate" ref={node => { inputUsername = node }}/>
-                                <label htmlFor="username">Username</label>*/}
                             </div>
                             <div className="col s12">
                                 <TextField
@@ -79,8 +77,6 @@ class Login extends Component {
                                     name="password"
                                     onChange={(e) => this.onChangeHandler(e)}
                                 />
-                                {/*<input id="password" type="password" className="validate" ref={node => { inputPassword = node }}/>
-                                <label htmlFor="password">Password</label>*/}
                             </div>
                             <div className="col m6 xl8 hide-on-small-only"></div>
                             <div className="input-field col s12 m6 xl4">

@@ -87,11 +87,13 @@ const mapDispatchToProps = (dispatch) => {
             }))
         },
         onLogin: (data, history) => {
-            axios.post('http://httpbin.org/post', {
-                username: data.username,
+            axios.post('/api/login', {
+                email: data.email,
                 password: data.password
             })
             .then(function (response) {
+                console.log(JSON.parse(response.data.data))
+                return
                 let status = simpleAuthentication.authenticate(JSON.parse(response.data.data), history)
                 if (status === undefined) {
                     history.push('/')
