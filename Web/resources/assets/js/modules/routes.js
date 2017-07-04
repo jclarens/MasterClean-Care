@@ -3,7 +3,7 @@ import { Switch, Route, IndexRoute } from 'react-router'
 import { simpleAuthentication } from '../containers/LoginContainer'
 import App from '../components/App'
 import LoginContainer from '../containers/LoginContainer'
-import RegisterContainer from '../containers/RegisterContainer'
+import RegisterMemberContainer from '../containers/RegisterMemberContainer'
 import UserProfileContainer from '../containers/UserProfileContainer'
 
 const routes = (store) => {
@@ -26,7 +26,7 @@ const routes = (store) => {
         <Switch>
             <Route exact path="/" component={ App } />
             <Route path="/login" component={ LoginContainer }/>
-            <Route path="/register" component={ RegisterContainer }/>
+            <Route path="/register_member" component={ RegisterMemberContainer }/>
             <Route path="/user" component={ UserProfileContainer } onEnter={ requireAuth(store) } />
         </Switch>
     )

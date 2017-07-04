@@ -38,12 +38,14 @@ class RegisterOption extends Component {
             <RaisedButton
                 label="Member"
                 style={style}
-                containerElement={<Link to="/register/member" />}
+                primary={true}
+                containerElement={<Link to="/register_member" />}
             />,
             <RaisedButton
                 label="ART"
                 style={style}
-                containerElement={<Link to="/register/art" />}
+                primary={true}
+                containerElement={<Link to="/register_art" />}
             />
         ]
 
@@ -54,13 +56,11 @@ class RegisterOption extends Component {
                     fullWidth={true}
                     onClick={ () => this.handleOpen() }/>
                 <Dialog
-                    title="Pilihan Pendaftaran"
+                    title="Pilihan Mode Pengguna"
                     actions={ actions }
                     modal={ true }
                     open={ this.state.openModal }
-                    >
-                    Pilih mode pengguna
-                </Dialog>
+                    ></Dialog>
             </div>
         )
 

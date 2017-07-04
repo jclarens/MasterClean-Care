@@ -4,6 +4,7 @@ import SearchBarContainer from '../containers/SearchBarContainer'
 import AppDrawer from './AppDrawer'
 import { simpleAuthentication } from '../containers/LoginContainer'
 import NotificationContainer from '../containers/NotificationContainer'
+import LoadingSpinContainer from '../containers/LoadingSpinContainer'
 import history from '../modules/history'
 
 const App = () => {
@@ -11,6 +12,7 @@ const App = () => {
         <div>
             <AppDrawer history={history}/>
             <NotificationContainer />
+            <LoadingSpinContainer />
         </div>
     )
 }

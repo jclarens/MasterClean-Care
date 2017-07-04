@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import Paper from 'material-ui/Paper'
 import NotificationContainer from '../containers/NotificationContainer'
+import LoadingSpinContainer from '../containers/LoadingSpinContainer'
 import history from '../modules/history'
 import RegisterOption from './RegisterOption'
 
@@ -13,7 +14,7 @@ class Login extends Component {
         super(props)
         this.state = {
             email: '',
-            password: ''
+            password: '',
         }
     }
 
@@ -21,7 +22,7 @@ class Login extends Component {
         e.preventDefault()
         let locErrMessage = ''
 
-        if (this.state.email== '' && this.state.password == '') {
+        if (this.state.email == '' && this.state.password == '') {
             locErrMessage = 'Username & Password cannot be empty!'
         }
         else if (this.state.email == '') {
@@ -37,7 +38,7 @@ class Login extends Component {
         else {
             this.props.onLogin({
                 email: this.state.email,
-                password: this.state.password
+                password: this.state.password,
             })
         }
 
@@ -53,54 +54,57 @@ class Login extends Component {
 
     render () {
         return (
-            <div className="row">
-                <div className="col m3 xl4 hide-on-small-only"></div>
-                <Paper className="col s12 m6 xl4" zDepth={1} style={{ margin: "10px auto", padding: "10px" }}>
-                    <form onSubmit={(e) => this.loginHandler(e)}>
-                        <div className="row">
-                            <div className="col s12">
-                                <h4 className="center-align">Login</h4>
+            <div>
+                <div className="row">
+                    <div className="col m3 xl4 hide-on-small-only"></div>
+                    <Paper className="col s12 m6 xl4" zDepth={1} style={{ margin: "10px auto", padding: "10px" }}>
+                        <form onSubmit={(e) => this.loginHandler(e)}>
+                            <div className="row">
+                                <div className="col s12">
+                                    <h4 className="center-align">Login</h4>
+                                </div>
+                                <div className="col s12">
+                                    <TextField
+                                        hintText="Email"
+                                        floatingLabelText="Email"
+                                        fullWidth={true}
+                                        name="email"
+                                        onChange={(e) => this.onChangeHandler(e)}
+                                        autoComplete={false}
+                                    />
+                                </div>
+                                <div className="col s12">
+                                    <TextField
+                                        hintText="Password"
+                                        floatingLabelText="Password"
+                                        type="password"
+                                        fullWidth={true}
+                                        name="password"
+                                        onChange={(e) => this.onChangeHandler(e)}
+                                    />
+                                </div>
+                                <div className="input-field col s12 m6">
+                                    <RegisterOption />
+                                </div>
+                                <div className="input-field col s12 m6">
+                                    <RaisedButton 
+                                        label="Login" 
+                                        fullWidth={true} 
+                                        type="submit"/>
+                                </div>                      
                             </div>
-                            <div className="col s12">
-                                <TextField
-                                    hintText="Email"
-                                    floatingLabelText="Email"
-                                    fullWidth={true}
-                                    name="email"
-                                    onChange={(e) => this.onChangeHandler(e)}
-                                    autoComplete={false}
-                                />
-                            </div>
-                            <div className="col s12">
-                                <TextField
-                                    hintText="Password"
-                                    floatingLabelText="Password"
-                                    type="password"
-                                    fullWidth={true}
-                                    name="password"
-                                    onChange={(e) => this.onChangeHandler(e)}
-                                />
-                            </div>
-                            <div className="input-field col s12 m6">
-                                <RegisterOption />
-                            </div>
-                            <div className="input-field col s12 m6">
-                                <RaisedButton 
-                                    label="Login" 
-                                    fullWidth={true} 
-                                    type="submit"/>
-                            </div>                      
-                        </div>
-                    </form>
-                </Paper>
+                        </form>
+                    </Paper>
+                </div>
                 <NotificationContainer />
+                <LoadingSpinContainer />
             </div>
         )
     }
 }
 
 Login.propTypes = {
-    onLogin: PropTypes.func.isRequired
+    onLogin: PropTypes.func.isRequired,
 }
 
 export default Login;

@@ -10,6 +10,8 @@ export const FILTER_TODO = 'FILTER_TODO'
 export const LOGIN = 'LOGIN'
 export const UPDATE_SNACK = 'UPDATE_SNACK'
 export const RESET_SNACK = 'RESET_SNACK'
+export const UPDATE_LOADING_SPIN = 'UPDATE_LOADING_SPIN'
+export const RESET_LOADING_SPIN = 'RESET_LOADING_SPIN'
 
 /*
  *  Action Creators
@@ -51,4 +53,12 @@ export function updateSnack(data) {
 
 export function resetSnack() {
     return { type: RESET_SNACK }
+}
+
+export function updateLoadingSpin(data) {
+    return { type: UPDATE_LOADING_SPIN, data: data }
+}
+
+export function resetLoadingSpin() {
+    return { type: RESET_LOADING_SPIN }
 }

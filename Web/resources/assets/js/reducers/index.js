@@ -1,10 +1,12 @@
 import { combineReducers } from 'redux'
-import UserReducer from './UserReducer'
+import UserLoginReducer from './UserLoginReducer'
 import NotificationReducer from './NotificationReducer'
+import LoadingSpinReducer from './LoadingSpinReducer'
 
 const mcc = combineReducers({
-    UserReducer,
+    UserLoginReducer,
     NotificationReducer,
+    LoadingSpinReducer,
 })
 
 export default mcc

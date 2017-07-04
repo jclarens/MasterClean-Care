@@ -4,10 +4,12 @@ import Login from '../components/Login'
 import {
     Route, 
     Redirect,
-    withRouter
+    withRouter,
 } from 'react-router-dom'
 import {
-    updateSnack
+    updateSnack,
+    updateLoadingSpin,
+    resetLoadingSpin,
 } from '../actions/DefaultAction'
 import axios from 'axios'
 
@@ -64,11 +66,17 @@ const mapDispatchToProps = (dispatch) => {
             }))
         },
         onLogin: (data, history) => {
+            dispatch(updateLoadingSpin({
+                show: true,
+            }))
+            setTimeout(function() { 
+
             axios.post('/api/check_login', {
                 email: data.email,
                 password: data.password
             })
             .then(function (response) {
+                dispatch(resetLoadingSpin())
                 let data = response.data
                 if (data.status === 200) {
                     history.push('/')
@@ -81,12 +89,13 @@ const mapDispatchToProps = (dispatch) => {
                 }
             })
             .catch(function (error) {
+                dispatch(resetLoadingSpin())
                 dispatch(updateSnack({
                     open: open,
                     message: error
                 }))
-            });
-            
+            })
+            }, 3000);            
         }
     }
 }

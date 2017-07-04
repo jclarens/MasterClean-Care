@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Place;
+use App\Helper\Operators;
 use Illuminate\Http\Request;
 
 class PlaceController extends Controller
@@ -106,15 +107,31 @@ class PlaceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Place  $place
      * @param  Parameter  $param
+     * @param  Text  $operator
      * @param  Text  $text
      * @return \Illuminate\Http\Response
      */
-    public function searchByParam(Request $request, Place $place, $param = 'name', $text)
+    public function searchByParam(Request $request, Place $place, $param = 'name', $operator = '', $text = '')
     {
-        return $place
-            ->where($param,
-                Operator::LIKE,
-                '%'.$text.'%')
-            ->get();
+        try {
+            if ($operator == 'equal') {
+                $operator = Operators::EQUAL;
+            }
+            else {
+                $text = '%'.$text.'%';
+                $operator = Operators::LIKE;
+            }
+            $data = $place
+                    ->where($param,
+                            $operator,
+                            $text)
+                    ->get();
+            return response()->json([ 'data' => $data
+                                    , 'status' => 201]);
+        }
+        catch(Exception $e) {
+            return response()->json([ 'message' => $e->getMessage(), 
+                                      'status' => 400 ]);
+        }
     }
 }
