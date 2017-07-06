@@ -13,44 +13,6 @@ import {
 } from '../actions/DefaultAction'
 import axios from 'axios'
 
-export const simpleAuthentication = {
-    isAuthenticated() {
-        if (localStorage.getItem('authState') !== undefined) {
-            let authState = JSON.parse(localStorage.getItem('authState'))
-            if (authState !== undefined && authState !== null) {
-                return authState.isAuthenticated === true
-            }
-            else {
-                return false
-            }
-        }
-        else {
-            return false
-        }
-    },
-    authenticate(e, history) {
-        return
-    },
-    signout(history) {
-        localStorage.removeItem('authState')
-        history.push('/login')        
-    },
-    getUsername() {
-        if (localStorage.getItem('authState') !== undefined) {
-            let authState = JSON.parse(localStorage.getItem('authState'))
-            if (authState !== undefined && authState !== null) {
-                return authState.username
-            }
-            else {
-                return 'Username'
-            }
-        }
-        else {
-            return 'Username'
-        }
-    }
-}
-
 const mapStateToProps = (state) => {
     return {
         status: state.notif
@@ -69,8 +31,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(updateLoadingSpin({
                 show: true,
             }))
-            setTimeout(function() { 
-
+            
             axios.post('/api/check_login', {
                 email: data.email,
                 password: data.password
@@ -78,6 +39,7 @@ const mapDispatchToProps = (dispatch) => {
             .then(function (response) {
                 dispatch(resetLoadingSpin())
                 let data = response.data
+                console.log(data)
                 if (data.status === 200) {
                     history.push('/')
                 }
@@ -95,7 +57,6 @@ const mapDispatchToProps = (dispatch) => {
                     message: error
                 }))
             })
-            }, 3000);            
         }
     }
 }

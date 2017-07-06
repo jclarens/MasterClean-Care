@@ -7218,7 +7218,6 @@ exports.default = LoadingSpinContainer;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.simpleAuthentication = undefined;
 
 var _react = __webpack_require__(0);
 
@@ -7240,40 +7239,6 @@ var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var simpleAuthentication = exports.simpleAuthentication = {
-    isAuthenticated: function isAuthenticated() {
-        if (localStorage.getItem('authState') !== undefined) {
-            var authState = JSON.parse(localStorage.getItem('authState'));
-            if (authState !== undefined && authState !== null) {
-                return authState.isAuthenticated === true;
-            } else {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    },
-    authenticate: function authenticate(e, history) {
-        return;
-    },
-    signout: function signout(history) {
-        localStorage.removeItem('authState');
-        history.push('/login');
-    },
-    getUsername: function getUsername() {
-        if (localStorage.getItem('authState') !== undefined) {
-            var authState = JSON.parse(localStorage.getItem('authState'));
-            if (authState !== undefined && authState !== null) {
-                return authState.username;
-            } else {
-                return 'Username';
-            }
-        } else {
-            return 'Username';
-        }
-    }
-};
-
 var mapStateToProps = function mapStateToProps(state) {
     return {
         status: state.notif
@@ -7292,30 +7257,29 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
             dispatch((0, _DefaultAction.updateLoadingSpin)({
                 show: true
             }));
-            setTimeout(function () {
 
-                _axios2.default.post('/api/check_login', {
-                    email: data.email,
-                    password: data.password
-                }).then(function (response) {
-                    dispatch((0, _DefaultAction.resetLoadingSpin)());
-                    var data = response.data;
-                    if (data.status === 200) {
-                        history.push('/');
-                    } else {
-                        dispatch((0, _DefaultAction.updateSnack)({
-                            open: true,
-                            message: data.message
-                        }));
-                    }
-                }).catch(function (error) {
-                    dispatch((0, _DefaultAction.resetLoadingSpin)());
+            _axios2.default.post('/api/check_login', {
+                email: data.email,
+                password: data.password
+            }).then(function (response) {
+                dispatch((0, _DefaultAction.resetLoadingSpin)());
+                var data = response.data;
+                console.log(data);
+                if (data.status === 200) {
+                    history.push('/');
+                } else {
                     dispatch((0, _DefaultAction.updateSnack)({
-                        open: open,
-                        message: error
+                        open: true,
+                        message: data.message
                     }));
-                });
-            }, 3000);
+                }
+            }).catch(function (error) {
+                dispatch((0, _DefaultAction.resetLoadingSpin)());
+                dispatch((0, _DefaultAction.updateSnack)({
+                    open: open,
+                    message: error
+                }));
+            });
         }
     };
 };
