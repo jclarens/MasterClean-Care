@@ -27,17 +27,26 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             })
             .then(function (response) {
                 let data = response.data
-                dispatch(updateSnack({
-                    open: true,
-                    message: data.message
-                }))
+
+                if (data.status != 201) {
+                    dispatch(updateSnack({
+                        open: true,
+                        message: data.message
+                    }))
+                }
+                else {
+                    self.resetForm()
+                    dispatch(updateSnack({
+                        open: true,
+                        message: 'Mendaftar berhasil! Silahkan tunggu konfirmasi.'
+                    }))
+                }
             })
             .catch(function (error) {
                 dispatch(updateSnack({
                     open: open,
                     message: error
                 }))
-                self.setState({ isValid : false })
             })
         },
         getPlace: (self, type, lvl = 0) => 

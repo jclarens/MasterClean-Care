@@ -1,16 +1,16 @@
 import React from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import SearchBarContainer from '../containers/SearchBarContainer'
-import AppDrawer from './AppDrawer'
 import { simpleAuthentication } from '../containers/LoginContainer'
 import NotificationContainer from '../containers/NotificationContainer'
+import AppDrawerContainer from '../containers/AppDrawerContainer'
 import LoadingSpinContainer from '../containers/LoadingSpinContainer'
 import history from '../modules/history'
 
 const App = () => {
     return (
         <div>
-            <AppDrawer history={history}/>
+            <AppDrawerContainer />
             <NotificationContainer />
             <LoadingSpinContainer />
         </div>

@@ -7,6 +7,7 @@ import {
     withRouter,
 } from 'react-router-dom'
 import {
+    loginAuth,
     updateSnack,
     updateLoadingSpin,
     resetLoadingSpin,
@@ -39,8 +40,8 @@ const mapDispatchToProps = (dispatch) => {
             .then(function (response) {
                 dispatch(resetLoadingSpin())
                 let data = response.data
-                console.log(data)
                 if (data.status === 200) {
+                    dispatch(loginAuth(data.user))
                     history.push('/')
                 }
                 else {

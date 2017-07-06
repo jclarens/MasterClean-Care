@@ -35,7 +35,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                     }))
                 }
                 else {
-                    console.log('clearing form')
                     self.resetForm()
                     dispatch(updateSnack({
                         open: true,

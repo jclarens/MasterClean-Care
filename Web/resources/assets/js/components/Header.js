@@ -16,7 +16,7 @@ class Header extends Component {
                         background: "none"
                     }}
                     overlay={
-                        <div style={{ textAlign: "right" }}>
+                        <div>
                             <Avatar src={ this.props.avatarImg } style={{ margin: "8px", verticalAlign: "middle" }} />                            
                             <div style={{ padding: "8px", background: "linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%)" }}>
                                 <span style={{ 

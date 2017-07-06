@@ -174,7 +174,7 @@ class RegisterMember extends Component {
                             onSubmit={(e) => this.registerHandler(e)}>
                             <div className="row">
                                 <div className="col s12">
-                                    <h4 className="center-align">Mendaftar</h4>
+                                    <h4 className="center-align">Mendaftar Sebagai Member</h4>
                                 </div>
                                 <div className="col s12">
                                     <TextValidator

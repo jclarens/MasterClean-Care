@@ -138,6 +138,26 @@ class UserController extends Controller
     }
 
     /**
+     * Login user for authentication.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function logout(Request $request)
+    {
+        try {   
+            Auth::logout();
+            return response()->json([
+                    'message' => 'Logout succeeded', 
+                    'status' => 200]);
+        }
+        catch(Exception $e) {
+            return response()->json([ 'message' => $e->getMessage(), 
+                                      'status' => 400 ]);
+        }
+    }
+
+    /**
      * Display the specified resource.
      *
      * @param  \App\User $user
@@ -281,7 +301,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return response()->json($user, 200);
+        return response()->json(['user' => $user, 'status' => 200]);
     }
 
     /**
@@ -294,7 +314,7 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return response()->json('Deleted', 200);
+        return response()->json(['message' => 'Deleted', 'status' => 200]);
     }
 
     /**

@@ -8,6 +8,7 @@ export const REMOVE_TODO = 'REMOVE_TODO'
 export const TOGGLE_TODO = 'TOGGLE_TODO'
 export const FILTER_TODO = 'FILTER_TODO'
 export const LOGIN = 'LOGIN'
+export const LOGOUT = 'LOGOUT'
 export const UPDATE_SNACK = 'UPDATE_SNACK'
 export const RESET_SNACK = 'RESET_SNACK'
 export const UPDATE_LOADING_SPIN = 'UPDATE_LOADING_SPIN'
@@ -45,6 +46,10 @@ export function filterTodo(search) {
 
 export function loginAuth(data) {
     return { type: LOGIN, data: data }
+}
+
+export function logoutUser() {
+    return { type: LOGOUT }
 }
 
 export function updateSnack(data) {

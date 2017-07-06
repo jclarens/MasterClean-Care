@@ -2248,6 +2248,7 @@ exports.updateTodo = updateTodo;
 exports.removeTodo = removeTodo;
 exports.filterTodo = filterTodo;
 exports.loginAuth = loginAuth;
+exports.logoutUser = logoutUser;
 exports.updateSnack = updateSnack;
 exports.resetSnack = resetSnack;
 exports.updateLoadingSpin = updateLoadingSpin;
@@ -2262,6 +2263,7 @@ var REMOVE_TODO = exports.REMOVE_TODO = 'REMOVE_TODO';
 var TOGGLE_TODO = exports.TOGGLE_TODO = 'TOGGLE_TODO';
 var FILTER_TODO = exports.FILTER_TODO = 'FILTER_TODO';
 var LOGIN = exports.LOGIN = 'LOGIN';
+var LOGOUT = exports.LOGOUT = 'LOGOUT';
 var UPDATE_SNACK = exports.UPDATE_SNACK = 'UPDATE_SNACK';
 var RESET_SNACK = exports.RESET_SNACK = 'RESET_SNACK';
 var UPDATE_LOADING_SPIN = exports.UPDATE_LOADING_SPIN = 'UPDATE_LOADING_SPIN';
@@ -2299,6 +2301,10 @@ function filterTodo(search) {
 
 function loginAuth(data) {
     return { type: LOGIN, data: data };
+}
+
+function logoutUser() {
+    return { type: LOGOUT };
 }
 
 function updateSnack(data) {
@@ -7264,8 +7270,8 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
             }).then(function (response) {
                 dispatch((0, _DefaultAction.resetLoadingSpin)());
                 var data = response.data;
-                console.log(data);
                 if (data.status === 200) {
+                    dispatch((0, _DefaultAction.loginAuth)(data.user));
                     history.push('/');
                 } else {
                     dispatch((0, _DefaultAction.updateSnack)({
@@ -21638,15 +21644,15 @@ var _SearchBarContainer = __webpack_require__(280);
 
 var _SearchBarContainer2 = _interopRequireDefault(_SearchBarContainer);
 
-var _AppDrawer = __webpack_require__(267);
-
-var _AppDrawer2 = _interopRequireDefault(_AppDrawer);
-
 var _LoginContainer = __webpack_require__(84);
 
 var _NotificationContainer = __webpack_require__(85);
 
 var _NotificationContainer2 = _interopRequireDefault(_NotificationContainer);
+
+var _AppDrawerContainer = __webpack_require__(650);
+
+var _AppDrawerContainer2 = _interopRequireDefault(_AppDrawerContainer);
 
 var _LoadingSpinContainer = __webpack_require__(83);
 
@@ -21662,7 +21668,7 @@ var App = function App() {
     return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_AppDrawer2.default, { history: _history2.default }),
+        _react2.default.createElement(_AppDrawerContainer2.default, null),
         _react2.default.createElement(_NotificationContainer2.default, null),
         _react2.default.createElement(_LoadingSpinContainer2.default, null)
     );
@@ -21775,9 +21781,6 @@ var AppDrawer = function (_Component) {
             if (action == this.state.actHome) {
                 history.push('/');
             }
-            // else if (action == this.state.actAddTodo) {
-            //     history.push('/Add-Todo')
-            // }
         }
     }, {
         key: 'handleToggle',
@@ -21794,19 +21797,13 @@ var AppDrawer = function (_Component) {
         value: function render() {
             var _this2 = this;
 
+            var isLoggedIn = this.props.user ? true : false;
             return _react2.default.createElement(
                 'div',
                 null,
                 _react2.default.createElement(_AppBar2.default, {
                     title: 'Master Clean & Care',
                     iconElementLeft: _react2.default.createElement(
-                        _IconButton2.default,
-                        null,
-                        _react2.default.createElement(_home2.default, { onClick: function onClick() {
-                                return _this2.onAddTodoItemClick(_this2.props.history, _this2.state.actHome);
-                            } })
-                    ),
-                    iconElementRight: _react2.default.createElement(
                         _IconButton2.default,
                         { onTouchTap: function onTouchTap() {
                                 return _this2.handleToggle();
@@ -21823,13 +21820,19 @@ var AppDrawer = function (_Component) {
                     _Drawer2.default,
                     {
                         open: this.state.open,
-                        openSecondary: true,
                         docked: false,
                         onRequestChange: function onRequestChange(open) {
                             return _this2.setState({ open: open });
                         }
                     },
-                    _react2.default.createElement(_Header2.default, { username: _LoginContainer.simpleAuthentication.getUsername(), avatarImg: LockImg, bgImg: BgImg }),
+                    isLoggedIn ? _react2.default.createElement(_Header2.default, { username: this.props.user.name, avatarImg: LockImg, bgImg: BgImg }) : _react2.default.createElement(_MenuItem2.default, { primaryText: 'Login',
+                        containerElement: _react2.default.createElement(_reactRouterDom.Link, { to: '/login' }),
+                        rightIcon: _react2.default.createElement(
+                            _FontIcon2.default,
+                            { className: 'material-icons' },
+                            'receipt'
+                        )
+                    }),
                     _react2.default.createElement(_Divider2.default, null),
                     _react2.default.createElement(_MenuItem2.default, { primaryText: 'Tambah Lowongan',
                         rightIcon: _react2.default.createElement(
@@ -21909,7 +21912,7 @@ var Header = function (_Component) {
                         },
                         overlay: _react2.default.createElement(
                             'div',
-                            { style: { textAlign: "right" } },
+                            null,
                             _react2.default.createElement(_Avatar2.default, { src: this.props.avatarImg, style: { margin: "8px", verticalAlign: "middle" } }),
                             _react2.default.createElement(
                                 'div',
@@ -22292,7 +22295,7 @@ var Logout = function (_Component) {
         value: function handleClose(confirmation) {
             this.setState({ openModal: false });
             if (confirmation) {
-                this.props.onClick();
+                this.props.onClick(this);
             }
         }
     }, {
@@ -22669,7 +22672,7 @@ var RegisterArt = function (_Component) {
                                     _react2.default.createElement(
                                         'h4',
                                         { className: 'center-align' },
-                                        'Mendaftar'
+                                        'Mendaftar Sebagai ART'
                                     )
                                 ),
                                 _react2.default.createElement(
@@ -23193,7 +23196,7 @@ var RegisterMember = function (_Component) {
                                     _react2.default.createElement(
                                         'h4',
                                         { className: 'center-align' },
-                                        'Mendaftar'
+                                        'Mendaftar Sebagai Member'
                                     )
                                 ),
                                 _react2.default.createElement(
@@ -23686,7 +23689,7 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _LoginContainer = __webpack_require__(84);
+var _reactRedux = __webpack_require__(43);
 
 var _Logout = __webpack_require__(271);
 
@@ -23694,19 +23697,58 @@ var _Logout2 = _interopRequireDefault(_Logout);
 
 var _reactRouterDom = __webpack_require__(28);
 
+var _DefaultAction = __webpack_require__(33);
+
+var _axios = __webpack_require__(70);
+
+var _axios2 = _interopRequireDefault(_axios);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var LogoutContainer = (0, _reactRouterDom.withRouter)(function (_ref) {
-    var history = _ref.history;
-    return _react2.default.createElement(_reactRouterDom.Route, { render: function render(props) {
-            return _LoginContainer.simpleAuthentication.isAuthenticated() ? _react2.default.createElement(_Logout2.default, { onClick: function onClick() {
-                    return _LoginContainer.simpleAuthentication.signout(history);
-                } }) : _react2.default.createElement(_reactRouterDom.Redirect, { to: {
-                    pathname: '/login',
-                    state: { from: props.location }
-                } });
+var mapStateToProps = function mapStateToProps(state) {
+    return {
+        user: state.UserLoginReducer
+    };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+    return {
+        onLogout: function onLogout(history, self) {
+            dispatch((0, _DefaultAction.updateLoadingSpin)({
+                show: true
+            }));
+
+            _axios2.default.post('/api/logout').then(function (response) {
+                dispatch((0, _DefaultAction.resetLoadingSpin)());
+                var data = response.data;
+                if (data.status === 200) {
+                    dispatch((0, _DefaultAction.logoutUser)());
+                    self.forceUpdate();
+                } else {
+                    dispatch((0, _DefaultAction.updateSnack)({
+                        open: true,
+                        message: data.message
+                    }));
+                }
+            }).catch(function (error) {
+                dispatch((0, _DefaultAction.resetLoadingSpin)());
+                dispatch((0, _DefaultAction.updateSnack)({
+                    open: true,
+                    message: error
+                }));
+            });
+        }
+    };
+};
+
+var LogoutContainer = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(function (_ref) {
+    var history = _ref.history,
+        onLogout = _ref.onLogout,
+        user = _ref.user;
+    return _react2.default.createElement(_Logout2.default, { onClick: function onClick(self) {
+            return onLogout(history, self);
         } });
-});
+}));
 
 exports.default = LogoutContainer;
 
@@ -23762,16 +23804,24 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
                 data: data
             }).then(function (response) {
                 var data = response.data;
-                dispatch((0, _DefaultAction.updateSnack)({
-                    open: true,
-                    message: data.message
-                }));
+
+                if (data.status != 201) {
+                    dispatch((0, _DefaultAction.updateSnack)({
+                        open: true,
+                        message: data.message
+                    }));
+                } else {
+                    self.resetForm();
+                    dispatch((0, _DefaultAction.updateSnack)({
+                        open: true,
+                        message: 'Mendaftar berhasil! Silahkan tunggu konfirmasi.'
+                    }));
+                }
             }).catch(function (error) {
                 dispatch((0, _DefaultAction.updateSnack)({
                     open: open,
                     message: error
                 }));
-                self.setState({ isValid: false });
             });
         },
         getPlace: function getPlace(self, type) {
@@ -23879,7 +23929,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
                         message: data.message
                     }));
                 } else {
-                    console.log('clearing form');
                     self.resetForm();
                     dispatch((0, _DefaultAction.updateSnack)({
                         open: true,
@@ -24243,6 +24292,8 @@ var UserLoginReducer = function UserLoginReducer() {
         case _DefaultAction.LOGIN:
             var user = action.data;
             return Object.assign({}, state, { user: user });
+        case _DefaultAction.LOGOUT:
+            return Object.assign({}, state, null);
         default:
             return state;
     }
@@ -64448,6 +64499,63 @@ __webpack_require__(246);
 __webpack_require__(247);
 module.exports = __webpack_require__(248);
 
+
+/***/ }),
+/* 635 */,
+/* 636 */,
+/* 637 */,
+/* 638 */,
+/* 639 */,
+/* 640 */,
+/* 641 */,
+/* 642 */,
+/* 643 */,
+/* 644 */,
+/* 645 */,
+/* 646 */,
+/* 647 */,
+/* 648 */,
+/* 649 */,
+/* 650 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(43);
+
+var _AppDrawer = __webpack_require__(267);
+
+var _AppDrawer2 = _interopRequireDefault(_AppDrawer);
+
+var _history = __webpack_require__(109);
+
+var _history2 = _interopRequireDefault(_history);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var mapStateToProps = function mapStateToProps(state) {
+    return {
+        user: state.UserLoginReducer.user,
+        history: _history2.default
+    };
+};
+
+var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+    return {};
+};
+
+var AppDrawerContainer = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_AppDrawer2.default);
+
+exports.default = AppDrawerContainer;
 
 /***/ })
 /******/ ]);

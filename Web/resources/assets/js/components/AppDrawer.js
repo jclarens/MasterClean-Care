@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Route, Redirect, NavLink } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 // import AddTodoContainer from '../containers/AddTodoContainer'
 // import Main from './Main'
 import LogoutContainer from '../containers/LogoutContainer'
@@ -25,7 +26,7 @@ class AppDrawer extends Component {
         this.state = {
             actAddTodo: 'ADD_TODO',
             actHome: 'HOME',
-            open: false
+            open: false,
         }
     }
 
@@ -33,9 +34,6 @@ class AppDrawer extends Component {
         if (action == this.state.actHome) {
             history.push('/')    
         }
-        // else if (action == this.state.actAddTodo) {
-        //     history.push('/Add-Todo')
-        // }
     }
 
     handleToggle() { this.setState({open: !this.state.open}) }
@@ -43,30 +41,31 @@ class AppDrawer extends Component {
     handleClose() { this.setState({open: false}) }
 
     render() {
+        const isLoggedIn = this.props.user ? true : false
         return (
             <div>
+                {/*iconElementLeft={<IconButton><ActionHome onClick={() => this.onAddTodoItemClick(this.props.history, this.state.actHome)}/></IconButton>}*/}
                 <AppBar 
                     title="Master Clean & Care"
-                    iconElementLeft={<IconButton><ActionHome onClick={() => this.onAddTodoItemClick(this.props.history, this.state.actHome)}/></IconButton>}
-                    iconElementRight={
+                    iconElementLeft={
                         <IconButton onTouchTap={() => this.handleToggle() } ><FontIcon className="material-icons">dehaze</FontIcon></IconButton>
                     }
                     style={{ position: "fixed" }}
                 />
                 <Drawer 
                     open={ this.state.open } 
-                    openSecondary={ true } 
                     docked={ false } 
                     onRequestChange={(open) => this.setState({open})}
                 >
-                    <Header username={ simpleAuthentication.getUsername() } avatarImg={ LockImg } bgImg={ BgImg } />
-                    {/*<MenuItem primaryText={  } leftIcon={<Avatar src={ LockImg } />} disabled={true} />*/}
-                    {/*<MenuItem primaryText="Home" 
-                        rightIcon={<FontIcon className="material-icons">home</FontIcon>}
-                        onClick={() => {
-                            this.handleClose()
-                            this.onAddTodoItemClick(this.props.history, this.state.actHome)
-                        }}/>*/}
+                    {
+                        isLoggedIn ?
+                            <Header username={ this.props.user.name } avatarImg={ LockImg } bgImg={ BgImg } />
+                        :
+                            <MenuItem primaryText="Login" 
+                                containerElement={<Link to="/login" />}
+                                rightIcon={<FontIcon className="material-icons">receipt</FontIcon>}
+                                />
+                    }
                     <Divider />
                     <MenuItem primaryText="Tambah Lowongan" 
                         rightIcon={<FontIcon className="material-icons">receipt</FontIcon>}
