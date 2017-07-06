@@ -48,66 +48,62 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        
+        $data = $data['data'];
         $email = $data['email'];
         
         $exists = User::where('email', $email)->get()->first();
         if (!is_null($exists)) {
             return response()->json([
-                'error' => "A user with the email $email already exists!"
+                'message' => "A user with the email $email already exists!",
+                'status' => 400
             ]);
         }
 
+
         // Insert User
         try {
+            // Format Date
+            $date = strtotime($data['born_date']);
+            $data['born_date'] = date('Y-m-d', $date);
+
+            // Hash Password
+            $data['password'] = Hash::make($data['password']);
+
             DB::beginTransaction();
             
             $user = User::create($data);
-            // $user = new User;
-            // $user->name = $data['name'];
-            // $user->email = $data['email'];
-            // $user->password = Hash::make($data['password']);
-            // $user->gender = $data['gender'];
-            // $user->bornPlace = $data['bornPlace'];
-            // $user->bornDate = $data['bornDate'];
-            // $user->phone = $data['phone'];
-            // $user->province = $data['province'];
-            // $user->city = $data['city'];
-            // $user->address = $data['address'];
-            // $user->location = $data['location'];
-            // $user->religion = $data['religion'];
-            // $user->race = $data['race'];
-            // $user->userType = $data['userType'];
-            // $user->profileImgName = $data['profileImgName'];
-            // $user->profileImgPath = $data['profileImgPath'];
-            // $user->status = $data['status'];
+            
 
-            // Initial Wallet
-            // $userWallet = new UserWallet;
-            // $userWallet->amt = 0; 
-            // $user->userWallet()->save($userWallet);
+            if ($user->user_type == 1) {
+                // Initial Wallet
+                $userWallet = new UserWallet;
+                $userWallet->amt = 0; 
+                $user->userWallet()->save($userWallet);
+            }
+            else if ($user->user_type == 2)
+            {
+                // Save Wallet
+                $user->userWallet()->createMany($data['userWallet']);
 
-            // Save Wallet
-            $user->userWallet()->createMany($data['userWallet']);
+                // Save Language
+                $user->userLanguage()->createMany($data['userLanguage']);
 
-            // Save Language
-            $user->userLanguage()->createMany($data['userLanguage']);
+                // Save Job
+                $user->userJob()->createMany($data['userJob']);
 
-            // Save Job
-            $user->userJob()->createMany($data['userJob']);
+                // Save Document
+                $user->userDocument()->createMany($data['userDocument']);
 
-            // Save Document
-            $user->userDocument()->createMany($data['userDocument']);
+                // Save AdditionalInfo
+                $user->userAdditionalInfo()->createMany($data['userAdditionalInfo']);
 
-            // Save AdditionalInfo
-            $user->userAdditionalInfo()->createMany($data['userAdditionalInfo']);
-
-            // Save WorkTime
-            $user->userWorkTime()->createMany($data['userWorkTime']);
+                // Save WorkTime
+                $user->userWorkTime()->createMany($data['userWorkTime']);
+            }
 
             DB::commit();
 
-            return response()->json($user, 201);
+            return response()->json([ 'user' => $user, 'status' => 201]);
         }
         catch(Exception $e) {
             DB::rollBack();
@@ -129,15 +125,16 @@ class UserController extends Controller
         
         $email = $data['email'];
         $password = $data['password'];
-        
         if (Auth::attempt([ 'email' => $email, 'password' => $password])) {
             return response()->json([
-                'user' => $user, 
+                'user' => Auth::User(), 
                 'status' => 200]);
         }
-        return response()->json([
-            'message' => 'Your email and password combination not correct.', 
-            'status' => 400]);
+        else {
+            return response()->json([
+                'message' => 'Your email and password combination not correct.', 
+                'status' => 400]);
+        }
     }
 
     /**
@@ -185,7 +182,8 @@ class UserController extends Controller
                 $exists = User::where('email', $email)->where('id', '!=', $user->id)->get()->first();
                 if (!is_null($exists)) {
                     return response()->json([
-                        'error' => "A user with the email $email already exists!"
+                        'message' => "A user with the email $email already exists!",
+                        'status' => 400
                     ]);
                 }
                 $user->email = $email;

@@ -4,6 +4,7 @@ import { simpleAuthentication } from '../containers/LoginContainer'
 import App from '../components/App'
 import LoginContainer from '../containers/LoginContainer'
 import RegisterMemberContainer from '../containers/RegisterMemberContainer'
+import RegisterArtContainer from '../containers/RegisterArtContainer'
 import UserProfileContainer from '../containers/UserProfileContainer'
 
 const routes = (store) => {
@@ -27,6 +28,7 @@ const routes = (store) => {
             <Route exact path="/" component={ App } />
             <Route path="/login" component={ LoginContainer }/>
             <Route path="/register_member" component={ RegisterMemberContainer }/>
+            <Route path="/register_art" component={ RegisterArtContainer }/>
             <Route path="/user" component={ UserProfileContainer } onEnter={ requireAuth(store) } />
         </Switch>
     )
