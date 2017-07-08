@@ -8,7 +8,15 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.TA.MVP.appmobilemember.Model.Array.ArrayAgama;
+import com.TA.MVP.appmobilemember.Presenter.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.lib.api.APICallback;
+import com.TA.MVP.appmobilemember.lib.api.APIManager;
+import com.TA.MVP.appmobilemember.lib.models.GenericResponse;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Created by Zackzack on 12/06/2017.
@@ -27,6 +35,37 @@ public class AsistenActivity extends ParentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_asisten);
         initAllView();
+
+        //Ini cara panggil function untuk request
+        Call<GenericResponse<ArrayAgama>> caller =  APIManager.getRepository(UserRepo.class).ambeAgama("nama");
+        // pemanggilan enqueue untuk request ke server.
+        caller.enqueue(new APICallback<GenericResponse<ArrayAgama>>() {
+
+            @Override
+            public void onSuccess(Call<GenericResponse<ArrayAgama>> call, Response<GenericResponse<ArrayAgama>> response) {
+                super.onSuccess(call, response);
+                //ini untuk ambe data dari response json jika menggunakan GenericResponse class.
+//                response.body().data;
+                //jika gk gunakan Generic response
+                //response.body();
+            }
+
+            @Override
+            public void onNotFound(Call<GenericResponse<ArrayAgama>> call, Response<GenericResponse<ArrayAgama>> response) {
+                super.onNotFound(call, response);
+            }
+
+            @Override
+            public void onError(Call<GenericResponse<ArrayAgama>> call, Response<GenericResponse<ArrayAgama>> response) {
+                super.onError(call, response);
+            }
+
+            @Override
+            public void onFailure(Call<GenericResponse<ArrayAgama>> call, Throwable t) {
+                super.onFailure(call, t);
+            }
+        });
+
     }
 
     private void initAllView(){
