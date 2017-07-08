@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_asisten"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/card_view_pesan"
     android:layout_margin="5dp"
+    android:clickable="true"
     app:cardBackgroundColor="#eeeeee"
     app:cardCornerRadius="12dp"
     app:cardElevation="3dp"
-    app:contentPadding="4dp"
-    android:clickable="true">
+    app:contentPadding="4dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -22,23 +22,11 @@
             android:layout_height="100dp"
             android:layout_centerVertical="true"
             android:layout_marginEnd="15dp"
-            android:layout_marginLeft="16dp"
             android:layout_marginRight="15dp"
-            android:layout_marginStart="16dp"
             android:layout_toEndOf="@+id/card_pesan_checkBox"
             android:layout_toRightOf="@+id/card_pesan_checkBox"
             android:contentDescription="@string/foto"
             app:srcCompat="@android:drawable/ic_menu_gallery" />
-
-        <CheckBox
-            android:id="@+id/card_pesan_checkBox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="23dp"
-            android:layout_marginStart="23dp" />
 
         <TextView
             android:id="@+id/card_wallet_nominal"
@@ -63,15 +51,15 @@
             android:textColor="@android:color/black"
             android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/card_pesan_subject"
+        <RatingBar
+            android:id="@+id/card_asis_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/card_asis_umur"
-            android:layout_toEndOf="@+id/card_wallet_img"
+            android:layout_below="@+id/card_asis_umur"
             android:layout_toRightOf="@+id/card_wallet_img"
-            android:text="subject"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            android:clickable="false"
+            android:focusable="false"/>
+
     </RelativeLayout>
+
 </android.support.v7.widget.CardView>

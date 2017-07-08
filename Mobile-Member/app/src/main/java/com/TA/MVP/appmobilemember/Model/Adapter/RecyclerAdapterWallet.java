@@ -10,28 +10,25 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.R;
-import com.TA.MVP.appmobilemember.View.Activity.BacaPesanActivity;
 
 /**
- * Created by Zackzack on 07/07/2017.
+ * Created by Zackzack on 08/07/2017.
  */
 
-public class RecyclerAdapterPesan extends RecyclerView.Adapter<RecyclerAdapterPesan.ViewHolder> {
-    private String[] nama = {"nama1", "nama2"};
-    private String[] subject = {"sub1", "sub2"};
+public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterWallet.ViewHolder> {
+    private String[] nominal = {"Rp. 50.000", "Rp. 100.000", "Rp. 300.000", "Rp. 500.000", "Rp. 1.000.000"};
     class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView itemnama,itemtanggal,itemsubject;
+        public TextView itemnominal;
 
         public ViewHolder(final View itemview){
             super(itemview);
-            itemnama = (TextView) itemview.findViewById(R.id.card_wallet_nominal);
-            itemsubject = (TextView) itemview.findViewById(R.id.card_pesan_subject);
+            itemnominal = (TextView) itemview.findViewById(R.id.card_wallet_nominal);
             itemview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     Toast.makeText(itemview.getContext(),"Clicking card number " + position, Toast.LENGTH_SHORT).show();
-                    doStartActivity(itemview.getContext(), BacaPesanActivity.class);
+//                    doStartActivity(itemview.getContext(), SomethingActivity.class);
 
                 }
             });
@@ -47,13 +44,12 @@ public class RecyclerAdapterPesan extends RecyclerView.Adapter<RecyclerAdapterPe
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.itemnama.setText(nama[position]);
-        holder.itemsubject.setText(subject[position]);
+        holder.itemnominal.setText(nominal[position]);
     }
 
     @Override
     public int getItemCount() {
-        return nama.length;
+        return nominal.length;
     }
 
     public static void doStartActivity(Context context, Class activityClass) {

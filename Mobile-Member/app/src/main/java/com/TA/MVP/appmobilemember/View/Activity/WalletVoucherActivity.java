@@ -2,6 +2,7 @@ package com.TA.MVP.appmobilemember.View.Activity;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,12 +22,6 @@ public class WalletVoucherActivity extends ParentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet_voucher);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.toolbar_walletvoucher);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         code = (EditText) findViewById(R.id.vou_et_code);
         batal = (Button) findViewById(R.id.vou_btn_btl);
         konfirmasi = (Button) findViewById(R.id.vou_btn_konf);
@@ -37,12 +32,27 @@ public class WalletVoucherActivity extends ParentActivity {
                 finish();
             }
         });
-
         konfirmasi.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.toolbar_walletvoucher);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

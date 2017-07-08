@@ -15,7 +15,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="15dp">
 
 
             <RelativeLayout
@@ -61,13 +62,13 @@
 
                 <ImageView
                     android:id="@+id/pms3_img_asis"
-                    app:srcCompat="@mipmap/ic_launcher"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_alignParentTop="true"
-                    android:contentDescription="@string/foto" />
+                    android:contentDescription="@string/foto"
+                    app:srcCompat="@mipmap/ic_launcher" />
 
                 <RatingBar
                     android:id="@+id/pms3_asisrating"
@@ -210,6 +211,7 @@
                 android:enabled="false"
                 android:focusable="false"
                 android:inputType="textPersonName" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -218,21 +220,21 @@
 
                 <Button
                     android:id="@+id/pmsa_btn_btlkn"
-                    tools:ignore="ButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/btn_btlkn"
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    tools:ignore="ButtonStyle" />
 
                 <Button
                     android:id="@+id/pmsa_btn_kembali"
-                    tools:ignore="ButtonStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/btn_kmbl"
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    tools:ignore="ButtonStyle" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
