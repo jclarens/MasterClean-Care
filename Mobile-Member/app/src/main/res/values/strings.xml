@@ -66,6 +66,13 @@
     <string name="total">Total :</string>
     <string name="tutup">Tutup</string>
     <string name="sos">SOS</string>
+    <string name="pekerjaan">Pekerjaan</string>
+    <string name="tglpemesanan">10 Desember 2017 - 13:00</string>
+    <string name="nama">Nama</string>
+    <string name="sebagai">Sebagai</string>
+    <string name="waktupmsnan">Waktu Pemesanan</string>
+    <string name="namaasis">Nama Asisten</string>
+    <string name="nominal">Rp. 100.000</string>
 
     <string name="prof_prt">Pengurus Rumah Tangga</string>
     <string name="prof_bs">Baby Sitter</string>
@@ -80,6 +87,9 @@
     <string name="toolbar_wallet">ISI ulang Wallet</string>
     <string name="toolbar_walletvoucher">Voucher</string>
     <string name="toolbar_pmsa">Pemesanan Active</string>
+    <string name="toolbar_profile">Profile</string>
+    <string name="toolbar_pesan">Pesan</string>
+    <string name="toolbar_asisten">Asisten</string>
 
     <string name="pager_cari_map">Map</string>
     <string name="pager_cari_list">List</string>

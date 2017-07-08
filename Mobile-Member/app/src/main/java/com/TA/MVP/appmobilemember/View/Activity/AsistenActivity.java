@@ -2,6 +2,7 @@ package com.TA.MVP.appmobilemember.View.Activity;
 
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -59,8 +60,18 @@ public class AsistenActivity extends ParentActivity {
     private void setAll(){
         //toolbar
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.toolbar_filter);
+        getSupportActionBar().setTitle(R.string.toolbar_asisten);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

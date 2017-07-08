@@ -1,12 +1,15 @@
 package com.TA.MVP.appmobilemember.View.Activity;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterWallet;
 import com.TA.MVP.appmobilemember.R;
 
 /**
@@ -14,17 +17,23 @@ import com.TA.MVP.appmobilemember.R;
  */
 
 public class WalletActivity extends ParentActivity {
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager rec_LayoutManager;
+    private RecyclerView.Adapter rec_Adapter;
     private Toolbar toolbar;
-    private LinearLayout layoutcontent;
-    private TextView textView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet);
 
-        textView = (TextView) findViewById(R.id.wallet_tv1);
-        layoutcontent = (LinearLayout) findViewById(R.id.wallet_layoutcontent);
+        //recyclerview
+        recyclerView = (RecyclerView) findViewById(R.id.recycleview_wallet);
+        rec_LayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(rec_LayoutManager);
+        rec_Adapter = new RecyclerAdapterWallet();
+        recyclerView.setAdapter(rec_Adapter);
 
+        //toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.toolbar_wallet);
@@ -45,7 +54,7 @@ public class WalletActivity extends ParentActivity {
                 finish();
                 break;
             case R.id.menu_isi_code:
-                doChangeActivity(WalletActivity.this, WalletVoucherActivity.class);
+                doStartActivity(WalletActivity.this, WalletVoucherActivity.class);
                 break;
         }
         return super.onOptionsItemSelected(item);
