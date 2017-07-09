@@ -34,40 +34,51 @@ public class WalletActivity extends ParentActivity {
     private RecyclerView.LayoutManager rec_LayoutManager;
     private RecyclerView.Adapter rec_Adapter;
     private Toolbar toolbar;
+    private List<Wallet> walletList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet);
 
-        Call<GenericResponse<List<Wallet>>> caller =  APIManager.getRepository(WalletRepo.class).getAllWallet();
-        caller.enqueue(new APICallback<GenericResponse<List<Wallet>>>() {
-           @Override
-           public void onSuccess(Call<GenericResponse<List<Wallet>>> call, Response<GenericResponse<List<Wallet>>> response) {
-               super.onSuccess(call, response);
-           }
 
-           @Override
-           public void onNotFound(Call<GenericResponse<List<Wallet>>> call, Response<GenericResponse<List<Wallet>>> response) {
-               super.onNotFound(call, response);
-           }
-
-           @Override
-           public void onError(Call<GenericResponse<List<Wallet>>> call, Response<GenericResponse<List<Wallet>>> response) {
-               super.onError(call, response);
-           }
-
-           @Override
-           public void onFailure(Call<GenericResponse<List<Wallet>>> call, Throwable t) {
-               super.onFailure(call, t);
-           }
-        });
-
-                //recyclerview
+        //recyclerview
         recyclerView = (RecyclerView) findViewById(R.id.recycleview_wallet);
+        walletList = new ArrayList<>();
         rec_LayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(rec_LayoutManager);
-        rec_Adapter = new RecyclerAdapterWallet();
+        rec_Adapter = new RecyclerAdapterWallet(walletList);
         recyclerView.setAdapter(rec_Adapter);
+
+
+        walletList = new ArrayList<>();
+        //enqueue
+//        Call<GenericResponse<List<Wallet>>> caller =  APIManager.getRepository(WalletRepo.class).getAllWallet();
+//        caller.enqueue(new APICallback<GenericResponse<List<Wallet>>>() {
+//           @Override
+//           public void onSuccess(Call<GenericResponse<List<Wallet>>> call, Response<GenericResponse<List<Wallet>>> response) {
+//               super.onSuccess(call, response);
+//               walletList = response.body().data;
+//               rec_Adapter.notifyDataSetChanged();
+//           }
+//
+//           @Override
+//           public void onNotFound(Call<GenericResponse<List<Wallet>>> call, Response<GenericResponse<List<Wallet>>> response) {
+//               super.onNotFound(call, response);
+//               Toast.makeText(getApplicationContext(),"Not Found", Toast.LENGTH_SHORT).show();
+//           }
+//
+//           @Override
+//           public void onError(Call<GenericResponse<List<Wallet>>> call, Response<GenericResponse<List<Wallet>>> response) {
+//               super.onError(call, response);
+//               Toast.makeText(getApplicationContext(),"Error", Toast.LENGTH_SHORT).show();
+//           }
+//
+//           @Override
+//           public void onFailure(Call<GenericResponse<List<Wallet>>> call, Throwable t) {
+//               super.onFailure(call, t);
+//               Toast.makeText(getApplicationContext(),"Failure", Toast.LENGTH_SHORT).show();
+//           }
+//        });
 
         //toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);

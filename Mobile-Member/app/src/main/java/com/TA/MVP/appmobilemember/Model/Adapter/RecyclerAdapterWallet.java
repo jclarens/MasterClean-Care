@@ -28,7 +28,12 @@ import retrofit2.Response;
  */
 
 public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterWallet.ViewHolder> {
-    private String[] nominal = {"Rp. 50.000", "Rp. 100.000", "Rp. 300.000", "Rp. 500.000", "Rp. 1.000.000"};
+//    private String[] nominal = {"Rp. 50.000", "Rp. 100.000", "Rp. 300.000", "Rp. 500.000", "Rp. 1.000.000"};
+    private List<Wallet> wallets;
+    public RecyclerAdapterWallet(List<Wallet> wallets){
+        this.wallets = wallets;
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder{
         public TextView itemnominal;
 
@@ -57,12 +62,14 @@ public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterW
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.itemnominal.setText(nominal[position]);
+//        holder.itemnominal.setText(nominal[position]);
+        holder.itemnominal.setText(wallets.get(position).getAmt());
 
     }
 
     @Override
     public int getItemCount() {
-        return nominal.length;
+//        return nominal.length;
+        return wallets.size();
     }
 }
