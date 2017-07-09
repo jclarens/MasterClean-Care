@@ -14,6 +14,6 @@ import retrofit2.http.Query;
 
 public interface UserRepo {
 
-    @GET("me")
-    Call<GenericResponse<ArrayAgama>> ambeAgama(@Query("filter") String type);
+//    @GET("me")
+//    Call<GenericResponse<ArrayAgama>> ambeAgama(@Query("nama") String type);
 }

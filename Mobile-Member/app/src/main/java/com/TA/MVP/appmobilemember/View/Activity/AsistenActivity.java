@@ -37,34 +37,34 @@ public class AsistenActivity extends ParentActivity {
         initAllView();
 
         //Ini cara panggil function untuk request
-        Call<GenericResponse<ArrayAgama>> caller =  APIManager.getRepository(UserRepo.class).ambeAgama("nama");
+//        Call<GenericResponse<ArrayAgama>> caller =  APIManager.getRepository(UserRepo.class).ambeAgama("nama");
         // pemanggilan enqueue untuk request ke server.
-        caller.enqueue(new APICallback<GenericResponse<ArrayAgama>>() {
-
-            @Override
-            public void onSuccess(Call<GenericResponse<ArrayAgama>> call, Response<GenericResponse<ArrayAgama>> response) {
-                super.onSuccess(call, response);
-                //ini untuk ambe data dari response json jika menggunakan GenericResponse class.
-//                response.body().data;
-                //jika gk gunakan Generic response
-                //response.body();
-            }
-
-            @Override
-            public void onNotFound(Call<GenericResponse<ArrayAgama>> call, Response<GenericResponse<ArrayAgama>> response) {
-                super.onNotFound(call, response);
-            }
-
-            @Override
-            public void onError(Call<GenericResponse<ArrayAgama>> call, Response<GenericResponse<ArrayAgama>> response) {
-                super.onError(call, response);
-            }
-
-            @Override
-            public void onFailure(Call<GenericResponse<ArrayAgama>> call, Throwable t) {
-                super.onFailure(call, t);
-            }
-        });
+//        caller.enqueue(new APICallback<GenericResponse<ArrayAgama>>() {
+//
+//            @Override
+//            public void onSuccess(Call<GenericResponse<ArrayAgama>> call, Response<GenericResponse<ArrayAgama>> response) {
+//                super.onSuccess(call, response);
+//                //ini untuk ambe data dari response json jika menggunakan GenericResponse class.
+////                response.body().data;
+//                //jika gk gunakan Generic response
+//                //response.body();
+//            }
+//
+//            @Override
+//            public void onNotFound(Call<GenericResponse<ArrayAgama>> call, Response<GenericResponse<ArrayAgama>> response) {
+//                super.onNotFound(call, response);
+//            }
+//
+//            @Override
+//            public void onError(Call<GenericResponse<ArrayAgama>> call, Response<GenericResponse<ArrayAgama>> response) {
+//                super.onError(call, response);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<GenericResponse<ArrayAgama>> call, Throwable t) {
+//                super.onFailure(call, t);
+//            }
+//        });
 
     }
 

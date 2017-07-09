@@ -9,7 +9,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.TA.MVP.appmobilemember.Model.Array.ArrayAgama;
+import com.TA.MVP.appmobilemember.Model.Basic.Wallet;
+import com.TA.MVP.appmobilemember.Presenter.Repositories.WalletRepo;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.lib.api.APICallback;
+import com.TA.MVP.appmobilemember.lib.api.APIManager;
+import com.TA.MVP.appmobilemember.lib.models.GenericResponse;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Created by Zackzack on 08/07/2017.
@@ -23,6 +35,7 @@ public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterW
         public ViewHolder(final View itemview){
             super(itemview);
             itemnominal = (TextView) itemview.findViewById(R.id.card_wallet_nominal);
+
             itemview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -45,15 +58,11 @@ public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterW
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.itemnominal.setText(nominal[position]);
+
     }
 
     @Override
     public int getItemCount() {
         return nominal.length;
-    }
-
-    public static void doStartActivity(Context context, Class activityClass) {
-        Intent _intent = new Intent(context, activityClass);
-        context.startActivity(_intent);
     }
 }
