@@ -6,11 +6,24 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterWallet;
+import com.TA.MVP.appmobilemember.Model.Basic.Wallet;
+import com.TA.MVP.appmobilemember.Presenter.Repositories.WalletRepo;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.lib.api.APICallback;
+import com.TA.MVP.appmobilemember.lib.api.APIManager;
+import com.TA.MVP.appmobilemember.lib.models.GenericResponse;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Created by Zackzack on 19/06/2017.
@@ -26,7 +39,30 @@ public class WalletActivity extends ParentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet);
 
-        //recyclerview
+        Call<GenericResponse<List<Wallet>>> caller =  APIManager.getRepository(WalletRepo.class).getAllWallet();
+        caller.enqueue(new APICallback<GenericResponse<List<Wallet>>>() {
+           @Override
+           public void onSuccess(Call<GenericResponse<List<Wallet>>> call, Response<GenericResponse<List<Wallet>>> response) {
+               super.onSuccess(call, response);
+           }
+
+           @Override
+           public void onNotFound(Call<GenericResponse<List<Wallet>>> call, Response<GenericResponse<List<Wallet>>> response) {
+               super.onNotFound(call, response);
+           }
+
+           @Override
+           public void onError(Call<GenericResponse<List<Wallet>>> call, Response<GenericResponse<List<Wallet>>> response) {
+               super.onError(call, response);
+           }
+
+           @Override
+           public void onFailure(Call<GenericResponse<List<Wallet>>> call, Throwable t) {
+               super.onFailure(call, t);
+           }
+        });
+
+                //recyclerview
         recyclerView = (RecyclerView) findViewById(R.id.recycleview_wallet);
         rec_LayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(rec_LayoutManager);
