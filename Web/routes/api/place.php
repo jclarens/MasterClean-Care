@@ -19,5 +19,8 @@ Route::group(['prefix' => 'place', 'middleware' => ['api']], function () {
 
     Route::delete('/{id}', 'PlaceController@destroy')->where('id', '[0-9]+');
 
+    Route::get('/search/{param}/{operator}/{text}', 'PlaceController@searchByParam');
+    
     Route::get('/search/{param}/{text}', 'PlaceController@searchByParam');
+
 });

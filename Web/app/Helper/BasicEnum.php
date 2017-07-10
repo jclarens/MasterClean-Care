@@ -33,17 +33,3 @@ abstract class BasicEnum {
         return in_array($value, $values, $strict);
     }
 }
-
-abstract class Operator extends BasicEnum {
-    const BETWEEN = 'between';
-    const EQUAL = '=';
-    const GREATER_THAN = '>';
-    const GREATER_THAN_EQUAL = '>=';
-    const INSENSITIVE_LIKE = 'ilike';
-    const LESS_THAN = '<';
-    const LESS_THAN_EQUAL = '<=';
-    const LIKE = 'like';
-    const NOT_EQUAL = '<>';
-    const NOT_LIKE = 'not like';
-    const NOT = '!=';
-}
