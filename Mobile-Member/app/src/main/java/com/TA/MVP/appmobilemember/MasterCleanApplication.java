@@ -1,15 +1,14 @@
 package com.TA.MVP.appmobilemember;
 
-import com.TA.MVP.appmobilemember.Presenter.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.Presenter.Repositories.WalletRepo;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
-import com.TA.MVP.appmobilemember.lib.api.SessionInterceptor;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.FileUtils;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 import com.TA.MVP.appmobilemember.lib.utils.Settings;
 
 import android.app.Application;
+import android.util.Log;
 
 /**
  * Created by Jay Clarens on 7/8/2017.
@@ -21,14 +20,17 @@ public class MasterCleanApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.d("tmp","onCreate:" +
+                FileUtils.loadSettingsJsonFile(getApplicationContext())
+        );
         Settings.getInstance().configureAppSetting(
                 GsonUtils.getObjectFromJson(
-                        FileUtils.loadSettingsJsonFile(this.getApplicationContext()),
+                        FileUtils.loadSettingsJsonFile(getApplicationContext()),
                         Settings.class
                 ));
 
         if(Settings.isUsingSharedPreference())
-            SharedPref.getInstance().SetUpSharedPreference(this.getApplicationContext());
+            SharedPref.getInstance().SetUpSharedPreference(getApplicationContext());
         // Untuk simpan token jika mau pake JWT
 //        SharedPref.save(SharedPref.ACCESS_TOKEN, token);
 
