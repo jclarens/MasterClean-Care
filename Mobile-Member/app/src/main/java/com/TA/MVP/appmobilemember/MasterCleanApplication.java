@@ -20,9 +20,9 @@ public class MasterCleanApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d("tmp","onCreate:" +
-                FileUtils.loadSettingsJsonFile(getApplicationContext())
-        );
+//        Log.d("tmp","onCreate:" +
+//                FileUtils.loadSettingsJsonFile(getApplicationContext())
+//        );
         Settings.getInstance().configureAppSetting(
                 GsonUtils.getObjectFromJson(
                         FileUtils.loadSettingsJsonFile(getApplicationContext()),

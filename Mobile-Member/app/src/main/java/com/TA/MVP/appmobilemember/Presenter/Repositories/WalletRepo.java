@@ -20,5 +20,5 @@ public interface WalletRepo {
     @POST()
     Call<GenericResponse<Wallet>> postWallet();
     @GET("wallet")
-    Call<GenericResponse<List<Wallet>>> getAllWallet();
+    Call<List<Wallet>> getAllWallet();
 }
