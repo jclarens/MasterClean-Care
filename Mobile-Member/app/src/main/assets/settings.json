@@ -1,13 +1,11 @@
 {
     "usingRealmDatabase": false,
-    "realmDatabaseName": "ishoupbud",
+    "realmDatabaseName": "mcc",
     "realmDatabaseSchemaVersion": 0,
     "usingSharedPreference": true,
     "sharedPreferenceName": "masterclean-admin",
     "usingRetrofitAPI": true,
-    "retrofitAPIUrl": "https://localhost",
-//    "retrofitAPIUrl": "https://localhost/",
-
+    "retrofitAPIUrl": "https://localhost:8000/api/",
     "clientID":2,
     "clientSecret":"5Oi33uVODilqafeS3WZTlySG2UobaJnSCCDjwSNk"
 }

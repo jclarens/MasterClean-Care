@@ -72,4 +72,9 @@ public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterW
 //        return nominal.length;
         return wallets.size();
     }
+
+    public void setnew(List<Wallet> walletz){
+        wallets = walletz;
+        notifyDataSetChanged();
+    }
 }

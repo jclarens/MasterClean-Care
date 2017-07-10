@@ -1,6 +1,7 @@
 package com.TA.MVP.appmobilemember;
 
 import com.TA.MVP.appmobilemember.Presenter.Repositories.UserRepo;
+import com.TA.MVP.appmobilemember.Presenter.Repositories.WalletRepo;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.api.SessionInterceptor;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
@@ -20,26 +21,26 @@ public class MasterCleanApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-//        Settings.getInstance().configureAppSetting(
-//                GsonUtils.getObjectFromJson(
-//                        FileUtils.loadSettingsJsonFile(this.getApplicationContext()),
-//                        Settings.class
-//                ));
-//
-//        if(Settings.isUsingSharedPreference())
-//            SharedPref.getInstance().SetUpSharedPreference(this.getApplicationContext());
-//        // Untuk simpan token jika mau pake JWT
-////        SharedPref.save(SharedPref.ACCESS_TOKEN, token);
-//
-//        // Untuk ambe token
-////        SharedPref.getValueString(SharedPref.ACCESS_TOKEN);
-//
-//        // Ini untuk mempermudah request jika butuh JWT token
-////        APIManager.addInterceptor(new SessionInterceptor());
-//        if(Settings.isUsingRetrofitAPI())
-//            APIManager.SetUpRetrofit();
+        Settings.getInstance().configureAppSetting(
+                GsonUtils.getObjectFromJson(
+                        FileUtils.loadSettingsJsonFile(this.getApplicationContext()),
+                        Settings.class
+                ));
+
+        if(Settings.isUsingSharedPreference())
+            SharedPref.getInstance().SetUpSharedPreference(this.getApplicationContext());
+        // Untuk simpan token jika mau pake JWT
+//        SharedPref.save(SharedPref.ACCESS_TOKEN, token);
+
+        // Untuk ambe token
+//        SharedPref.getValueString(SharedPref.ACCESS_TOKEN);
+
+        // Ini untuk mempermudah request jika butuh JWT token
+//        APIManager.addInterceptor(new SessionInterceptor());
+        if(Settings.isUsingRetrofitAPI())
+            APIManager.SetUpRetrofit();
 
         //Ini tuntuk register repository request (serives)
-//        APIManager.registerRepository(UserRepo.class);
+        APIManager.registerRepository(WalletRepo.class);
     }
 }
