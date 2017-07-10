@@ -8,38 +8,10 @@
         android:id="@+id/toolbar_main"
         layout="@layout/toolbar_main"/>
 
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleview_wallet"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="15dp">
-
-        <LinearLayout
-            android:id="@+id/wallet_layoutcontent"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="wrap_content"
-                android:layout_height="100dp"
-                android:layout_weight="1"
-                app:srcCompat="@android:drawable/ic_menu_gallery" />
-
-            <TextView
-                android:id="@+id/wallet_tv1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="TextView"
-                android:textColor="@android:color/black"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-    </LinearLayout>
+        android:layout_height="match_parent" />
 
 
 </LinearLayout>

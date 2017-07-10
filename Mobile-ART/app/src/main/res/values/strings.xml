@@ -1,0 +1,60 @@
+<resources>
+    <string name="app_name">Mobile-ART</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+
+    <string name="pengaturan">Pengaturan</string>
+    <string name="bantuan">Bantuan</string>
+    <string name="ketentuan">Ketentuan</string>
+    <string name="logout">Logout</string>
+    <string name="nama">Nama</string>
+    <string name="profesi">Profesi</string>
+    <string name="diskripsi">Diskripsi</string>
+    <string name="status">Status</string>
+    <string name="filter">Filter</string>
+    <string name="carilks">Cari Lokasi</string>
+    <string name="estimasi">Estimasi</string>
+    <string name="total">Total</string>
+    <string name="mulai">Mulai</string>
+    <string name="selesai">Selesai</string>
+    <string name="foto">Foto</string>
+    <string name="agama">Agama</string>
+    <string name="usia">Usia</string>
+    <string name="namalkp">Nama Lengkap</string>
+    <string name="username">Username</string>
+    <string name="katasandi">Kata Sandi</string>
+
+    <string name="prof_prt">Pengurus Rumah Tangga</string>
+    <string name="prof_babysitter">Baby Sitter</string>
+    <string name="prof_nanny">Nanny</string>
+    <string name="prof_pgrslns">Pengurus Lansia</string>
+
+    <string name="menu_profile">Profile</string>
+    <string name="menu_pekerjaan">Pekerjaan</string>
+    <string name="menu_jadwal">Jadwal</string>
+    <string name="menu_pesan">Pesan</string>
+    <string name="menu_lainnya">Lainnya</string>
+
+    <string name="pager_pesananmasuk">Pesanan Masuk</string>
+    <string name="pager_pesananditerima">Pesanan Diterima</string>
+    <string name="pager_pesan_masuk">Masuk</string>
+    <string name="pager_pesan_terkirim">Terkirim</string>
+
+    <string name="action_alarm">SOS</string>
+
+    <string name="toolbar_listpekerjaan">Daftar Pekerjaan</string>
+
+    <string name="btn_hapus">Hapus</string>
+    <string name="btn_balas">Balas</string>
+    <string name="btn_kembali">Kembali</string>
+    <string name="btn_batal">Batal</string>
+    <string name="btn_kirim">Kirim</string>
+    <string name="btn_selengkapnya">Selengkapnya</string>
+    <string name="btn_tolak">Tolak</string>
+    <string name="btn_terima">Terima</string>
+    <string name="btn_login">Login</string>
+
+
+</resources>

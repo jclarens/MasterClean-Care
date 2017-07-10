@@ -34,7 +34,7 @@ public class ProfileActivity extends ParentActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.toolbar_pmsa);
+        getSupportActionBar().setTitle(R.string.toolbar_profile);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
