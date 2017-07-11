@@ -17,6 +17,7 @@ import com.TA.MVP.appmobilemember.View.Fragment.FragmentHome;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentLainnya;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentPesan;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentStatus;
+import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 
 public class MainActivity extends ParentActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -31,6 +32,7 @@ public class MainActivity extends ParentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SharedPref.save("logged_id","guess");
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);

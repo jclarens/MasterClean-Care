@@ -18,7 +18,7 @@ import com.TA.MVP.appmobilemember.View.Activity.MainActivity;
  */
 
 public class FragmentRegister extends Fragment {
-    private EditText Nama, username, email, katasandi, konfkatasandi, notelp, alamat;
+    private EditText nama, username, email, katasandi, konfkatasandi, notelp, alamat;
     private Button btndaftar;
     private TextView tvlogin;
 
@@ -26,12 +26,20 @@ public class FragmentRegister extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_register, container, false);
 
+        nama = (EditText) _view.findViewById(R.id.reg_et_nama);
+        username = (EditText) _view.findViewById(R.id.reg_et_username);
+        email = (EditText) _view.findViewById(R.id.reg_et_email);
+        katasandi = (EditText) _view.findViewById(R.id.reg_et_katasandi);
+        konfkatasandi = (EditText) _view.findViewById(R.id.reg_et_konfkatasandi);
+        notelp = (EditText) _view.findViewById(R.id.reg_et_notelp);
+        alamat = (EditText) _view.findViewById(R.id.reg_et_alamat);
         btndaftar = (Button) _view.findViewById(R.id.reg_btn_daftar);
         tvlogin = (TextView) _view.findViewById(R.id.reg_tv_login);
 
         btndaftar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 AuthActivity.doChangeActivity(getContext(), MainActivity.class); //belum tes
             }
         });
