@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\UserJob;
 use Illuminate\Http\Request;
+use App\Helper\Operator;
+use Exception;
 
 class UserJobController extends Controller
 {
@@ -37,9 +39,19 @@ class UserJobController extends Controller
     {
         $data = $request->all();
 
-        $userJob = UserJob::create($data);
+        try {
+            if (array_key_exists('data', $data)) {
+                $data = $data['data'];
+            }
+            $userJob = UserJob::create($data);
 
-        return response()->json($userJob, 201);
+            return response()->json([ 'data' => $userJob, 
+                                      'status' => 201]);
+        }
+        catch(Exception $e) {
+            return response()->json([ 'message' => $e->getMessage(), 
+                                      'status' => 400 ]);
+        }
     }
 
     /**
@@ -75,16 +87,27 @@ class UserJobController extends Controller
     {
         $data = $request->all();
 
-        if (array_key_exists('user_id', $data)) {
-            $userJob->user_id = $data['user_id'];
-        }
-        if (array_key_exists('job_id', $data)) {
-            $userJob->job_id = $data['job_id'];
-        }
+        try {
+            if (array_key_exists('data', $data)) {
+                $data = $data['data'];
+            }
+            
+            if (array_key_exists('user_id', $data)) {
+                $userJob->user_id = $data['user_id'];
+            }
+            if (array_key_exists('job_id', $data)) {
+                $userJob->job_id = $data['job_id'];
+            }
 
-        $userJob->save();
+            $userJob->save();
 
-        return response()->json($userJob, 200);
+            return response()->json([ 'data' => $userJob, 
+                                      'status' => 200]);
+        }
+        catch(Exception $e) {
+            return response()->json([ 'message' => $e->getMessage(), 
+                                      'status' => 400 ]);
+        }
     }
 
     /**
@@ -97,6 +120,7 @@ class UserJobController extends Controller
     {
         $userJob->delete();
 
-        return response()->json('Deleted', 200);
+        return response()->json([ 'message' => 'Deleted', 
+                                  'status' => 200]);
     }
 }
