@@ -1,22 +1,35 @@
 package com.TA.MVP.appmobilemember.Model.Array;
 
+import com.TA.MVP.appmobilemember.Model.Basic.Job;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Zackzack on 12/06/2017.
  */
 
 public class ArrayProfesi {
-    private ArrayList<String> arrayList;
+    private List<Job> jobs;
     public ArrayProfesi() {
-        arrayList = new ArrayList<String>();
-        arrayList.add("Pengurus Rumah Tangga");
-        arrayList.add("Baby Sitter");
-        arrayList.add("Nanny");
-        arrayList.add("Perawat Lansia");
+        jobs = new ArrayList<>();
+    }
+    public void addProfesi(String text, Integer value){
+        Job job = new Job();
+        job.setText(text);
+        job.setValue(value);
+        jobs.add(job);
     }
 
-    public ArrayList<String> getArrayList() {
-        return arrayList;
+    public List<Job> getArrayList() {
+        return jobs;
+    }
+
+    public ArrayList<String> getStringArrayList(){
+        ArrayList<String> result = new ArrayList<>();
+        for (int i = 0;i < jobs.size();i++){
+            result.add(jobs.get(i).getText());
+        }
+        return result;
     }
 }

@@ -3,6 +3,8 @@ package com.TA.MVP.appmobilemember.Model.Adapter;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 
+import com.TA.MVP.appmobilemember.Model.Basic.Job;
+
 import java.util.ArrayList;
 
 /**

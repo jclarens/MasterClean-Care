@@ -12,6 +12,6 @@ import retrofit2.http.GET;
  */
 
 public interface WTRepo {
-    @GET("language")
+    @GET("Language")
     Call<List<Waktu_Kerja>> getAllWT();
 }

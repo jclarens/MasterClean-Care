@@ -9,10 +9,10 @@ import java.util.ArrayList;
 public class ArrayWaktukrj {
     private ArrayList<String> arrayList;
     public ArrayWaktukrj() {
-        arrayList = new ArrayList<String>();
-        arrayList.add("Jam");
-        arrayList.add("Hari");
-        arrayList.add("Bulan");
+        arrayList = new ArrayList<>();
+        arrayList.add("Per Jam");
+        arrayList.add("Harian");
+        arrayList.add("Bulanan");
     }
 
     public ArrayList<String> getArrayList() {

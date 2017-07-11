@@ -46,32 +46,31 @@ public class WalletActivity extends ParentActivity {
         recyclerView.setLayoutManager(rec_LayoutManager);
         rec_Adapter = new RecyclerAdapterWallet();
         recyclerView.setAdapter(rec_Adapter);
-
         //enqueue
-        Call<List<Wallet>> caller =  APIManager.getRepository(WalletRepo.class).getAllWallet();
-        caller.enqueue(new APICallback<List<Wallet>>() {
-           @Override
-           public void onSuccess(Call<List<Wallet>> call, Response<List<Wallet>> response) {
-               super.onSuccess(call, response);
-               rec_Adapter.setnew(response.body());
-//               Toast.makeText(getApplicationContext(),"Success" + response.body().toString(), Toast.LENGTH_SHORT).show();
-           }
-
-           @Override
-           public void onNotFound(Call<List<Wallet>> call, Response<List<Wallet>> response) {
-               super.onNotFound(call, response);
-           }
-
-           @Override
-           public void onError(Call<List<Wallet>> call, Response<List<Wallet>> response) {
-               super.onError(call, response);
-           }
-
-           @Override
-           public void onFailure(Call<List<Wallet>> call, Throwable t) {
-               super.onFailure(call, t);
-           }
-       });
+//        Call<List<Wallet>> caller =  APIManager.getRepository(WalletRepo.class).getAllWallet();
+//        caller.enqueue(new APICallback<List<Wallet>>() {
+//           @Override
+//           public void onSuccess(Call<List<Wallet>> call, Response<List<Wallet>> response) {
+//               super.onSuccess(call, response);
+//               rec_Adapter.setnew(response.body());
+////               Toast.makeText(getApplicationContext(),"Success" + response.body().toString(), Toast.LENGTH_SHORT).show();
+//           }
+//
+//           @Override
+//           public void onNotFound(Call<List<Wallet>> call, Response<List<Wallet>> response) {
+//               super.onNotFound(call, response);
+//           }
+//
+//           @Override
+//           public void onError(Call<List<Wallet>> call, Response<List<Wallet>> response) {
+//               super.onError(call, response);
+//           }
+//
+//           @Override
+//           public void onFailure(Call<List<Wallet>> call, Throwable t) {
+//               super.onFailure(call, t);
+//           }
+//       });
 
                 //toolbar
                 toolbar = (Toolbar) findViewById(R.id.toolbar_main);

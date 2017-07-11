@@ -10,6 +10,7 @@ import com.TA.MVP.appmobilemember.lib.utils.Settings;
 import android.app.Application;
 import android.util.Log;
 
+
 /**
  * Created by Jay Clarens on 7/8/2017.
  *
@@ -17,6 +18,7 @@ import android.util.Log;
  */
 
 public class MasterCleanApplication extends Application {
+
     @Override
     public void onCreate() {
         super.onCreate();

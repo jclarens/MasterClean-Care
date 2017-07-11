@@ -1,6 +1,6 @@
 package com.TA.MVP.appmobilemember.Presenter.Repositories;
 
-import com.TA.MVP.appmobilemember.Model.Basic.Bahasa;
+import com.TA.MVP.appmobilemember.Model.Basic.Language;
 
 import java.util.List;
 
@@ -12,6 +12,6 @@ import retrofit2.http.GET;
  */
 
 public interface LanguageRepo {
-    @GET("language")
-    Call<List<Bahasa>> getLanguages();
+    @GET("Language")
+    Call<List<Language>> getLanguages();
 }
