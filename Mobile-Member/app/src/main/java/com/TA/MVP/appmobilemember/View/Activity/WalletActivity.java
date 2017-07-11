@@ -32,9 +32,8 @@ import retrofit2.Response;
 public class WalletActivity extends ParentActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager rec_LayoutManager;
-    private RecyclerView.Adapter rec_Adapter;
+    private RecyclerAdapterWallet rec_Adapter;
     private Toolbar toolbar;
-    private List<Wallet> walletList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,45 +42,39 @@ public class WalletActivity extends ParentActivity {
 
         //recyclerview
         recyclerView = (RecyclerView) findViewById(R.id.recycleview_wallet);
-        walletList = new ArrayList<>();
         rec_LayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(rec_LayoutManager);
-        rec_Adapter = new RecyclerAdapterWallet(walletList);
+        rec_Adapter = new RecyclerAdapterWallet();
         recyclerView.setAdapter(rec_Adapter);
 
-
-        walletList = new ArrayList<>();
         //enqueue
-//        Call<GenericResponse<List<Wallet>>> caller =  APIManager.getRepository(WalletRepo.class).getAllWallet();
-//        caller.enqueue(new APICallback<GenericResponse<List<Wallet>>>() {
-//           @Override
-//           public void onSuccess(Call<GenericResponse<List<Wallet>>> call, Response<GenericResponse<List<Wallet>>> response) {
-//               super.onSuccess(call, response);
-//               walletList = response.body().data;
-//               rec_Adapter.notifyDataSetChanged();
-//           }
-//
-//           @Override
-//           public void onNotFound(Call<GenericResponse<List<Wallet>>> call, Response<GenericResponse<List<Wallet>>> response) {
-//               super.onNotFound(call, response);
-//               Toast.makeText(getApplicationContext(),"Not Found", Toast.LENGTH_SHORT).show();
-//           }
-//
-//           @Override
-//           public void onError(Call<GenericResponse<List<Wallet>>> call, Response<GenericResponse<List<Wallet>>> response) {
-//               super.onError(call, response);
-//               Toast.makeText(getApplicationContext(),"Error", Toast.LENGTH_SHORT).show();
-//           }
-//
-//           @Override
-//           public void onFailure(Call<GenericResponse<List<Wallet>>> call, Throwable t) {
-//               super.onFailure(call, t);
-//               Toast.makeText(getApplicationContext(),"Failure", Toast.LENGTH_SHORT).show();
-//           }
-//        });
+        Call<List<Wallet>> caller =  APIManager.getRepository(WalletRepo.class).getAllWallet();
+        caller.enqueue(new APICallback<List<Wallet>>() {
+           @Override
+           public void onSuccess(Call<List<Wallet>> call, Response<List<Wallet>> response) {
+               super.onSuccess(call, response);
+               rec_Adapter.setnew(response.body());
+//               Toast.makeText(getApplicationContext(),"Success" + response.body().toString(), Toast.LENGTH_SHORT).show();
+           }
 
-        //toolbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+           @Override
+           public void onNotFound(Call<List<Wallet>> call, Response<List<Wallet>> response) {
+               super.onNotFound(call, response);
+           }
+
+           @Override
+           public void onError(Call<List<Wallet>> call, Response<List<Wallet>> response) {
+               super.onError(call, response);
+           }
+
+           @Override
+           public void onFailure(Call<List<Wallet>> call, Throwable t) {
+               super.onFailure(call, t);
+           }
+       });
+
+                //toolbar
+                toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.toolbar_wallet);
         getSupportActionBar().setHomeButtonEnabled(true);

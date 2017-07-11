@@ -1,7 +1,5 @@
 package com.TA.MVP.appmobilemember.Model.Adapter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,30 +7,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.TA.MVP.appmobilemember.Model.Array.ArrayAgama;
 import com.TA.MVP.appmobilemember.Model.Basic.Wallet;
-import com.TA.MVP.appmobilemember.Presenter.Repositories.WalletRepo;
 import com.TA.MVP.appmobilemember.R;
-import com.TA.MVP.appmobilemember.lib.api.APICallback;
-import com.TA.MVP.appmobilemember.lib.api.APIManager;
-import com.TA.MVP.appmobilemember.lib.models.GenericResponse;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Response;
+import java.util.Locale;
 
 /**
  * Created by Zackzack on 08/07/2017.
  */
 
 public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterWallet.ViewHolder> {
-//    private String[] nominal = {"Rp. 50.000", "Rp. 100.000", "Rp. 300.000", "Rp. 500.000", "Rp. 1.000.000"};
-    private List<Wallet> wallets;
-    public RecyclerAdapterWallet(List<Wallet> wallets){
-        this.wallets = wallets;
-    }
+    private List<Wallet> wallets = new ArrayList<>();
 
     class ViewHolder extends RecyclerView.ViewHolder{
         public TextView itemnominal;
@@ -46,8 +33,6 @@ public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterW
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     Toast.makeText(itemview.getContext(),"Clicking card number " + position, Toast.LENGTH_SHORT).show();
-//                    doStartActivity(itemview.getContext(), SomethingActivity.class);
-
                 }
             });
         }
@@ -55,21 +40,27 @@ public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterW
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_pesan,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_wallet,parent,false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-//        holder.itemnominal.setText(nominal[position]);
-        holder.itemnominal.setText(wallets.get(position).getAmt());
-
+        holder.itemnominal.setText(String.format(Locale.getDefault(),"%d",wallets.get(position).getAmt()));
     }
 
     @Override
     public int getItemCount() {
-//        return nominal.length;
-        return wallets.size();
+        if (wallets == null)
+            return 0;
+        else
+            return wallets.size();
+
+    }
+
+    public void setnew(List<Wallet> walletz){
+        wallets = walletz;
+        notifyDataSetChanged();
     }
 }

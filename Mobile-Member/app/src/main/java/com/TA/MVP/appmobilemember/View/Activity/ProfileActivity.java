@@ -8,8 +8,10 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 
 /**
  * Created by Zackzack on 09/06/2017.
@@ -24,6 +26,7 @@ public class ProfileActivity extends ParentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        Toast.makeText(getApplicationContext(),"Profile " + SharedPref.getValueString("logged_id"), Toast.LENGTH_SHORT).show();
 
         imgfoto = (ImageView) findViewById(R.id.prof_iv_foto);
         nama = (TextView) findViewById(R.id.prof_tv_nama);

@@ -15,12 +15,10 @@ import retrofit2.http.Query;
  */
 
 public interface WalletRepo {
-    @GET("/")
-    Call<GenericResponse<Wallet>> getWallet();
-    @POST("/")
-    Call<GenericResponse<Wallet>> postWallet();
-//    @GET("/{id}")
-//    Call<GenericResponse<Wallet>> showWallet(@Query("id") String id, @Query("nominal") String nominal);
-    @GET("/")
-    Call<GenericResponse<List<Wallet>>> getAllWallet();
+//    @GET()
+//    Call<GenericResponse<Wallet>> getWallet();
+//    @POST()
+//    Call<GenericResponse<Wallet>> postWallet();
+    @GET("wallet")
+    Call<List<Wallet>> getAllWallet();
 }
