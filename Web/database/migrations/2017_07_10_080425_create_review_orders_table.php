@@ -15,7 +15,13 @@ class CreateReviewOrdersTable extends Migration
     {
         Schema::create('review_orders', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('order_id')->unsigned();
+            $table->integer('rate');
+            $table->string('remark');
             $table->timestamps();
+
+            $table->foreign('order_id')
+                  ->references('id')->on('orders');
         });
     }
 

@@ -14,7 +14,10 @@ class CreateTaskListsTable extends Migration
     public function up()
     {
         Schema::create('task_lists', function (Blueprint $table) {
-            $table->increments('id');
+            $table->integer('trc_id');
+            $table->integer('trc_typ');
+            $table->string('task');
+            $table->integer('status');
             $table->timestamps();
         });
     }

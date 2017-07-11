@@ -15,7 +15,13 @@ class CreateEmergencyCallsTable extends Migration
     {
         Schema::create('emergency_calls', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('user_id')->unsigned();
+            $table->dateTime('init_time');
+            $table->integer('status');
             $table->timestamps();
+
+            $table->foreign('user_id')
+                  ->references('id')->on('users');
         });
     }
 
