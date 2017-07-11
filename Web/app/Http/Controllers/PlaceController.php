@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Place;
-use App\Helper\Operators;
 use Illuminate\Http\Request;
+use App\Helper\Operators;
+use Exception;
 
 class PlaceController extends Controller
 {
@@ -38,9 +39,20 @@ class PlaceController extends Controller
     {
         $data = $request->all();
 
-        $place = Place::create($data);
+        try {
+            if (array_key_exists('data', $data)) {
+                $data = $data['data'];
+            }
 
-        return response()->json($place, 201);
+            $place = Place::create($data);
+
+            return response()->json([ 'data' => $place, 
+                                      'status' => 201]);
+        }
+        catch(Exception $e) {
+            return response()->json([ 'message' => $e->getMessage(), 
+                                      'status' => 400 ]);
+        }
     }
 
     /**
@@ -76,16 +88,27 @@ class PlaceController extends Controller
     {
         $data = $request->all();
 
-        if (array_key_exists('name', $data)) {
-            $place->name = $data['name'];
-        }
-        if (array_key_exists('parent', $data)) {
-            $place->parent = $data['parent'];
-        }
+        try {
+            if (array_key_exists('data', $data)) {
+                $data = $data['data'];
+            }
 
-        $place->save();
+            if (array_key_exists('name', $data)) {
+                $place->name = $data['name'];
+            }
+            if (array_key_exists('parent', $data)) {
+                $place->parent = $data['parent'];
+            }
 
-        return response()->json($place, 200);
+            $place->save();
+
+            return response()->json([ 'data' => $place, 
+                                      'status' => 200]);
+        }
+        catch(Exception $e) {
+            return response()->json([ 'message' => $e->getMessage(), 
+                                      'status' => 400 ]);
+        }
     }
 
     /**
@@ -98,7 +121,8 @@ class PlaceController extends Controller
     {
         $place->delete();
 
-        return response()->json('Deleted', 200);
+        return response()->json([ 'message' => 'Deleted', 
+                                  'status' => 200]);
     }
 
     /**

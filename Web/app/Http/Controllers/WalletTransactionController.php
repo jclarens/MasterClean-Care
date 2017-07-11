@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\WalletTransaction;
 use Illuminate\Http\Request;
+use App\Helper\Operator;
+use Exception;
 
 class WalletTransactionController extends Controller
 {
@@ -37,9 +39,20 @@ class WalletTransactionController extends Controller
     {
         $data = $request->all();
 
-        $walletTransaction = WalletTransaction::create($data);
+        try {
+            if (array_key_exists('data', $data)) {
+                $data = $data['data'];
+            }
+            
+            $walletTransaction = WalletTransaction::create($data);
 
-        return response()->json($walletTransaction, 201);
+            return response()->json([ 'data' => $walletTransaction, 
+                                      'status' => 201]);
+        }
+        catch(Exception $e) {
+            return response()->json([ 'message' => $e->getMessage(), 
+                                      'status' => 400 ]);
+        }
     }
 
     /**
@@ -75,25 +88,36 @@ class WalletTransactionController extends Controller
     {
         $data = $request->all();
 
-        if (array_key_exists('user_id', $data)) {
-            $walletTransaction->user_id = $data['user_id'];
-        }
-        if (array_key_exists('wallet_id', $data)) {
-            $walletTransaction->wallet_id = $data['wallet_id'];
-        }
-        if (array_key_exists('trc_type', $data)) {
-            $walletTransaction->trc_type = $data['trc_type'];
-        }
-        if (array_key_exists('trc_time', $data)) {
-            $walletTransaction->trc_time = $data['trc_time'];
-        }
-        if (array_key_exists('wallet_code', $data)) {
-            $walletTransaction->wallet_code = $data['wallet_code'];
-        }
+        try {
+            if (array_key_exists('data', $data)) {
+                $data = $data['data'];
+            }
 
-        $walletTransaction->save();
+            if (array_key_exists('user_id', $data)) {
+                $walletTransaction->user_id = $data['user_id'];
+            }
+            if (array_key_exists('wallet_id', $data)) {
+                $walletTransaction->wallet_id = $data['wallet_id'];
+            }
+            if (array_key_exists('trc_type', $data)) {
+                $walletTransaction->trc_type = $data['trc_type'];
+            }
+            if (array_key_exists('trc_time', $data)) {
+                $walletTransaction->trc_time = $data['trc_time'];
+            }
+            if (array_key_exists('wallet_code', $data)) {
+                $walletTransaction->wallet_code = $data['wallet_code'];
+            }
 
-        return response()->json($walletTransaction, 200);
+            $walletTransaction->save();
+
+            return response()->json([ 'data' => $walletTransaction, 
+                                      'status' => 200]);
+        }
+        catch(Exception $e) {
+            return response()->json([ 'message' => $e->getMessage(), 
+                                      'status' => 400 ]);
+        }
     }
 
     /**
@@ -106,6 +130,7 @@ class WalletTransactionController extends Controller
     {
         $walletTransaction->delete();
 
-        return response()->json('Deleted', 200);
+        return response()->json([ 'message' => 'Deleted', 
+                                  'status' => 200]);
     }
 }

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Wallet;
 use Illuminate\Http\Request;
+use App\Helper\Operator;
+use Exception;
 
 class WalletController extends Controller
 {
@@ -37,9 +39,19 @@ class WalletController extends Controller
     {
         $data = $request->all();
 
-        $wallet = Wallet::create($data);
+        try {
+            if (array_key_exists('data', $data)) {
+                $data = $data['data'];
+            }
+            $wallet = Wallet::create($data);
 
-        return response()->json($wallet, 201);
+            return response()->json([ 'data' => $wallet, 
+                                      'status' => 201]);
+        }
+        catch(Exception $e) {
+            return response()->json([ 'message' => $e->getMessage(), 
+                                      'status' => 400 ]);
+        }
     }
 
     /**
@@ -75,16 +87,27 @@ class WalletController extends Controller
     {
         $data = $request->all();
 
-        if (array_key_exists('amt', $data)) {
-            $wallet->amt = $data['amt'];
-        }
-        if (array_key_exists('price', $data)) {
-            $wallet->price = $data['price'];
-        }
+        try {
+            if (array_key_exists('data', $data)) {
+                $data = $data['data'];
+            }
 
-        $wallet->save();
+            if (array_key_exists('amt', $data)) {
+                $wallet->amt = $data['amt'];
+            }
+            if (array_key_exists('price', $data)) {
+                $wallet->price = $data['price'];
+            }
 
-        return response()->json($wallet, 200);
+            $wallet->save();
+
+            return response()->json([ 'data' => $wallet, 
+                                      'status' => 200]);
+        }
+        catch(Exception $e) {
+            return response()->json([ 'message' => $e->getMessage(), 
+                                      'status' => 400 ]);
+        }
     }
 
     /**
@@ -97,7 +120,8 @@ class WalletController extends Controller
     {
         $wallet->delete();
 
-        return response()->json('Deleted', 200);
+        return response()->json([ 'message' => 'Deleted', 
+                                  'status' => 200]);
     }
 
     /**
