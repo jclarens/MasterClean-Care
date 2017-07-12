@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import { ValidatorForm, TextValidator, SelectValidator, DateValidator} from 'react-material-ui-form-validator'
 import Paper from 'material-ui/Paper'
+import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
 import TextField from 'material-ui/TextField'
 import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
@@ -38,8 +39,8 @@ class RegisterArt extends Component {
             location: '',
             religion: null,
             race: '',
-            user_type: 1,
-            status: 1,
+            user_type: 2,
+            status: 0,
             provinceItem: [],
             cityItem: [],
         }
@@ -66,6 +67,15 @@ class RegisterArt extends Component {
                 key = { obj.id }
                 value = { obj.id }
                 primaryText = { obj.name }
+            />
+        ));
+    }
+
+    checkItems(collection, values) {
+        return collection.map((obj, idx) => (
+            <RadioButton
+                value = { obj.id }
+                label = { obj.name }
             />
         ));
     }
@@ -368,6 +378,15 @@ class RegisterArt extends Component {
                                 {/* profile_img_name */}
                                 {/* profile_img_path */}
                                 {/* status */}
+                                <div className="col s12">
+                                    <fieldset>
+                                        <legend>Bahasa yang dikuasai</legend>
+                                        {
+                                            
+                                        }
+                                    </fieldset>
+                                </div>
+
                                 <div className="input-field col s12 m6">
                                     <FlatButton
                                         label="Login"
