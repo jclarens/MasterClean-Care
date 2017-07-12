@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\WorkTime;
 use Illuminate\Http\Request;
-use App\Helper\Operator;
-use Exception;
 
 class WorkTimeController extends Controller
 {
@@ -39,20 +37,9 @@ class WorkTimeController extends Controller
     {
         $data = $request->all();
 
-        try {
-            if (array_key_exists('data', $data)) {
-                $data = $data['data'];
-            }
+        $workTime = WorkTime::create($data);
 
-            $workTime = WorkTime::create($data);
-
-            return response()->json([ 'data' => $workTime, 
-                                      'status' => 201]);
-        }
-        catch(Exception $e) {
-            return response()->json([ 'message' => $e->getMessage(), 
-                                      'status' => 400 ]);
-        }
+        return response()->json($workTime, 201);
     }
 
     /**
@@ -88,24 +75,13 @@ class WorkTimeController extends Controller
     {
         $data = $request->all();
 
-        try {
-            if (array_key_exists('data', $data)) {
-                $data = $data['data'];
-            }
-
-            if (array_key_exists('work_time', $data)) {
-                $workTime->workTime = $data['work_time'];
-            }
-            
-            $workTime->save();
-
-            return response()->json([ 'data' => $workTime, 
-                                      'status' => 200]);
+        if (array_key_exists('work_time', $data)) {
+            $workTime->workTime = $data['work_time'];
         }
-        catch(Exception $e) {
-            return response()->json([ 'message' => $e->getMessage(), 
-                                      'status' => 400 ]);
-        }
+        
+        $workTime->save();
+
+        return response()->json($workTime, 200);
     }
 
     /**
@@ -118,8 +94,7 @@ class WorkTimeController extends Controller
     {
         $workTime->delete();
 
-        return response()->json([ 'message' => 'Deleted', 
-                                  'status' => 200]);
+        return response()->json('Deleted', 200);
     }
 
     /**

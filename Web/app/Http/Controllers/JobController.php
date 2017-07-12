@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Job;
 use Illuminate\Http\Request;
-use App\Helper\Operator;
-use Exception;
 
 class JobController extends Controller
 {
@@ -38,20 +36,10 @@ class JobController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        try {
-            if (array_key_exists('data', $data)) {
-                $data = $data['data'];
-            }
+        
+        $job = Job::create($data);
 
-            $job = Job::create($data);
-
-            return response()->json([ 'data' => $job, 
-                                      'status' => 201]);
-        }
-        catch(Exception $e) {
-            return response()->json([ 'message' => $e->getMessage(), 
-                                      'status' => 400 ]);
-        }
+        return response()->json($job, 201);
     }
 
     /**
@@ -87,24 +75,13 @@ class JobController extends Controller
     {
         $data = $request->all();
 
-        try {
-            if (array_key_exists('data', $data)) {
-                $data = $data['data'];
-            }
-
-            if (array_key_exists('job', $data)) {
-                $job->job = $data['job'];
-            }
-
-            $job->save();
-
-            return response()->json([ 'data' => $job, 
-                                      'status' => 200 ]);
+        if (array_key_exists('job', $data)) {
+            $job->job = $data['job'];
         }
-        catch(Exception $e) {
-            return response()->json([ 'message' => $e->getMessage(), 
-                                      'status' => 400 ]);
-        }
+
+        $job->save();
+
+        return response()->json($job, 200);
     }
 
     /**
@@ -117,8 +94,7 @@ class JobController extends Controller
     {
         $job->delete();
 
-        return response()->json([ 'message' => 'Deleted', 
-                                  'status' => 200]);
+        return response()->json('Deleted', 200);
     }
 
     /**

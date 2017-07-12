@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Place;
-use Illuminate\Http\Request;
 use App\Helper\Operators;
-use Exception;
+use Illuminate\Http\Request;
 
 class PlaceController extends Controller
 {
@@ -39,20 +38,9 @@ class PlaceController extends Controller
     {
         $data = $request->all();
 
-        try {
-            if (array_key_exists('data', $data)) {
-                $data = $data['data'];
-            }
+        $place = Place::create($data);
 
-            $place = Place::create($data);
-
-            return response()->json([ 'data' => $place, 
-                                      'status' => 201]);
-        }
-        catch(Exception $e) {
-            return response()->json([ 'message' => $e->getMessage(), 
-                                      'status' => 400 ]);
-        }
+        return response()->json($place, 201);
     }
 
     /**
@@ -88,27 +76,16 @@ class PlaceController extends Controller
     {
         $data = $request->all();
 
-        try {
-            if (array_key_exists('data', $data)) {
-                $data = $data['data'];
-            }
-
-            if (array_key_exists('name', $data)) {
-                $place->name = $data['name'];
-            }
-            if (array_key_exists('parent', $data)) {
-                $place->parent = $data['parent'];
-            }
-
-            $place->save();
-
-            return response()->json([ 'data' => $place, 
-                                      'status' => 200]);
+        if (array_key_exists('name', $data)) {
+            $place->name = $data['name'];
         }
-        catch(Exception $e) {
-            return response()->json([ 'message' => $e->getMessage(), 
-                                      'status' => 400 ]);
+        if (array_key_exists('parent', $data)) {
+            $place->parent = $data['parent'];
         }
+
+        $place->save();
+
+        return response()->json($place, 200);
     }
 
     /**
@@ -121,8 +98,7 @@ class PlaceController extends Controller
     {
         $place->delete();
 
-        return response()->json([ 'message' => 'Deleted', 
-                                  'status' => 200]);
+        return response()->json('Deleted', 200);
     }
 
     /**

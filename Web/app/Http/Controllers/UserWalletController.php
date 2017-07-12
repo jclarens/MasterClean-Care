@@ -37,20 +37,9 @@ class UserWalletController extends Controller
     {
         $data = $request->all();
 
-        try {
-            if (array_key_exists('data', $data)) {
-                $data = $data['data'];
-            }
+        $userWallet = UserWallet::create($data);
 
-            $userWallet = UserWallet::create($data);
-
-            return response()->json([ 'data' => $userWallet, 
-                                      'status' => 201]);
-        }
-        catch(Exception $e) {
-            return response()->json([ 'message' => $e->getMessage(), 
-                                      'status' => 400 ]);
-        }
+        return response()->json($userWallet, 201);
     }
 
     /**
@@ -86,26 +75,16 @@ class UserWalletController extends Controller
     {
         $data = $request->all();
 
-        try {
-            if (array_key_exists('data', $data)) {
-                $data = $data['data'];
-            }
-            if (array_key_exists('user_id', $data)) {
-                $userWallet->user_id = $data['user_id'];
-            }
-            if (array_key_exists('wallet_id', $data)) {
-                $userWallet->wallet_id = $data['wallet_id'];
-            }
-
-            $userWallet->save();
-
-            return response()->json([ 'data' => $userWallet, 
-                                      'status' => 200]);
+        if (array_key_exists('user_id', $data)) {
+            $userWallet->user_id = $data['user_id'];
         }
-        catch(Exception $e) {
-            return response()->json([ 'message' => $e->getMessage(), 
-                                      'status' => 400 ]);
+        if (array_key_exists('wallet_id', $data)) {
+            $userWallet->wallet_id = $data['wallet_id'];
         }
+
+        $userWallet->save();
+
+        return response()->json($userWallet, 200);
     }
 
     /**
@@ -118,7 +97,6 @@ class UserWalletController extends Controller
     {
         $userWallet->delete();
 
-        return response()->json([ 'message' => 'Deleted', 
-                                  'status' => 200]);
+        return response()->json('Deleted', 200);
     }
 }

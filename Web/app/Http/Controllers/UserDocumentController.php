@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\UserDocument;
 use Illuminate\Http\Request;
-use App\Helper\Operator;
-use Exception;
 
 class UserDocumentController extends Controller
 {
@@ -39,20 +37,9 @@ class UserDocumentController extends Controller
     {
         $data = $request->all();
 
-        try {
-            if (array_key_exists('data', $data)) {
-                $data = $data['data'];
-            }
+        $userDocument = UserDocument::create($data);
 
-            $userDocument = UserDocument::create($data);
-
-            return response()->json([ 'data' => $userDocument, 
-                                      'status' => 201]);
-        }
-        catch(Exception $e) {
-            return response()->json([ 'message' => $e->getMessage(), 
-                                      'status' => 400 ]);
-        }
+        return response()->json($userDocument, 201);
     }
 
     /**
@@ -88,35 +75,25 @@ class UserDocumentController extends Controller
     {
         $data = $request->all();
 
-        try {
-            if (array_key_exists('data', $data)) {
-                $data = $data['data'];
-            }
-            if (array_key_exists('user_id', $data)) {
-                $userDocument->user_id = $data['user_id'];
-            }
-            if (array_key_exists('document_name', $data)) {
-                $userDocument->document_name = $data['document_name'];
-            }
-            if (array_key_exists('document_path', $data)) {
-                $userDocument->document_path = $data['document_path'];
-            }
-            if (array_key_exists('document_type', $data)) {
-                $userDocument->document_type = $data['document_type'];
-            }
-            if (array_key_exists('experience', $data)) {
-                $userDocument->experience = $data['experience'];
-            }
-
-            $userDocument->save();
-
-            return response()->json([ 'data' => $userDocument, 
-                                        'status' => 200]);
+        if (array_key_exists('user_id', $data)) {
+            $userDocument->user_id = $data['user_id'];
         }
-        catch(Exception $e) {
-            return response()->json([ 'message' => $e->getMessage(), 
-                                      'status' => 400 ]);
+        if (array_key_exists('document_name', $data)) {
+            $userDocument->document_name = $data['document_name'];
         }
+        if (array_key_exists('document_path', $data)) {
+            $userDocument->document_path = $data['document_path'];
+        }
+        if (array_key_exists('document_type', $data)) {
+            $userDocument->document_type = $data['document_type'];
+        }
+        if (array_key_exists('experience', $data)) {
+            $userDocument->experience = $data['experience'];
+        }
+
+        $userDocument->save();
+
+        return response()->json($userDocument, 200);
     }
 
     /**
@@ -129,7 +106,6 @@ class UserDocumentController extends Controller
     {
         $userDocument->delete();
 
-        return response()->json([ 'message' => 'Deleted', 
-                                  'status' => 200]);
+        return reponse()->json('Deleted', 200);
     }
 }

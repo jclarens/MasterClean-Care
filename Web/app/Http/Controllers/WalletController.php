@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Wallet;
 use Illuminate\Http\Request;
-use App\Helper\Operator;
-use Exception;
 
 class WalletController extends Controller
 {
@@ -39,19 +37,9 @@ class WalletController extends Controller
     {
         $data = $request->all();
 
-        try {
-            if (array_key_exists('data', $data)) {
-                $data = $data['data'];
-            }
-            $wallet = Wallet::create($data);
+        $wallet = Wallet::create($data);
 
-            return response()->json([ 'data' => $wallet, 
-                                      'status' => 201]);
-        }
-        catch(Exception $e) {
-            return response()->json([ 'message' => $e->getMessage(), 
-                                      'status' => 400 ]);
-        }
+        return response()->json($wallet, 201);
     }
 
     /**
@@ -87,27 +75,16 @@ class WalletController extends Controller
     {
         $data = $request->all();
 
-        try {
-            if (array_key_exists('data', $data)) {
-                $data = $data['data'];
-            }
-
-            if (array_key_exists('amt', $data)) {
-                $wallet->amt = $data['amt'];
-            }
-            if (array_key_exists('price', $data)) {
-                $wallet->price = $data['price'];
-            }
-
-            $wallet->save();
-
-            return response()->json([ 'data' => $wallet, 
-                                      'status' => 200]);
+        if (array_key_exists('amt', $data)) {
+            $wallet->amt = $data['amt'];
         }
-        catch(Exception $e) {
-            return response()->json([ 'message' => $e->getMessage(), 
-                                      'status' => 400 ]);
+        if (array_key_exists('price', $data)) {
+            $wallet->price = $data['price'];
         }
+
+        $wallet->save();
+
+        return response()->json($wallet, 200);
     }
 
     /**
@@ -120,8 +97,7 @@ class WalletController extends Controller
     {
         $wallet->delete();
 
-        return response()->json([ 'message' => 'Deleted', 
-                                  'status' => 200]);
+        return response()->json('Deleted', 200);
     }
 
     /**

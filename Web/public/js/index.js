@@ -23960,7 +23960,6 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
             }));
         },
         onRegister: function onRegister(self, data, history) {
-            console.log(data);
             _axios2.default.post('/api/user', {
                 data: data
             }).then(function (response) {

@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Language;
 use Illuminate\Http\Request;
-use App\Helper\Operator;
-use Exception;
 
 class LanguageController extends Controller
 {
@@ -38,20 +36,10 @@ class LanguageController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        try {
-            if (array_key_exists('data', $data)) {
-                $data = $data['data'];
-            }
+        
+        $language = Language::create($data);
 
-            $language = Language::create($data);
-
-            return response()->json([ 'data' => $language, 
-                                      'status' => 201]);
-        }
-        catch(Exception $e) {
-            return response()->json([ 'message' => $e->getMessage(), 
-                                      'status' => 400 ]);
-        }
+        return response()->json($language, 201);
     }
 
     /**
@@ -87,23 +75,13 @@ class LanguageController extends Controller
     {
         $data = $request->all();
 
-        try {
-            if (array_key_exists('data', $data)) {
-                $data = $data['data'];
-            }
-            if (array_key_exists('language', $data)) {
-                $language->language = $data['language'];
-            }
-
-            $language->save();
-
-            return response()->json([ 'data' => $language, 
-                                      'status' => 200]);
+        if (array_key_exists('language', $data)) {
+            $language->language = $data['language'];
         }
-        catch(Exception $e) {
-            return response()->json([ 'message' => $e->getMessage(), 
-                                      'status' => 400 ]);
-        }
+
+        $language->save();
+
+        return response()->json($language, 200);
     }
 
     /**
@@ -116,8 +94,7 @@ class LanguageController extends Controller
     {
         $language->delete();
 
-        return response()->json([ 'message' => 'Deleted', 
-                                  'status' => 200]);
+        return response()->json('Deleted', 200);
     }
 
     /**

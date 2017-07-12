@@ -22,7 +22,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             }))
         },
         onRegister: (self, data, history) => {
-            console.log(data);
             axios.post('/api/user', {
                 data
             })

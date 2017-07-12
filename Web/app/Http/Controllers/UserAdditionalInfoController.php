@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\UserAdditionalInfo;
 use Illuminate\Http\Request;
-use App\Helper\Operator;
-use Exception;
 
 class UserAdditionalInfoController extends Controller
 {
@@ -39,20 +37,9 @@ class UserAdditionalInfoController extends Controller
     {
         $data = $request->all();
 
-        try {
-            if (array_key_exists('data', $data)) {
-                $data = $data['data'];
-            }
+        $userAdditionalInfo = UserAdditionalInfo::create($data);
 
-            $userAdditionalInfo = UserAdditionalInfo::create($data);
-
-            return response()->json([ 'data' => $userAdditionalInfo, 
-                                      'status' => 201]);
-        }
-        catch(Exception $e) {
-            return response()->json([ 'message' => $e->getMessage(), 
-                                      'status' => 400 ]);
-        }
+        return response()->json($userAdditionalInfo, 201);
     }
 
     /**
@@ -88,27 +75,16 @@ class UserAdditionalInfoController extends Controller
     {
         $data = $request->all();
 
-        try {
-            if (array_key_exists('data', $data)) {
-                $data = $data['data'];
-            }
-
-            if (array_key_exists('user_id', $data)) {
-                $userAdditionalInfo->user_id = $data['user_id'];
-            }
-            if (array_key_exists('info_id', $data)) {
-                $userAdditionalInfo->info_id = $data['info_id'];
-            }
-
-            $userAdditionalInfo->save();
-
-            return response()->json([ 'data' => $userAdditionalInfo, 
-                                      'status' => 200]);
+        if (array_key_exists('user_id', $data)) {
+            $userAdditionalInfo->user_id = $data['user_id'];
         }
-        catch(Exception $e) {
-            return response()->json([ 'message' => $e->getMessage(), 
-                                      'status' => 400 ]);
+        if (array_key_exists('info_id', $data)) {
+            $userAdditionalInfo->info_id = $data['info_id'];
         }
+
+        $places->save();
+
+        return response()->json($places, 200);
     }
 
     /**
@@ -121,7 +97,6 @@ class UserAdditionalInfoController extends Controller
     {
         $userAdditionalInfo->delete();
 
-        return response()->json([ 'message' => 'Deleted', 
-                                  'status' => 200]);
+        return response()->json('Deleted', 200);
     }
 }

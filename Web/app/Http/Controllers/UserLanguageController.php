@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\UserLanguage;
 use Illuminate\Http\Request;
-use App\Helper\Operator;
-use Exception;
 
 class UserLanguageController extends Controller
 {
@@ -39,20 +37,9 @@ class UserLanguageController extends Controller
     {
         $data = $request->all();
 
-        try {
-            if (array_key_exists('data', $data)) {
-                $data = $data['data'];
-            }
+        $userLanguage = UserLanguage::create($data);
 
-            $userLanguage = UserLanguage::create($data);
-
-            return response()->json([ 'data' => $userLanguage, 
-                                      'status' => 201]);
-        }
-        catch(Exception $e) {
-            return response()->json([ 'message' => $e->getMessage(), 
-                                      'status' => 400 ]);
-        }
+        return response()->json($userLanguage, 201);
     }
 
     /**
@@ -88,26 +75,16 @@ class UserLanguageController extends Controller
     {
         $data = $request->all();
 
-        try {
-            if (array_key_exists('data', $data)) {
-                $data = $data['data'];
-            }
-            if (array_key_exists('user_id', $data)) {
-                $userLanguage->user_id = $data['user_id'];
-            }
-            if (array_key_exists('language_id', $data)) {
-                $userLanguage->language_id = $data['language_id'];
-            }
-
-            $userLanguage->save();
-
-            return response()->json([ 'data' => $userLanguage, 
-                                      'status' => 200]);
+        if (array_key_exists('user_id', $data)) {
+            $userLanguage->user_id = $data['user_id'];
         }
-        catch(Exception $e) {
-            return response()->json([ 'message' => $e->getMessage(), 
-                                      'status' => 400 ]);
+        if (array_key_exists('language_id', $data)) {
+            $userLanguage->language_id = $data['language_id'];
         }
+
+        $userLanguage->save();
+
+        return response()->json($userLanguage, 200);
     }
 
     /**
@@ -120,7 +97,6 @@ class UserLanguageController extends Controller
     {
         $userLanguage->delete();
 
-        return response()->json([ 'message' => 'Deleted', 
-                                  'status' => 200]);
+        return response()->json('Deleted', 200);
     }
 }

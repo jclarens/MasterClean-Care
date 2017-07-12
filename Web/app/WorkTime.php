@@ -29,20 +29,4 @@ class WorkTime extends Model
     {
         return $this->hasMany('App\UserWorkTime');
     }
-
-    /**
-     * Get the order record associated with the user.
-     */
-    public function order()
-    {
-        return $this->hasMany('App\Order');
-    }
-
-    /**
-     * Get the request record associated with the user.
-     */
-    public function request()
-    {
-        return $this->hasMany('App\Request');
-    }
 }
