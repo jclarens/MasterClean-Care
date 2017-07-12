@@ -38,18 +38,18 @@ public interface UserRepo {
     @POST("user")
     Call<UserResponse> registerMember();
 
-    @GET("user/{id}")
+    @GET("user/")
     Call<UserResponse> getUser(@Query("id") String id);
 
-    @PATCH("user/{id}")
+    @PATCH("user/")
     Call<UserResponse> update(@Query("id") String id);
 
-    @DELETE("user/{id}")
+    @DELETE("user/")
     Call<UserResponse> destroy(@Query("id") String id);
 
-    @GET("user/search/{text}")
-    Call<List<User>> search(@Query("text") String text);
-
-    @GET("user/search/{param}/{text}")
-    Call<List<User>> searchbyparam(@Path("param") String param, @Path("text") String text);
+//    @GET("user/search/{text}")
+//    Call<List<User>> search(@Query("text") String text);
+//
+//    @GET("user/search/{param}/{text}")
+//    Call<List<User>> searchbyparam(@Path("param") String param, @Path("text") String text);
 }

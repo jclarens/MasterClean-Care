@@ -9,12 +9,14 @@ import java.util.ArrayList;
 public class ArrayAgama {
     private ArrayList<String> arrayList;
     public ArrayAgama() {
-        arrayList = new ArrayList<String>();
+        arrayList = new ArrayList<>();
         arrayList.add("Semua");
         arrayList.add("Islam");
-        arrayList.add("Kristen");
+        arrayList.add("Kristen Protestan");
+        arrayList.add("Kristen Katolik");
         arrayList.add("Hindu");
         arrayList.add("Buddha");
+        arrayList.add("Konghucu");
         arrayList.add("Atheist");
     }
 

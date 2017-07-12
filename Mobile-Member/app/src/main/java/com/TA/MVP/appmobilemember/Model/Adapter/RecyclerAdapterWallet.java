@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.TA.MVP.appmobilemember.Model.Array.ArrayWallet;
 import com.TA.MVP.appmobilemember.Model.Basic.Wallet;
 import com.TA.MVP.appmobilemember.R;
 
@@ -19,7 +20,8 @@ import java.util.Locale;
  */
 
 public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterWallet.ViewHolder> {
-    private List<Wallet> wallets = new ArrayList<>();
+//    private List<Wallet> wallets = new ArrayList<>();
+    private ArrayWallet wallets = new ArrayWallet();
 
     class ViewHolder extends RecyclerView.ViewHolder{
         public TextView itemnominal;
@@ -47,20 +49,12 @@ public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterW
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.itemnominal.setText(String.format(Locale.getDefault(),"%d",wallets.get(position).getAmt()));
+        holder.itemnominal.setText(String.format(Locale.getDefault(),"%d",wallets.getWallets().get(position).getAmt()));
     }
 
     @Override
     public int getItemCount() {
-        if (wallets == null)
-            return 0;
-        else
-            return wallets.size();
+        return wallets.getWallets().size();
 
-    }
-
-    public void setnew(List<Wallet> walletz){
-        wallets = walletz;
-        notifyDataSetChanged();
     }
 }
