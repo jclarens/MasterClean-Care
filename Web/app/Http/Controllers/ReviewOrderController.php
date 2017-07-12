@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\WorkTime;
+use App\ReviewOrder;
 use Illuminate\Http\Request;
 use App\Helper\Operator;
 use Exception;
 
-class WorkTimeController extends Controller
+class ReviewOrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class WorkTimeController extends Controller
      */
     public function index()
     {
-        return WorkTime::all();
+        return ReviewOrder::all();
     }
 
     /**
@@ -38,15 +38,15 @@ class WorkTimeController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-
+        
         try {
             if (array_key_exists('data', $data)) {
                 $data = $data['data'];
             }
 
-            $workTime = WorkTime::create($data);
+            $reviewOrder = ReviewOrder::create($data);
 
-            return response()->json([ 'data' => $workTime, 
+            return response()->json([ 'data' => $reviewOrder, 
                                       'status' => 201]);
         }
         catch(Exception $e) {
@@ -58,21 +58,21 @@ class WorkTimeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\ReviewOrder  $reviewOrder
      * @return \Illuminate\Http\Response
      */
-    public function show(WorkTime $workTime)
+    public function show(ReviewOrder $reviewOrder)
     {
-        return $workTime;
+        return $reviewOrder;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\ReviewOrder  $reviewOrder
      * @return \Illuminate\Http\Response
      */
-    public function edit(WorkTime $workTime)
+    public function edit(ReviewOrder $reviewOrder)
     {
         //
     }
@@ -81,10 +81,10 @@ class WorkTimeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\ReviewOrder  $reviewOrder
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, WorkTime $workTime)
+    public function update(Request $request, ReviewOrder $reviewOrder)
     {
         $data = $request->all();
 
@@ -92,14 +92,19 @@ class WorkTimeController extends Controller
             if (array_key_exists('data', $data)) {
                 $data = $data['data'];
             }
-
-            if (array_key_exists('work_time', $data)) {
-                $workTime->workTime = $data['work_time'];
+            if (array_key_exists('order_id', $data)) {
+                $reviewOrder->order_id = $data['order_id'];
             }
-            
-            $workTime->save();
+            if (array_key_exists('rate', $data)) {
+                $reviewOrder->rate = $data['rate'];
+            }
+            if (array_key_exists('remark', $data)) {
+                $reviewOrder->remark = $data['remark'];
+            }
 
-            return response()->json([ 'data' => $workTime, 
+            $reviewOrder->save();
+
+            return response()->json([ 'data' => $reviewOrder, 
                                       'status' => 200]);
         }
         catch(Exception $e) {
@@ -111,12 +116,12 @@ class WorkTimeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\ReviewOrder  $reviewOrder
      * @return \Illuminate\Http\Response
      */
-    public function destroy(WorkTime $workTime)
+    public function destroy(ReviewOrder $reviewOrder)
     {
-        $workTime->delete();
+        $reviewOrder->delete();
 
         return response()->json([ 'message' => 'Deleted', 
                                   'status' => 200]);
@@ -126,16 +131,16 @@ class WorkTimeController extends Controller
      * Search the specified resource from storage by parameter.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\WorkTime  $WorkTime
+     * @param  \App\ReviewOrder  $reviewOrder
      * @param  Parameter  $param
      * @param  Text  $text
      * @return \Illuminate\Http\Response
      */
-    public function searchByParam(Request $request, WorkTime $workTime, $param = 'amt', $text)
+    public function searchByParam(Request $request, ReviewOrder $reviewOrder, $param = 'info', $text)
     {
-        return $workTime
+        return $reviewOrder
             ->where($param,
-                Operator::EQUAL,
+                Operator::LIKE,
                 '%'.$text.'%')
             ->get();
     }

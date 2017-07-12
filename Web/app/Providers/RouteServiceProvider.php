@@ -2,7 +2,18 @@
 
 namespace App\Providers;
 
+use App\Article;
+use App\Comment;
+use App\EmergencyCall;
+use App\Job;
+use App\Language;
+use App\Message;
+use App\Order;
+use App\Place;
+use App\Request;
 use App\User;
+use App\Wallet;
+use App\WorkTime;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use \Iterator;
@@ -29,7 +40,18 @@ class RouteServiceProvider extends ServiceProvider
         //
         parent::boot();
 
+        Route::model('id', Article::class);
+        Route::model('id', Comment::class);
+        Route::model('id', EmergencyCall::class);
+        Route::model('id', Message::class);
+        Route::model('id', Job::class);
+        Route::model('id', Language::class);
+        Route::model('id', Order::class);
+        Route::model('id', Place::class);
+        Route::model('id', Request::class);
         Route::model('id', User::class);
+        Route::model('id', Wallet::class);
+        Route::model('id', WorkTime::class);
     }
 
     /**

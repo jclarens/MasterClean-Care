@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\WorkTime;
+use App\EmergencyCall;
 use Illuminate\Http\Request;
 use App\Helper\Operator;
 use Exception;
 
-class WorkTimeController extends Controller
+class EmergencyCallController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class WorkTimeController extends Controller
      */
     public function index()
     {
-        return WorkTime::all();
+        return EmergencyCall::all();
     }
 
     /**
@@ -38,15 +38,15 @@ class WorkTimeController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-
+        
         try {
             if (array_key_exists('data', $data)) {
                 $data = $data['data'];
             }
 
-            $workTime = WorkTime::create($data);
+            $emergencyCall = EmergencyCall::create($data);
 
-            return response()->json([ 'data' => $workTime, 
+            return response()->json([ 'data' => $emergencyCall, 
                                       'status' => 201]);
         }
         catch(Exception $e) {
@@ -58,21 +58,21 @@ class WorkTimeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\EmergencyCall  $emergencyCall
      * @return \Illuminate\Http\Response
      */
-    public function show(WorkTime $workTime)
+    public function show(EmergencyCall $emergencyCall)
     {
-        return $workTime;
+        return $emergencyCall;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\EmergencyCall  $emergencyCall
      * @return \Illuminate\Http\Response
      */
-    public function edit(WorkTime $workTime)
+    public function edit(EmergencyCall $emergencyCall)
     {
         //
     }
@@ -81,10 +81,10 @@ class WorkTimeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\EmergencyCall  $emergencyCall
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, WorkTime $workTime)
+    public function update(Request $request, EmergencyCall $emergencyCall)
     {
         $data = $request->all();
 
@@ -92,14 +92,19 @@ class WorkTimeController extends Controller
             if (array_key_exists('data', $data)) {
                 $data = $data['data'];
             }
-
-            if (array_key_exists('work_time', $data)) {
-                $workTime->workTime = $data['work_time'];
+            if (array_key_exists('user_id', $data)) {
+                $emergencyCall->user_id = $data['user_id'];
             }
-            
-            $workTime->save();
+            if (array_key_exists('init_time', $data)) {
+                $emergencyCall->init_time = $data['init_time'];
+            }
+            if (array_key_exists('status', $data)) {
+                $emergencyCall->status= $data['status'];
+            }
 
-            return response()->json([ 'data' => $workTime, 
+            $emergencyCall->save();
+
+            return response()->json([ 'data' => $emergencyCall, 
                                       'status' => 200]);
         }
         catch(Exception $e) {
@@ -111,12 +116,12 @@ class WorkTimeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\EmergencyCall  $emergencyCall
      * @return \Illuminate\Http\Response
      */
-    public function destroy(WorkTime $workTime)
+    public function destroy(EmergencyCall $emergencyCall)
     {
-        $workTime->delete();
+        $emergencyCall->delete();
 
         return response()->json([ 'message' => 'Deleted', 
                                   'status' => 200]);
@@ -126,16 +131,16 @@ class WorkTimeController extends Controller
      * Search the specified resource from storage by parameter.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\WorkTime  $WorkTime
+     * @param  \App\EmergencyCall  $emergencyCall
      * @param  Parameter  $param
      * @param  Text  $text
      * @return \Illuminate\Http\Response
      */
-    public function searchByParam(Request $request, WorkTime $workTime, $param = 'amt', $text)
+    public function searchByParam(Request $request, EmergencyCall $emergencyCall, $param = 'info', $text)
     {
-        return $workTime
+        return $emergencyCall
             ->where($param,
-                Operator::EQUAL,
+                Operator::LIKE,
                 '%'.$text.'%')
             ->get();
     }

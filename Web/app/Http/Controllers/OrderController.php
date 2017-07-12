@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\WorkTime;
+use App\Order;
 use Illuminate\Http\Request;
 use App\Helper\Operator;
 use Exception;
 
-class WorkTimeController extends Controller
+class OrderController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class WorkTimeController extends Controller
      */
     public function index()
     {
-        return WorkTime::all();
+        return Order::all();
     }
 
     /**
@@ -38,15 +38,15 @@ class WorkTimeController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-
+        
         try {
             if (array_key_exists('data', $data)) {
                 $data = $data['data'];
             }
 
-            $workTime = WorkTime::create($data);
+            $order = Order::create($data);
 
-            return response()->json([ 'data' => $workTime, 
+            return response()->json([ 'data' => $order, 
                                       'status' => 201]);
         }
         catch(Exception $e) {
@@ -58,21 +58,21 @@ class WorkTimeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function show(WorkTime $workTime)
+    public function show(Order $order)
     {
-        return $workTime;
+        return $order;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function edit(WorkTime $workTime)
+    public function edit(Order $order)
     {
         //
     }
@@ -81,10 +81,10 @@ class WorkTimeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, WorkTime $workTime)
+    public function update(Request $request, Order $order)
     {
         $data = $request->all();
 
@@ -92,14 +92,43 @@ class WorkTimeController extends Controller
             if (array_key_exists('data', $data)) {
                 $data = $data['data'];
             }
-
-            if (array_key_exists('work_time', $data)) {
-                $workTime->workTime = $data['work_time'];
+            if (array_key_exists('member_id', $data)) {
+                $requests->member_id = $data['member_id'];
             }
-            
-            $workTime->save();
+            if (array_key_exists('art_id', $data)) {
+                $requests->art_id = $data['art_id'];
+            }
+            if (array_key_exists('work_time_id', $data)) {
+                $requests->work_time_id = $data['work_time_id'];
+            }
+            if (array_key_exists('start_date', $data)) {
+                $requests->start_date = $data['start_date'];
+            }
+            if (array_key_exists('end_date', $data)) {
+                $requests->end_date = $data['end_date'];
+            }
+            if (array_key_exists('province', $data)) {
+                $requests->province = $data['province'];
+            }
+            if (array_key_exists('city', $data)) {
+                $requests->city = $data['city'];
+            }
+            if (array_key_exists('address', $data)) {
+                $requests->address = $data['address'];
+            }
+            if (array_key_exists('location', $data)) {
+                $requests->location = $data['location'];
+            }
+            if (array_key_exists('remark', $data)) {
+                $requests->remark = $data['remark'];
+            }
+            if (array_key_exists('status', $data)) {
+                $requests->status = $data['status'];
+            }
 
-            return response()->json([ 'data' => $workTime, 
+            $order->save();
+
+            return response()->json([ 'data' => $order, 
                                       'status' => 200]);
         }
         catch(Exception $e) {
@@ -111,12 +140,12 @@ class WorkTimeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\Order  $order
      * @return \Illuminate\Http\Response
      */
-    public function destroy(WorkTime $workTime)
+    public function destroy(Order $order)
     {
-        $workTime->delete();
+        $order->delete();
 
         return response()->json([ 'message' => 'Deleted', 
                                   'status' => 200]);
@@ -126,16 +155,16 @@ class WorkTimeController extends Controller
      * Search the specified resource from storage by parameter.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\WorkTime  $WorkTime
+     * @param  \App\Order  $order
      * @param  Parameter  $param
      * @param  Text  $text
      * @return \Illuminate\Http\Response
      */
-    public function searchByParam(Request $request, WorkTime $workTime, $param = 'amt', $text)
+    public function searchByParam(Request $request, Order $order, $param = 'info', $text)
     {
-        return $workTime
+        return $order
             ->where($param,
-                Operator::EQUAL,
+                Operator::LIKE,
                 '%'.$text.'%')
             ->get();
     }

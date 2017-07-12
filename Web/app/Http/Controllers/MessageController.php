@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\WorkTime;
+use App\Message;
 use Illuminate\Http\Request;
 use App\Helper\Operator;
 use Exception;
 
-class WorkTimeController extends Controller
+class MessageController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class WorkTimeController extends Controller
      */
     public function index()
     {
-        return WorkTime::all();
+        return Message::all();
     }
 
     /**
@@ -38,15 +38,15 @@ class WorkTimeController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-
+        
         try {
             if (array_key_exists('data', $data)) {
                 $data = $data['data'];
             }
 
-            $workTime = WorkTime::create($data);
+            $message = Message::create($data);
 
-            return response()->json([ 'data' => $workTime, 
+            return response()->json([ 'data' => $message, 
                                       'status' => 201]);
         }
         catch(Exception $e) {
@@ -58,21 +58,21 @@ class WorkTimeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function show(WorkTime $workTime)
+    public function show(Message $message)
     {
-        return $workTime;
+        return $message;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function edit(WorkTime $workTime)
+    public function edit(Message $message)
     {
         //
     }
@@ -81,10 +81,10 @@ class WorkTimeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, WorkTime $workTime)
+    public function update(Request $request, Message $message)
     {
         $data = $request->all();
 
@@ -92,14 +92,25 @@ class WorkTimeController extends Controller
             if (array_key_exists('data', $data)) {
                 $data = $data['data'];
             }
-
-            if (array_key_exists('work_time', $data)) {
-                $workTime->workTime = $data['work_time'];
+            if (array_key_exists('sender_id', $data)) {
+                $message->sender_id = $data['sender_id'];
             }
-            
-            $workTime->save();
+            if (array_key_exists('receiver_id', $data)) {
+                $message->receiver_id = $data['receiver_id'];
+            }
+            if (array_key_exists('subject', $data)) {
+                $message->subject = $data['subject'];
+            }
+            if (array_key_exists('message', $data)) {
+                $message->message = $data['message'];
+            }
+            if (array_key_exists('status', $data)) {
+                $message->status = $data['status'];
+            }
 
-            return response()->json([ 'data' => $workTime, 
+            $message->save();
+
+            return response()->json([ 'data' => $message, 
                                       'status' => 200]);
         }
         catch(Exception $e) {
@@ -111,12 +122,12 @@ class WorkTimeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\Message  $message
      * @return \Illuminate\Http\Response
      */
-    public function destroy(WorkTime $workTime)
+    public function destroy(Message $message)
     {
-        $workTime->delete();
+        $message->delete();
 
         return response()->json([ 'message' => 'Deleted', 
                                   'status' => 200]);
@@ -126,16 +137,16 @@ class WorkTimeController extends Controller
      * Search the specified resource from storage by parameter.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\WorkTime  $WorkTime
+     * @param  \App\Message  $message
      * @param  Parameter  $param
      * @param  Text  $text
      * @return \Illuminate\Http\Response
      */
-    public function searchByParam(Request $request, WorkTime $workTime, $param = 'amt', $text)
+    public function searchByParam(Request $request, Message $message, $param = 'info', $text)
     {
-        return $workTime
+        return $message
             ->where($param,
-                Operator::EQUAL,
+                Operator::LIKE,
                 '%'.$text.'%')
             ->get();
     }

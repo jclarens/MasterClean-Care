@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\WorkTime;
+use App\TaskList;
 use Illuminate\Http\Request;
 use App\Helper\Operator;
 use Exception;
 
-class WorkTimeController extends Controller
+class TaskListController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class WorkTimeController extends Controller
      */
     public function index()
     {
-        return WorkTime::all();
+        return TaskList::all();
     }
 
     /**
@@ -38,15 +38,15 @@ class WorkTimeController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-
+        
         try {
             if (array_key_exists('data', $data)) {
                 $data = $data['data'];
             }
 
-            $workTime = WorkTime::create($data);
+            $taskList = TaskList::create($data);
 
-            return response()->json([ 'data' => $workTime, 
+            return response()->json([ 'data' => $taskList, 
                                       'status' => 201]);
         }
         catch(Exception $e) {
@@ -58,21 +58,21 @@ class WorkTimeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\TaskList  $taskList
      * @return \Illuminate\Http\Response
      */
-    public function show(WorkTime $workTime)
+    public function show(TaskList $taskList)
     {
-        return $workTime;
+        return $taskList;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\TaskList  $taskList
      * @return \Illuminate\Http\Response
      */
-    public function edit(WorkTime $workTime)
+    public function edit(TaskList $taskList)
     {
         //
     }
@@ -81,10 +81,10 @@ class WorkTimeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\TaskList  $taskList
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, WorkTime $workTime)
+    public function update(Request $request, TaskList $taskList)
     {
         $data = $request->all();
 
@@ -92,14 +92,22 @@ class WorkTimeController extends Controller
             if (array_key_exists('data', $data)) {
                 $data = $data['data'];
             }
-
-            if (array_key_exists('work_time', $data)) {
-                $workTime->workTime = $data['work_time'];
+            if (array_key_exists('trc_id', $data)) {
+                $taskList->trc_id = $data['trc_id'];
             }
-            
-            $workTime->save();
+            if (array_key_exists('trc_typ', $data)) {
+                $taskList->trc_typ = $data['trc_typ'];
+            }
+            if (array_key_exists('task', $data)) {
+                $taskList->task = $data['task'];
+            }
+            if (array_key_exists('status', $data)) {
+                $requestedArt->status = $data['status'];
+            }
 
-            return response()->json([ 'data' => $workTime, 
+            $taskList->save();
+
+            return response()->json([ 'data' => $taskList, 
                                       'status' => 200]);
         }
         catch(Exception $e) {
@@ -111,12 +119,12 @@ class WorkTimeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\TaskList  $taskList
      * @return \Illuminate\Http\Response
      */
-    public function destroy(WorkTime $workTime)
+    public function destroy(TaskList $taskList)
     {
-        $workTime->delete();
+        $taskList->delete();
 
         return response()->json([ 'message' => 'Deleted', 
                                   'status' => 200]);
@@ -126,16 +134,16 @@ class WorkTimeController extends Controller
      * Search the specified resource from storage by parameter.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\WorkTime  $WorkTime
+     * @param  \App\TaskList  $taskList
      * @param  Parameter  $param
      * @param  Text  $text
      * @return \Illuminate\Http\Response
      */
-    public function searchByParam(Request $request, WorkTime $workTime, $param = 'amt', $text)
+    public function searchByParam(Request $request, TaskList $taskList, $param = 'info', $text)
     {
-        return $workTime
+        return $taskList
             ->where($param,
-                Operator::EQUAL,
+                Operator::LIKE,
                 '%'.$text.'%')
             ->get();
     }

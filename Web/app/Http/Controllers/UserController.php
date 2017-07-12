@@ -48,20 +48,23 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        $data = $data['data'];
-        $email = $data['email'];
-        
-        $exists = User::where('email', $email)->get()->first();
-        if (!is_null($exists)) {
-            return response()->json([
-                'message' => "A user with the email $email already exists!",
-                'status' => 400
-            ]);
-        }
-
 
         // Insert User
         try {
+            if (array_key_exists('data', $data)) {
+                $data = $data['data'];
+            }
+
+            // Check email
+            $email = $data['email'];
+            $exists = User::where('email', $email)->get()->first();
+            if (!is_null($exists)) {
+                return response()->json([
+                    'message' => "A user with the email $email already exists!",
+                    'status' => 400
+                ]);
+            }
+
             // Format Date
             $date = strtotime($data['born_date']);
             $data['born_date'] = date('Y-m-d', $date);
@@ -314,7 +317,8 @@ class UserController extends Controller
     {
         $user->delete();
 
-        return response()->json(['message' => 'Deleted', 'status' => 200]);
+        return response()->json([ 'message' => 'Deleted', 
+                                  'status' => 200]);
     }
 
     /**

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\WorkTime;
+use App\RequestedArt;
 use Illuminate\Http\Request;
 use App\Helper\Operator;
 use Exception;
 
-class WorkTimeController extends Controller
+class RequestedArtController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +16,7 @@ class WorkTimeController extends Controller
      */
     public function index()
     {
-        return WorkTime::all();
+        return RequestedArt::all();
     }
 
     /**
@@ -38,15 +38,15 @@ class WorkTimeController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-
+        
         try {
             if (array_key_exists('data', $data)) {
                 $data = $data['data'];
             }
 
-            $workTime = WorkTime::create($data);
+            $requestedArt = RequestedArt::create($data);
 
-            return response()->json([ 'data' => $workTime, 
+            return response()->json([ 'data' => $requestedArt, 
                                       'status' => 201]);
         }
         catch(Exception $e) {
@@ -58,21 +58,21 @@ class WorkTimeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\RequestedArt  $requestedArt
      * @return \Illuminate\Http\Response
      */
-    public function show(WorkTime $workTime)
+    public function show(RequestedArt $requestedArt)
     {
-        return $workTime;
+        return $requestedArt;
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\RequestedArt  $requestedArt
      * @return \Illuminate\Http\Response
      */
-    public function edit(WorkTime $workTime)
+    public function edit(RequestedArt $requestedArt)
     {
         //
     }
@@ -81,10 +81,10 @@ class WorkTimeController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\RequestedArt  $requestedArt
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, WorkTime $workTime)
+    public function update(Request $request, RequestedArt $requestedArt)
     {
         $data = $request->all();
 
@@ -92,14 +92,19 @@ class WorkTimeController extends Controller
             if (array_key_exists('data', $data)) {
                 $data = $data['data'];
             }
-
-            if (array_key_exists('work_time', $data)) {
-                $workTime->workTime = $data['work_time'];
+            if (array_key_exists('request_id', $data)) {
+                $requestedArt->request_id = $data['request_id'];
             }
-            
-            $workTime->save();
+            if (array_key_exists('art_id', $data)) {
+                $requestedArt->art_id = $data['art_id'];
+            }
+            if (array_key_exists('status', $data)) {
+                $requestedArt->status = $data['status'];
+            }
 
-            return response()->json([ 'data' => $workTime, 
+            $requestedArt->save();
+
+            return response()->json([ 'data' => $requestedArt, 
                                       'status' => 200]);
         }
         catch(Exception $e) {
@@ -111,12 +116,12 @@ class WorkTimeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\WorkTime  $workTime
+     * @param  \App\RequestedArt  $requestedArt
      * @return \Illuminate\Http\Response
      */
-    public function destroy(WorkTime $workTime)
+    public function destroy(RequestedArt $requestedArt)
     {
-        $workTime->delete();
+        $requestedArt->delete();
 
         return response()->json([ 'message' => 'Deleted', 
                                   'status' => 200]);
@@ -126,16 +131,16 @@ class WorkTimeController extends Controller
      * Search the specified resource from storage by parameter.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\WorkTime  $WorkTime
+     * @param  \App\RequestedArt  $requestedArt
      * @param  Parameter  $param
      * @param  Text  $text
      * @return \Illuminate\Http\Response
      */
-    public function searchByParam(Request $request, WorkTime $workTime, $param = 'amt', $text)
+    public function searchByParam(Request $request, RequestedArt $requestedArt, $param = 'info', $text)
     {
-        return $workTime
+        return $requestedArt
             ->where($param,
-                Operator::EQUAL,
+                Operator::LIKE,
                 '%'.$text.'%')
             ->get();
     }
