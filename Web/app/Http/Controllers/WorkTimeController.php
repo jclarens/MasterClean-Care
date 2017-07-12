@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\WorkTime;
 use Illuminate\Http\Request;
+use App\Helper\Operator;
+use Exception;
 
 class WorkTimeController extends Controller
 {
@@ -37,9 +39,20 @@ class WorkTimeController extends Controller
     {
         $data = $request->all();
 
-        $workTime = WorkTime::create($data);
+        try {
+            if (array_key_exists('data', $data)) {
+                $data = $data['data'];
+            }
 
-        return response()->json($workTime, 201);
+            $workTime = WorkTime::create($data);
+
+            return response()->json([ 'data' => $workTime, 
+                                      'status' => 201]);
+        }
+        catch(Exception $e) {
+            return response()->json([ 'message' => $e->getMessage(), 
+                                      'status' => 400 ]);
+        }
     }
 
     /**
@@ -75,13 +88,24 @@ class WorkTimeController extends Controller
     {
         $data = $request->all();
 
-        if (array_key_exists('work_time', $data)) {
-            $workTime->workTime = $data['work_time'];
-        }
-        
-        $workTime->save();
+        try {
+            if (array_key_exists('data', $data)) {
+                $data = $data['data'];
+            }
 
-        return response()->json($workTime, 200);
+            if (array_key_exists('work_time', $data)) {
+                $workTime->workTime = $data['work_time'];
+            }
+            
+            $workTime->save();
+
+            return response()->json([ 'data' => $workTime, 
+                                      'status' => 200]);
+        }
+        catch(Exception $e) {
+            return response()->json([ 'message' => $e->getMessage(), 
+                                      'status' => 400 ]);
+        }
     }
 
     /**
@@ -94,7 +118,8 @@ class WorkTimeController extends Controller
     {
         $workTime->delete();
 
-        return response()->json('Deleted', 200);
+        return response()->json([ 'message' => 'Deleted', 
+                                  'status' => 200]);
     }
 
     /**

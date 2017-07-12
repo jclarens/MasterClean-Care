@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\AdditionalInfo;
 use Illuminate\Http\Request;
+use App\Helper\Operator;
+use Exception;
 
 class AdditionalInfoController extends Controller
 {
@@ -36,10 +38,20 @@ class AdditionalInfoController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        
-        $additionalInfo = AdditionalInfo::create($data);
+        try {
+            if (array_key_exists('data', $data)) {
+                $data = $data['data'];
+            }
 
-        return response()->json($additionalInfo, 201);
+            $additionalInfo = AdditionalInfo::create($data);
+
+            return response()->json([ 'data' => $additionalInfo, 
+                                      'status' => 201]);
+        }
+        catch(Exception $e) {
+            return response()->json([ 'message' => $e->getMessage(), 
+                                      'status' => 400 ]);
+        }
     }
 
     /**
@@ -74,14 +86,22 @@ class AdditionalInfoController extends Controller
     public function update(Request $request, AdditionalInfo $additionalInfo)
     {
         $data = $request->all();
+        try {
+            if (array_key_exists('data', $data)) {
+                $data = $data['data'];
+            }
+            if (array_key_exists('info', $data)) {
+                $additionalInfo->info = $data['info'];
+            }
 
-        if (array_key_exists('info', $data)) {
-            $additionalInfo->info = $data['info'];
+            $additionalInfo->save();
+
+            return response()->json($additionalInfo, 200);
         }
-
-        $additionalInfo->save();
-
-        return response()->json($additionalInfo, 200);
+        catch(Exception $e) {
+            return response()->json([ 'message' => $e->getMessage(), 
+                                      'status' => 400 ]);
+        }
     }
 
     /**
@@ -94,7 +114,8 @@ class AdditionalInfoController extends Controller
     {
         $additionalInfo->delete();
 
-        return response()->json('Deleted', 200);
+        return response()->json([ 'message' => 'Deleted', 
+                                  'status' => 200]);
     }
 
     /**

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Language;
 use Illuminate\Http\Request;
+use App\Helper\Operator;
+use Exception;
 
 class LanguageController extends Controller
 {
@@ -36,10 +38,20 @@ class LanguageController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        
-        $language = Language::create($data);
+        try {
+            if (array_key_exists('data', $data)) {
+                $data = $data['data'];
+            }
 
-        return response()->json($language, 201);
+            $language = Language::create($data);
+
+            return response()->json([ 'data' => $language, 
+                                      'status' => 201]);
+        }
+        catch(Exception $e) {
+            return response()->json([ 'message' => $e->getMessage(), 
+                                      'status' => 400 ]);
+        }
     }
 
     /**
@@ -75,13 +87,23 @@ class LanguageController extends Controller
     {
         $data = $request->all();
 
-        if (array_key_exists('language', $data)) {
-            $language->language = $data['language'];
+        try {
+            if (array_key_exists('data', $data)) {
+                $data = $data['data'];
+            }
+            if (array_key_exists('language', $data)) {
+                $language->language = $data['language'];
+            }
+
+            $language->save();
+
+            return response()->json([ 'data' => $language, 
+                                      'status' => 200]);
         }
-
-        $language->save();
-
-        return response()->json($language, 200);
+        catch(Exception $e) {
+            return response()->json([ 'message' => $e->getMessage(), 
+                                      'status' => 400 ]);
+        }
     }
 
     /**
@@ -94,7 +116,8 @@ class LanguageController extends Controller
     {
         $language->delete();
 
-        return response()->json('Deleted', 200);
+        return response()->json([ 'message' => 'Deleted', 
+                                  'status' => 200]);
     }
 
     /**

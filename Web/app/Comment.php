@@ -14,8 +14,6 @@ class Comment extends Model
     protected $fillable = [
         'user_id',
         'comment',
-        'published_date',
-        'content',
     ];
 
     /**
