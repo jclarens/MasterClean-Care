@@ -80,15 +80,15 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/iv_pengaturan"
+                android:id="@+id/iv_ketentuan"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/ic_dashboard_black_24dp"
-                android:contentDescription="@string/pengaturan"/>
+                android:contentDescription="@string/ketentuan"
+                app:srcCompat="@drawable/ic_dashboard_black_24dp" />
 
             <ImageView
                 android:id="@+id/iv_bantuan"
@@ -100,6 +100,7 @@
                 android:layout_weight="1"
                 app:srcCompat="@drawable/ic_dashboard_black_24dp"
                 android:contentDescription="@string/bantuan"/>
+
         </LinearLayout>
 
         <LinearLayout
@@ -109,11 +110,11 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/tv_pengaturan"
+                android:id="@+id/tv_ketentuan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/pengaturan"
+                android:text="@string/ketentuan"
                 android:textAlignment="center" />
 
             <TextView
@@ -132,17 +133,6 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/iv_ketentuan"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/ic_dashboard_black_24dp"
-                android:contentDescription="@string/ketentuan"/>
-
-            <ImageView
                 android:id="@+id/iv_logout"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -159,14 +149,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_ketentuan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/ketentuan"
-                android:textAlignment="center" />
 
             <TextView
                 android:id="@+id/tv_logout"

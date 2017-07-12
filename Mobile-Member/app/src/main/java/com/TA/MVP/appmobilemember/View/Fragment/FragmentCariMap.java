@@ -24,7 +24,6 @@ public class FragmentCariMap extends Fragment {
     private ImageButton imgcari;
     private EditText namalokasi,nama;
     private Button btnfilter;
-//    private DialogFragmentFilter dialogFragmentFilter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_cari_map, container, false);
@@ -33,11 +32,9 @@ public class FragmentCariMap extends Fragment {
         namalokasi = (EditText) _view.findViewById(R.id.carimap_et_carilokasi);
         btnfilter = (Button) _view.findViewById(R.id.carimap_btn_filter);
 
-//        dialogFragmentFilter = new DialogFragmentFilter();
         btnfilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                dialogFragmentFilter.show(getActivity().getFragmentManager(), "filter");
 //                MainActivity.doStartActivity(getContext(), FilterActivity.class);
                 Intent i = new Intent(getContext(),FilterActivity.class);
                 startActivityForResult(i, 1);

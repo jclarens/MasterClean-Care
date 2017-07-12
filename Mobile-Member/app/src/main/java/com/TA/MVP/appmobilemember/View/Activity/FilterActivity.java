@@ -4,18 +4,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.Model.Adapter.SpinnerAdapter;
 import com.TA.MVP.appmobilemember.Model.Array.FilterArrays;
@@ -34,7 +30,7 @@ public class FilterActivity extends ParentActivity{
     private TextView textgaji;
     private SpinnerAdapter spinnerAdapterkota, spinnerAdapteragama, spinnerAdapterprofesi, spinnerAdaptersuku, spinnerAdapterwktkrj;
     private FilterArrays filterArrays;
-    private Integer min,max,tmp;
+    private Integer tmp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +38,9 @@ public class FilterActivity extends ParentActivity{
         setContentView(R.layout.activity_filter);
 
         initAllView();
-        setbtnlistener(btnuminup, usiamin, btnumindown);
-        setbtnlistener(btnumaxup, usiamax, btnumaxdown);
-        setbtnlistener(btnpkup, pk, btnpkdown);
+        setbtnlistener(btnuminup, usiamin, btnumindown, 20, 70);
+        setbtnlistener(btnumaxup, usiamax, btnumaxdown, 20, 70);
+        setbtnlistener(btnpkup, pk, btnpkdown, 0, 50);
 
         spinnerkota.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -85,12 +81,16 @@ public class FilterActivity extends ParentActivity{
                 finish();
             }
         });
+
+        //set leave focus from parent function
+        setupleavefocus(findViewById(R.id.filter_inner_layout), this);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                hideSoftKeyboard(this);
                 finish();
                 break;
         }
@@ -145,45 +145,36 @@ public class FilterActivity extends ParentActivity{
         spinnersuku.setAdapter(spinnerAdaptersuku.getArrayAdapter());
         spinnerwaktukrj.setAdapter(spinnerAdapterwktkrj.getArrayAdapter());
 
-        min=20;
-        max=70;
-        usiamin.setText(String.valueOf(min));
-        usiamax.setText(String.valueOf(max));
+        usiamin.setText(String.valueOf(20));
+        usiamax.setText(String.valueOf(70));
+        pk.setText(String.valueOf(1));
     }
-    private void setbtnlistener(Button btnup, final EditText editText, Button btndown){
+    private void setbtnlistener(Button btnup, final EditText editText, Button btndown, final Integer min2, final Integer max2){
         btnup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 tmp = Integer.valueOf(editText.getText().toString());
-                if (tmp < max)
-                    editText.setText(String.valueOf(tmp - 1));
+                if (tmp < max2)
+                    editText.setText(String.valueOf(tmp + 1));
             }
         });
-        editText.addTextChangedListener(new TextWatcher() {
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                tmp = Integer.valueOf(editText.getText().toString());
-                if (tmp > max)
-                    editText.setText(String.valueOf(max));
-                else if (tmp < min)
-                    editText.setText(String.valueOf(min));
+            public void onFocusChange(View view, boolean b) {
+                if (!b) {
+                    tmp = Integer.valueOf(editText.getText().toString());
+                    if (tmp > max2)
+                        editText.setText(String.valueOf(max2));
+                    else if (tmp < min2)
+                        editText.setText(String.valueOf(min2));
+                }
             }
         });
         btndown.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 tmp = Integer.valueOf(editText.getText().toString());
-                if (tmp > min)
+                if (tmp > min2)
                     editText.setText(String.valueOf(tmp - 1));
             }
         });

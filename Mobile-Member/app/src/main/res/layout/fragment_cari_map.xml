@@ -15,9 +15,11 @@
             android:id="@+id/carimap_icon_cari"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
+            android:background="@android:color/transparent"
             android:contentDescription="@string/carilokasi"
-            app:srcCompat="@drawable/ic_cari" />
+            app:srcCompat="@drawable/icon_search" />
 
         <EditText
             android:id="@+id/carimap_et_carilokasi"

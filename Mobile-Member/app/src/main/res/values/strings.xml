@@ -73,6 +73,7 @@
     <string name="waktupmsnan">Waktu Pemesanan</string>
     <string name="namaasis">Nama Asisten</string>
     <string name="nominal">Rp. 100.000</string>
+    <string name="kodev">Kode Voucher</string>
 
     <string name="prof_prt">Pengurus Rumah Tangga</string>
     <string name="prof_bs">Baby Sitter</string>

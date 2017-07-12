@@ -24,12 +24,12 @@ public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterW
     private ArrayWallet wallets = new ArrayWallet();
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView itemnominal;
+        public TextView itemnominal, itemprice;
 
         public ViewHolder(final View itemview){
             super(itemview);
             itemnominal = (TextView) itemview.findViewById(R.id.card_wallet_nominal);
-
+            itemprice = (TextView) itemview.findViewById(R.id.card_wallet_price);
             itemview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -49,7 +49,8 @@ public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterW
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.itemnominal.setText(String.format(Locale.getDefault(),"%d",wallets.getWallets().get(position).getAmt()));
+        holder.itemnominal.setText(String.format(Locale.getDefault(),"Rp. %d",wallets.getWallets().get(position).getAmt()));
+        holder.itemprice.setText(String.format(Locale.getDefault(),"Rp. %d",wallets.getWallets().get(position).getPrice()));
     }
 
     @Override

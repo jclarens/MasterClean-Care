@@ -6,19 +6,19 @@
         android:title="@string/menu_beranda"/>
     <item
         android:id="@+id/menu_cari"
-        android:icon="@drawable/ic_cari"
+        android:icon="@drawable/icon_search"
         android:title="@string/menu_cari"/>
     <item
         android:id="@+id/menu_status"
-        android:icon="@drawable/ic_status"
+        android:icon="@drawable/icon_status"
         android:title="@string/menu_status"/>
     <item
         android:id="@+id/menu_pesan"
-        android:icon="@drawable/ic_pesan"
+        android:icon="@drawable/icon_pesan"
         android:title="@string/menu_pesan"/>
     <item
         android:id="@+id/menu_lainnya"
-        android:icon="@drawable/ic_other"
+        android:icon="@drawable/ic_others"
         android:title="@string/menu_lainnya"/>
 
 </menu>

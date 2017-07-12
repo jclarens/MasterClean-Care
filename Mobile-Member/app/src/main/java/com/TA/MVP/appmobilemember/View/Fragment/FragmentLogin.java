@@ -49,34 +49,34 @@ public class FragmentLogin extends Fragment {
                 HashMap<String,Object> map = new HashMap<>();
                 map.put("email",email.getText().toString());
                 map.put("password",katasandi.getText().toString());
-                Call<UserResponse> caller =  APIManager.getRepository(UserRepo.class).checkLogin(map);
-                caller.enqueue(new APICallback<UserResponse>() {
-                   @Override
-                   public void onSuccess(Call<UserResponse> call, Response<UserResponse> response) {
-                       super.onSuccess(call, response);
-                       SharedPref.save("logged_id",response.body().getUser().getId());
-
-                       AuthActivity.doChangeActivity(getContext(), MainActivity.class);
-                   }
-
-                   @Override
-                   public void onNotFound(Call<UserResponse> call, Response<UserResponse> response) {
-                       super.onNotFound(call, response);
-                       Toast.makeText(getContext(),"Not Found", Toast.LENGTH_SHORT).show();
-                   }
-
-                   @Override
-                   public void onError(Call<UserResponse> call, Response<UserResponse> response) {
-                       super.onError(call, response);
-                       Toast.makeText(getContext(),"Error", Toast.LENGTH_SHORT).show();
-                   }
-
-                   @Override
-                   public void onFailure(Call<UserResponse> call, Throwable t) {
-                       super.onFailure(call, t);
-                       Toast.makeText(getContext(),"Fail", Toast.LENGTH_SHORT).show();
-                   }
-               });
+//                Call<UserResponse> caller =  APIManager.getRepository(UserRepo.class).checkLogin(map);
+//                caller.enqueue(new APICallback<UserResponse>() {
+//                   @Override
+//                   public void onSuccess(Call<UserResponse> call, Response<UserResponse> response) {
+//                       super.onSuccess(call, response);
+//                       SharedPref.save("logged_id",response.body().getUser().getId());
+//
+//                       AuthActivity.doChangeActivity(getContext(), MainActivity.class);
+//                   }
+//
+//                   @Override
+//                   public void onNotFound(Call<UserResponse> call, Response<UserResponse> response) {
+//                       super.onNotFound(call, response);
+//                       Toast.makeText(getContext(),"Not Found", Toast.LENGTH_SHORT).show();
+//                   }
+//
+//                   @Override
+//                   public void onError(Call<UserResponse> call, Response<UserResponse> response) {
+//                       super.onError(call, response);
+//                       Toast.makeText(getContext(),"Error", Toast.LENGTH_SHORT).show();
+//                   }
+//
+//                   @Override
+//                   public void onFailure(Call<UserResponse> call, Throwable t) {
+//                       super.onFailure(call, t);
+//                       Toast.makeText(getContext(),"Fail", Toast.LENGTH_SHORT).show();
+//                   }
+//               });
 
             }
         });
