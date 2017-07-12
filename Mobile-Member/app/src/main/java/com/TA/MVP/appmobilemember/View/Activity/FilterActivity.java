@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -25,14 +27,14 @@ import com.TA.MVP.appmobilemember.R;
 
 public class FilterActivity extends ParentActivity{
     private Toolbar toolbar;
-    private EditText nama, gaji;
-    private NumberPicker usiamin, usiamax, pengalamankrj;
+    private EditText nama, gaji, usiamin, usiamax, pk;
     private Spinner spinnerkota, spinneragama, spinnersuku, spinnerprofesi, spinnerwaktukrj;
     private CheckBox inggris, mandarin, melayu;
-    private Button btncari, btnbatal;
+    private Button btncari, btnbatal, btnuminup, btnumindown, btnumaxup, btnumaxdown, btnpkup, btnpkdown;
     private TextView textgaji;
     private SpinnerAdapter spinnerAdapterkota, spinnerAdapteragama, spinnerAdapterprofesi, spinnerAdaptersuku, spinnerAdapterwktkrj;
     private FilterArrays filterArrays;
+    private Integer min,max,tmp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,9 @@ public class FilterActivity extends ParentActivity{
         setContentView(R.layout.activity_filter);
 
         initAllView();
+        setbtnlistener(btnuminup, usiamin, btnumindown);
+        setbtnlistener(btnumaxup, usiamax, btnumaxdown);
+        setbtnlistener(btnpkup, pk, btnpkdown);
 
         spinnerkota.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -92,19 +97,14 @@ public class FilterActivity extends ParentActivity{
         return super.onOptionsItemSelected(item);
     }
 
-    private void setnumberpickervalue(NumberPicker np, int min, int max){
-        np.setMinValue(min);
-        np.setMaxValue(max);
-    }
-
     private void initAllView(){
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         textgaji = (TextView) findViewById(R.id.filter_tv_gaji);
         nama = (EditText) findViewById(R.id.filter_et_nama);
         gaji = (EditText) findViewById(R.id.filter_et_gaji);
-        usiamin = (NumberPicker) findViewById(R.id.filter_np_usiamin);
-        usiamax = (NumberPicker) findViewById(R.id.filter_np_usiamax);
-        pengalamankrj = (NumberPicker) findViewById(R.id.filter_np_pengalamankrj);
+        usiamin = (EditText) findViewById(R.id.filter_et_umin);
+        usiamax = (EditText) findViewById(R.id.filter_et_umax);
+        pk = (EditText) findViewById(R.id.filter_et_pk);
         spinnerkota = (Spinner) findViewById(R.id.filter_spinner_kota);
         spinneragama = (Spinner) findViewById(R.id.filter_spinner_agama);
         spinnersuku = (Spinner) findViewById(R.id.filter_spinner_suku);
@@ -115,6 +115,12 @@ public class FilterActivity extends ParentActivity{
         melayu = (CheckBox) findViewById(R.id.filter_cb_bhsmelayu);
         btncari = (Button) findViewById(R.id.filter_btn_cari);
         btnbatal = (Button) findViewById(R.id.filter_btn_batal);
+        btnuminup = (Button) findViewById(R.id.filter_btn_uminup);
+        btnumindown = (Button) findViewById(R.id.filter_btn_umindown);
+        btnumaxup = (Button) findViewById(R.id.filter_btn_umaxup);
+        btnumaxdown = (Button) findViewById(R.id.filter_btn_umaxdown);
+        btnpkup = (Button) findViewById(R.id.filter_btn_pkup);
+        btnpkdown = (Button) findViewById(R.id.filter_btn_pkdown);
 
         setAll();
     }
@@ -125,11 +131,6 @@ public class FilterActivity extends ParentActivity{
         getSupportActionBar().setTitle(R.string.toolbar_filter);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        //NumberPicker
-        setnumberpickervalue(usiamin,20,50);
-        setnumberpickervalue(usiamax,20,50);
-        setnumberpickervalue(pengalamankrj,0,20);
 
         //Spinner
         filterArrays = new FilterArrays();
@@ -143,5 +144,49 @@ public class FilterActivity extends ParentActivity{
         spinnerprofesi.setAdapter(spinnerAdapterprofesi.getArrayAdapter());
         spinnersuku.setAdapter(spinnerAdaptersuku.getArrayAdapter());
         spinnerwaktukrj.setAdapter(spinnerAdapterwktkrj.getArrayAdapter());
+
+        min=20;
+        max=70;
+        usiamin.setText(String.valueOf(min));
+        usiamax.setText(String.valueOf(max));
     }
+    private void setbtnlistener(Button btnup, final EditText editText, Button btndown){
+        btnup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tmp = Integer.valueOf(editText.getText().toString());
+                if (tmp < max)
+                    editText.setText(String.valueOf(tmp - 1));
+            }
+        });
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                tmp = Integer.valueOf(editText.getText().toString());
+                if (tmp > max)
+                    editText.setText(String.valueOf(max));
+                else if (tmp < min)
+                    editText.setText(String.valueOf(min));
+            }
+        });
+        btndown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tmp = Integer.valueOf(editText.getText().toString());
+                if (tmp > min)
+                    editText.setText(String.valueOf(tmp - 1));
+            }
+        });
+    }
+
 }
