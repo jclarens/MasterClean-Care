@@ -55,7 +55,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             axios.get('/api/place/search/parent/equal/' + lvl)
             .then(function (response) {
                 let data = response.data
-                if (data.status !== 201) {
+                if (data.status !== 200) {
                     dispatch(updateSnack({
                         open: true,
                         message: data.message
@@ -73,18 +73,122 @@ const mapDispatchToProps = (dispatch, ownProps) => {
                 }))
                 self.setState({ [type]: dataPlace })
             })
-        }
+        },
+        getLanguage: (self, type) => 
+        {
+            let dataLanguage = [];
+            axios.get('/api/language/')
+            .then(function (response) {
+                let data = response
+                if (data.status !== 200) {
+                    dispatch(updateSnack({
+                        open: true,
+                        message: data.message
+                    }))
+                }
+                else {
+                    dataLanguage = data.data
+                }
+                self.setState({ [type]: dataLanguage })
+            })
+            .catch(function (error) {
+                dispatch(updateSnack({
+                    open: open,
+                    message: error
+                }))
+                self.setState({ [type]: dataLanguage })
+            })
+        },
+        getJob: (self, type) => 
+        {
+            let dataJob = [];
+            axios.get('/api/job/')
+            .then(function (response) {
+                let data = response
+                if (data.status !== 200) {
+                    dispatch(updateSnack({
+                        open: true,
+                        message: data.message
+                    }))
+                }
+                else {
+                    dataJob = data.data
+                }
+                self.setState({ [type]: dataJob })
+            })
+            .catch(function (error) {
+                dispatch(updateSnack({
+                    open: open,
+                    message: error
+                }))
+                self.setState({ [type]: dataLanguage })
+            })
+        },
+        getWorkTime: (self, type) => 
+        {
+            let dataWorkTime = [];
+            axios.get('/api/work_time/')
+            .then(function (response) {
+                let data = response
+                if (data.status !== 200) {
+                    dispatch(updateSnack({
+                        open: true,
+                        message: data.message
+                    }))
+                }
+                else {
+                    dataWorkTime = data.data
+                }
+                self.setState({ [type]: dataWorkTime })
+            })
+            .catch(function (error) {
+                dispatch(updateSnack({
+                    open: open,
+                    message: error
+                }))
+                self.setState({ [type]: dataLanguage })
+            })
+        },
+        getAdditionalInfo: (self, type) => 
+        {
+            let dataAdditionalInfo = [];
+            axios.get('/api/additional_info/')
+            .then(function (response) {
+                let data = response
+                if (data.status !== 200) {
+                    dispatch(updateSnack({
+                        open: true,
+                        message: data.message
+                    }))
+                }
+                else {
+                    dataAdditionalInfo = data.data
+                }
+                self.setState({ [type]: dataAdditionalInfo })
+            })
+            .catch(function (error) {
+                dispatch(updateSnack({
+                    open: open,
+                    message: error
+                }))
+                self.setState({ [type]: dataAdditionalInfo })
+            })
+        },
     }
 }
 
 const RegisterArtContainer = withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(({ history, onUpdateSnack, onRegister, getPlace, status }) => (
+)(({ history, onUpdateSnack, onRegister, getPlace, getLanguage, getJob, getWorkTime, getAdditionalInfo, status }) => (
     <div className="container">
         <RegisterArt onRegister={ (self, data) => onRegister(self, data, history) }
-            getPlace={ getPlace }
             onUpdateSnack={ onUpdateSnack }
+            getPlace={ getPlace }
+            getLanguage= { getLanguage }
+            getJob= { getJob }
+            getWorkTime= { getWorkTime }
+            getAdditionalInfo= { getAdditionalInfo }
             status={ status } />
     </div>
 )))

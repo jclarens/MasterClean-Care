@@ -1,9 +1,12 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import FlatButton from 'material-ui/FlatButton'
 import RaisedButton from 'material-ui/RaisedButton'
 import TextField from 'material-ui/TextField'
 import Paper from 'material-ui/Paper'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import ContentClear from 'material-ui/svg-icons/content/clear'
 import NotificationContainer from '../containers/NotificationContainer'
 import LoadingSpinContainer from '../containers/LoadingSpinContainer'
 import history from '../modules/history'
@@ -55,7 +58,22 @@ class Login extends Component {
     render () {
         return (
             <div>
-                <div className="row">
+                <div className="row" style={{ marginTop: '15px'}}>
+                    <FloatingActionButton 
+                        containerElement={<Link to="/" />}
+                        mini={ true }
+                        backgroundColor="#fff"
+                        iconStyle={{ fill: '#555' }}
+                        style={{
+                            margin: 0,
+                            top: -5,
+                            right: 20,
+                            bottom: 'auto',
+                            left: 'auto',
+                            position: 'relative',
+                        }}>
+                        <ContentClear />
+                    </FloatingActionButton>
                     <div className="col m3 xl4 hide-on-small-only"></div>
                     <Paper className="col s12 m6 xl4" zDepth={1} style={{ margin: "10px auto", padding: "10px" }}>
                         <form onSubmit={(e) => this.loginHandler(e)}>

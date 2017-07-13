@@ -12,6 +12,10 @@
 */
 
 // ->middleware('auth')
+Route::get('/login', function () {
+    return view('index');
+})->name('login');
+
 Route::get('{reactRoutes}', function () {
     return view('index');
 })->where('reactRoutes', '^((?!api).)*$');

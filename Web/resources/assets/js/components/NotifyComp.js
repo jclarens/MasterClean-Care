@@ -7,7 +7,7 @@ const NotifyComp = ({ onRequestClose, status }) => {
         <Snackbar
             bodyStyle={{ textAlign: 'center'}}
             open={status.open}
-            message={status.message}
+            message={status.message || ''}
             autoHideDuration={4000}
             onRequestClose={() => onRequestClose()}
         />
@@ -18,7 +18,6 @@ NotifyComp.propTypes = {
     onRequestClose: PropTypes.func.isRequired,
     status: PropTypes.shape({
         open: PropTypes.bool.isRequired,
-        message: PropTypes.string.isRequired
     }).isRequired
 }
 
