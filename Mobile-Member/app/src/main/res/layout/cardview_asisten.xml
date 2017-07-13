@@ -55,10 +55,11 @@
             android:id="@+id/card_asis_rating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/card_asis_umur"
-            android:layout_toRightOf="@+id/card_wallet_img"
             android:clickable="false"
-            android:focusable="false"/>
+            android:focusable="false"
+            android:layout_alignParentBottom="true"
+            android:layout_toRightOf="@+id/card_wallet_img"
+            android:layout_toEndOf="@+id/card_wallet_img" />
 
     </RelativeLayout>
 
