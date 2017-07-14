@@ -151,7 +151,7 @@ class PlaceController extends Controller
                             $text)
                     ->get();
             return response()->json([ 'data' => $data
-                                    , 'status' => 201]);
+                                    , 'status' => 200]);
         }
         catch(Exception $e) {
             return response()->json([ 'message' => $e->getMessage(), 

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\AdditionalInfo;
 use App\Article;
 use App\Comment;
 use App\EmergencyCall;
@@ -40,6 +41,7 @@ class RouteServiceProvider extends ServiceProvider
         //
         parent::boot();
 
+        Route::model('id', AdditionalInfo::class);
         Route::model('id', Article::class);
         Route::model('id', Comment::class);
         Route::model('id', EmergencyCall::class);

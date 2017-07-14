@@ -10,6 +10,8 @@ import Divider from 'material-ui/Divider'
 import DatePicker from 'material-ui/DatePicker'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
+import FloatingActionButton from 'material-ui/FloatingActionButton'
+import ContentClear from 'material-ui/svg-icons/content/clear'
 import NotificationContainer from '../containers/NotificationContainer'
 import LoadingSpinContainer from '../containers/LoadingSpinContainer'
 
@@ -47,6 +49,10 @@ class RegisterMember extends Component {
         this.onChangeHandler = this.onChangeHandler.bind(this);
     }
 
+    loadInitialData() {
+        this.props.getPlace(this, 'provinceItem', 0)
+    }
+
     componentWillMount() {
         ValidatorForm.addValidationRule('isPasswordMatch', (value) => {
             if (value !== this.state.password) {
@@ -57,7 +63,7 @@ class RegisterMember extends Component {
     }
 
     componentDidMount() {
-        this.props.getPlace(this, 'provinceItem', 0)
+        this.loadInitialData()
     }
 
     menuItems(collection, values) {
@@ -72,47 +78,12 @@ class RegisterMember extends Component {
 
     resetForm() {
         this.setState(this.baseState)
+        this.loadInitialData()
     }
 
     registerHandler(e) {
         e.preventDefault()
-        let locErrMessage = ''
-        this.setState({ isValid : true })
 
-        // if (this.state.email == '') {
-        //     locErrMessage = 'Email dibutuhkan!'
-        // }
-        // else if (this.state.password == '') {
-        //     locErrMessage = 'Password dibutuhkan!'
-        // }
-        // else if (this.state.name == '') {
-        //     locErrMessage = 'Nama dibutuhkan!'
-        // }
-        // else if (this.state.gender == '') {
-        //     locErrMessage = 'Gender dibutuhkan!'
-        // }
-        // else if (this.state.born_place == '') {
-        //     locErrMessage = 'Tempat Lahir dibutuhkan!'
-        // }
-        // else if (this.state.born_date === null) {
-        //     locErrMessage = 'Tanggal Lahir dibutuhkan!'
-        // }
-        // else if (this.state.phone === null) {
-        //     locErrMessage = 'No. Telepon dibutuhkan!'
-        // }
-        // else if (this.state.province === null) {
-        //     locErrMessage = 'Provinsi dibutuhkan!'
-        // }
-        // else if (this.state.city === null) {
-        //     locErrMessage = 'Kota dibutuhkan!'
-        // }
-        // else if (this.state.address === null) {
-        //     locErrMessage = 'Alamat dibutuhkan!'
-        // }
-        // else if (this.state.religion === null) {
-        //     locErrMessage = 'Agama dibutuhkan!'
-        // }
-        // else {
         this.props.onRegister(
             this,
             {
@@ -133,9 +104,6 @@ class RegisterMember extends Component {
                 status: this.state.status,
             }
         )
-        // if (locErrMessage != '') {
-        //     this.props.onUpdateSnack(true, locErrMessage)
-        // }
     }
 
     onChangeHandler(e) {
@@ -166,9 +134,24 @@ class RegisterMember extends Component {
     render() {
         return (
             <div>
-                <div className="row">
+                <div className="row" style={{ marginTop: '15px'}}>
+                    <FloatingActionButton 
+                        containerElement={<Link to="/" />}
+                        mini={ true }
+                        backgroundColor="#fff"
+                        iconStyle={{ fill: '#555' }}
+                        style={{
+                            margin: 0,
+                            top: -5,
+                            right: 20,
+                            bottom: 'auto',
+                            left: 'auto',
+                            position: 'relative',
+                        }}>
+                        <ContentClear />
+                    </FloatingActionButton>
                     <div className="col m2 xl3 hide-on-small-only"></div>
-                    <Paper className="col s12 m8 xl6" zDepth={1} style={{ margin: "10px auto", padding: "10px" }}>
+                    <Paper className="col s12 m8 xl6" zDepth={1} style={{ margin: '10px auto', padding: '10px' }}>
                         <ValidatorForm
                             ref="form"
                             onSubmit={(e) => this.registerHandler(e)}>

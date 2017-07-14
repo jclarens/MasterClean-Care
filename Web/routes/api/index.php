@@ -2,6 +2,7 @@
 
 require_once(base_path('routes/api/user.php'));
 
+require_once(base_path('routes/api/additional_info.php'));
 require_once(base_path('routes/api/article.php'));
 require_once(base_path('routes/api/emergency_call.php'));
 require_once(base_path('routes/api/job.php'));

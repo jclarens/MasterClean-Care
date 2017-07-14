@@ -22,7 +22,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             }))
         },
         onRegister: (self, data, history) => {
-            console.log(data);
             axios.post('/api/user', {
                 data
             })
@@ -56,7 +55,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
             axios.get('/api/place/search/parent/equal/' + lvl)
             .then(function (response) {
                 let data = response.data
-                if (data.status !== 201) {
+                if (data.status !== 200) {
                     dispatch(updateSnack({
                         open: true,
                         message: data.message

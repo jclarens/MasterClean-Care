@@ -212,7 +212,7 @@ class UserController extends Controller
                 $user->email = $email;
             }
             if (array_key_exists('password', $data)) {
-                $user->password = $data['password'];
+                $data['password'] = Hash::make($data['password']);
             }
             if (array_key_exists('gender', $data)) {
                 $user->gender = $data['gender'];
