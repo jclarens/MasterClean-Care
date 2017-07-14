@@ -24,8 +24,8 @@ import com.TA.MVP.appmobilemember.View.Activity.WalletActivity;
  */
 
 public class FragmentLainnya extends Fragment {
-    private ImageView imageprofile, imagewallet, imagepengaturan, imagebantuan, imageketentuan, imagelogout;
-    private TextView txtprofile, txtwallet, txtpengaturan, txtbantuan, txtketentuan, txtlogout;
+    private ImageView imageprofile, imagewallet, imagebantuan, imageketentuan, imagelogout;
+    private TextView txtprofile, txtwallet, txtbantuan, txtketentuan, txtlogout;
     private Context context;
 
     public FragmentLainnya() {
@@ -38,13 +38,11 @@ public class FragmentLainnya extends Fragment {
 
         imageprofile = (ImageView) _view.findViewById(R.id.iv_profile);
         imagewallet = (ImageView) _view.findViewById(R.id.iv_wallet);
-        imagepengaturan = (ImageView) _view.findViewById(R.id.iv_pengaturan);
         imagebantuan = (ImageView) _view.findViewById(R.id.iv_bantuan);
         imageketentuan = (ImageView) _view.findViewById(R.id.iv_ketentuan);
         imagelogout = (ImageView) _view.findViewById(R.id.iv_logout);
         txtprofile = (TextView) _view.findViewById(R.id.tv_profile);
         txtwallet = (TextView) _view.findViewById(R.id.tv_wallet);
-        txtpengaturan = (TextView) _view.findViewById(R.id.tv_pengaturan);
         txtbantuan = (TextView) _view.findViewById(R.id.tv_bantuan);
         txtketentuan = (TextView) _view.findViewById(R.id.tv_ketentuan);
         txtlogout = (TextView) _view.findViewById(R.id.tv_logout);
@@ -61,12 +59,6 @@ public class FragmentLainnya extends Fragment {
             @Override
             public void onClick(View view) {
                 MainActivity.doStartActivity(getContext(), WalletActivity.class);
-            }
-        });
-        imagepengaturan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MainActivity.doStartActivity(getContext(), PengaturanActivity.class);
             }
         });
         imagebantuan.setOnClickListener(new View.OnClickListener() {

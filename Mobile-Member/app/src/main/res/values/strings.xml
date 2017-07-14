@@ -73,6 +73,7 @@
     <string name="waktupmsnan">Waktu Pemesanan</string>
     <string name="namaasis">Nama Asisten</string>
     <string name="nominal">Rp. 100.000</string>
+    <string name="kodev">Kode Voucher</string>
 
     <string name="prof_prt">Pengurus Rumah Tangga</string>
     <string name="prof_bs">Baby Sitter</string>
@@ -137,6 +138,9 @@
     <string name="btn_kmbl">Kembali</string>
     <string name="btn_hps">Hapus</string>
     <string name="btn_bls">Balas</string>
+
+    <string name="arrow_down">&#x25BC;</string>
+    <string name="arrow_up">&#x25B2;</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

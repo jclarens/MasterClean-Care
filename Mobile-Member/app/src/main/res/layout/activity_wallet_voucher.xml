@@ -16,7 +16,7 @@
             android:id="@+id/textView27"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="@string/kodev" />
 
         <EditText
             android:id="@+id/vou_et_code"

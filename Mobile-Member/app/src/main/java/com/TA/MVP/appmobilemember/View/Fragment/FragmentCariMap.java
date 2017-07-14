@@ -34,7 +34,6 @@ public class FragmentCariMap extends Fragment implements OnMapReadyCallback {
     private ImageButton imgcari;
     private EditText namalokasi,nama;
     private Button btnfilter;
-
     GoogleMap mGoogleMap;
     MapView mMapView;
     View _view;
@@ -55,11 +54,9 @@ public class FragmentCariMap extends Fragment implements OnMapReadyCallback {
         namalokasi = (EditText) _view.findViewById(R.id.carimap_et_carilokasi);
         btnfilter = (Button) _view.findViewById(R.id.carimap_btn_filter);
 
-//        dialogFragmentFilter = new DialogFragmentFilter();
         btnfilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                dialogFragmentFilter.show(getActivity().getFragmentManager(), "filter");
 //                MainActivity.doStartActivity(getContext(), FilterActivity.class);
                 Intent i = new Intent(getContext(),FilterActivity.class);
                 startActivityForResult(i, 1);

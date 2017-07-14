@@ -17,7 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="10dp">
+            android:padding="10dp"
+            android:id="@+id/filter_inner_layout">
 
             <TextView
                 android:id="@+id/textView4"
@@ -56,11 +57,35 @@
                         android:text="@string/filter_usiamin"
                         android:textColor="@android:color/black" />
 
-                    <NumberPicker
-                        android:id="@+id/filter_np_usiamin"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:descendantFocusability="blocksDescendants" />
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:weightSum="4">
+
+                        <Button
+                            android:id="@+id/filter_btn_uminup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/arrow_up" />
+
+                        <EditText
+                            android:id="@+id/filter_et_umin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:ems="10"
+                            android:inputType="number" />
+
+                        <Button
+                            android:id="@+id/filter_btn_umindown"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/arrow_down" />
+                    </LinearLayout>
 
                 </LinearLayout>
 
@@ -79,11 +104,35 @@
                         android:text="@string/filter_usiamax"
                         android:textColor="@android:color/black" />
 
-                    <NumberPicker
-                        android:id="@+id/filter_np_usiamax"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:descendantFocusability="blocksDescendants" />
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        android:weightSum="4">
+
+                        <Button
+                            android:id="@+id/filter_btn_umaxup"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/arrow_up" />
+
+                        <EditText
+                            android:id="@+id/filter_et_umax"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:ems="10"
+                            android:inputType="number" />
+
+                        <Button
+                            android:id="@+id/filter_btn_umaxdown"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/arrow_down" />
+                    </LinearLayout>
 
                 </LinearLayout>
             </LinearLayout>
@@ -96,18 +145,43 @@
 
                 <TextView
                     android:id="@+id/textView18"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="9"
+                    android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="@string/filter_pengalamankrj"
                     android:textColor="@android:color/black" />
 
-                <NumberPicker
-                    android:id="@+id/filter_np_pengalamankrj"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
-                    android:layout_weight="1" />
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:weightSum="4">
+
+                    <Button
+                        android:id="@+id/filter_btn_pkup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/arrow_up" />
+
+                    <EditText
+                        android:id="@+id/filter_et_pk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:ems="10"
+                        android:inputType="number" />
+
+                    <Button
+                        android:id="@+id/filter_btn_pkdown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/arrow_down" />
+                </LinearLayout>
+
             </LinearLayout>
 
             <TextView

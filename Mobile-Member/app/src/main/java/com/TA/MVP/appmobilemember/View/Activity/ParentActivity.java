@@ -1,8 +1,14 @@
 package com.TA.MVP.appmobilemember.View.Activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 /**
  * Created by Zackzack on 09/06/2017.
@@ -17,5 +23,25 @@ public class ParentActivity extends AppCompatActivity{
     public static void doStartActivity(Context context, Class activityClass) {
         Intent _intent = new Intent(context, activityClass);
         context.startActivity(_intent);
+    }
+    public void setupleavefocus(View view, final Activity activity){
+        if (!(view instanceof EditText)){
+            view.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    hideSoftKeyboard(activity);
+                    return false;
+                }
+            });
+        }
+        if (view instanceof ViewGroup)
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++){
+                View innerview = ((ViewGroup) view).getChildAt(i);
+                setupleavefocus(innerview, activity);
+            }
+    }
+    public static void hideSoftKeyboard(Activity activity){
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 }
