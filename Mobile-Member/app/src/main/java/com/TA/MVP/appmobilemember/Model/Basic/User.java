@@ -7,16 +7,21 @@ import java.util.Date;
  */
 
 public class User {
-    private String id, name, email, password, born_place, phone, address, location, profile_img_name, profile_img_path;
-    private Integer gender, province, city, religion, race, user_type, status;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    private String name;
+    private String email;
+    private String password;
+    private Integer gender;
+    private String born_place;
+    private Date born_date;
+    private String phone;
+    private Integer province;
+    private Integer city;
+    private String address;
+    private String location;
+    private Integer religion;
+    private String race;
+    private Integer user_type;
+    private String profile_img_name;
 
     public String getName() {
         return name;
@@ -42,6 +47,14 @@ public class User {
         this.password = password;
     }
 
+    public Integer getGender() {
+        return gender;
+    }
+
+    public void setGender(Integer gender) {
+        this.gender = gender;
+    }
+
     public String getBorn_place() {
         return born_place;
     }
@@ -50,52 +63,20 @@ public class User {
         this.born_place = born_place;
     }
 
+    public Date getBorn_date() {
+        return born_date;
+    }
+
+    public void setBorn_date(Date born_date) {
+        this.born_date = born_date;
+    }
+
     public String getPhone() {
         return phone;
     }
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public String getProfile_img_name() {
-        return profile_img_name;
-    }
-
-    public void setProfile_img_name(String profile_img_name) {
-        this.profile_img_name = profile_img_name;
-    }
-
-    public String getProfile_img_path() {
-        return profile_img_path;
-    }
-
-    public void setProfile_img_path(String profile_img_path) {
-        this.profile_img_path = profile_img_path;
-    }
-
-    public Integer getGender() {
-        return gender;
-    }
-
-    public void setGender(Integer gender) {
-        this.gender = gender;
     }
 
     public Integer getProvince() {
@@ -114,6 +95,22 @@ public class User {
         this.city = city;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     public Integer getReligion() {
         return religion;
     }
@@ -122,11 +119,11 @@ public class User {
         this.religion = religion;
     }
 
-    public Integer getRace() {
+    public String getRace() {
         return race;
     }
 
-    public void setRace(Integer race) {
+    public void setRace(String race) {
         this.race = race;
     }
 
@@ -138,6 +135,22 @@ public class User {
         this.user_type = user_type;
     }
 
+    public String getProfile_img_name() {
+        return profile_img_name;
+    }
+
+    public void setProfile_img_name(String profile_img_name) {
+        this.profile_img_name = profile_img_name;
+    }
+
+    public String getProfile_img_path() {
+        return profile_img_path;
+    }
+
+    public void setProfile_img_path(String profile_img_path) {
+        this.profile_img_path = profile_img_path;
+    }
+
     public Integer getStatus() {
         return status;
     }
@@ -145,4 +158,7 @@ public class User {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+    private String profile_img_path;
+    private Integer status;
 }
