@@ -56,7 +56,7 @@ public class FragmentLogin extends Fragment {
 //                       super.onSuccess(call, response);
 //                       SharedPref.save("logged_id",response.body().getUser().getId());
 //
-//                       AuthActivity.doChangeActivity(getContext(), MainActivity.class);
+                       AuthActivity.doChangeActivity(getContext(), MainActivity.class);
 //                   }
 //
 //                   @Override
