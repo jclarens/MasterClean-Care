@@ -5,15 +5,7 @@ package com.TA.MVP.appmobilemember.Model.Basic;
  */
 
 public class Waktu_Kerja {
-    private String id, work_time;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    private String work_time;
 
     public String getWork_time() {
         return work_time;
