@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentStatusDisetujui;
+import com.TA.MVP.appmobilemember.View.Fragment.FragmentStatusPenawaran;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentStatusPending;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentStatusRiwayat;
 
@@ -23,17 +24,19 @@ public class PagerAdapterStatus extends FragmentPagerAdapter{
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return new FragmentStatusPending();
+                return new FragmentStatusPenawaran();
             case 1:
-                return new FragmentStatusDisetujui();
+                return new FragmentStatusPending();
             case 2:
+                return new FragmentStatusDisetujui();
+            case 3:
                 return new FragmentStatusRiwayat();
             default:
                 return null;
@@ -44,10 +47,12 @@ public class PagerAdapterStatus extends FragmentPagerAdapter{
     public CharSequence getPageTitle(int position) {
         switch (position){
             case 0:
-                return thiscontext.getResources().getString(R.string.pager_status_pending);
+                return thiscontext.getResources().getString(R.string.pager_status_penawaran);
             case 1:
-                return thiscontext.getResources().getString(R.string.pager_status_disetujui);
+                return thiscontext.getResources().getString(R.string.pager_status_pending);
             case 2:
+                return thiscontext.getResources().getString(R.string.pager_status_disetujui);
+            case 3:
                 return thiscontext.getResources().getString(R.string.pager_status_riwayat);
             default:
                 return null;

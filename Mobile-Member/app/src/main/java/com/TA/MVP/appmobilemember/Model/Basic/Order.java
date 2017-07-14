@@ -7,8 +7,8 @@ import java.util.Date;
  */
 
 public class Order {
-    private Integer member_id;
-    private Integer art_id;
+    private User member;
+    private User art;
     private Integer work_time_id;
     private Date start_date;
     private Date end_date;
@@ -19,20 +19,20 @@ public class Order {
     private String remark;
     private Integer status;
 
-    public Integer getMember_id() {
-        return member_id;
+    public User getMember() {
+        return member;
     }
 
-    public void setMember_id(Integer member_id) {
-        this.member_id = member_id;
+    public void setMember(User member) {
+        this.member = member;
     }
 
-    public Integer getArt_id() {
-        return art_id;
+    public User getArt() {
+        return art;
     }
 
-    public void setArt_id(Integer art_id) {
-        this.art_id = art_id;
+    public void setArt(User art) {
+        this.art = art;
     }
 
     public Integer getWork_time_id() {

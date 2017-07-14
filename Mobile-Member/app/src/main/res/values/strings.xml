@@ -94,6 +94,7 @@
 
     <string name="pager_cari_map">Map</string>
     <string name="pager_cari_list">List</string>
+    <string name="pager_status_penawaran">Penawaran</string>
     <string name="pager_status_pending">Pending</string>
     <string name="pager_status_disetujui">Disetujui</string>
     <string name="pager_status_riwayat">Riwayat</string>
@@ -138,6 +139,7 @@
     <string name="btn_kmbl">Kembali</string>
     <string name="btn_hps">Hapus</string>
     <string name="btn_bls">Balas</string>
+    <string name="btn_add_penawaran">Buat Penawaran</string>
 
     <string name="arrow_down">&#x25BC;</string>
     <string name="arrow_up">&#x25B2;</string>

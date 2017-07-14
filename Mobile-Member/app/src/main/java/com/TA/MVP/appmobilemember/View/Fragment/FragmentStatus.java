@@ -20,9 +20,6 @@ public class FragmentStatus extends Fragment {
     private TabLayout tabLayoutstatus;
     private ViewPager viewPagerstatus;
     private PagerAdapter pagerAdapterstatus;
-    public FragmentStatus(){
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

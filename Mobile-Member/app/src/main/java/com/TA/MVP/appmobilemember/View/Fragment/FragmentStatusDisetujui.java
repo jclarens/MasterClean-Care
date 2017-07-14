@@ -18,7 +18,7 @@ import com.TA.MVP.appmobilemember.R;
 public class FragmentStatusDisetujui extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager rec_LayoutManager;
-    private RecyclerView.Adapter rec_Adapter;
+    private RecyclerAdapterPemesanan rec_Adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_status_disetujui, container, false);

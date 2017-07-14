@@ -3,6 +3,7 @@ package com.TA.MVP.appmobilemember.View.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
@@ -65,6 +66,12 @@ public class AsistenActivity extends ParentActivity {
 //                super.onFailure(call, t);
 //            }
 //        });
+        pemesanan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                doStartActivity(AsistenActivity.this, PemesananActivity.class);
+            }
+        });
 
     }
 

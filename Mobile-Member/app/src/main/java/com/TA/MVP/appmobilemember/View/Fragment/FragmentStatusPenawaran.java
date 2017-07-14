@@ -12,16 +12,16 @@ import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterPemesanan;
 import com.TA.MVP.appmobilemember.R;
 
 /**
- * Created by Zackzack on 10/06/2017.
+ * Created by Zackzack on 14/07/2017.
  */
 
-public class FragmentStatusRiwayat extends Fragment {
+public class FragmentStatusPenawaran extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager rec_LayoutManager;
     private RecyclerAdapterPemesanan rec_Adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View _view = inflater.inflate(R.layout.fragment_status_riwayat, container, false);
+        View _view = inflater.inflate(R.layout.fragment_status_penawaran, container, false);
 
         recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_asisten);
 
