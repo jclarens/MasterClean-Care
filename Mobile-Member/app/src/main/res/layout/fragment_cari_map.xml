@@ -43,10 +43,10 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/linearlayout1">
 
-        <!--<com.google.android.gms.maps.MapView-->
-            <!--android:id="@+id/carimap_mapview"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent" />-->
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/carimap_mapview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </FrameLayout>
 
 </RelativeLayout>
