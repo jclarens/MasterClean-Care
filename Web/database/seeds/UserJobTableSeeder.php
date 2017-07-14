@@ -44,14 +44,6 @@ class UserJobTableSeeder extends Seeder
                 'user_id' => 7,
                 'job_id' => 3,
             ],
-            [
-                'user_id' => 8,
-                'job_id' => 2,
-            ],
-            [
-                'user_id' => 8,
-                'job_id' => 3,
-            ],
         ]);
     }
 }

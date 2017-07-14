@@ -36,10 +36,6 @@ class UserLanguageTableSeeder extends Seeder
                 'user_id' => 7,
                 'language_id' => 2,
             ],
-            [
-                'user_id' => 8,
-                'language_id' => 2,
-            ],
         ]);
     }
 }

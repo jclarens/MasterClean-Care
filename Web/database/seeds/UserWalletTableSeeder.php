@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class UserWalletTablSeeder extends Seeder
+class UserWalletTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -38,10 +38,6 @@ class UserWalletTablSeeder extends Seeder
             ],
             [
                 'user_id' => 7,
-                'amt' => 0,
-            ],
-            [
-                'user_id' => 8,
                 'amt' => 0,
             ],
         ]);
