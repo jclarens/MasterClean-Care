@@ -6,7 +6,7 @@ import java.util.Date;
  * Created by Zackzack on 14/07/2017.
  */
 
-public class emergencycall {
+public class Emergencycall {
     private User user;
     private Date init_time;
     private Integer status;

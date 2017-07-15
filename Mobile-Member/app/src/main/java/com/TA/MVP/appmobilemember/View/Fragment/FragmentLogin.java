@@ -1,5 +1,6 @@
 package com.TA.MVP.appmobilemember.View.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,14 +12,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.Model.Basic.User;
-import com.TA.MVP.appmobilemember.Model.Responses.UserResponse;
-import com.TA.MVP.appmobilemember.Presenter.Repositories.UserRepo;
+import com.TA.MVP.appmobilemember.Model.Responses.Token;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.View.Activity.AuthActivity;
 import com.TA.MVP.appmobilemember.View.Activity.MainActivity;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
+import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
+import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
+import com.TA.MVP.appmobilemember.lib.utils.Settings;
 
 import java.util.HashMap;
 
@@ -47,37 +51,42 @@ public class FragmentLogin extends Fragment {
             @Override
             public void onClick(View view) {
                 HashMap<String,Object> map = new HashMap<>();
-                map.put("email",email.getText().toString());
+                map.put("grant_type","password");
+                map.put("client_id", Settings.getClientID());
+                map.put("client_secret",Settings.getclientSecret());
+                map.put("username",email.getText().toString());
                 map.put("password",katasandi.getText().toString());
-//                Call<UserResponse> caller =  APIManager.getRepository(UserRepo.class).checkLogin(map);
-//                caller.enqueue(new APICallback<UserResponse>() {
-//                   @Override
-//                   public void onSuccess(Call<UserResponse> call, Response<UserResponse> response) {
-//                       super.onSuccess(call, response);
-//                       SharedPref.save("logged_id",response.body().getUser().getId());
-//
-                       AuthActivity.doChangeActivity(getContext(), MainActivity.class);
-//                   }
-//
-//                   @Override
-//                   public void onNotFound(Call<UserResponse> call, Response<UserResponse> response) {
-//                       super.onNotFound(call, response);
-//                       Toast.makeText(getContext(),"Not Found", Toast.LENGTH_SHORT).show();
-//                   }
-//
-//                   @Override
-//                   public void onError(Call<UserResponse> call, Response<UserResponse> response) {
-//                       super.onError(call, response);
-//                       Toast.makeText(getContext(),"Error", Toast.LENGTH_SHORT).show();
-//                   }
-//
-//                   @Override
-//                   public void onFailure(Call<UserResponse> call, Throwable t) {
-//                       super.onFailure(call, t);
-//                       Toast.makeText(getContext(),"Fail", Toast.LENGTH_SHORT).show();
-//                   }
-//               });
+                Call<Token> caller = APIManager.getRepository(UserRepo.class).logintoken(map);
+                caller.enqueue(new APICallback<Token>() {
+                    @Override
+                    public void onSuccess(Call<Token> call, Response<Token> response) {
+                        super.onSuccess(call, response);
+                        SharedPref.save(SharedPref.ACCESS_TOKEN, response.body().getAccess_token());
+                        getOwnData();
+                    }
 
+                    @Override
+                    public void onUnauthorized(Call<Token> call, Response<Token> response) {
+                        super.onUnauthorized(call, response);
+                        Toast.makeText(getContext(), "Email or Password is wrong", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onNotFound(Call<Token> call, Response<Token> response) {
+                        super.onNotFound(call, response);
+                    }
+
+                    @Override
+                    public void onError(Call<Token> call, Response<Token> response) {
+                        super.onError(call, response);
+                    }
+
+                    @Override
+                    public void onFailure(Call<Token> call, Throwable t) {
+                        super.onFailure(call, t);
+                    }
+                });
             }
         });
 
@@ -87,7 +96,22 @@ public class FragmentLogin extends Fragment {
                 ((AuthActivity)getActivity()).doChangeFragment(new FragmentRegister());
             }
         });
-//        if (username.getText() != null && katasandi.getText() != null )
         return _view;
+    }
+
+    public void getOwnData(){
+        Call<User> caller = APIManager.getRepository(UserRepo.class).getOwnData();
+        caller.enqueue(new APICallback<User>() {
+            @Override
+            public void onSuccess(Call<User> call, Response<User> response) {
+                super.onSuccess(call, response);
+                if (getActivity().getIntent().hasExtra(ConstClass.LOGIN_EXTRA)) {
+                    Intent i = new Intent();
+                    i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(response.body(),User.class));
+                    getActivity().setResult(FragmentLainnya.RESULT_SUCCESS, i);
+                }
+                getActivity().finish();
+            }
+        });
     }
 }

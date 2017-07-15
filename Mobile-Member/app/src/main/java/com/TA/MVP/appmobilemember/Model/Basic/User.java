@@ -22,6 +22,8 @@ public class User {
     private String race;
     private Integer user_type;
     private String profile_img_name;
+    private String profile_img_path;
+    private Integer status;
 
     public String getName() {
         return name;
@@ -158,7 +160,4 @@ public class User {
     public void setStatus(Integer status) {
         this.status = status;
     }
-
-    private String profile_img_path;
-    private Integer status;
 }

@@ -1,0 +1,19 @@
+package com.TA.MVP.appmobilemember.Model.Responses;
+
+import com.TA.MVP.appmobilemember.Model.Basic.OrderTask;
+
+/**
+ * Created by Zackzack on 15/07/2017.
+ */
+
+public class TaskResponse {
+    private OrderTask orderTask;
+
+    public OrderTask getOrderTask() {
+        return orderTask;
+    }
+
+    public void setOrderTask(OrderTask orderTask) {
+        this.orderTask = orderTask;
+    }
+}

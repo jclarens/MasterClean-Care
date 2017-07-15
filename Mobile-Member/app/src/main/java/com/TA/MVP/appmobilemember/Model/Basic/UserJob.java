@@ -1,12 +1,12 @@
 package com.TA.MVP.appmobilemember.Model.Basic;
 
 /**
- * Created by Zackzack on 14/07/2017.
+ * Created by Zackzack on 15/07/2017.
  */
 
-public class UserWallet {
+public class UserJob {
     private User user;
-    private Integer amt;
+    private Job job;
 
     public User getUser() {
         return user;
@@ -16,11 +16,11 @@ public class UserWallet {
         this.user = user;
     }
 
-    public Integer getAmt() {
-        return amt;
+    public Job getJob() {
+        return job;
     }
 
-    public void setAmt(Integer amt) {
-        this.amt = amt;
+    public void setJob(Job job) {
+        this.job = job;
     }
 }

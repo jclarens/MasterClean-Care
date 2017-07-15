@@ -9,15 +9,7 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.TA.MVP.appmobilemember.Model.Array.ArrayAgama;
-import com.TA.MVP.appmobilemember.Presenter.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.R;
-import com.TA.MVP.appmobilemember.lib.api.APICallback;
-import com.TA.MVP.appmobilemember.lib.api.APIManager;
-import com.TA.MVP.appmobilemember.lib.models.GenericResponse;
-
-import retrofit2.Call;
-import retrofit2.Response;
 
 /**
  * Created by Zackzack on 12/06/2017.

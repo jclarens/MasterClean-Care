@@ -6,10 +6,12 @@ package com.TA.MVP.appmobilemember.Model.Basic;
 
 public class AdditionalInfo {
     private String text;
-    private Integer value;
 
-    public AdditionalInfo() {
-        text = "Takut Anjing";
-        value = 0;
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 }

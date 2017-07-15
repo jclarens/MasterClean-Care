@@ -1,6 +1,7 @@
 package com.TA.MVP.appmobilemember.View.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Activity.AuthActivity;
 import com.TA.MVP.appmobilemember.View.Activity.BantuanActivity;
@@ -18,19 +20,23 @@ import com.TA.MVP.appmobilemember.View.Activity.MainActivity;
 import com.TA.MVP.appmobilemember.View.Activity.PengaturanActivity;
 import com.TA.MVP.appmobilemember.View.Activity.ProfileActivity;
 import com.TA.MVP.appmobilemember.View.Activity.WalletActivity;
+import com.TA.MVP.appmobilemember.lib.database.SharedPref;
+import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
+import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
 /**
  * Created by Zackzack on 07/06/2017.
  */
 
 public class FragmentLainnya extends Fragment {
+    public final static int REQUEST_LOGIN = 1;
+
+    public final static int RESULT_SUCCESS = 1;
+
     private ImageView imageprofile, imagewallet, imagebantuan, imageketentuan, imagelogout;
     private TextView txtprofile, txtwallet, txtbantuan, txtketentuan, txtlogout;
     private Context context;
-
-    public FragmentLainnya() {
-
-    }
+    private User user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,6 +52,13 @@ public class FragmentLainnya extends Fragment {
         txtbantuan = (TextView) _view.findViewById(R.id.tv_bantuan);
         txtketentuan = (TextView) _view.findViewById(R.id.tv_ketentuan);
         txtlogout = (TextView) _view.findViewById(R.id.tv_logout);
+
+        if (SharedPref.getValueString(SharedPref.ACCESS_TOKEN) == ""){
+            txtlogout.setText("login");
+        }
+        else
+            txtlogout.setText("logout");
+
         context = getContext();
 
         imageprofile.setOnClickListener(new View.OnClickListener() {
@@ -76,11 +89,34 @@ public class FragmentLainnya extends Fragment {
         imagelogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"Logout", Toast.LENGTH_SHORT).show();
-                MainActivity.doChangeActivity(getContext(), AuthActivity.class);
+                if (SharedPref.getValueString(SharedPref.ACCESS_TOKEN) == ""){
+                    Intent i = new Intent(getContext(), AuthActivity.class);
+                    i.putExtra(ConstClass.LOGIN_EXTRA, true);
+                    i.putExtra(ConstClass.REGISTER_EXTRA, true);
+                    getActivity().startActivityForResult(i, REQUEST_LOGIN);
+                }
+                else{
+                    SharedPref.save(SharedPref.ACCESS_TOKEN, "");
+                    SharedPref.save(ConstClass.USER, "");
+                    Toast.makeText(context,"Logout", Toast.LENGTH_SHORT).show();
+                    txtlogout.setText("login");
+                }
+//                Toast.makeText(context,"Logout", Toast.LENGTH_SHORT).show();
+//                MainActivity.doChangeActivity(getContext(), AuthActivity.class);
             }
         });
 
         return _view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_LOGIN){
+            if (resultCode == RESULT_SUCCESS){
+                user = GsonUtils.getObjectFromJson(data.getStringExtra(ConstClass.USER), User.class);
+                SharedPref.save(ConstClass.USER, data.getStringExtra(ConstClass.USER));
+            }
+        }
     }
 }

@@ -99,7 +99,5 @@ public class FragmentCariMap extends Fragment implements OnMapReadyCallback {
         googleMap.addMarker(new MarkerOptions().position(new LatLng(3.6426182,98.5290616)).title("Medan").snippet("bla bla bla bal"));
         CameraPosition Medan = CameraPosition.builder().target(new LatLng(3.6426182, 98.5290616)).zoom(16).bearing(0).tilt(45).build();
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(Medan));
-
-
     }
 }

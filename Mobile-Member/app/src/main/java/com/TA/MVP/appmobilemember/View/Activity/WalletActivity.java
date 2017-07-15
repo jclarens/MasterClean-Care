@@ -6,24 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterWallet;
-import com.TA.MVP.appmobilemember.Model.Basic.Wallet;
-import com.TA.MVP.appmobilemember.Presenter.Repositories.WalletRepo;
 import com.TA.MVP.appmobilemember.R;
-import com.TA.MVP.appmobilemember.lib.api.APICallback;
-import com.TA.MVP.appmobilemember.lib.api.APIManager;
-import com.TA.MVP.appmobilemember.lib.models.GenericResponse;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Response;
 
 /**
  * Created by Zackzack on 19/06/2017.
