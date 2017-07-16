@@ -266,7 +266,8 @@
             <Spinner
                 android:id="@+id/filter_spinner_profesi"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                />
 
             <TextView
                 android:id="@+id/textView24"

@@ -7,12 +7,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Adapter.SpinnerAdapter;
 import com.TA.MVP.appmobilemember.Model.Array.FilterArrays;
 import com.TA.MVP.appmobilemember.R;
@@ -31,6 +34,7 @@ public class FilterActivity extends ParentActivity{
     private SpinnerAdapter spinnerAdapterkota, spinnerAdapteragama, spinnerAdapterprofesi, spinnerAdaptersuku, spinnerAdapterwktkrj;
     private FilterArrays filterArrays;
     private Integer tmp;
+    private ArrayAdapter arrayAdapterJob, arrayAdapterWaktu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,16 +138,24 @@ public class FilterActivity extends ParentActivity{
 
         //Spinner
         filterArrays = new FilterArrays();
+
+
+
+        arrayAdapterJob = new ArrayAdapter(getApplicationContext(), R.layout.spinner_item, ((MasterCleanApplication) getApplication()).getGlobalStaticData().getJobs());
+        spinnerprofesi.setAdapter(arrayAdapterJob);
+
+        arrayAdapterWaktu = new ArrayAdapter(getApplicationContext(), R.layout.spinner_item, ((MasterCleanApplication) getApplication()).getGlobalStaticData().getWaktu_kerjas());
+        spinnerwaktukrj.setAdapter(arrayAdapterWaktu);
+
+
+
         spinnerAdapteragama = new SpinnerAdapter(this, filterArrays.getArrayAgama().getArrayList());
         spinnerAdapterkota = new SpinnerAdapter(this, filterArrays.getArrayKota().getArrayList());
-        spinnerAdapterprofesi = new SpinnerAdapter(this, filterArrays.getArrayProfesi().getStringArrayList());
         spinnerAdaptersuku = new SpinnerAdapter(this, filterArrays.getArraySuku().getArrayList());
-        spinnerAdapterwktkrj = new SpinnerAdapter(this, filterArrays.getArrayWaktukrj().getArrayList());
         spinneragama.setAdapter(spinnerAdapteragama.getArrayAdapter());
         spinnerkota.setAdapter(spinnerAdapterkota.getArrayAdapter());
-        spinnerprofesi.setAdapter(spinnerAdapterprofesi.getArrayAdapter());
         spinnersuku.setAdapter(spinnerAdaptersuku.getArrayAdapter());
-        spinnerwaktukrj.setAdapter(spinnerAdapterwktkrj.getArrayAdapter());
+
 
         usiamin.setText(String.valueOf(20));
         usiamax.setText(String.valueOf(70));

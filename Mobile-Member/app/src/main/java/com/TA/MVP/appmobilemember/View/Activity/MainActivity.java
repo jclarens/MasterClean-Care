@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Basic.AdditionalInfo;
@@ -50,7 +51,7 @@ public class MainActivity extends ParentActivity {
     private Toolbar toolbar;
     private Context context;
     private Menu menutoolbar;
-    public StaticData staticData;
+    public StaticData staticData = new StaticData();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +115,7 @@ public class MainActivity extends ParentActivity {
     }
 
     public void getstaticData(){
-        //Place
+//        Place
         Call<List<Place>> caller1 = APIManager.getRepository(PlaceRepo.class).getplaces();
         caller1.enqueue(new APICallback<List<Place>>() {
             @Override
@@ -187,6 +188,7 @@ public class MainActivity extends ParentActivity {
             public void onSuccess(Call<List<Wallet>> call, Response<List<Wallet>> response) {
                 super.onSuccess(call, response);
                 staticData.setWallets(response.body());
+                Toast.makeText(context,staticData.getWallets().get(1).getAmt().toString(), Toast.LENGTH_SHORT).show();
             }
 
             @Override

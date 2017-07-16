@@ -96,7 +96,9 @@ public class FragmentCariMap extends Fragment implements OnMapReadyCallback {
 
         mGoogleMap = googleMap;
         googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        googleMap.addMarker(new MarkerOptions().position(new LatLng(3.6426182,98.5290616)).title("Medan").snippet("bla bla bla bal"));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(3.5879738,98.6884172)).title("Medan").snippet("Kampus A Mikroskil"));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(3.5881532,98.6832049)).title("Medan").snippet("Pusat PAsar"));
+        googleMap.addMarker(new MarkerOptions().position(new LatLng(3.5824921,98.669481)).title("Medan").snippet("Sun Plaza"));
         CameraPosition Medan = CameraPosition.builder().target(new LatLng(3.6426182, 98.5290616)).zoom(16).bearing(0).tilt(45).build();
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(Medan));
     }

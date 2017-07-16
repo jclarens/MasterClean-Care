@@ -14,4 +14,8 @@ public class Waktu_Kerja {
     public void setWork_time(String work_time) {
         this.work_time = work_time;
     }
+
+    public String toString() {
+        return (work_time);
+    }
 }

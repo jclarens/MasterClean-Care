@@ -25,7 +25,7 @@ import android.app.Application;
  */
 
 public class MasterCleanApplication extends Application {
-    public StaticData globalStaticData = new StaticData();
+    public StaticData globalStaticData;
 
     public StaticData getGlobalStaticData() {
         return globalStaticData;
@@ -37,6 +37,7 @@ public class MasterCleanApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        globalStaticData = new StaticData();
 //        Log.d("tmp","onCreate:" +
 //                FileUtils.loadSettingsJsonFile(getApplicationContext())
 //        );
