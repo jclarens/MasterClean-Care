@@ -56,7 +56,7 @@ public class FragmentLogin extends Fragment {
                 map.put("client_secret",Settings.getclientSecret());
                 map.put("username",email.getText().toString());
                 map.put("password",katasandi.getText().toString());
-                Call<Token> caller = APIManager.getRepository(UserRepo.class).logintoken(map);
+                Call<Token> caller = APIManager.getRepository(UserRepo.class).loginuser(map);
                 caller.enqueue(new APICallback<Token>() {
                     @Override
                     public void onSuccess(Call<Token> call, Response<Token> response) {

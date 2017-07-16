@@ -30,20 +30,20 @@ public interface UserRepo {
     Call<User> getOwnData();
 
     @Headers("Accept: application/json")
+    @POST("oauth/token")
+    Call<Token> loginuser(@Body HashMap map);
+
+    @Headers("Accept: application/json")
+    @POST("oauth/register")
+    Call<Token> registeruser(@Body HashMap map);
+
+    @Headers("Accept: application/json")
     @POST("api/logout")
     Call<UserResponse> logout();
 
     @Headers("Accept: application/json")
-    @POST("oauth/token")
-    Call<Token> logintoken(@Body HashMap map);
-
-    @Headers("Accept: application/json")
     @GET("api/user/")
     Call<List<User>> getusers();
-
-    @Headers("Accept: application/json")
-    @POST("api/user/")
-    Call<UserResponse> registeruser(@Body HashMap map);
 
     @Headers("Accept: application/json")
     @GET("api/user/{user_id}")

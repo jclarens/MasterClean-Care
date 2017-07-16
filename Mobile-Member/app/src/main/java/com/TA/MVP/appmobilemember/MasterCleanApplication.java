@@ -1,5 +1,12 @@
 package com.TA.MVP.appmobilemember;
 
+import com.TA.MVP.appmobilemember.Model.Basic.StaticData;
+import com.TA.MVP.appmobilemember.Route.Repositories.AdditionalInfoRepo;
+import com.TA.MVP.appmobilemember.Route.Repositories.JobRepo;
+import com.TA.MVP.appmobilemember.Route.Repositories.LanguageRepo;
+import com.TA.MVP.appmobilemember.Route.Repositories.PlaceRepo;
+import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
+import com.TA.MVP.appmobilemember.Route.Repositories.WTRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.WalletRepo;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.api.SessionInterceptor;
@@ -18,7 +25,15 @@ import android.app.Application;
  */
 
 public class MasterCleanApplication extends Application {
+    public StaticData globalStaticData = new StaticData();
 
+    public StaticData getGlobalStaticData() {
+        return globalStaticData;
+    }
+
+    public void setGlobalStaticData(StaticData globalStaticData) {
+        this.globalStaticData = globalStaticData;
+    }
     @Override
     public void onCreate() {
         super.onCreate();
@@ -45,6 +60,12 @@ public class MasterCleanApplication extends Application {
             APIManager.SetUpRetrofit();
 
         //Ini tuntuk register repository request (serives)
+        APIManager.registerRepository(UserRepo.class);
         APIManager.registerRepository(WalletRepo.class);
+        APIManager.registerRepository(PlaceRepo.class);
+        APIManager.registerRepository(LanguageRepo.class);
+        APIManager.registerRepository(JobRepo.class);
+        APIManager.registerRepository(WTRepo.class);
+        APIManager.registerRepository(AdditionalInfoRepo.class);
     }
 }

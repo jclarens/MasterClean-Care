@@ -47,18 +47,6 @@
         android:inputType="textPersonName" />
 
     <EditText
-        android:id="@+id/reg_et_username"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/reg_et_nama"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:ems="10"
-        android:hint="@string/username"
-        android:inputType="textPersonName" />
-
-    <EditText
         android:id="@+id/reg_et_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

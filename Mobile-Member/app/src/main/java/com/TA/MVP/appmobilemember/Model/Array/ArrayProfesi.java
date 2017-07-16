@@ -14,10 +14,9 @@ public class ArrayProfesi {
     public ArrayProfesi() {
         jobs = new ArrayList<>();
     }
-    public void addProfesi(String text, Integer value){
+    public void addProfesi(String text){
         Job job = new Job();
         job.setText(text);
-        job.setValue(value);
         jobs.add(job);
     }
 

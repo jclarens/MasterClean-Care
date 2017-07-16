@@ -11,14 +11,36 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.TA.MVP.appmobilemember.MasterCleanApplication;
+import com.TA.MVP.appmobilemember.Model.Basic.AdditionalInfo;
+import com.TA.MVP.appmobilemember.Model.Basic.Job;
+import com.TA.MVP.appmobilemember.Model.Basic.Language;
+import com.TA.MVP.appmobilemember.Model.Basic.Place;
+import com.TA.MVP.appmobilemember.Model.Basic.StaticData;
+import com.TA.MVP.appmobilemember.Model.Basic.Waktu_Kerja;
+import com.TA.MVP.appmobilemember.Model.Basic.Wallet;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.Route.Repositories.AdditionalInfoRepo;
+import com.TA.MVP.appmobilemember.Route.Repositories.JobRepo;
+import com.TA.MVP.appmobilemember.Route.Repositories.LanguageRepo;
+import com.TA.MVP.appmobilemember.Route.Repositories.PlaceRepo;
+import com.TA.MVP.appmobilemember.Route.Repositories.WTRepo;
+import com.TA.MVP.appmobilemember.Route.Repositories.WalletRepo;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentCari;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentHome;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentLainnya;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentPesan;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentStatus;
+import com.TA.MVP.appmobilemember.lib.api.APICallback;
+import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
+import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class MainActivity extends ParentActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -28,11 +50,14 @@ public class MainActivity extends ParentActivity {
     private Toolbar toolbar;
     private Context context;
     private Menu menutoolbar;
+    public StaticData staticData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getstaticData();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
@@ -86,5 +111,89 @@ public class MainActivity extends ParentActivity {
                 doChangeActivity(context,EmergencyActivity.class);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void getstaticData(){
+        //Place
+        Call<List<Place>> caller1 = APIManager.getRepository(PlaceRepo.class).getplaces();
+        caller1.enqueue(new APICallback<List<Place>>() {
+            @Override
+            public void onSuccess(Call<List<Place>> call, Response<List<Place>> response) {
+                super.onSuccess(call, response);
+                staticData.setPlaces(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Place>> call, Throwable t) {
+                super.onFailure(call, t);
+            }
+        });
+        //Language
+        Call<List<Language>> caller2 = APIManager.getRepository(LanguageRepo.class).getlanguages();
+        caller2.enqueue(new APICallback<List<Language>>() {
+            @Override
+            public void onSuccess(Call<List<Language>> call, Response<List<Language>> response) {
+                super.onSuccess(call, response);
+                staticData.setLanguages(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Language>> call, Throwable t) {
+                super.onFailure(call, t);
+            }
+        });
+        Call<List<Job>> caller3 = APIManager.getRepository(JobRepo.class).getJobs();
+        caller3.enqueue(new APICallback<List<Job>>() {
+            @Override
+            public void onSuccess(Call<List<Job>> call, Response<List<Job>> response) {
+                super.onSuccess(call, response);
+                staticData.setJobs(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Job>> call, Throwable t) {
+                super.onFailure(call, t);
+            }
+        });
+        Call < List < Waktu_Kerja >> caller4 = APIManager.getRepository(WTRepo.class).getworktimes();
+        caller4.enqueue(new APICallback<List<Waktu_Kerja>>() {
+            @Override
+            public void onSuccess(Call<List<Waktu_Kerja>> call, Response<List<Waktu_Kerja>> response) {
+                super.onSuccess(call, response);
+                staticData.setWaktu_kerjas(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Waktu_Kerja>> call, Throwable t) {
+                super.onFailure(call, t);
+            }
+        });
+        Call < List < AdditionalInfo >> caller5 = APIManager.getRepository(AdditionalInfoRepo.class).getadditional_infos();
+        caller5.enqueue(new APICallback<List<AdditionalInfo>>() {
+            @Override
+            public void onSuccess(Call<List<AdditionalInfo>> call, Response<List<AdditionalInfo>> response) {
+                super.onSuccess(call, response);
+                staticData.setAdditionalInfos(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<AdditionalInfo>> call, Throwable t) {
+                super.onFailure(call, t);
+            }
+        });
+        Call < List < Wallet >> caller6 = APIManager.getRepository(WalletRepo.class).getwallets();
+        caller6.enqueue(new APICallback<List<Wallet>>() {
+            @Override
+            public void onSuccess(Call<List<Wallet>> call, Response<List<Wallet>> response) {
+                super.onSuccess(call, response);
+                staticData.setWallets(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Wallet>> call, Throwable t) {
+                super.onFailure(call, t);
+            }
+        });
+        ((MasterCleanApplication) getApplication()).setGlobalStaticData(staticData);
     }
 }

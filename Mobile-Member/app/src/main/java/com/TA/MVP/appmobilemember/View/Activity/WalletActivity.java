@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterWallet;
 import com.TA.MVP.appmobilemember.R;
 
@@ -24,41 +25,16 @@ public class WalletActivity extends ParentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet);
 
-
         //recyclerview
         recyclerView = (RecyclerView) findViewById(R.id.recycleview_wallet);
         rec_LayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(rec_LayoutManager);
         rec_Adapter = new RecyclerAdapterWallet();
+        rec_Adapter.setWallets(((MasterCleanApplication) getApplication()).getGlobalStaticData().getWallets());
         recyclerView.setAdapter(rec_Adapter);
-        //enqueue
-//        Call<List<Wallet>> caller =  APIManager.getRepository(WalletRepo.class).getAllWallet();
-//        caller.enqueue(new APICallback<List<Wallet>>() {
-//           @Override
-//           public void onSuccess(Call<List<Wallet>> call, Response<List<Wallet>> response) {
-//               super.onSuccess(call, response);
-//               rec_Adapter.setnew(response.body());
-////               Toast.makeText(getApplicationContext(),"Success" + response.body().toString(), Toast.LENGTH_SHORT).show();
-//           }
-//
-//           @Override
-//           public void onNotFound(Call<List<Wallet>> call, Response<List<Wallet>> response) {
-//               super.onNotFound(call, response);
-//           }
-//
-//           @Override
-//           public void onError(Call<List<Wallet>> call, Response<List<Wallet>> response) {
-//               super.onError(call, response);
-//           }
-//
-//           @Override
-//           public void onFailure(Call<List<Wallet>> call, Throwable t) {
-//               super.onFailure(call, t);
-//           }
-//       });
 
-                //toolbar
-                toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        //toolbar
+        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.toolbar_wallet);
         getSupportActionBar().setHomeButtonEnabled(true);

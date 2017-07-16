@@ -7,9 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Array.ArrayWallet;
 import com.TA.MVP.appmobilemember.Model.Basic.Wallet;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.View.Activity.MainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,8 +22,8 @@ import java.util.Locale;
  */
 
 public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterWallet.ViewHolder> {
-//    private List<Wallet> wallets = new ArrayList<>();
-    private ArrayWallet wallets = new ArrayWallet();
+    private List<Wallet> wallets = new ArrayList<>();
+//    private ArrayWallet wallets = new ArrayWallet();
 
     class ViewHolder extends RecyclerView.ViewHolder{
         public TextView itemnominal, itemprice;
@@ -49,13 +51,22 @@ public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterW
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.itemnominal.setText(String.format(Locale.getDefault(),"Rp. %d",wallets.getWallets().get(position).getAmt()));
-        holder.itemprice.setText(String.format(Locale.getDefault(),"Rp. %d",wallets.getWallets().get(position).getPrice()));
+        holder.itemnominal.setText(String.format(Locale.getDefault(),"Rp. %d", wallets.get(position).getAmt()));
+        holder.itemprice.setText(String.format(Locale.getDefault(),"Rp. %d", wallets.get(position).getPrice()));
+//        holder.itemnominal.setText(String.format(Locale.getDefault(),"Rp. %d",wallets.getWallets().get(position).getAmt()));
+//        holder.itemprice.setText(String.format(Locale.getDefault(),"Rp. %d",wallets.getWallets().get(position).getPrice()));
     }
 
     @Override
     public int getItemCount() {
-        return wallets.getWallets().size();
+        if (wallets == null)
+            return 0;
+        else
+            return wallets.size();
+    }
 
+    public void setWallets(List<Wallet> wallets){
+        this.wallets = wallets;
+        notifyDataSetChanged();
     }
 }

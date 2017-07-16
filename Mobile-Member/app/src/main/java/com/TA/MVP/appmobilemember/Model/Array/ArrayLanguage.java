@@ -18,12 +18,11 @@ public class ArrayLanguage {
 
     public ArrayLanguage() {
         this.languages = new ArrayList<>();
-        addLanguage(0, "Indonesia");
-        addLanguage(0, "English");
+        addLanguage("Indonesia");
+        addLanguage("English");
     }
-    public void addLanguage(Integer value, String text){
+    public void addLanguage(String text){
         Language language = new Language();
-        language.setValue(value);
         language.setText(text);
         languages.add(language);
     }
