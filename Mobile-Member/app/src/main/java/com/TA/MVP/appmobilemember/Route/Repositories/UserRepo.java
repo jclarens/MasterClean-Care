@@ -26,16 +26,16 @@ public interface UserRepo {
     Call<UserResponse> checkLogin(@Body HashMap map);
 
     @Headers("Accept: application/json")
-    @POST("me")
-    Call<User> getOwnData();
+    @POST("api/check_login")
+    Call<User> getOwnData(@Body HashMap map);
 
     @Headers("Accept: application/json")
     @POST("oauth/token")
     Call<Token> loginuser(@Body HashMap map);
 
     @Headers("Accept: application/json")
-    @POST("oauth/register")
-    Call<Token> registeruser(@Body HashMap map);
+    @POST("api/user")
+    Call<User> registeruser(@Body HashMap map);
 
     @Headers("Accept: application/json")
     @POST("api/logout")

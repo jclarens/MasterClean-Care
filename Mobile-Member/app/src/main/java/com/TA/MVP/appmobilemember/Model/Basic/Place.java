@@ -23,4 +23,8 @@ public class Place {
     public void setParent(Integer parent) {
         this.parent = parent;
     }
+
+    public  String toString(){
+        return name;
+    }
 }

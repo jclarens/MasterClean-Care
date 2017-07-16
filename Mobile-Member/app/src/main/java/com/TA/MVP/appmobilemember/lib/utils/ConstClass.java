@@ -17,11 +17,4 @@ public class ConstClass {
     public static String WTS_EXTRA = "WTs";
     public static String ADDITIONALINFOS_EXTRA = "additionalInfos";
     public static String WALLETS_EXTRA = "wallets";
-
-//    private List<Place> places;
-//    private List<Language> languages;
-//    private List<Job> jobs;
-//    private List<Waktu_Kerja> waktu_kerjas;
-//    private List<AdditionalInfo> additionalInfos;
-//    private List<Wallet> wallets;
 }

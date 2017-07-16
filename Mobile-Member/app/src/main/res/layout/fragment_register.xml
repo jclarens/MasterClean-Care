@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
 
     <TextView
@@ -43,14 +44,14 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:ems="10"
-        android:hint="@string/namalengkap"
+        android:hint="@string/nama"
         android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/reg_et_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/reg_et_username"
+        android:layout_below="@+id/reg_et_nama"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
@@ -83,6 +84,46 @@
         android:inputType="textPassword" />
 
     <EditText
+        android:id="@+id/reg_et_bordplace"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginStart="15dp"
+        android:ems="10"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/reg_et_borndate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginStart="15dp"
+        android:ems="10"
+        android:inputType="date" />
+
+    <Spinner
+        android:id="@+id/reg_spinner_gender"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginStart="15dp" />
+
+    <Spinner
+        android:id="@+id/reg_spinner_agama"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginStart="15dp" />
+
+    <EditText
         android:id="@+id/reg_et_notelp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -93,6 +134,15 @@
         android:ems="10"
         android:hint="@string/notelp"
         android:inputType="phone" />
+
+    <Spinner
+        android:id="@+id/reg_spinner_kota"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginStart="15dp" />
 
     <EditText
         android:id="@+id/reg_et_alamat"
@@ -111,7 +161,8 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/reg_et_alamat"
-        android:layout_centerHorizontal="true"
+        android:layout_centerHorizontal="false"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="20dp"
         android:text="@string/daftar" />
 
@@ -121,7 +172,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/reg_btn_daftar"
         android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal"
         android:text="@string/login"
         android:textColor="@android:color/holo_blue_dark" />
 
-</RelativeLayout>
+</LinearLayout>

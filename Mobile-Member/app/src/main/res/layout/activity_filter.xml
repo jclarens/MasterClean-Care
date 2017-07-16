@@ -218,10 +218,12 @@
                 android:text="@string/filter_suku"
                 android:textColor="@android:color/black" />
 
-            <Spinner
-                android:id="@+id/filter_spinner_suku"
+            <EditText
+                android:id="@+id/filter_et_suku"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:textColor="@android:color/black" />
 
             <TextView
                 android:id="@+id/textView22"

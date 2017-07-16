@@ -100,7 +100,10 @@ public class FragmentLogin extends Fragment {
     }
 
     public void getOwnData(){
-        Call<User> caller = APIManager.getRepository(UserRepo.class).getOwnData();
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("email",email.getText().toString());
+        map.put("password",katasandi.getText().toString());
+        Call<User> caller = APIManager.getRepository(UserRepo.class).getOwnData(map);
         caller.enqueue(new APICallback<User>() {
             @Override
             public void onSuccess(Call<User> call, Response<User> response) {

@@ -54,10 +54,10 @@ public class FragmentLainnya extends Fragment {
         txtlogout = (TextView) _view.findViewById(R.id.tv_logout);
 
         if (SharedPref.getValueString(SharedPref.ACCESS_TOKEN) == ""){
-            txtlogout.setText("login");
+            txtlogout.setText("Login");
         }
         else
-            txtlogout.setText("logout");
+            txtlogout.setText("Logout");
 
         context = getContext();
 
@@ -94,15 +94,15 @@ public class FragmentLainnya extends Fragment {
                     i.putExtra(ConstClass.LOGIN_EXTRA, true);
                     i.putExtra(ConstClass.REGISTER_EXTRA, true);
                     getActivity().startActivityForResult(i, REQUEST_LOGIN);
+                    txtlogout.setText("Logout");
                 }
                 else{
                     SharedPref.save(SharedPref.ACCESS_TOKEN, "");
                     SharedPref.save(ConstClass.USER, "");
                     Toast.makeText(context,"Logout", Toast.LENGTH_SHORT).show();
-                    txtlogout.setText("login");
+                    txtlogout.setText("Login");
                 }
 //                Toast.makeText(context,"Logout", Toast.LENGTH_SHORT).show();
-//                MainActivity.doChangeActivity(getContext(), AuthActivity.class);
             }
         });
 

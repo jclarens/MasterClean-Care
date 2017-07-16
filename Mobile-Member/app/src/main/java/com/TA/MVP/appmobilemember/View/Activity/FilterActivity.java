@@ -34,7 +34,7 @@ public class FilterActivity extends ParentActivity{
     private SpinnerAdapter spinnerAdapterkota, spinnerAdapteragama, spinnerAdapterprofesi, spinnerAdaptersuku, spinnerAdapterwktkrj;
     private FilterArrays filterArrays;
     private Integer tmp;
-    private ArrayAdapter arrayAdapterJob, arrayAdapterWaktu;
+    private ArrayAdapter arrayAdapterJob, arrayAdapterWaktu, arrayAdapterKota;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,14 +147,15 @@ public class FilterActivity extends ParentActivity{
         arrayAdapterWaktu = new ArrayAdapter(getApplicationContext(), R.layout.spinner_item, ((MasterCleanApplication) getApplication()).getGlobalStaticData().getWaktu_kerjas());
         spinnerwaktukrj.setAdapter(arrayAdapterWaktu);
 
+        arrayAdapterKota = new ArrayAdapter(getApplicationContext(), R.layout.spinner_item, ((MasterCleanApplication) getApplication()).getGlobalStaticData().getPlaces());
+        spinnerkota.setAdapter(arrayAdapterKota);
+
 
 
         spinnerAdapteragama = new SpinnerAdapter(this, filterArrays.getArrayAgama().getArrayList());
         spinnerAdapterkota = new SpinnerAdapter(this, filterArrays.getArrayKota().getArrayList());
-        spinnerAdaptersuku = new SpinnerAdapter(this, filterArrays.getArraySuku().getArrayList());
         spinneragama.setAdapter(spinnerAdapteragama.getArrayAdapter());
         spinnerkota.setAdapter(spinnerAdapterkota.getArrayAdapter());
-        spinnersuku.setAdapter(spinnerAdaptersuku.getArrayAdapter());
 
 
         usiamin.setText(String.valueOf(20));
