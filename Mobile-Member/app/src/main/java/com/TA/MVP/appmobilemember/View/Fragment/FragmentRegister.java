@@ -6,13 +6,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Adapter.SpinnerAdapter;
@@ -60,7 +58,7 @@ public class FragmentRegister extends Fragment {
         bplace = (EditText) _view.findViewById(R.id.reg_et_bordplace);
         bdate = (EditText) _view.findViewById(R.id.reg_et_borndate);
         spinnergender = (Spinner) _view.findViewById(R.id.reg_spinner_gender);
-        spinneragama = (Spinner) _view.findViewById(R.id.reg_spinner_gender);
+        spinneragama = (Spinner) _view.findViewById(R.id.reg_spinner_agama);
         notelp = (EditText) _view.findViewById(R.id.reg_et_notelp);
         spinnerkota = (Spinner) _view.findViewById(R.id.reg_spinner_kota);
         alamat = (EditText) _view.findViewById(R.id.reg_et_alamat);
@@ -73,29 +71,6 @@ public class FragmentRegister extends Fragment {
         spinnerkota.setAdapter(arrayAdapterkota);
         spinnerAdapteragama = new SpinnerAdapter(getContext(), arrayAgama.getArrayList());
         spinneragama.setAdapter(spinnerAdapteragama.getArrayAdapter());
-
-        spinnergender.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getContext(), spinnergender.getSelectedItemPosition(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-        spinnerkota.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Toast.makeText(getContext(), spinnerkota.getSelectedItemPosition(), Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
 
         btndaftar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,7 +96,7 @@ public class FragmentRegister extends Fragment {
                         super.onSuccess(call, response);
                         Intent i = new Intent();
                         i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(response.body(),User.class));
-                        getActivity().setResult(FragmentLainnya.RESULT_SUCCESS, i);
+                        getActivity().setResult(MainActivity.RESULT_SUCCESS, i);
                         getToken(email.getText().toString(), katasandi.getText().toString());
                         getActivity().finish();
                     }
@@ -167,6 +142,11 @@ public class FragmentRegister extends Fragment {
             public void onSuccess(Call<Token> call, Response<Token> response) {
                 super.onSuccess(call, response);
                 SharedPref.save(SharedPref.ACCESS_TOKEN, response.body().getAccess_token());
+            }
+
+            @Override
+            public void onFailure(Call<Token> call, Throwable t) {
+                super.onFailure(call, t);
             }
         });
     }

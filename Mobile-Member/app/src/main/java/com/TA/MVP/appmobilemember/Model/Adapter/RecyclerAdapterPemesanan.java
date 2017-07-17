@@ -9,8 +9,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Activity.PemesananActiveActivity;
+
+import java.util.List;
 
 /**
  * Created by Zackzack on 08/07/2017.

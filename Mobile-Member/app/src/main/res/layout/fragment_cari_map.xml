@@ -29,14 +29,6 @@
             android:ems="10"
             android:hint="@string/carilokasi"
             android:inputType="textPersonName" />
-
-        <Button
-            android:id="@+id/carimap_btn_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/filter"
-            android:textAllCaps="false" />
     </LinearLayout>
 
     <FrameLayout

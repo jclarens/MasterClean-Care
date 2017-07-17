@@ -6,19 +6,23 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Adapter.SpinnerAdapter;
 import com.TA.MVP.appmobilemember.Model.Array.FilterArrays;
+import com.TA.MVP.appmobilemember.Model.Basic.Job;
+import com.TA.MVP.appmobilemember.Model.Basic.Place;
+import com.TA.MVP.appmobilemember.Model.Basic.Waktu_Kerja;
 import com.TA.MVP.appmobilemember.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Zackzack on 10/06/2017.
@@ -26,7 +30,7 @@ import com.TA.MVP.appmobilemember.R;
 
 public class FilterActivity extends ParentActivity{
     private Toolbar toolbar;
-    private EditText nama, gaji, usiamin, usiamax, pk;
+    private EditText nama, gaji, usiamin, usiamax, pk, suku;
     private Spinner spinnerkota, spinneragama, spinnersuku, spinnerprofesi, spinnerwaktukrj;
     private CheckBox inggris, mandarin, melayu;
     private Button btncari, btnbatal, btnuminup, btnumindown, btnumaxup, btnumaxdown, btnpkup, btnpkdown;
@@ -46,34 +50,18 @@ public class FilterActivity extends ParentActivity{
         setbtnlistener(btnumaxup, usiamax, btnumaxdown, 20, 70);
         setbtnlistener(btnpkup, pk, btnpkdown, 0, 50);
 
-        spinnerkota.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                Toast.makeText(getApplicationContext(),adapterView.getItemAtPosition(i)+ " Selected.", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-        spinneragama.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-//                Toast.makeText(getApplicationContext(),adapterView.getItemAtPosition(i)+ " = " + i + " Selected.", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
         btncari.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent returnintent = new Intent();
-                returnintent.putExtra("nama", nama.getText().toString());
-                setResult(Activity.RESULT_OK, returnintent);
+                Intent i = new Intent();
+                i.putExtra("nama", nama.getText().toString());
+                i.putExtra("kota", String.valueOf(spinnerkota.getSelectedItemPosition()));
+                i.putExtra("agama", String.valueOf(spinneragama.getSelectedItemPosition()));
+                i.putExtra("suku", suku.getText().toString());
+                i.putExtra("profesi", String.valueOf(spinnerprofesi.getSelectedItemPosition()));
+                i.putExtra("WT", String.valueOf(spinnerwaktukrj.getSelectedItemPosition()));
+                i.putExtra("gaji", gaji.getText().toString());
+                setResult(Activity.RESULT_OK, i);
                 finish();
             }
         });
@@ -109,6 +97,7 @@ public class FilterActivity extends ParentActivity{
         usiamin = (EditText) findViewById(R.id.filter_et_umin);
         usiamax = (EditText) findViewById(R.id.filter_et_umax);
         pk = (EditText) findViewById(R.id.filter_et_pk);
+        suku = (EditText) findViewById(R.id.filter_et_suku);
         spinnerkota = (Spinner) findViewById(R.id.filter_spinner_kota);
         spinneragama = (Spinner) findViewById(R.id.filter_spinner_agama);
         spinnersuku = (Spinner) findViewById(R.id.filter_spinner_suku);
@@ -139,24 +128,17 @@ public class FilterActivity extends ParentActivity{
         //Spinner
         filterArrays = new FilterArrays();
 
-
-
-        arrayAdapterJob = new ArrayAdapter(getApplicationContext(), R.layout.spinner_item, ((MasterCleanApplication) getApplication()).getGlobalStaticData().getJobs());
+        arrayAdapterJob = new ArrayAdapter(getApplicationContext(), R.layout.spinner_item, addalljob(((MasterCleanApplication) getApplication()).getGlobalStaticData().getJobs()));
         spinnerprofesi.setAdapter(arrayAdapterJob);
 
-        arrayAdapterWaktu = new ArrayAdapter(getApplicationContext(), R.layout.spinner_item, ((MasterCleanApplication) getApplication()).getGlobalStaticData().getWaktu_kerjas());
+        arrayAdapterWaktu = new ArrayAdapter(getApplicationContext(), R.layout.spinner_item, addallwkt(((MasterCleanApplication) getApplication()).getGlobalStaticData().getWaktu_kerjas()));
         spinnerwaktukrj.setAdapter(arrayAdapterWaktu);
 
-        arrayAdapterKota = new ArrayAdapter(getApplicationContext(), R.layout.spinner_item, ((MasterCleanApplication) getApplication()).getGlobalStaticData().getPlaces());
+        arrayAdapterKota = new ArrayAdapter(getApplicationContext(), R.layout.spinner_item, addallkota(((MasterCleanApplication) getApplication()).getGlobalStaticData().getPlaces()));
         spinnerkota.setAdapter(arrayAdapterKota);
 
-
-
         spinnerAdapteragama = new SpinnerAdapter(this, filterArrays.getArrayAgama().getArrayList());
-        spinnerAdapterkota = new SpinnerAdapter(this, filterArrays.getArrayKota().getArrayList());
         spinneragama.setAdapter(spinnerAdapteragama.getArrayAdapter());
-        spinnerkota.setAdapter(spinnerAdapterkota.getArrayAdapter());
-
 
         usiamin.setText(String.valueOf(20));
         usiamax.setText(String.valueOf(70));
@@ -191,6 +173,42 @@ public class FilterActivity extends ParentActivity{
                     editText.setText(String.valueOf(tmp - 1));
             }
         });
+    }
+
+    public List<Job> addalljob(List<Job> jobs){
+        List<Job> tmp = new ArrayList<>();
+        Job alljob = new Job();
+        alljob.setText("Semua");
+        tmp.add(alljob);
+        for (int n=0;n<jobs.size();n++){
+            tmp.add(jobs.get(n));
+        }
+        return tmp;
+
+    }
+
+    public List<Waktu_Kerja> addallwkt(List<Waktu_Kerja> wk){
+        List<Waktu_Kerja> tmp = new ArrayList<>();
+        Waktu_Kerja alljob = new Waktu_Kerja();
+        alljob.setWork_time("Semua");
+        tmp.add(alljob);
+        for (int n=0;n<wk.size();n++){
+            tmp.add(wk.get(n));
+        }
+        return tmp;
+
+    }
+
+    public List<Place> addallkota(List<Place> places){
+        List<Place> tmp = new ArrayList<>();
+        Place alljob = new Place();
+        alljob.setName("Semua");
+        tmp.add(alljob);
+        for (int n=0;n<places.size();n++){
+            tmp.add(places.get(n));
+        }
+        return tmp;
+
     }
 
 }

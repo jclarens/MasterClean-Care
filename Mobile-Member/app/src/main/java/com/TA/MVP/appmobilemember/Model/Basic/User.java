@@ -7,6 +7,7 @@ import java.util.Date;
  */
 
 public class User {
+    private Integer id;
     private String name;
     private String email;
     private String password;
@@ -24,6 +25,10 @@ public class User {
     private String profile_img_name;
     private String profile_img_path;
     private Integer status;
+
+    public Integer getId() {
+        return id;
+    }
 
     public String getName() {
         return name;

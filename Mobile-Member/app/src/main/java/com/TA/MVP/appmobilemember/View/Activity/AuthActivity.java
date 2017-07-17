@@ -1,5 +1,6 @@
 package com.TA.MVP.appmobilemember.View.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -20,5 +21,10 @@ public class AuthActivity extends ParentActivity{
 
     public void doChangeFragment(Fragment fragment){
         getSupportFragmentManager().beginTransaction().replace(R.id.activity_auth, fragment).commit();
+    }
+
+    public void dofinishActivity(Intent intent){
+        setResult(MainActivity.RESULT_SUCCESS, intent);
+        finish();
     }
 }

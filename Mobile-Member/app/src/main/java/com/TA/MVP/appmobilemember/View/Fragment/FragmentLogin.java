@@ -16,7 +16,6 @@ import com.TA.MVP.appmobilemember.Model.Responses.Token;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.View.Activity.AuthActivity;
-import com.TA.MVP.appmobilemember.View.Activity.MainActivity;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
@@ -108,12 +107,9 @@ public class FragmentLogin extends Fragment {
             @Override
             public void onSuccess(Call<User> call, Response<User> response) {
                 super.onSuccess(call, response);
-                if (getActivity().getIntent().hasExtra(ConstClass.LOGIN_EXTRA)) {
-                    Intent i = new Intent();
-                    i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(response.body(),User.class));
-                    getActivity().setResult(FragmentLainnya.RESULT_SUCCESS, i);
-                }
-                getActivity().finish();
+                Intent i = new Intent();
+                i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(response.body()));
+                ((AuthActivity)getActivity()).dofinishActivity(i);
             }
         });
     }
