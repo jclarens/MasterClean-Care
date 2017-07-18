@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Responses.Token;
+import com.TA.MVP.appmobilemember.Model.Responses.UserResponse;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.View.Activity.AuthActivity;
@@ -102,13 +103,14 @@ public class FragmentLogin extends Fragment {
         HashMap<String,Object> map = new HashMap<>();
         map.put("email",email.getText().toString());
         map.put("password",katasandi.getText().toString());
-        Call<User> caller = APIManager.getRepository(UserRepo.class).getOwnData(map);
-        caller.enqueue(new APICallback<User>() {
+        Call<UserResponse> caller = APIManager.getRepository(UserRepo.class).getOwnData(map);
+        caller.enqueue(new APICallback<UserResponse>() {
             @Override
-            public void onSuccess(Call<User> call, Response<User> response) {
+            public void onSuccess(Call<UserResponse> call, Response<UserResponse> response) {
                 super.onSuccess(call, response);
                 Intent i = new Intent();
-                i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(response.body()));
+                User user = response.body().getUser();
+                i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(user));
                 ((AuthActivity)getActivity()).dofinishActivity(i);
             }
         });

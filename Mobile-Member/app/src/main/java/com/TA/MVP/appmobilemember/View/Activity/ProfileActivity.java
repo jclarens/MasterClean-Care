@@ -1,9 +1,11 @@
 package com.TA.MVP.appmobilemember.View.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,11 +21,17 @@ import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
  */
 
 public class ProfileActivity extends ParentActivity {
+    public final static int REQUEST_EDIT = 1;
+    public final static int REQUEST_EDITPASS = 2;
+    public final static int REQUEST_EDITFOTO = 3;
+    public final static int RESULT_SUCCESS = 1;
+    public final static int RESULT_CANCEL = 2;
     private User user = new User();
     private Toolbar toolbar;
     private ImageView imgfoto;
     private TextView nama, alamat, notelp, email;
     private Button btnisi;
+    private Intent intent = new Intent();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,17 +44,20 @@ public class ProfileActivity extends ParentActivity {
         email = (TextView) findViewById(R.id.prof_tv_email);
         btnisi =(Button) findViewById(R.id.prof_btn_isi);
 
-        user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
-        nama.setText(user.getName());
-        alamat.setText(user.getAddress());
-        notelp.setText(user.getPhone());
-        email.setText(user.getEmail());
+        setdata();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.toolbar_profile);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        btnisi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                doStartActivity(getApplicationContext(), LogWalletActivity.class);
+            }
+        });
     }
 
     @Override
@@ -62,18 +73,36 @@ public class ProfileActivity extends ParentActivity {
                 finish();
                 break;
             case R.id.prof_menu_edit:
-                //dostartactivity
-                doStartActivity(ProfileActivity.this, EditProfileActivity.class);
+                intent = new Intent(getApplicationContext(), EditProfileActivity.class);
+                ProfileActivity.this.startActivityForResult(intent, REQUEST_EDIT);
+//                doStartActivity(ProfileActivity.this, EditProfileActivity.class);
                 break;
             case R.id.prof_menu_editks:
-                //dostartactivity
                 doStartActivity(ProfileActivity.this, EditPassActivity.class);
                 break;
             case R.id.prof_menu_editdoc:
-                //dostartactivity
                 doStartActivity(ProfileActivity.this, DokumenTambahanActivity.class);
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setdata(){
+        user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
+        nama.setText(user.getName());
+        alamat.setText(user.getAddress());
+        notelp.setText(user.getPhone());
+        email.setText(user.getEmail());
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case 1:
+                if (resultCode == RESULT_SUCCESS)
+                    setdata();
+                break;
+        }
     }
 }

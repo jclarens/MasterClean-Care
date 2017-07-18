@@ -29,65 +29,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="20dp">
-
-                <TextView
-                    android:id="@+id/pms3_tv_namaasis"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/namalengkap"
-                    android:textColor="@android:color/black"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/pms3_tv_usiaasis"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/pms3_tv_namaasis"
-                    android:layout_marginBottom="5dp"
-                    android:text="@string/usia"
-                    android:textColor="@android:color/black" />
-
-                <TextView
-                    android:id="@+id/pms3_tv_agamaasis"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/pms3_tv_usiaasis"
-                    android:layout_marginBottom="5dp"
-                    android:text="@string/filter_agama"
-                    android:textColor="@android:color/black" />
-
-                <Button
-                    android:id="@+id/pms3_btn_selengkapnya"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/pms3_tv_agamaasis"
-                    android:text="@string/btn_selengkapnya"
-                    android:textAllCaps="false" />
-
-                <ImageView
-                    android:id="@+id/pms3_img_asis"
-                    app:srcCompat="@mipmap/ic_launcher"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:contentDescription="@string/foto" />
-
-                <RatingBar
-                    android:id="@+id/pms3_asisrating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:layout_alignLeft="@+id/pms3_img_asis"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignStart="@+id/pms3_img_asis"
-                    android:layout_below="@+id/pms3_img_asis"
-                    android:numStars="5"
-                    android:rating="5" />
+                android:padding="20dp"
+                android:id="@id/layout_asisten">
             </RelativeLayout>
 
             <EditText

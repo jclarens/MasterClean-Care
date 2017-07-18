@@ -1,6 +1,7 @@
 package com.TA.MVP.appmobilemember.View.Activity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,36 @@ import android.widget.EditText;
  */
 
 public class ParentActivity extends AppCompatActivity{
+    protected ProgressDialog progressDialog;
+    public void initProgressDialog(String message){
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(message);
+    }
+    public void initProgressDialog(String title, String message){
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle(title);
+        progressDialog.setMessage(message);
+    }
+    public void dismissDialog(){
+        if (progressDialog == null) return;
+        if (progressDialog.isShowing())
+            progressDialog.dismiss();
+    }
+    public void showDialog(){
+        if (progressDialog == null)
+            throw new NullPointerException("Progress dialog null");
+        else
+            progressDialog.show();
+    }
+    public void showDialog(String message){
+        if (progressDialog == null)
+            initProgressDialog(message);
+        else
+            progressDialog.setMessage(message);
+        showDialog();
+    }
+
+
     public static void doChangeActivity(Context context, Class activityClass) {
         Intent _intent = new Intent(context, activityClass);
         _intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

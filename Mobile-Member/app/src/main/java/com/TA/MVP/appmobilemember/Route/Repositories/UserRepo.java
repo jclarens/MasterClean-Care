@@ -30,7 +30,7 @@ public interface UserRepo {
 
     @Headers("Accept: application/json")
     @POST("api/check_login")
-    Call<User> getOwnData(@Body HashMap map);
+    Call<UserResponse> getOwnData(@Body HashMap map);
 
     @Headers("Accept: application/json")
     @POST("oauth/token")

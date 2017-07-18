@@ -49,8 +49,8 @@ import retrofit2.Response;
 
 public class MainActivity extends ParentActivity {
     public final static int REQUEST_LOGIN = 1;
-
     public final static int RESULT_SUCCESS = 1;
+
     private static final String TAG = MainActivity.class.getSimpleName();
     private BottomNavigationView bottomNavigation;
     private Fragment fragment;
@@ -68,7 +68,7 @@ public class MainActivity extends ParentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toast.makeText(getApplicationContext(),SharedPref.getValueString(ConstClass.USER), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(),SharedPref.getValueString(ConstClass.USER), Toast.LENGTH_SHORT).show();
 //        alertDialog = new AlertDialog.Builder(getApplicationContext());
 //        alertDialog.setMessage("Loading failed. reloading.");
 //        alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -78,6 +78,8 @@ public class MainActivity extends ParentActivity {
 //            }
 //        });
 
+        initProgressDialog("Loading...");
+        showDialog();
         getstaticData1();
 //        while (!success) {
 //            progressDialog = ProgressDialog.show(MainActivity.this," ","Loading Data.", true);
@@ -171,6 +173,9 @@ public class MainActivity extends ParentActivity {
             @Override
             public void onFailure(Call<List<Place>> call, Throwable t) {
                 super.onFailure(call, t);
+                success = false;
+                Toast.makeText(context,"Failed", Toast.LENGTH_SHORT).show();
+                dismissDialog();
 //                getstaticData1();
             }
         });
@@ -248,6 +253,7 @@ public class MainActivity extends ParentActivity {
                 staticData.setWallets(response.body());
                 Toast.makeText(context,"Success", Toast.LENGTH_SHORT).show();
                 success = true;
+                dismissDialog();
             }
 
             @Override

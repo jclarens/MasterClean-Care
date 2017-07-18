@@ -2,16 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_add_penawaran"
-        android:textAllCaps="false" />
+    <include
+        android:id="@+id/toolbar_main"
+        layout="@layout/toolbar_main"/>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycleview_asisten"
+        android:id="@+id/recycleview_logwallet"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

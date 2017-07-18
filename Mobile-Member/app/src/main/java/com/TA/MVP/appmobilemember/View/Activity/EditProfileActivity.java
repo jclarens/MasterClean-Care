@@ -1,5 +1,6 @@
 package com.TA.MVP.appmobilemember.View.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -68,6 +69,13 @@ public class EditProfileActivity extends ParentActivity {
                     @Override
                     public void onSuccess(Call<UserResponse> call, Response<UserResponse> response) {
                         super.onSuccess(call, response);
+                        Intent i = new Intent();
+                        setResult(ProfileActivity.RESULT_SUCCESS, i);
+                        user.setName(nama.getText().toString());
+                        user.setAddress(alamat.getText().toString());
+                        user.setPhone(notelp.getText().toString());
+                        SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(user));
+                        finish();
                     }
 
                     @Override

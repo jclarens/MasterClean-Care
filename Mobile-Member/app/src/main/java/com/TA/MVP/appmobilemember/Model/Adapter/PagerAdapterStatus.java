@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentStatusDisetujui;
-import com.TA.MVP.appmobilemember.View.Fragment.FragmentStatusPenawaran;
+import com.TA.MVP.appmobilemember.View.Fragment.FragmentStatusPermintaan;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentStatusPending;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentStatusRiwayat;
 
@@ -31,7 +31,7 @@ public class PagerAdapterStatus extends FragmentPagerAdapter{
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return new FragmentStatusPenawaran();
+                return new FragmentStatusPermintaan();
             case 1:
                 return new FragmentStatusPending();
             case 2:

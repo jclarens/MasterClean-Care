@@ -1,5 +1,6 @@
 package com.TA.MVP.appmobilemember.View.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -9,7 +10,10 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
+import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
 /**
  * Created by Zackzack on 12/06/2017.
@@ -22,11 +26,14 @@ public class AsistenActivity extends ParentActivity {
     private LinearLayout layoutprof;
     private CheckBox inggris, mandarin, melayu, tktanjg;
     private Button docpndkg, jadwal, pemesanan, kirimpesan;
+    private User art;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_asisten);
+        Intent intent = getIntent();
+        art = GsonUtils.getObjectFromJson(intent.getStringExtra(ConstClass.ART_EXTRA), User.class);
         initAllView();
 
         //Ini cara panggil function untuk request
@@ -61,7 +68,9 @@ public class AsistenActivity extends ParentActivity {
         pemesanan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                doStartActivity(AsistenActivity.this, PemesananActivity.class);
+                Intent i = new Intent(getApplicationContext(), PemesananActivity.class);
+                i.putExtra(ConstClass.ART_EXTRA,GsonUtils.getJsonFromObject(art));
+                startActivity(i);
             }
         });
 
@@ -96,6 +105,16 @@ public class AsistenActivity extends ParentActivity {
     }
 
     private void setAll(){
+        nama.setText(art.getName());
+
+        pemesanan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), PemesananActivity.class);
+                i.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
+                startActivity(i);
+            }
+        });
         //toolbar
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.toolbar_asisten);

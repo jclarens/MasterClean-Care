@@ -11,10 +11,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Activity.PemesananActivity;
+import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
+import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
 
 /**
@@ -29,14 +33,20 @@ public class FragmentPemesanan3 extends Fragment {
     private RatingBar ratingasis;
     private CheckBox ketentuan;
     private Button prev, pesan, selengkapnya;
+    private RelativeLayout layoutasisten;
+    private User art;
+    public FragmentPemesanan3(){
+        art = GsonUtils.getObjectFromJson(getArguments().getString(ConstClass.ART_EXTRA), User.class);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_pemesanan3, container, false);
 
-        namaasis = (TextView) _view.findViewById(R.id.pms3_tv_namaasis);
-        usiaasis = (TextView) _view.findViewById(R.id.pms3_tv_usiaasis);
-        agamaasis = (TextView) _view.findViewById(R.id.pms3_tv_agamaasis);
+        layoutasisten = (RelativeLayout) _view.findViewById(R.id.layout_asisten);
+        namaasis = (TextView) _view.findViewById(R.id.asism_nama);
+        usiaasis = (TextView) _view.findViewById(R.id.asism_usia);
+        agamaasis = (TextView) _view.findViewById(R.id.asism_agama);
         estimasitext = (TextView) _view.findViewById(R.id.pms3_tv_estimasiwaktu);
         prof = (EditText) _view.findViewById(R.id.pms3_et_prof);
         estimasi = (EditText) _view.findViewById(R.id.pms3_et_estimate);
@@ -46,11 +56,9 @@ public class FragmentPemesanan3 extends Fragment {
         selesaidate = (EditText) _view.findViewById(R.id.pms3_et_selesaidate);
         total = (EditText) _view.findViewById(R.id.pms3_et_total);
         layoutlistpekerjaan = (LinearLayout) _view.findViewById(R.id.pms3_layout_listpekerjaan);
-        selengkapnya = (Button) _view.findViewById(R.id.pms3_btn_selengkapnya);
         prev = (Button) _view.findViewById(R.id.pms3_btn_prev);
         pesan = (Button) _view.findViewById(R.id.pms3_btn_pesan);
-        fotoasis = (ImageView) _view.findViewById(R.id.pms3_img_asis);
-        ratingasis = (RatingBar) _view.findViewById(R.id.pms3_asisrating);
+        fotoasis = (ImageView) _view.findViewById(R.id.asism_img);
         ketentuan = (CheckBox) _view.findViewById(R.id.pms3_cb_kttn);
 
         selengkapnya.setOnClickListener(new View.OnClickListener() {

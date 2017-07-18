@@ -26,6 +26,7 @@
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.EmergencyActivity"/>
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.PemesananActivity"/>
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.WalletActivity"/>
+        <activity android:name="com.TA.MVP.appmobilemember.View.Activity.LogWalletActivity"/>
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.WalletVoucherActivity"/>
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.PengaturanActivity"/>
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.PemesananActiveActivity"/>

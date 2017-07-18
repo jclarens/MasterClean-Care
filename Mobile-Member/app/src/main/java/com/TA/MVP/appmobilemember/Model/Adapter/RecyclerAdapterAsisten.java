@@ -15,6 +15,9 @@ import android.widget.Toast;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Activity.AsistenActivity;
+import com.TA.MVP.appmobilemember.View.Activity.PemesananActivity;
+import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
+import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +42,9 @@ public class RecyclerAdapterAsisten extends RecyclerView.Adapter<RecyclerAdapter
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     Toast.makeText(itemview.getContext(),"Clicking card number " + position, Toast.LENGTH_SHORT).show();
-                    doStartActivity(itemview.getContext(), AsistenActivity.class);
+                    Intent i = new Intent(itemview.getContext(), AsistenActivity.class);
+                    i.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(users.get(position)));
+                    itemview.getContext().startActivity(i);
                 }
             });
         }
@@ -62,11 +67,6 @@ public class RecyclerAdapterAsisten extends RecyclerView.Adapter<RecyclerAdapter
     @Override
     public int getItemCount() {
         return users.size();
-    }
-
-    public static void doStartActivity(Context context, Class activityClass) {
-        Intent _intent = new Intent(context, activityClass);
-        context.startActivity(_intent);
     }
     public void setART(List<User> users){
         this.users = users;

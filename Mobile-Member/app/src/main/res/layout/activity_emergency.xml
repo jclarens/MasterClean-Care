@@ -41,7 +41,8 @@
         android:layout_weight="0.08"
         android:ems="10"
         android:inputType="numberPassword"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:maxLength="20"/>
 
     <Button
         android:id="@+id/sos_btn_tutup"

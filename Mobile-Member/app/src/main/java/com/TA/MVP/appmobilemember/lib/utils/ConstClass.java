@@ -17,4 +17,5 @@ public class ConstClass {
     public static String WTS_EXTRA = "WTs";
     public static String ADDITIONALINFOS_EXTRA = "additionalInfos";
     public static String WALLETS_EXTRA = "wallets";
+    public static String ART_EXTRA = "art";
 }
