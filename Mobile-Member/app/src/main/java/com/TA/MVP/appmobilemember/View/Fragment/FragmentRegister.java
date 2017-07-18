@@ -38,7 +38,7 @@ import retrofit2.Response;
  */
 
 public class FragmentRegister extends Fragment {
-    private EditText nama, email, katasandi, konfkatasandi, notelp, alamat, bplace, bdate;
+    private EditText nama, email, katasandi, konfkatasandi, notelp, alamat, bplace, bdate, thn, bln, hr;
     private Spinner spinnergender, spinnerkota, spinneragama;
     private Button btndaftar;
     private TextView tvlogin;
@@ -55,8 +55,11 @@ public class FragmentRegister extends Fragment {
         email = (EditText) _view.findViewById(R.id.reg_et_email);
         katasandi = (EditText) _view.findViewById(R.id.reg_et_katasandi);
         konfkatasandi = (EditText) _view.findViewById(R.id.reg_et_konfkatasandi);
-        bplace = (EditText) _view.findViewById(R.id.reg_et_bordplace);
-        bdate = (EditText) _view.findViewById(R.id.reg_et_borndate);
+        bplace = (EditText) _view.findViewById(R.id.reg_et_bornplace);
+        thn = (EditText) _view.findViewById(R.id.reg_et_thn);
+        bln = (EditText) _view.findViewById(R.id.reg_et_bln);
+        hr = (EditText) _view.findViewById(R.id.reg_et_hr);
+//        bdate = (EditText) _view.findViewById(R.id.reg_et_borndate);
         spinnergender = (Spinner) _view.findViewById(R.id.reg_spinner_gender);
         spinneragama = (Spinner) _view.findViewById(R.id.reg_spinner_agama);
         notelp = (EditText) _view.findViewById(R.id.reg_et_notelp);
@@ -76,26 +79,27 @@ public class FragmentRegister extends Fragment {
             @Override
             public void onClick(View view) {
                 HashMap<String,Object> map = new HashMap<>();
-                map.put("name",nama.getText());
-                map.put("email",email.getText());
-                map.put("password",katasandi.getText());
-                map.put("gender",spinnergender.getSelectedItemPosition());
-                map.put("born_place",bplace.getText());
-                map.put("bord_date",bdate.getText());
-                map.put("city",spinnerkota.getSelectedItemPosition());
-                map.put("province",((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getPlaces().get(spinnerkota.getSelectedItemPosition()).getParent());
-                map.put("address",alamat.getText());
-                map.put("phone",notelp.getText());
-                map.put("religion",spinneragama.getSelectedItemPosition()+1);
-                map.put("user_type",1);//cek lg
-                map.put("status",1);//cek lg
+                map.put("name",nama.getText().toString());
+                map.put("email",email.getText().toString());
+                map.put("password",katasandi.getText().toString());
+                map.put("gender", String.valueOf(spinnergender.getSelectedItemPosition()+1));
+                map.put("born_place",bplace.getText().toString());
+                map.put("born_date", thn.getText() + "-" + bln.getText() + "-" + hr.getText());
+                map.put("city", String.valueOf(spinnerkota.getSelectedItemPosition()+1));
+                map.put("province",String.valueOf(((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getPlaces().get(spinnerkota.getSelectedItemPosition()+1).getParent()));
+                map.put("address",alamat.getText().toString());
+                map.put("phone",notelp.getText().toString());
+                map.put("religion",String.valueOf(spinneragama.getSelectedItemPosition()+1));
+                map.put("user_type",String.valueOf(1));//cek lg
+                map.put("status",String.valueOf(1));//cek lg
                 Call<User> caller = APIManager.getRepository(UserRepo.class).registeruser(map);
                 caller.enqueue(new APICallback<User>() {
                     @Override
                     public void onSuccess(Call<User> call, Response<User> response) {
                         super.onSuccess(call, response);
                         Intent i = new Intent();
-                        i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(response.body(),User.class));
+                        User user = response.body();
+                        i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(user));
                         getActivity().setResult(MainActivity.RESULT_SUCCESS, i);
                         getToken(email.getText().toString(), katasandi.getText().toString());
                         getActivity().finish();

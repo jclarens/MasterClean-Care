@@ -34,14 +34,16 @@ public class ParentActivity extends AppCompatActivity{
     public void showDialog(){
         if (progressDialog == null)
             throw new NullPointerException("Progress dialog null");
-        else
+        else{
             progressDialog.show();
+        }
     }
     public void showDialog(String message){
         if (progressDialog == null)
             initProgressDialog(message);
-        else
+        else{
             progressDialog.setMessage(message);
+        }
         showDialog();
     }
 

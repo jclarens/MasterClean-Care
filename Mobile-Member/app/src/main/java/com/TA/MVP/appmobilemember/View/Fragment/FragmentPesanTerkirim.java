@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterPesan;
+import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterPesanMasuk;
 import com.TA.MVP.appmobilemember.R;
 
 /**
@@ -28,7 +28,7 @@ public class FragmentPesanTerkirim extends Fragment {
         rec_LayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(rec_LayoutManager);
 
-        rec_Adapter = new RecyclerAdapterPesan();
+        rec_Adapter = new RecyclerAdapterPesanMasuk();
         recyclerView.setAdapter(rec_Adapter);
         return _view;
     }

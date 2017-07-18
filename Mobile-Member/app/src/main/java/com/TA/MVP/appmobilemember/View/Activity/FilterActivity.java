@@ -137,7 +137,8 @@ public class FilterActivity extends ParentActivity{
         arrayAdapterKota = new ArrayAdapter(getApplicationContext(), R.layout.spinner_item, addallkota(((MasterCleanApplication) getApplication()).getGlobalStaticData().getPlaces()));
         spinnerkota.setAdapter(arrayAdapterKota);
 
-        spinnerAdapteragama = new SpinnerAdapter(this, filterArrays.getArrayAgama().getArrayList());
+
+        spinnerAdapteragama = new SpinnerAdapter(this, filterArrays.getArrayAgama().getArrayList2());
         spinneragama.setAdapter(spinnerAdapteragama.getArrayAdapter());
 
         usiamin.setText(String.valueOf(20));
@@ -208,7 +209,6 @@ public class FilterActivity extends ParentActivity{
             tmp.add(places.get(n));
         }
         return tmp;
-
     }
 
 }

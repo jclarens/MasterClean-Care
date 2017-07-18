@@ -84,7 +84,7 @@
         android:inputType="textPassword" />
 
     <EditText
-        android:id="@+id/reg_et_bordplace"
+        android:id="@+id/reg_et_bornplace"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
@@ -92,18 +92,59 @@
         android:layout_marginRight="15dp"
         android:layout_marginStart="15dp"
         android:ems="10"
+        android:hint="Tempat Lahir"
         android:inputType="textPersonName" />
 
-    <EditText
-        android:id="@+id/reg_et_borndate"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginStart="15dp"
-        android:ems="10"
-        android:inputType="date" />
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/reg_et_thn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:hint="Tahun"
+            android:maxLength="4"/>
+
+        <EditText
+            android:id="@+id/reg_et_bln"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:hint="Bulan"
+            android:maxLength="2"/>
+
+        <EditText
+            android:id="@+id/reg_et_hr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:hint="Hari"
+            android:maxLength="2"/>
+    </LinearLayout>
+    <!--<EditText-->
+        <!--android:id="@+id/reg_et_borndate"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginEnd="15dp"-->
+        <!--android:layout_marginLeft="15dp"-->
+        <!--android:layout_marginRight="15dp"-->
+        <!--android:layout_marginStart="15dp"-->
+        <!--android:ems="10"-->
+        <!--android:hint="Tanggal Lahir"-->
+        <!--android:inputType="date" />-->
 
     <Spinner
         android:id="@+id/reg_spinner_gender"

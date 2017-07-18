@@ -19,7 +19,7 @@ import com.TA.MVP.appmobilemember.R;
 public class FragmentPesan extends Fragment{
     private TabLayout tabLayoutpesan;
     private ViewPager viewPagerpesan;
-    private PagerAdapter pagerAdapterpesan;
+    private PagerAdapterPesan pagerAdapterpesan;
     public FragmentPesan(){
 
     }
