@@ -1,13 +1,11 @@
 package com.TA.MVP.appmobilemember.Model.Adapter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.Model.Basic.Message;
 import com.TA.MVP.appmobilemember.R;
@@ -21,7 +19,7 @@ import java.util.List;
  * Created by Zackzack on 07/07/2017.
  */
 
-public class RecyclerAdapterPesanMasuk extends RecyclerView.Adapter<RecyclerAdapterPesanMasuk.ViewHolder> {
+public class RecyclerAdapterPesan extends RecyclerView.Adapter<RecyclerAdapterPesan.ViewHolder> {
 //    private String[] nama = {"nama1", "nama2"};
 //    private String[] subject = {"sub1", "sub2"};
     private List<Message> messages = new ArrayList<>();

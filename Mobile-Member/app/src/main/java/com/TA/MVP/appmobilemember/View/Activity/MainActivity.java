@@ -2,6 +2,7 @@ package com.TA.MVP.appmobilemember.View.Activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -36,6 +37,7 @@ import com.TA.MVP.appmobilemember.View.Fragment.FragmentHome;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentLainnya;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentPesan;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentStatus;
+import com.TA.MVP.appmobilemember.View.Fragment.FragmentUnauthorized;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
@@ -111,10 +113,16 @@ public class MainActivity extends ParentActivity {
                         fragment = new FragmentCari();
                         break;
                     case R.id.menu_status:
-                        fragment = new FragmentStatus();
+                        if (SharedPref.getValueString(ConstClass.USER) == "")
+                            fragment = new FragmentUnauthorized();
+                        else
+                            fragment = new FragmentStatus();
                         break;
                     case R.id.menu_pesan:
-                        fragment = new FragmentPesan();
+                        if (SharedPref.getValueString(ConstClass.USER) == "")
+                            fragment = new FragmentUnauthorized();
+                        else
+                            fragment = new FragmentPesan();
                         break;
                     case R.id.menu_lainnya:
                         fragment = new FragmentLainnya();
@@ -176,7 +184,19 @@ public class MainActivity extends ParentActivity {
                 success = false;
                 Toast.makeText(context,"Failed", Toast.LENGTH_SHORT).show();
                 dismissDialog();
-//                getstaticData1();
+                abuildermessage("Reconnect?","No Connection");
+                abuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        getstaticData1();
+                    }
+                });
+                abuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
             }
         });
     }

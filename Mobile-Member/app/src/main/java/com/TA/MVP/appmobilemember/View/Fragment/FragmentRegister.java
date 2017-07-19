@@ -17,6 +17,7 @@ import com.TA.MVP.appmobilemember.Model.Adapter.SpinnerAdapter;
 import com.TA.MVP.appmobilemember.Model.Array.ArrayAgama;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Responses.Token;
+import com.TA.MVP.appmobilemember.Model.Responses.UserResponse;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.View.Activity.AuthActivity;
@@ -92,31 +93,30 @@ public class FragmentRegister extends Fragment {
                 map.put("religion",String.valueOf(spinneragama.getSelectedItemPosition()+1));
                 map.put("user_type",String.valueOf(1));//cek lg
                 map.put("status",String.valueOf(1));//cek lg
-                Call<User> caller = APIManager.getRepository(UserRepo.class).registeruser(map);
-                caller.enqueue(new APICallback<User>() {
+                Call<UserResponse> caller = APIManager.getRepository(UserRepo.class).registeruser(map);
+                caller.enqueue(new APICallback<UserResponse>() {
                     @Override
-                    public void onSuccess(Call<User> call, Response<User> response) {
+                    public void onSuccess(Call<UserResponse> call, Response<UserResponse> response) {
                         super.onSuccess(call, response);
                         Intent i = new Intent();
-                        User user = response.body();
-                        i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(user));
+                        i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
                         getActivity().setResult(MainActivity.RESULT_SUCCESS, i);
                         getToken(email.getText().toString(), katasandi.getText().toString());
                         getActivity().finish();
                     }
 
                     @Override
-                    public void onUnauthorized(Call<User> call, Response<User> response) {
+                    public void onUnauthorized(Call<UserResponse> call, Response<UserResponse> response) {
                         super.onUnauthorized(call, response);
                     }
 
                     @Override
-                    public void onUnprocessableEntity(Call<User> call, Response<User> response) {
+                    public void onUnprocessableEntity(Call<UserResponse> call, Response<UserResponse> response) {
                         super.onUnprocessableEntity(call, response);
                     }
 
                     @Override
-                    public void onFailure(Call<User> call, Throwable t) {
+                    public void onFailure(Call<UserResponse> call, Throwable t) {
                         super.onFailure(call, t);
                     }
                 });

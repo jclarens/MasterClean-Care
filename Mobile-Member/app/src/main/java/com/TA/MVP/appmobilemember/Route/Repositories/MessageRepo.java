@@ -21,26 +21,16 @@ import retrofit2.http.Path;
 
 public interface MessageRepo {
     @Headers("Accept: application/json")
-    @GET("api/message/")
-    Call<List<Message>> getmessages();
+    @GET("api/get_all/{user}")
+    Call<List<Message>> getallmsgfromuserid(@Path("user") String userid);
 
     @Headers("Accept: application/json")
-    @POST("api/message/")
-    Call<MessageResponse> postmessage(@Body HashMap map);
+    @GET("api/get_sender/{user}")
+    Call<List<Message>> getallmsgfromsenderid(@Path("user") String userid);
 
     @Headers("Accept: application/json")
-    @GET("api/message/{message_id}")
-    Call<MessageResponse> showmessage(@Path("message_id") Integer message_id);
+    @GET("api/get_reciever/{user}")
+    Call<List<Message>> getallmsgfromreciverid(@Path("user") String userid);
 
-    @Headers("Accept: application/json")
-    @PATCH("api/message/{message_id}")
-    Call<MessageResponse> updatemessage(@Path("message_id") Integer message_id);
 
-    @Headers("Accept: application/json")
-    @DELETE("api/message/{message_id}")
-    Call<MessageResponse> destroymessage(@Path("message_id") Integer message_id);
-
-    @Headers("Accept: application/json")
-    @GET("api/message/search/{param}/{text}")
-    Call<List<Message>> searchmessageByParam(@Path("param") Integer param, @Path("text") Integer text);
 }

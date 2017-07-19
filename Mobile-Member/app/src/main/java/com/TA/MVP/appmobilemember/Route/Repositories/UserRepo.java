@@ -38,7 +38,7 @@ public interface UserRepo {
 
     @Headers("Accept: application/json")
     @POST("api/user")
-    Call<User> registeruser(@Body HashMap map);
+    Call<UserResponse> registeruser(@Body HashMap map);
 
     @Headers("Accept: application/json")
     @POST("api/logout")

@@ -9,9 +9,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.Model.Basic.User;
+import com.TA.MVP.appmobilemember.Model.Responses.Token;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
@@ -68,9 +71,14 @@ public class AsistenActivity extends ParentActivity {
         pemesanan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), PemesananActivity.class);
-                i.putExtra(ConstClass.ART_EXTRA,GsonUtils.getJsonFromObject(art));
-                startActivity(i);
+                if (SharedPref.getValueString(ConstClass.USER) == "")
+                    Toast.makeText(getApplicationContext(),"Silahkan login terlebih dahulu", Toast.LENGTH_SHORT).show();
+                else {
+                    Intent i = new Intent(getApplicationContext(), PemesananActivity.class);
+                    i.putExtra(ConstClass.ART_EXTRA,GsonUtils.getJsonFromObject(art));
+                    startActivity(i);
+                }
+
             }
         });
 

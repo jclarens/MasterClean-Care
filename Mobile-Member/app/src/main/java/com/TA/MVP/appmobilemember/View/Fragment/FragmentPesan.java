@@ -20,9 +20,6 @@ public class FragmentPesan extends Fragment{
     private TabLayout tabLayoutpesan;
     private ViewPager viewPagerpesan;
     private PagerAdapterPesan pagerAdapterpesan;
-    public FragmentPesan(){
-
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

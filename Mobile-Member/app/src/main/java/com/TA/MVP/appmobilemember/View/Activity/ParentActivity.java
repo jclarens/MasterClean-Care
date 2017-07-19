@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.EditText;
  */
 
 public class ParentActivity extends AppCompatActivity{
+    protected AlertDialog.Builder abuilder = new AlertDialog.Builder(this);
     protected ProgressDialog progressDialog;
     public void initProgressDialog(String message){
         progressDialog = new ProgressDialog(this);
@@ -44,7 +46,15 @@ public class ParentActivity extends AppCompatActivity{
         else{
             progressDialog.setMessage(message);
         }
+        progressDialog.setCancelable(false);
         showDialog();
+    }
+    public void abuildermessage(String msg, String title){
+        abuilder.setMessage(msg).setTitle(title);
+    }
+    public void showalertdialog(){
+        AlertDialog dialog = abuilder.create();
+        dialog.show();
     }
 
 
