@@ -3,17 +3,21 @@ package com.TA.MVP.appmobilemember.Model.Basic;
 import java.util.Date;
 
 /**
- * Created by Zackzack on 14/07/2017.
+ * Created by Zackzack on 19/07/2017.
  */
 
-public class Order {
+public class Offer {
+    private Integer id;
     private User member;
-    private User art;
-    private Integer work_time_id;
+    private Waktu_Kerja work_time;
     private Date start_date;
     private Date end_date;
     private String remark;
     private Integer status;
+
+    public Integer getId() {
+        return id;
+    }
 
     public User getMember() {
         return member;
@@ -23,20 +27,12 @@ public class Order {
         this.member = member;
     }
 
-    public User getArt() {
-        return art;
+    public Waktu_Kerja getWork_time() {
+        return work_time;
     }
 
-    public void setArt(User art) {
-        this.art = art;
-    }
-
-    public Integer getWork_time_id() {
-        return work_time_id;
-    }
-
-    public void setWork_time_id(Integer work_time_id) {
-        this.work_time_id = work_time_id;
+    public void setWork_time(Waktu_Kerja work_time) {
+        this.work_time = work_time;
     }
 
     public Date getStart_date() {

@@ -16,8 +16,9 @@
             android:id="@+id/textView52"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Dari: "
-            android:textSize="18dp"/>
+            android:text="Dari :"
+            android:textColor="@android:color/black"
+            android:textSize="18dp" />
 
 
         <EditText
@@ -36,8 +37,9 @@
             android:id="@+id/textView53"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Judul: "
-            android:textSize="18dp"/>
+            android:text="Subject : "
+            android:textColor="@android:color/black"
+            android:textSize="18dp" />
 
         <EditText
             android:id="@+id/bp_et_subject"
@@ -55,12 +57,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Pesan :"
-            android:textSize="18dp"/>
+            android:textColor="@android:color/black"
+            android:textSize="18dp" />
 
         <EditText
             android:id="@+id/bp_et_pesan"
             android:layout_width="match_parent"
-            android:layout_height="271dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="top"
             android:ems="10"
@@ -76,21 +79,21 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/bp_btn_hps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/btn_hps" />
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/bp_btn_balas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/btn_bls" />
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/bp_btn_kembali"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

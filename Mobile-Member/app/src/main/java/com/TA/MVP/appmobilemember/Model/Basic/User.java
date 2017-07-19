@@ -14,11 +14,6 @@ public class User {
     private Integer gender;
     private String born_place;
     private Date born_date;
-    private String phone;
-    private Integer province;
-    private Integer city;
-    private String address;
-    private String location;
     private Integer religion;
     private String race;
     private Integer user_type;
@@ -76,46 +71,6 @@ public class User {
 
     public void setBorn_date(Date born_date) {
         this.born_date = born_date;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public Integer getProvince() {
-        return province;
-    }
-
-    public void setProvince(Integer province) {
-        this.province = province;
-    }
-
-    public Integer getCity() {
-        return city;
-    }
-
-    public void setCity(Integer city) {
-        this.city = city;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public Integer getReligion() {

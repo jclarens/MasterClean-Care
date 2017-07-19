@@ -16,6 +16,7 @@ import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Adapter.SpinnerAdapter;
 import com.TA.MVP.appmobilemember.Model.Array.ArrayAgama;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
+import com.TA.MVP.appmobilemember.Model.Basic.UserContact;
 import com.TA.MVP.appmobilemember.Model.Responses.Token;
 import com.TA.MVP.appmobilemember.Model.Responses.UserResponse;
 import com.TA.MVP.appmobilemember.R;
@@ -86,13 +87,15 @@ public class FragmentRegister extends Fragment {
                 map.put("gender", String.valueOf(spinnergender.getSelectedItemPosition()+1));
                 map.put("born_place",bplace.getText().toString());
                 map.put("born_date", thn.getText() + "-" + bln.getText() + "-" + hr.getText());
-                map.put("city", String.valueOf(spinnerkota.getSelectedItemPosition()+1));
-                map.put("province",String.valueOf(((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getPlaces().get(spinnerkota.getSelectedItemPosition()+1).getParent()));
-                map.put("address",alamat.getText().toString());
-                map.put("phone",notelp.getText().toString());
                 map.put("religion",String.valueOf(spinneragama.getSelectedItemPosition()+1));
                 map.put("user_type",String.valueOf(1));//cek lg
                 map.put("status",String.valueOf(1));//cek lg
+                UserContact userContact = new UserContact();
+                userContact.setAddress(alamat.getText().toString());
+                userContact.setCity((spinnerkota.getSelectedItemPosition()+1));
+                userContact.setProvince(((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getPlaces().get(spinnerkota.getSelectedItemPosition()+1).getParent());
+                userContact.setPhone(notelp.getText().toString());
+                map.put("Contact", userContact);//cek lg
                 Call<UserResponse> caller = APIManager.getRepository(UserRepo.class).registeruser(map);
                 caller.enqueue(new APICallback<UserResponse>() {
                     @Override
