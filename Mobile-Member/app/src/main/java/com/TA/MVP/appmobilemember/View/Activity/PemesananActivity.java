@@ -24,16 +24,14 @@ public class PemesananActivity extends ParentActivity {
     private FragmentPemesanan2 fragp2;
     private FragmentPemesanan3 fragp3;
     private Bundle b = new Bundle();
-    private User art;
-    public PemesananActivity(){
-        Intent intent = getIntent();
-        art = GsonUtils.getObjectFromJson(intent.getStringExtra(ConstClass.ART_EXTRA), User.class);
-        b.putString(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
-    }
+    private User art = new User();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pemesanan);
+        Intent intent = getIntent();
+        art = GsonUtils.getObjectFromJson(intent.getStringExtra(ConstClass.ART_EXTRA), User.class);
+        b.putString(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
 
         fragp1 = new FragmentPemesanan1();
         fragp2 = new FragmentPemesanan2();

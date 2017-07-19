@@ -75,7 +75,7 @@ public class AsistenActivity extends ParentActivity {
                     Toast.makeText(getApplicationContext(),"Silahkan login terlebih dahulu", Toast.LENGTH_SHORT).show();
                 else {
                     Intent i = new Intent(getApplicationContext(), PemesananActivity.class);
-                    i.putExtra(ConstClass.ART_EXTRA,GsonUtils.getJsonFromObject(art));
+                    i.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
                     startActivity(i);
                 }
 

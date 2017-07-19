@@ -50,6 +50,7 @@ public class FragmentLogin extends Fragment {
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ((AuthActivity)getActivity()).showDialog("Logging in");
                 HashMap<String,Object> map = new HashMap<>();
                 map.put("grant_type","password");
                 map.put("client_id", Settings.getClientID());
@@ -68,6 +69,7 @@ public class FragmentLogin extends Fragment {
                     @Override
                     public void onUnauthorized(Call<Token> call, Response<Token> response) {
                         super.onUnauthorized(call, response);
+                        ((AuthActivity)getActivity()).dismissDialog();
                         Toast.makeText(getContext(), "Email or Password is wrong", Toast.LENGTH_SHORT).show();
 
                     }
@@ -108,6 +110,7 @@ public class FragmentLogin extends Fragment {
             @Override
             public void onSuccess(Call<UserResponse> call, Response<UserResponse> response) {
                 super.onSuccess(call, response);
+                ((AuthActivity)getActivity()).dismissDialog();
                 Intent i = new Intent();
                 User user = response.body().getUser();
                 i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(user));

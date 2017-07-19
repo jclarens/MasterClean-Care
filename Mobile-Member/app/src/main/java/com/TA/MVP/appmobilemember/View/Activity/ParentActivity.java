@@ -17,14 +17,16 @@ import android.widget.EditText;
  */
 
 public class ParentActivity extends AppCompatActivity{
-    protected AlertDialog.Builder abuilder = new AlertDialog.Builder(this);
+    protected AlertDialog.Builder abuilder;
     protected ProgressDialog progressDialog;
     public void initProgressDialog(String message){
         progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
         progressDialog.setMessage(message);
     }
     public void initProgressDialog(String title, String message){
         progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
         progressDialog.setTitle(title);
         progressDialog.setMessage(message);
     }
@@ -46,15 +48,18 @@ public class ParentActivity extends AppCompatActivity{
         else{
             progressDialog.setMessage(message);
         }
-        progressDialog.setCancelable(false);
         showDialog();
     }
     public void abuildermessage(String msg, String title){
+        abuilder = new AlertDialog.Builder(this);
         abuilder.setMessage(msg).setTitle(title);
     }
     public void showalertdialog(){
         AlertDialog dialog = abuilder.create();
-        dialog.show();
+        if (abuilder == null)
+            throw new NullPointerException("null builder");
+        else
+            dialog.show();
     }
 
 

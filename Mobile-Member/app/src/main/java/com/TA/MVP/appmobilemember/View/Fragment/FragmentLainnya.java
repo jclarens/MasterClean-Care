@@ -92,7 +92,6 @@ public class FragmentLainnya extends Fragment {
                     i.putExtra(ConstClass.LOGIN_EXTRA, true);
                     i.putExtra(ConstClass.REGISTER_EXTRA, true);
                     ((MainActivity)getActivity()).doStartActivityForResult(i);
-//                    getActivity().startActivityForResult(i, MainActivity.REQUEST_LOGIN);
 
                     if (SharedPref.getValueString(SharedPref.ACCESS_TOKEN) == ""){
                         txtlogout.setText("Login");

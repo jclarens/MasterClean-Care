@@ -162,7 +162,9 @@ public class MainActivity extends ParentActivity {
             if (resultCode == RESULT_SUCCESS){
                 user = GsonUtils.getObjectFromJson(data.getStringExtra(ConstClass.USER), User.class);
                 SharedPref.save(ConstClass.USER, data.getStringExtra(ConstClass.USER));
-                Toast.makeText(context,SharedPref.getValueString(ConstClass.USER), Toast.LENGTH_SHORT).show();
+                final FragmentTransaction transaction2 = fragmentManager.beginTransaction();
+                transaction2.replace(R.id.main_container, fragment).commit();
+//                Toast.makeText(context,SharedPref.getValueString(ConstClass.USER), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -188,6 +190,7 @@ public class MainActivity extends ParentActivity {
                 abuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        showDialog();
                         getstaticData1();
                     }
                 });
@@ -197,6 +200,7 @@ public class MainActivity extends ParentActivity {
                         finish();
                     }
                 });
+                showalertdialog();
             }
         });
     }
