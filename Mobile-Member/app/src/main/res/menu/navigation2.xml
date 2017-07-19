@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_beranda"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/menu_beranda"/>
+    <item
+        android:id="@+id/menu_cari"
+        android:icon="@drawable/icon_search"
+        android:title="@string/menu_cari"/>
+    <item
+        android:id="@+id/menu_lainnya"
+        android:icon="@drawable/ic_others"
+        android:title="@string/menu_lainnya"/>
+
+</menu>

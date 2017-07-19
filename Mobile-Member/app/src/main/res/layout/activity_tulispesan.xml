@@ -16,7 +16,8 @@
             android:id="@+id/textView52"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textSize="18dp"/>
 
         <EditText
             android:id="@+id/editText"
@@ -24,13 +25,15 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textPersonName"
-            android:text="Name" />
+            android:text="Name"
+            />
 
         <TextView
             android:id="@+id/textView53"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textSize="18dp"/>
 
         <EditText
             android:id="@+id/editText2"
@@ -44,7 +47,8 @@
             android:id="@+id/textView54"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:text="TextView"
+            android:textSize="18dp" />
 
         <EditText
             android:id="@+id/editText3"

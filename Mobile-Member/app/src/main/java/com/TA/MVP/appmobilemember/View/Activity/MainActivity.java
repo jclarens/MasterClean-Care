@@ -59,7 +59,6 @@ public class MainActivity extends ParentActivity {
     private FragmentManager fragmentManager;
     private Toolbar toolbar;
     private Context context;
-    private Menu menutoolbar;
     private boolean success;
     private ProgressDialog progressDialog;
     private AlertDialog.Builder alertDialog;
@@ -95,7 +94,10 @@ public class MainActivity extends ParentActivity {
         setSupportActionBar(toolbar);
 
         bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        bottomNavigation.inflateMenu(R.menu.navigation);
+        if (SharedPref.getValueString(SharedPref.ACCESS_TOKEN) == "")
+            bottomNavigation.inflateMenu(R.menu.navigation2);
+        else
+            bottomNavigation.inflateMenu(R.menu.navigation);
         fragmentManager = getSupportFragmentManager();
 
         context = getApplicationContext();
@@ -137,7 +139,6 @@ public class MainActivity extends ParentActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menutoolbar = menu;
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -149,6 +150,16 @@ public class MainActivity extends ParentActivity {
                 doChangeActivity(context,EmergencyActivity.class);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        bottomNavigation.getMenu().clear();
+        if (SharedPref.getValueString(SharedPref.ACCESS_TOKEN) == "")
+            bottomNavigation.inflateMenu(R.menu.navigation2);
+        else
+            bottomNavigation.inflateMenu(R.menu.navigation);
+        return true;
     }
 
     public void doStartActivityForResult(Intent intent){
@@ -164,6 +175,7 @@ public class MainActivity extends ParentActivity {
                 SharedPref.save(ConstClass.USER, data.getStringExtra(ConstClass.USER));
                 final FragmentTransaction transaction2 = fragmentManager.beginTransaction();
                 transaction2.replace(R.id.main_container, fragment).commit();
+                invalidateOptionsMenu();
 //                Toast.makeText(context,SharedPref.getValueString(ConstClass.USER), Toast.LENGTH_SHORT).show();
             }
         }

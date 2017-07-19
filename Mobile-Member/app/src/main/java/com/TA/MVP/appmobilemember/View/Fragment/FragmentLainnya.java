@@ -104,6 +104,7 @@ public class FragmentLainnya extends Fragment {
                     SharedPref.save(ConstClass.USER, "");
                     Toast.makeText(context,"Logout", Toast.LENGTH_SHORT).show();
                     txtlogout.setText("Login");
+                    getActivity().invalidateOptionsMenu();
                 }
 //                Toast.makeText(context,"Logout", Toast.LENGTH_SHORT).show();
             }

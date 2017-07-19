@@ -29,7 +29,7 @@ public interface MessageRepo {
     Call<List<Message>> getallmsgfromsenderid(@Path("user") String userid);
 
     @Headers("Accept: application/json")
-    @GET("api/message/get_reciever/{user}")
+    @GET("api/message/get_receiver/{user}")
     Call<List<Message>> getallmsgfromreciverid(@Path("user") String userid);
 
 
