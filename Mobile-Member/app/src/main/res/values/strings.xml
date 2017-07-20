@@ -86,11 +86,13 @@
     <string name="toolbar_filter">Filter</string>
     <string name="toolbar_pemesanan">Pemesanan</string>
     <string name="toolbar_wallet">ISI ulang Wallet</string>
+    <string name="toolbar_logwallet">Riwayat Transaksi</string>
     <string name="toolbar_walletvoucher">Voucher</string>
     <string name="toolbar_pmsa">Pemesanan Active</string>
     <string name="toolbar_profile">Profile</string>
     <string name="toolbar_pesan">Pesan</string>
     <string name="toolbar_asisten">Asisten</string>
+    <string name="toolbar_jadwal">Jadwal</string>
 
     <string name="pager_cari_map">Map</string>
     <string name="pager_cari_list">List</string>

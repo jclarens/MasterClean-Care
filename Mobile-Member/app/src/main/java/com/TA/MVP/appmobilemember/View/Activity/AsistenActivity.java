@@ -39,35 +39,14 @@ public class AsistenActivity extends ParentActivity {
         art = GsonUtils.getObjectFromJson(intent.getStringExtra(ConstClass.ART_EXTRA), User.class);
         initAllView();
 
-        //Ini cara panggil function untuk request
-//        Call<GenericResponse<ArrayAgama>> caller =  APIManager.getRepository(UserRepo.class).ambeAgama("nama");
-        // pemanggilan enqueue untuk request ke server.
-//        caller.enqueue(new APICallback<GenericResponse<ArrayAgama>>() {
-//
-//            @Override
-//            public void onSuccess(Call<GenericResponse<ArrayAgama>> call, Response<GenericResponse<ArrayAgama>> response) {
-//                super.onSuccess(call, response);
-//                //ini untuk ambe data dari response json jika menggunakan GenericResponse class.
-////                response.body().data;
-//                //jika gk gunakan Generic response
-//                //response.body();
-//            }
-//
-//            @Override
-//            public void onNotFound(Call<GenericResponse<ArrayAgama>> call, Response<GenericResponse<ArrayAgama>> response) {
-//                super.onNotFound(call, response);
-//            }
-//
-//            @Override
-//            public void onError(Call<GenericResponse<ArrayAgama>> call, Response<GenericResponse<ArrayAgama>> response) {
-//                super.onError(call, response);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<GenericResponse<ArrayAgama>> call, Throwable t) {
-//                super.onFailure(call, t);
-//            }
-//        });
+        jadwal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), AsistenJadwalActivity.class);
+                i.putExtra(ConstClass.ART_EXTRA,  GsonUtils.getJsonFromObject(art));
+                startActivity(i);
+            }
+        });
         pemesanan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

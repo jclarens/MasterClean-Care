@@ -8,7 +8,20 @@ import android.support.v7.widget.Toolbar;
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterLogWallet;
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterWallet;
+import com.TA.MVP.appmobilemember.Model.Basic.User;
+import com.TA.MVP.appmobilemember.Model.Basic.WalletTransaction;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
+import com.TA.MVP.appmobilemember.lib.api.APICallback;
+import com.TA.MVP.appmobilemember.lib.api.APIManager;
+import com.TA.MVP.appmobilemember.lib.database.SharedPref;
+import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
+import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Created by Zackzack on 18/07/2017.
@@ -19,9 +32,19 @@ public class LogWalletActivity extends ParentActivity {
     private RecyclerView.LayoutManager rec_LayoutManager;
     private RecyclerAdapterLogWallet rec_Adapter;
     private Toolbar toolbar;
+    private User user;
+    private List<WalletTransaction> walletTransactions;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logwallet);
+        user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
+
+        //toolbar
+        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.toolbar_logwallet);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //recyclerview
         recyclerView = (RecyclerView) findViewById(R.id.recycleview_wallet);
@@ -29,13 +52,21 @@ public class LogWalletActivity extends ParentActivity {
         recyclerView.setLayoutManager(rec_LayoutManager);
         rec_Adapter = new RecyclerAdapterLogWallet();
         recyclerView.setAdapter(rec_Adapter);
-//        rec_Adapter.setLogWallets();
+        rec_Adapter.setLogWallets(walletTransactions);
 
-        //toolbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.toolbar_wallet);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Call<List<WalletTransaction>> caller = APIManager.getRepository(UserRepo.class).getwallettrans(user.getId());
+        caller.enqueue(new APICallback<List<WalletTransaction>>() {
+            @Override
+            public void onSuccess(Call<List<WalletTransaction>> call, Response<List<WalletTransaction>> response) {
+                super.onSuccess(call, response);
+                rec_Adapter.setLogWallets(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<WalletTransaction>> call, Throwable t) {
+                super.onFailure(call, t);
+            }
+        });
+
     }
 }

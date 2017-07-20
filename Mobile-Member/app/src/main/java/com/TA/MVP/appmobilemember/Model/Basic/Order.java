@@ -7,13 +7,19 @@ import java.util.Date;
  */
 
 public class Order {
+    private Integer id;
     private User member;
     private User art;
+    private Integer cost;
     private Integer work_time_id;
     private Date start_date;
     private Date end_date;
     private String remark;
     private Integer status;
+
+    public Integer getId() {
+        return id;
+    }
 
     public User getMember() {
         return member;
@@ -29,6 +35,14 @@ public class Order {
 
     public void setArt(User art) {
         this.art = art;
+    }
+
+    public Integer getCost() {
+        return cost;
+    }
+
+    public void setCost(Integer cost) {
+        this.cost = cost;
     }
 
     public Integer getWork_time_id() {

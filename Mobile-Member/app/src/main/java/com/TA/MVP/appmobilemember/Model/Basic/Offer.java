@@ -9,6 +9,7 @@ import java.util.Date;
 public class Offer {
     private Integer id;
     private User member;
+    private Integer cost;
     private Waktu_Kerja work_time;
     private Date start_date;
     private Date end_date;
@@ -25,6 +26,14 @@ public class Offer {
 
     public void setMember(User member) {
         this.member = member;
+    }
+
+    public Integer getCost() {
+        return cost;
+    }
+
+    public void setCost(Integer cost) {
+        this.cost = cost;
     }
 
     public Waktu_Kerja getWork_time() {

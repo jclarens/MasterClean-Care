@@ -27,7 +27,6 @@ public class FragmentStatusPermintaan extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_status_permintaan, container, false);
 
-        recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_asisten);
         btn_add = (Button) _view.findViewById(R.id.btn_addpermintaan);
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,9 +36,9 @@ public class FragmentStatusPermintaan extends Fragment {
             }
         });
 
+        recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_asisten);
         rec_LayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(rec_LayoutManager);
-
         rec_Adapter = new RecyclerAdapterPemesanan();
         recyclerView.setAdapter(rec_Adapter);
         return _view;

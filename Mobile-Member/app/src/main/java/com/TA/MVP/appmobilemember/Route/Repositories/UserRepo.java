@@ -1,6 +1,7 @@
 package com.TA.MVP.appmobilemember.Route.Repositories;
 
 import com.TA.MVP.appmobilemember.Model.Basic.User;
+import com.TA.MVP.appmobilemember.Model.Basic.WalletTransaction;
 import com.TA.MVP.appmobilemember.Model.Responses.Token;
 import com.TA.MVP.appmobilemember.Model.Responses.UserResponse;
 
@@ -37,8 +38,12 @@ public interface UserRepo {
     Call<Token> loginuser(@Body HashMap map);
 
     @Headers("Accept: application/json")
-    @POST("api/user")
+    @POST("api/user/")
     Call<UserResponse> registeruser(@Body HashMap map);
+
+    @Headers("Accept: application/json")
+    @GET("api/user/wallet_transaction_list/{user}")
+    Call<List<WalletTransaction>> getwallettrans(@Path("user") Integer user_id);
 
     @Headers("Accept: application/json")
     @POST("api/logout")

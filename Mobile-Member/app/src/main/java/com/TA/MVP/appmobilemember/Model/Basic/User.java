@@ -20,6 +20,7 @@ public class User {
     private String profile_img_name;
     private String profile_img_path;
     private Integer status;
+    private UserContact Contact;
 
     public Integer getId() {
         return id;
@@ -119,5 +120,13 @@ public class User {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public UserContact getContact() {
+        return Contact;
+    }
+
+    public void setContact(UserContact contact) {
+        Contact = contact;
     }
 }

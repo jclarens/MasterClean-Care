@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.TA.MVP.appmobilemember.Model.Basic.User;
+import com.TA.MVP.appmobilemember.Model.Basic.UserContact;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
@@ -27,10 +28,11 @@ public class ProfileActivity extends ParentActivity {
     public final static int RESULT_SUCCESS = 1;
     public final static int RESULT_CANCEL = 2;
     private User user = new User();
+    private UserContact userContact = new UserContact();
     private Toolbar toolbar;
     private ImageView imgfoto;
     private TextView nama, alamat, notelp, email;
-    private Button btnisi;
+    private Button btnlog;
     private Intent intent = new Intent();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class ProfileActivity extends ParentActivity {
         alamat = (TextView) findViewById(R.id.prof_tv_alamat);
         notelp = (TextView) findViewById(R.id.prof_tv_notelp);
         email = (TextView) findViewById(R.id.prof_tv_email);
-        btnisi =(Button) findViewById(R.id.prof_btn_isi);
+        btnlog =(Button) findViewById(R.id.prof_btn_isi);
 
         setdata();
 
@@ -52,10 +54,10 @@ public class ProfileActivity extends ParentActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        btnisi.setOnClickListener(new View.OnClickListener() {
+        btnlog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                doStartActivity(getApplicationContext(), LogWalletActivity.class);
+                doStartActivity(getApplicationContext(), LogWalletActivity.class);
             }
         });
     }
@@ -90,8 +92,8 @@ public class ProfileActivity extends ParentActivity {
     public void setdata(){
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
         nama.setText(user.getName());
-        alamat.setText(user.getAddress());
-        notelp.setText(user.getPhone());
+        alamat.setText(user.getContact().getAddress());
+        notelp.setText(user.getContact().getPhone());
         email.setText(user.getEmail());
     }
 

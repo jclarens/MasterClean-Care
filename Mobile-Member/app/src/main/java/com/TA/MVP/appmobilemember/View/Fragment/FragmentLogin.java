@@ -77,16 +77,22 @@ public class FragmentLogin extends Fragment {
                     @Override
                     public void onNotFound(Call<Token> call, Response<Token> response) {
                         super.onNotFound(call, response);
+                        ((AuthActivity)getActivity()).dismissDialog();
+                        Toast.makeText(getContext(), "Link Not Found", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onError(Call<Token> call, Response<Token> response) {
                         super.onError(call, response);
+                        ((AuthActivity)getActivity()).dismissDialog();
+                        Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onFailure(Call<Token> call, Throwable t) {
                         super.onFailure(call, t);
+                        ((AuthActivity)getActivity()).dismissDialog();
+                        Toast.makeText(getContext(), "Fail to connect", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -115,6 +121,12 @@ public class FragmentLogin extends Fragment {
                 User user = response.body().getUser();
                 i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(user));
                 ((AuthActivity)getActivity()).dofinishActivity(i);
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                super.onFailure(call, t);
+                ((AuthActivity)getActivity()).dismissDialog();
             }
         });
     }

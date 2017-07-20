@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.TA.MVP.appmobilemember.Model.Basic.User;
+import com.TA.MVP.appmobilemember.Model.Basic.UserContact;
 import com.TA.MVP.appmobilemember.Model.Responses.UserResponse;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
@@ -50,8 +51,8 @@ public class EditProfileActivity extends ParentActivity {
 
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
         nama.setText(user.getName());
-        alamat.setText(user.getAddress());
-        notelp.setText(user.getPhone());
+        alamat.setText(user.getContact().getAddress());
+        notelp.setText(user.getContact().getPhone());
         email.setText(user.getEmail());
 
         btnsimpan.setOnClickListener(new View.OnClickListener() {
@@ -59,8 +60,10 @@ public class EditProfileActivity extends ParentActivity {
             public void onClick(View view) {
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("name", nama.getText().toString());
-                map.put("address",alamat.getText().toString());
-                map.put("phone",notelp.getText().toString());
+                UserContact userContact = new UserContact();
+                userContact.setAddress(alamat.getText().toString());
+                userContact.setPhone(notelp.getText().toString());
+                map.put("contact", userContact);
 //                map.put("email",email.getText().toString()); mungkin g bs
 //                map.put("",""); //foto
 //                map.put("","");
@@ -71,9 +74,7 @@ public class EditProfileActivity extends ParentActivity {
                         super.onSuccess(call, response);
                         Intent i = new Intent();
                         setResult(ProfileActivity.RESULT_SUCCESS, i);
-                        user.setName(nama.getText().toString());
-                        user.setAddress(alamat.getText().toString());
-                        user.setPhone(notelp.getText().toString());
+                        user = response.body().getUser();
                         SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(user));
                         finish();
                     }
