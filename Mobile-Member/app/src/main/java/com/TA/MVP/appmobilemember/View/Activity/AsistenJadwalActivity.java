@@ -50,7 +50,7 @@ public class AsistenJadwalActivity extends ParentActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //recyclerview
-        recyclerView = (RecyclerView) findViewById(R.id.card_jadwalasisten);
+        recyclerView = (RecyclerView) findViewById(R.id.recycleview_jadwalasisten);
         rec_LayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(rec_LayoutManager);
         rec_Adapter = new RecyclerAdapterJadwal();

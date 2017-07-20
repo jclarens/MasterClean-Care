@@ -62,6 +62,8 @@ public class RecyclerAdapterLogWallet extends RecyclerView.Adapter<RecyclerAdapt
 
     @Override
     public int getItemCount() {
+        if (walletTransactions == null)
+            return 0;
         return walletTransactions.size();
     }
 

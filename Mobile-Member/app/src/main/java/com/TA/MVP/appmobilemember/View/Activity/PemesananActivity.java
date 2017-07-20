@@ -31,7 +31,6 @@ public class PemesananActivity extends ParentActivity {
         setContentView(R.layout.activity_pemesanan);
         Intent intent = getIntent();
         art = GsonUtils.getObjectFromJson(intent.getStringExtra(ConstClass.ART_EXTRA), User.class);
-        b.putString(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
 
         fragp1 = new FragmentPemesanan1();
         fragp2 = new FragmentPemesanan2();
@@ -43,6 +42,8 @@ public class PemesananActivity extends ParentActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        b.putString(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
+        fragp1.setArguments(b);
         getSupportFragmentManager().beginTransaction().replace(R.id.layout_pemesanan, fragp1).commit();
     }
 

@@ -8,7 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterPesan;
+import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterPesanMasuk;
+import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterPesanTerkirim;
 import com.TA.MVP.appmobilemember.Model.Basic.Message;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
@@ -32,7 +33,7 @@ import retrofit2.Response;
 public class FragmentPesanTerkirim extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager rec_LayoutManager;
-    private RecyclerAdapterPesan rec_Adapter;
+    private RecyclerAdapterPesanTerkirim rec_Adapter;
     private List<Message> messages = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -43,7 +44,7 @@ public class FragmentPesanTerkirim extends Fragment {
         rec_LayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(rec_LayoutManager);
 
-        rec_Adapter = new RecyclerAdapterPesan();
+        rec_Adapter = new RecyclerAdapterPesanTerkirim();
         recyclerView.setAdapter(rec_Adapter);
         rec_Adapter.setPesan(messages);
 

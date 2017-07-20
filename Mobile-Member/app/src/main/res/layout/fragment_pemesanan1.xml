@@ -12,7 +12,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="15dp">
 
@@ -23,50 +23,21 @@
                 android:layout_margin="5dp"
                 android:text="@string/step1"
                 android:textAlignment="center"
-                android:textColor="@android:color/black"
+                android:textColor="@color/colorBlack"
                 android:textSize="24sp" />
-
-            <EditText
-                android:id="@+id/pms1_et_nama"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/namalengkap"
-                android:inputType="textPersonName" />
+                android:text="Pilih Lokasi Pemesanan"
+                android:textColor="@color/colorBlack"/>
 
-            <EditText
-                android:id="@+id/pms1_et_email"
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/pms1_picklocation"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/email"
-                android:inputType="textEmailAddress" />
+                android:layout_height="200dp"
+                android:layout_marginTop="15dp">
 
-            <EditText
-                android:id="@+id/pms1_et_notelp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/notelp"
-                android:inputType="phone" />
-
-            <Spinner
-                android:id="@+id/pms1_spinner_prov"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <Spinner
-                android:id="@+id/pms1_spinner_kota"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <EditText
-                android:id="@+id/pms1_et_alamat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/alamat"
-                android:inputType="textPersonName" />
+            </com.google.android.gms.maps.MapView>
 
             <RelativeLayout
                 android:layout_width="match_parent"

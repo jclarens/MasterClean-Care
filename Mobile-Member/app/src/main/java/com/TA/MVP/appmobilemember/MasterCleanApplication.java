@@ -5,6 +5,7 @@ import com.TA.MVP.appmobilemember.Route.Repositories.AdditionalInfoRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.JobRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.LanguageRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.MessageRepo;
+import com.TA.MVP.appmobilemember.Route.Repositories.OrderRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.PlaceRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.WTRepo;
@@ -58,6 +59,7 @@ public class MasterCleanApplication extends Application {
 
         //Ini tuntuk register repository request (serives)
         APIManager.registerRepository(UserRepo.class);
+        APIManager.registerRepository(OrderRepo.class);
         APIManager.registerRepository(MessageRepo.class);
         APIManager.registerRepository(WalletRepo.class);
         APIManager.registerRepository(PlaceRepo.class);

@@ -22,10 +22,10 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 /**
- * Created by Zackzack on 08/07/2017.
+ * Created by jcla123ns on 20/07/17.
  */
 
-public class BacaPesanActivity extends ParentActivity {
+public class BacaPesanTerkirimActivity extends ParentActivity {
     private EditText nama, sub, msg;
     private Button kembali, hapus, balas;
     private Toolbar toolbar;
@@ -33,7 +33,7 @@ public class BacaPesanActivity extends ParentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bacapesan);
+        setContentView(R.layout.activity_bacapesan_terkirim);
         Intent i = getIntent();
         message = GsonUtils.getObjectFromJson(i.getStringExtra("message"), Message.class);
 

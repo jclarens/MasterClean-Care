@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.TA.MVP.appmobilemember.Model.Basic.Message;
 import com.TA.MVP.appmobilemember.R;
-import com.TA.MVP.appmobilemember.View.Activity.BacaPesanActivity;
+import com.TA.MVP.appmobilemember.View.Activity.BacaPesanMasukActivity;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
 import java.util.ArrayList;
@@ -19,9 +19,7 @@ import java.util.List;
  * Created by Zackzack on 07/07/2017.
  */
 
-public class RecyclerAdapterPesan extends RecyclerView.Adapter<RecyclerAdapterPesan.ViewHolder> {
-//    private String[] nama = {"nama1", "nama2"};
-//    private String[] subject = {"sub1", "sub2"};
+public class RecyclerAdapterPesanMasuk extends RecyclerView.Adapter<RecyclerAdapterPesanMasuk.ViewHolder> {
     private List<Message> messages = new ArrayList<>();
     class ViewHolder extends RecyclerView.ViewHolder{
         public TextView itemnama,itemtanggal,itemsubject;
@@ -34,11 +32,9 @@ public class RecyclerAdapterPesan extends RecyclerView.Adapter<RecyclerAdapterPe
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
-                    Intent i = new Intent(itemview.getContext(), BacaPesanActivity.class);
+                    Intent i = new Intent(itemview.getContext(), BacaPesanMasukActivity.class);
                     i.putExtra("message", GsonUtils.getJsonFromObject(messages.get(position)));
                     itemview.getContext().startActivity(i);
-//                    Toast.makeText(itemview.getContext(),"Clicking card number " + position, Toast.LENGTH_SHORT).show();
-//                    doStartActivity(itemview.getContext(), BacaPesanActivity.class);
                 }
             });
         }

@@ -57,7 +57,8 @@ public class ProfileActivity extends ParentActivity {
         btnlog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                doStartActivity(getApplicationContext(), LogWalletActivity.class);
+                Intent i = new Intent(getApplicationContext(), LogWalletActivity.class);
+                startActivity(i);
             }
         });
     }
@@ -92,8 +93,8 @@ public class ProfileActivity extends ParentActivity {
     public void setdata(){
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
         nama.setText(user.getName());
-        alamat.setText(user.getContact().getAddress());
-        notelp.setText(user.getContact().getPhone());
+//        alamat.setText(user.getContact().getAddress());
+//        notelp.setText(user.getContact().getPhone());
         email.setText(user.getEmail());
     }
 

@@ -30,9 +30,11 @@
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.WalletVoucherActivity"/>
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.PengaturanActivity"/>
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.PemesananActiveActivity"/>
-        <activity android:name="com.TA.MVP.appmobilemember.View.Activity.BacaPesanActivity"/>
+        <activity android:name="com.TA.MVP.appmobilemember.View.Activity.BacaPesanMasukActivity"/>
+        <activity android:name="com.TA.MVP.appmobilemember.View.Activity.BacaPesanTerkirimActivity"/>
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.TulisPesanActivity"/>
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.AsistenActivity"/>
+        <activity android:name="com.TA.MVP.appmobilemember.View.Activity.AsistenJadwalActivity"/>
         <activity
             android:name="com.TA.MVP.appmobilemember.View.Activity.MainActivity"
             android:label="@string/app_name">

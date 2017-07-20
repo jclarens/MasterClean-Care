@@ -39,11 +39,21 @@ public class AsistenActivity extends ParentActivity {
         art = GsonUtils.getObjectFromJson(intent.getStringExtra(ConstClass.ART_EXTRA), User.class);
         initAllView();
 
+        kirimpesan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (SharedPref.getValueString(ConstClass.USER) == "")
+                    Toast.makeText(getApplicationContext(),"Silahkan login terlebih dahulu", Toast.LENGTH_SHORT).show();
+                else {
+
+                }
+            }
+        });
         jadwal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), AsistenJadwalActivity.class);
-                i.putExtra(ConstClass.ART_EXTRA,  GsonUtils.getJsonFromObject(art));
+                i.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
                 startActivity(i);
             }
         });

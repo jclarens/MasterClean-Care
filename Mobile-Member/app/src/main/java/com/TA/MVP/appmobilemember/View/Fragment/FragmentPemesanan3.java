@@ -35,13 +35,11 @@ public class FragmentPemesanan3 extends Fragment {
     private Button prev, pesan, selengkapnya;
     private RelativeLayout layoutasisten;
     private User art;
-    public FragmentPemesanan3(){
-        art = GsonUtils.getObjectFromJson(getArguments().getString(ConstClass.ART_EXTRA), User.class);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_pemesanan3, container, false);
+        art = GsonUtils.getObjectFromJson(getArguments().getString(ConstClass.ART_EXTRA), User.class);
 
         layoutasisten = (RelativeLayout) _view.findViewById(R.id.layout_asisten);
         namaasis = (TextView) _view.findViewById(R.id.asism_nama);

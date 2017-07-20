@@ -27,12 +27,12 @@ public class FragmentAsistenmini extends Fragment {
     private ImageView imageView;
     private RatingBar ratingBar;
     private User art;
-    public FragmentAsistenmini(){
-        art = GsonUtils.getObjectFromJson(getArguments().getString(ConstClass.ART_EXTRA), User.class);
-    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_asistenmini, container, false);
+        art = GsonUtils.getObjectFromJson(getArguments().getString(ConstClass.ART_EXTRA), User.class);
+
         nama = (TextView) _view.findViewById(R.id.asism_nama);
         usia = (TextView) _view.findViewById(R.id.asism_usia);
         agama = (TextView) _view.findViewById(R.id.asism_agama);
@@ -46,6 +46,7 @@ public class FragmentAsistenmini extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getContext(), AsistenActivity.class);
+                i.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
                 startActivity(i);
             }
         });

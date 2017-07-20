@@ -27,6 +27,6 @@ public interface OrderRepo {
     Call<List<Order>> getorderByArt(@Path("art") Integer art);
 
     @Headers("Accept: application/json")
-    @GET("api/order/art/{member}")
+    @GET("api/order/member/{member}")
     Call<List<Order>> getorderByMember(@Path("member") Integer member);
 }

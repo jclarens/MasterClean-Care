@@ -1,9 +1,11 @@
 package com.TA.MVP.appmobilemember.View.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterLogWallet;
@@ -47,7 +49,7 @@ public class LogWalletActivity extends ParentActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //recyclerview
-        recyclerView = (RecyclerView) findViewById(R.id.recycleview_wallet);
+        recyclerView = (RecyclerView) findViewById(R.id.recycleview_logwallet);
         rec_LayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(rec_LayoutManager);
         rec_Adapter = new RecyclerAdapterLogWallet();
@@ -68,5 +70,15 @@ public class LogWalletActivity extends ParentActivity {
             }
         });
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
