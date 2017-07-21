@@ -6,7 +6,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.TA.MVP.appmobilemember.Model.Basic.Order;
+import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.View.Fragment.FragmentAsistenmini;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
@@ -17,6 +19,7 @@ import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 public class PemesananActiveActivity extends ParentActivity {
     private Order order = new Order();
     private Toolbar toolbar;
+    private FragmentAsistenmini fragmentAsistenmini;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +27,13 @@ public class PemesananActiveActivity extends ParentActivity {
         Intent intent = getIntent();
         order = GsonUtils.getObjectFromJson(intent.getStringExtra(ConstClass.ORDER_EXTRA), Order.class);
 
+        fragmentAsistenmini = new FragmentAsistenmini();
+        Bundle b = new Bundle();
+        b.putString(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(order.getArt()));
+        fragmentAsistenmini.setArguments(b);
+        getSupportFragmentManager().beginTransaction().replace(R.id.layout_asisten, fragmentAsistenmini).commit();
+
+        //toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.toolbar_pemesanan);

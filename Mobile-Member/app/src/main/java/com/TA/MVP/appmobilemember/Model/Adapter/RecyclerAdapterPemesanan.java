@@ -25,9 +25,6 @@ import java.util.List;
  */
 
 public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapterPemesanan.ViewHolder> {
-//    private String[] nama = {"nama1", "nama2", "nama3", "nama4", "nama5"};
-//    private String[] profesi = {"Nanny", "Baby Sitter", "Nanny", "Baby Sitter", "Pengurus Rumah Tangga"};
-//    private String[] mulai = {"01 Januari 2017", "01 Januari 2017", "01 Januari 2017", "01 Januari 2017", "01 Januari 2017"};
     private List<Order> orders = new ArrayList<>();
     class ViewHolder extends RecyclerView.ViewHolder{
         public TextView itemnama, itemprofesi, itemmulai;
@@ -60,7 +57,7 @@ public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapt
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.itemnama.setText(orders.get(position).getArt().getName());
-//        holder.itemprofesi.setText(orders.get(position).);
+        holder.itemprofesi.setText(orders.get(position).getWork_time().getWork_time());
         holder.itemmulai.setText(orders.get(position).getStart_date().toString());
     }
 
@@ -76,6 +73,7 @@ public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapt
                 temp.add(orders.get(n));
         }
         this.orders = temp;
+//        this.orders = orders;
         notifyDataSetChanged();
     }
 }

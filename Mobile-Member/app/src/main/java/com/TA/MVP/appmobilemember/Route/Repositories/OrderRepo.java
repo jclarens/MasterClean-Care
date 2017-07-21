@@ -24,9 +24,9 @@ import retrofit2.http.Path;
 public interface OrderRepo {
     @Headers("Accept: application/json")
     @GET("api/order/art/{art}")
-    Call<List<Order>> getorderByArt(@Path("art") Integer art);
+    Call<List<Order>> getorderByArt(@Path("art") String art);
 
     @Headers("Accept: application/json")
     @GET("api/order/member/{member}")
-    Call<List<Order>> getorderByMember(@Path("member") Integer member);
+    Call<List<Order>> getorderByMember(@Path("member") String member);
 }

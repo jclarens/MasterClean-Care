@@ -30,7 +30,9 @@ import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 import com.TA.MVP.appmobilemember.lib.utils.Settings;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -80,6 +82,7 @@ public class FragmentRegister extends Fragment {
         btndaftar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ((AuthActivity)getActivity()).showDialog("registering");
                 HashMap<String,Object> map = new HashMap<>();
                 map.put("name",nama.getText().toString());
                 map.put("email",email.getText().toString());
@@ -90,12 +93,15 @@ public class FragmentRegister extends Fragment {
                 map.put("religion",String.valueOf(spinneragama.getSelectedItemPosition()+1));
                 map.put("user_type",String.valueOf(1));//cek lg
                 map.put("status",String.valueOf(1));//cek lg
+                List<UserContact> userContacts = new ArrayList<UserContact>();
                 UserContact userContact = new UserContact();
                 userContact.setAddress(alamat.getText().toString());
                 userContact.setCity((spinnerkota.getSelectedItemPosition()+1));
-                userContact.setProvince(((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getPlaces().get(spinnerkota.getSelectedItemPosition()+1).getParent());
+                userContact.setProvince(((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getPlaces().get(spinnerkota.getSelectedItemPosition()+1).getId());
                 userContact.setPhone(notelp.getText().toString());
-                map.put("Contact", userContact);//cek lg
+                userContact.setLocation("8008.80080");
+                userContacts.add(userContact);
+                map.put("contact", userContacts);//cek lg
                 Call<UserResponse> caller = APIManager.getRepository(UserRepo.class).registeruser(map);
                 caller.enqueue(new APICallback<UserResponse>() {
                     @Override
@@ -105,22 +111,32 @@ public class FragmentRegister extends Fragment {
                         i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
                         getActivity().setResult(MainActivity.RESULT_SUCCESS, i);
                         getToken(email.getText().toString(), katasandi.getText().toString());
-                        getActivity().finish();
+                        ((AuthActivity)getActivity()).dismissDialog();
+                        ((AuthActivity)getActivity()).dofinishActivity(i);
                     }
 
                     @Override
                     public void onUnauthorized(Call<UserResponse> call, Response<UserResponse> response) {
                         super.onUnauthorized(call, response);
+                        ((AuthActivity)getActivity()).dismissDialog();
                     }
 
                     @Override
                     public void onUnprocessableEntity(Call<UserResponse> call, Response<UserResponse> response) {
                         super.onUnprocessableEntity(call, response);
+                        ((AuthActivity)getActivity()).dismissDialog();
+                    }
+
+                    @Override
+                    public void onError(Call<UserResponse> call, Response<UserResponse> response) {
+                        super.onError(call, response);;
+                        ((AuthActivity)getActivity()).dismissDialog();
                     }
 
                     @Override
                     public void onFailure(Call<UserResponse> call, Throwable t) {
                         super.onFailure(call, t);
+                        ((AuthActivity)getActivity()).dismissDialog();
                     }
                 });
 
@@ -154,6 +170,7 @@ public class FragmentRegister extends Fragment {
             @Override
             public void onFailure(Call<Token> call, Throwable t) {
                 super.onFailure(call, t);
+                ((AuthActivity)getActivity()).dismissDialog();
             }
         });
     }

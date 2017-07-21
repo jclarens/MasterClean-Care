@@ -4,54 +4,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:ignore="UselessParent">
+        android:orientation="vertical"
+        android:padding="15dp">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/textView25"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:text="@string/step1"
+            android:textAlignment="center"
+            android:textColor="@color/colorBlack"
+            android:textSize="24sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pilih Lokasi Pemesanan"
+            android:textColor="@color/colorBlack"/>
+
+        <Button
+            android:id="@+id/pms1_btn_pilih"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pilih"
+            android:textAllCaps="false" />
+        <EditText
+            android:id="@+id/pms1_et_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:focusable="false"/>
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="15dp">
+            android:layout_weight="1"
+            android:padding="20dp"
+            android:id="@id/layout_asisten">
+        </RelativeLayout>
 
-            <TextView
-                android:id="@+id/textView25"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="@string/step1"
-                android:textAlignment="center"
-                android:textColor="@color/colorBlack"
-                android:textSize="24sp" />
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Pilih Lokasi Pemesanan"
-                android:textColor="@color/colorBlack"/>
-
-            <com.google.android.gms.maps.MapView
-                android:id="@+id/pms1_picklocation"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="15dp">
-
-            </com.google.android.gms.maps.MapView>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="20dp"
-                android:id="@id/layout_asisten">
-            </RelativeLayout>
-
-            <Button
-                android:id="@+id/pms1_btn_next"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/btn_next"
-                android:textAllCaps="false" />
-        </LinearLayout>
-    </ScrollView>
+        <Button
+            android:id="@+id/pms1_btn_next"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_next"
+            android:textAllCaps="false" />
+    </LinearLayout>
 </LinearLayout>

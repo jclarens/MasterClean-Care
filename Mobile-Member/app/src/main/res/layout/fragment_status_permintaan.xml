@@ -11,7 +11,7 @@
         android:textAllCaps="false" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycleview_asisten"
+        android:id="@+id/recycleview_order"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

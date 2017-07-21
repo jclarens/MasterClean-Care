@@ -18,6 +18,12 @@ import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by Zackzack on 12/06/2017.
  */
@@ -29,6 +35,10 @@ public class AsistenActivity extends ParentActivity {
     private LinearLayout layoutprof;
     private CheckBox inggris, mandarin, melayu, tktanjg;
     private Button docpndkg, jadwal, pemesanan, kirimpesan;
+    private int thisYear, artbornyear;
+    private Calendar calendar = Calendar.getInstance();
+    private Date date;
+    private DateFormat yearformat = new SimpleDateFormat("yyyy");
     private User art;
 
     @Override
@@ -38,6 +48,7 @@ public class AsistenActivity extends ParentActivity {
         Intent intent = getIntent();
         art = GsonUtils.getObjectFromJson(intent.getStringExtra(ConstClass.ART_EXTRA), User.class);
         initAllView();
+
 
         kirimpesan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,6 +114,12 @@ public class AsistenActivity extends ParentActivity {
 
     private void setAll(){
         nama.setText(art.getName());
+
+        thisYear = calendar.get(Calendar.YEAR);
+        artbornyear = Integer.valueOf(yearformat.format(art.getBorn_date()));
+        usia.setText(thisYear - artbornyear + " Thn");
+        pengalaman.setText("1 Thn");
+        notelp.setText(art.getContact().get(0).getPhone());
 
         pemesanan.setOnClickListener(new View.OnClickListener() {
             @Override

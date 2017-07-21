@@ -36,7 +36,7 @@ public class FragmentStatusPermintaan extends Fragment {
             }
         });
 
-        recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_asisten);
+        recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_order);
         rec_LayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(rec_LayoutManager);
         rec_Adapter = new RecyclerAdapterPemesanan();

@@ -20,7 +20,9 @@ import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -51,8 +53,8 @@ public class EditProfileActivity extends ParentActivity {
 
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
         nama.setText(user.getName());
-        alamat.setText(user.getContact().getAddress());
-        notelp.setText(user.getContact().getPhone());
+        alamat.setText(user.getContact().get(0).getAddress());
+        notelp.setText(user.getContact().get(0).getPhone());
         email.setText(user.getEmail());
 
         btnsimpan.setOnClickListener(new View.OnClickListener() {
@@ -60,10 +62,12 @@ public class EditProfileActivity extends ParentActivity {
             public void onClick(View view) {
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("name", nama.getText().toString());
+                List<UserContact> userContacts = new ArrayList<UserContact>();
                 UserContact userContact = new UserContact();
                 userContact.setAddress(alamat.getText().toString());
                 userContact.setPhone(notelp.getText().toString());
-                map.put("contact", userContact);
+                userContacts.add(userContact);
+                map.put("contact", userContacts);
 //                map.put("email",email.getText().toString()); mungkin g bs
 //                map.put("",""); //foto
 //                map.put("","");

@@ -28,15 +28,11 @@
                     <!--android:layout_width="match_parent"-->
                     <!--android:layout_height="match_parent"/>-->
             </RelativeLayout>
-
-            <EditText
-                android:id="@+id/pmsa_et_prof"
+            <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:enabled="false"
-                android:focusable="false"
-                android:inputType="textPersonName" />
+                android:layout_height="match_parent"
+                android:text="Tugas :"
+                android:textColor="@color/colorBlack"/>
 
             <LinearLayout
                 android:id="@+id/pmsa_layout_listpekerjaan"

@@ -1,6 +1,7 @@
 package com.TA.MVP.appmobilemember.Model.Basic;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Zackzack on 09/07/2017.
@@ -20,7 +21,14 @@ public class User {
     private String profile_img_name;
     private String profile_img_path;
     private Integer status;
-    private UserContact Contact;
+    private List<UserContact> contact;
+    private List<UserAdditionalInfo> user_additional_info;
+    private List<UserDocument> user_document;
+    private List<UserWallet> user_wallet;
+    private List<UserLanguage> user_language;
+    private List<UserJob> user_job;
+    private List<UserWorkTime> user_work_time;
+    private List<UserOrderRate> order_rate;
 
     public Integer getId() {
         return id;
@@ -122,11 +130,67 @@ public class User {
         this.status = status;
     }
 
-    public UserContact getContact() {
-        return Contact;
+    public List<UserContact> getContact() {
+        return contact;
     }
 
-    public void setContact(UserContact contact) {
-        Contact = contact;
+    public void setContact(List<UserContact> contact) {
+        this.contact = contact;
+    }
+
+    public List<UserAdditionalInfo> getUser_additional_info() {
+        return user_additional_info;
+    }
+
+    public void setUser_additional_info(List<UserAdditionalInfo> user_additional_info) {
+        this.user_additional_info = user_additional_info;
+    }
+
+    public List<UserDocument> getUser_document() {
+        return user_document;
+    }
+
+    public void setUser_document(List<UserDocument> user_document) {
+        this.user_document = user_document;
+    }
+
+    public List<UserWallet> getUser_wallet() {
+        return user_wallet;
+    }
+
+    public void setUser_wallet(List<UserWallet> user_wallet) {
+        this.user_wallet = user_wallet;
+    }
+
+    public List<UserLanguage> getUser_language() {
+        return user_language;
+    }
+
+    public void setUser_language(List<UserLanguage> user_language) {
+        this.user_language = user_language;
+    }
+
+    public List<UserJob> getUser_job() {
+        return user_job;
+    }
+
+    public void setUser_job(List<UserJob> user_job) {
+        this.user_job = user_job;
+    }
+
+    public List<UserWorkTime> getUser_work_time() {
+        return user_work_time;
+    }
+
+    public void setUser_work_time(List<UserWorkTime> user_work_time) {
+        this.user_work_time = user_work_time;
+    }
+
+    public List<UserOrderRate> getOrder_rate() {
+        return order_rate;
+    }
+
+    public void setOrder_rate(List<UserOrderRate> order_rate) {
+        this.order_rate = order_rate;
     }
 }

@@ -40,10 +40,8 @@ public class FragmentPesanMasuk extends Fragment {
         View _view = inflater.inflate(R.layout.fragment_pesan_masuk, container, false);
 
         recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_pesan);
-
         rec_LayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(rec_LayoutManager);
-
         rec_Adapter = new RecyclerAdapterPesanMasuk();
         recyclerView.setAdapter(rec_Adapter);
         rec_Adapter.setPesan(messages);

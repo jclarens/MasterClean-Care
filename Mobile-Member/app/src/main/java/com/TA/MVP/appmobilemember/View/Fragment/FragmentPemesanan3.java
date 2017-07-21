@@ -41,30 +41,20 @@ public class FragmentPemesanan3 extends Fragment {
         View _view = inflater.inflate(R.layout.fragment_pemesanan3, container, false);
         art = GsonUtils.getObjectFromJson(getArguments().getString(ConstClass.ART_EXTRA), User.class);
 
-        layoutasisten = (RelativeLayout) _view.findViewById(R.id.layout_asisten);
-        namaasis = (TextView) _view.findViewById(R.id.asism_nama);
-        usiaasis = (TextView) _view.findViewById(R.id.asism_usia);
-        agamaasis = (TextView) _view.findViewById(R.id.asism_agama);
-        estimasitext = (TextView) _view.findViewById(R.id.pms3_tv_estimasiwaktu);
-        prof = (EditText) _view.findViewById(R.id.pms3_et_prof);
-        estimasi = (EditText) _view.findViewById(R.id.pms3_et_estimate);
-        mulaitime = (EditText) _view.findViewById(R.id.pms3_et_mulaitime);
-        mulaidate = (EditText) _view.findViewById(R.id.pms3_et_mulaidate);
-        selesaitime = (EditText) _view.findViewById(R.id.pms3_et_selesaitime);
-        selesaidate = (EditText) _view.findViewById(R.id.pms3_et_selesaidate);
-        total = (EditText) _view.findViewById(R.id.pms3_et_total);
-        layoutlistpekerjaan = (LinearLayout) _view.findViewById(R.id.pms3_layout_listpekerjaan);
+//        layoutasisten = (RelativeLayout) _view.findViewById(R.id.layout_asisten);
+//        estimasitext = (TextView) _view.findViewById(R.id.pms3_tv_estimasiwaktu);
+//        prof = (EditText) _view.findViewById(R.id.pms3_et_prof);
+//        estimasi = (EditText) _view.findViewById(R.id.pms3_et_estimate);
+//        mulaitime = (EditText) _view.findViewById(R.id.pms3_et_mulaitime);
+//        mulaidate = (EditText) _view.findViewById(R.id.pms3_et_mulaidate);
+//        selesaitime = (EditText) _view.findViewById(R.id.pms3_et_selesaitime);
+//        selesaidate = (EditText) _view.findViewById(R.id.pms3_et_selesaidate);
+//        total = (EditText) _view.findViewById(R.id.pms3_et_total);
+//        layoutlistpekerjaan = (LinearLayout) _view.findViewById(R.id.pms3_layout_listpekerjaan);
         prev = (Button) _view.findViewById(R.id.pms3_btn_prev);
         pesan = (Button) _view.findViewById(R.id.pms3_btn_pesan);
-        fotoasis = (ImageView) _view.findViewById(R.id.asism_img);
-        ketentuan = (CheckBox) _view.findViewById(R.id.pms3_cb_kttn);
-
-        selengkapnya.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
+//        fotoasis = (ImageView) _view.findViewById(R.id.asism_img);
+//        ketentuan = (CheckBox) _view.findViewById(R.id.pms3_cb_kttn);
 
         prev.setOnClickListener(new View.OnClickListener() {
             @Override

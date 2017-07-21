@@ -14,6 +14,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:name=".MasterCleanApplication">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCQV-_kS7IAFCZtHML0O_BCq2kBz7b4rXQ"/>
+
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.ParentActivity"/>
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.AuthActivity"/>
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.ProfileActivity"/>
@@ -45,12 +50,6 @@
             </intent-filter>
 
         </activity>
-
-
-        <!--maps-->
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBOz-3Sm8G2sthjUN4RlHqnNS4HlW4uNkA"/>
 
     </application>
 

@@ -57,7 +57,7 @@ public class AsistenJadwalActivity extends ParentActivity {
         rec_Adapter.setOrders(orders);
         recyclerView.setAdapter(rec_Adapter);
 
-        Call<List<Order>> caller = APIManager.getRepository(OrderRepo.class).getorderByArt(art.getId());
+        Call<List<Order>> caller = APIManager.getRepository(OrderRepo.class).getorderByArt(art.getId().toString());
         caller.enqueue(new APICallback<List<Order>>() {
             @Override
             public void onSuccess(Call<List<Order>> call, Response<List<Order>> response) {

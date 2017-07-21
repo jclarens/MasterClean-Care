@@ -61,21 +61,21 @@
                         android:id="@+id/textView47"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/usia"
+                        android:text="Usia :"
                         android:textColor="@android:color/black" />
 
                     <TextView
                         android:id="@+id/textView48"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/pengalaman"
+                        android:text="Pengalaman :"
                         android:textColor="@android:color/black" />
 
                     <TextView
                         android:id="@+id/textView49"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/notelp"
+                        android:text="No. Telp :"
                         android:textColor="@android:color/black" />
 
                     <TextView

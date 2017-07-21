@@ -144,6 +144,8 @@
     <string name="btn_add_penawaran">Buat Permintaan</string>
     <string name="btn_trshistory">Riwayat Transaksi</string>
 
+    <string name="API_MAP_KEY">AIzaSyCQV-_kS7IAFCZtHML0O_BCq2kBz7b4rXQ</string>
+
     <string name="arrow_down">&#x25BC;</string>
     <string name="arrow_up">&#x25B2;</string>
 

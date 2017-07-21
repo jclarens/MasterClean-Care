@@ -1,6 +1,9 @@
 package com.TA.MVP.appmobilemember.Model.Basic;
 
+import android.provider.ContactsContract;
+
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Zackzack on 14/07/2017.
@@ -11,11 +14,13 @@ public class Order {
     private User member;
     private User art;
     private Integer cost;
-    private Integer work_time_id;
-    private Date start_date;
-    private Date end_date;
+    private Waktu_Kerja work_time;
+    private String start_date;
+    private String end_date;
     private String remark;
     private Integer status;
+    private List<ReviewOrder> review_order;
+    private List<Contact> contact;
 
     public Integer getId() {
         return id;
@@ -45,27 +50,43 @@ public class Order {
         this.cost = cost;
     }
 
-    public Integer getWork_time_id() {
-        return work_time_id;
+    public Waktu_Kerja getWork_time() {
+        return work_time;
     }
 
-    public void setWork_time_id(Integer work_time_id) {
-        this.work_time_id = work_time_id;
+    public void setWork_time(Waktu_Kerja work_time) {
+        this.work_time = work_time;
     }
 
-    public Date getStart_date() {
+    public List<ReviewOrder> getReview_order() {
+        return review_order;
+    }
+
+    public void setReview_order(List<ReviewOrder> review_order) {
+        this.review_order = review_order;
+    }
+
+    public List<Contact> getContact() {
+        return contact;
+    }
+
+    public void setContact(List<Contact> contact) {
+        this.contact = contact;
+    }
+
+    public String getStart_date() {
         return start_date;
     }
 
-    public void setStart_date(Date start_date) {
+    public void setStart_date(String start_date) {
         this.start_date = start_date;
     }
 
-    public Date getEnd_date() {
+    public String getEnd_date() {
         return end_date;
     }
 
-    public void setEnd_date(Date end_date) {
+    public void setEnd_date(String end_date) {
         this.end_date = end_date;
     }
 

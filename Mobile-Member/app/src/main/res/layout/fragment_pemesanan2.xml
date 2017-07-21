@@ -26,24 +26,20 @@
                 android:textSize="24sp" />
 
             <Spinner
-                android:id="@+id/pms2_spinner_prof"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <Spinner
                 android:id="@+id/pms2_spinner_waktukerja"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
-            <LinearLayout
-                android:id="@+id/pms2_layout_listkerja"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/pms2_rec_listkerja"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:orientation="vertical"
+                android:scrollbars="vertical"
                 android:padding="10dp"
-                android:scrollbars="vertical">
+                android:background="#eeeeee">
 
-            </LinearLayout>
+            </android.support.v7.widget.RecyclerView>
 
             <TextView
                 android:id="@+id/textView31"
@@ -58,20 +54,24 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/pms2_et_mulaitime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="time" />
-
-                <EditText
                     android:id="@+id/pms2_et_mulaidate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="date" />
+                    android:focusable="false"
+                    android:inputType="date"
+                    android:hint="Date"/>
+
+                <EditText
+                    android:id="@+id/pms2_et_mulaitime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:inputType="time"
+                    android:hint="time"/>
             </LinearLayout>
 
             <TextView
@@ -87,24 +87,24 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/pms2_et_selesaitime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:enabled="false"
-                    android:focusable="false"
-                    android:inputType="time" />
-
-                <EditText
                     android:id="@+id/pms2_et_selesaidate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:enabled="false"
                     android:focusable="false"
-                    android:inputType="date" />
+                    android:inputType="date"
+                    android:hint="Date"/>
+
+                <EditText
+                    android:id="@+id/pms2_et_selesaitime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:inputType="time"
+                    android:hint="Time"/>
             </LinearLayout>
 
             <LinearLayout
@@ -116,23 +116,22 @@
                     android:id="@+id/textView34"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="@string/estimasi"
                     android:textColor="@android:color/black" />
 
                 <EditText
                     android:id="@+id/pms2_et_estimasi"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:ems="10"
+                    android:maxLength="2"
                     android:inputType="numberDecimal" />
 
                 <TextView
                     android:id="@+id/pms2_tv_estimasiwaktu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:text="Jam"
                     android:textColor="@android:color/black" />
             </LinearLayout>
 
@@ -148,7 +147,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:ems="10"
-                android:inputType="textMultiLine" />
+                android:inputType="textMultiLine"
+                android:gravity="top"/>
 
             <TextView
                 android:id="@+id/textView45"

@@ -1,10 +1,15 @@
 package com.TA.MVP.appmobilemember.View.Activity;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.ContentFrameLayout;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
@@ -13,6 +18,12 @@ import com.TA.MVP.appmobilemember.View.Fragment.FragmentPemesanan2;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentPemesanan3;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 
 /**
  * Created by Zackzack on 14/06/2017.
@@ -25,6 +36,7 @@ public class PemesananActivity extends ParentActivity {
     private FragmentPemesanan3 fragp3;
     private Bundle b = new Bundle();
     private User art = new User();
+    private Place place;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +58,9 @@ public class PemesananActivity extends ParentActivity {
         fragp1.setArguments(b);
         getSupportFragmentManager().beginTransaction().replace(R.id.layout_pemesanan, fragp1).commit();
     }
+    public void setPlace(Place place){
+        this.place = place;
+    }
 
     public void doChangeFragment(int nmrfrag){
         b.remove(ConstClass.ART_EXTRA);
@@ -54,13 +69,28 @@ public class PemesananActivity extends ParentActivity {
                 b.putString(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
                 fragp1.setArguments(b);
                 getSupportFragmentManager().beginTransaction().replace(R.id.layout_pemesanan, fragp1).commit();
+                break;
             case 2:
+                b.putString(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
+                fragp2.setArguments(b);
                 getSupportFragmentManager().beginTransaction().replace(R.id.layout_pemesanan, fragp2).commit();
+                break;
             case 3:
                 b.putString(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
-                fragp1.setArguments(b);
+                fragp3.setArguments(b);
                 getSupportFragmentManager().beginTransaction().replace(R.id.layout_pemesanan, fragp3).commit();
+                break;
         }
 //        getSupportFragmentManager().beginTransaction().replace(R.id.layout_pemesanan, fragment).commit();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

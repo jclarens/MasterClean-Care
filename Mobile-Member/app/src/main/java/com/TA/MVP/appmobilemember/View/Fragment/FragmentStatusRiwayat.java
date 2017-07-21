@@ -15,6 +15,9 @@ import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.OrderRepo;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
+import com.TA.MVP.appmobilemember.lib.database.SharedPref;
+import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
+import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,15 +38,16 @@ public class FragmentStatusRiwayat extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_status_riwayat, container, false);
+        user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
 
-        recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_asisten);
+        recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_order);
         rec_LayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(rec_LayoutManager);
         rec_Adapter = new RecyclerAdapterPemesanan();
         recyclerView.setAdapter(rec_Adapter);
         rec_Adapter.setOrders(orders, 3);
 
-        Call<List<Order>> caller = APIManager.getRepository(OrderRepo.class).getorderByMember(user.getId());
+        Call<List<Order>> caller = APIManager.getRepository(OrderRepo.class).getorderByMember(user.getId().toString());
         caller.enqueue(new APICallback<List<Order>>() {
             @Override
             public void onSuccess(Call<List<Order>> call, Response<List<Order>> response) {
