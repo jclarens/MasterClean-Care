@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorCheck">#ffffff</color>
     <color name="colorUncheck">#B2D7D2</color>
+    <color name="colorsolidblack">#000000</color>
 </resources>

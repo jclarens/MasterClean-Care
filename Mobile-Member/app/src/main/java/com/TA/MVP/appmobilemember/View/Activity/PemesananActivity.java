@@ -11,11 +11,13 @@ import android.view.MenuItem;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.TA.MVP.appmobilemember.Model.Basic.Order;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentPemesanan1;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentPemesanan2;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentPemesanan3;
+import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 import com.google.android.gms.common.ConnectionResult;
@@ -36,6 +38,7 @@ public class PemesananActivity extends ParentActivity {
     private FragmentPemesanan3 fragp3;
     private Bundle b = new Bundle();
     private User art = new User();
+    private Order order = new Order();
     private Place place;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +57,8 @@ public class PemesananActivity extends ParentActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        b.putString(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
-        fragp1.setArguments(b);
+        SharedPref.save(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
+        SharedPref.save(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(order));
         getSupportFragmentManager().beginTransaction().replace(R.id.layout_pemesanan, fragp1).commit();
     }
     public void setPlace(Place place){
@@ -63,21 +66,14 @@ public class PemesananActivity extends ParentActivity {
     }
 
     public void doChangeFragment(int nmrfrag){
-        b.remove(ConstClass.ART_EXTRA);
         switch (nmrfrag){
             case 1:
-                b.putString(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
-                fragp1.setArguments(b);
                 getSupportFragmentManager().beginTransaction().replace(R.id.layout_pemesanan, fragp1).commit();
                 break;
             case 2:
-                b.putString(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
-                fragp2.setArguments(b);
                 getSupportFragmentManager().beginTransaction().replace(R.id.layout_pemesanan, fragp2).commit();
                 break;
             case 3:
-                b.putString(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
-                fragp3.setArguments(b);
                 getSupportFragmentManager().beginTransaction().replace(R.id.layout_pemesanan, fragp3).commit();
                 break;
         }
@@ -88,6 +84,8 @@ public class PemesananActivity extends ParentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
+                SharedPref.save(ConstClass.ART_EXTRA, "");
+                SharedPref.save(ConstClass.ORDER_EXTRA, "");
                 finish();
                 break;
         }

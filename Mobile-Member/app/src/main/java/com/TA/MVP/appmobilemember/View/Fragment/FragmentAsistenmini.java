@@ -17,6 +17,11 @@ import com.TA.MVP.appmobilemember.View.Activity.AsistenActivity;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by Zackzack on 18/07/2017.
  */
@@ -27,6 +32,9 @@ public class FragmentAsistenmini extends Fragment {
     private ImageView imageView;
     private RatingBar ratingBar;
     private User art;
+    private int thisYear, artbornyear;
+    private Calendar calendar = Calendar.getInstance();
+    private DateFormat yearformat = new SimpleDateFormat("yyyy");
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,6 +49,12 @@ public class FragmentAsistenmini extends Fragment {
         btn_moreinfo = (Button) _view.findViewById(R.id.asism_btninfo);
 
         nama.setText(art.getName());
+
+        thisYear = calendar.get(Calendar.YEAR);
+        artbornyear = Integer.valueOf(yearformat.format(art.getBorn_date()));
+        usia.setText(thisYear - artbornyear + " Thn");
+
+        ratingBar.setRating(art.getRate());
 
         btn_moreinfo.setOnClickListener(new View.OnClickListener() {
             @Override

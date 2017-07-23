@@ -1,4 +1,4 @@
-package com.TA.MVP.appmobilemember.lib.utils;
+package com.mvp.mobile_art.lib.utils;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

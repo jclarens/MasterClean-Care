@@ -1,23 +1,30 @@
-package com.TA.MVP.appmobilemember.Model.Basic;
+package com.mvp.mobile_art.Model.Basic;
+
+import android.provider.ContactsContract;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Zackzack on 14/07/2017.
  */
 
 public class Order {
+    private Integer id;
     private User member;
     private User art;
-    private Integer work_time_id;
-    private Date start_date;
-    private Date end_date;
-    private Integer province;
-    private Integer city;
-    private String address;
-    private String location;
+    private Integer cost;
+    private Waktu_Kerja work_time;
+    private String start_date;
+    private String end_date;
     private String remark;
     private Integer status;
+    private List<ReviewOrder> review_order;
+    private List<Contact> contact;
+
+    public Integer getId() {
+        return id;
+    }
 
     public User getMember() {
         return member;
@@ -35,60 +42,52 @@ public class Order {
         this.art = art;
     }
 
-    public Integer getWork_time_id() {
-        return work_time_id;
+    public Integer getCost() {
+        return cost;
     }
 
-    public void setWork_time_id(Integer work_time_id) {
-        this.work_time_id = work_time_id;
+    public void setCost(Integer cost) {
+        this.cost = cost;
     }
 
-    public Date getStart_date() {
+    public Waktu_Kerja getWork_time() {
+        return work_time;
+    }
+
+    public void setWork_time(Waktu_Kerja work_time) {
+        this.work_time = work_time;
+    }
+
+    public List<ReviewOrder> getReview_order() {
+        return review_order;
+    }
+
+    public void setReview_order(List<ReviewOrder> review_order) {
+        this.review_order = review_order;
+    }
+
+    public List<Contact> getContact() {
+        return contact;
+    }
+
+    public void setContact(List<Contact> contact) {
+        this.contact = contact;
+    }
+
+    public String getStart_date() {
         return start_date;
     }
 
-    public void setStart_date(Date start_date) {
+    public void setStart_date(String start_date) {
         this.start_date = start_date;
     }
 
-    public Date getEnd_date() {
+    public String getEnd_date() {
         return end_date;
     }
 
-    public void setEnd_date(Date end_date) {
+    public void setEnd_date(String end_date) {
         this.end_date = end_date;
-    }
-
-    public Integer getProvince() {
-        return province;
-    }
-
-    public void setProvince(Integer province) {
-        this.province = province;
-    }
-
-    public Integer getCity() {
-        return city;
-    }
-
-    public void setCity(Integer city) {
-        this.city = city;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
     }
 
     public String getRemark() {

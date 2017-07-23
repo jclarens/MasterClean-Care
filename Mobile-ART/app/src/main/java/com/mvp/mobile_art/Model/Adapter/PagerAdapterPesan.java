@@ -1,13 +1,13 @@
-package com.TA.MVP.appmobilemember.Model.Adapter;
+package com.mvp.mobile_art.Model.Adapter;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.TA.MVP.appmobilemember.R;
-import com.TA.MVP.appmobilemember.View.Fragment.FragmentPesanMasuk;
-import com.TA.MVP.appmobilemember.View.Fragment.FragmentPesanTerkirim;
+import com.mvp.mobile_art.R;
+import com.mvp.mobile_art.View.Fragment.FragmentPesanMasuk;
+import com.mvp.mobile_art.View.Fragment.FragmentPesanTerkirim;
 
 /**
  * Created by Zackzack on 10/06/2017.

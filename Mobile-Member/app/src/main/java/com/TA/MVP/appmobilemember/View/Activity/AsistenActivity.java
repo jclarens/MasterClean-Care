@@ -8,9 +8,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.TA.MVP.appmobilemember.MasterCleanApplication;
+import com.TA.MVP.appmobilemember.Model.Array.ArrayAgama;
+import com.TA.MVP.appmobilemember.Model.Array.ListStatus;
+import com.TA.MVP.appmobilemember.Model.Basic.StaticData;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Responses.Token;
 import com.TA.MVP.appmobilemember.R;
@@ -19,10 +24,13 @@ import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by Zackzack on 12/06/2017.
@@ -30,7 +38,8 @@ import java.util.Date;
 
 public class AsistenActivity extends ParentActivity {
     private Toolbar toolbar;
-    private TextView nama,usia,pengalaman,notelp,agama,suku,status,keterangan;
+    private TextView nama,usia,pengalaman,notelp,agama,suku,status,keterangan, txtprofesi, txtbhs;
+    private RatingBar ratingBar;
     private TextView gajijam, gajihari, gajibulan;
     private LinearLayout layoutprof;
     private CheckBox inggris, mandarin, melayu, tktanjg;
@@ -40,6 +49,10 @@ public class AsistenActivity extends ParentActivity {
     private Date date;
     private DateFormat yearformat = new SimpleDateFormat("yyyy");
     private User art;
+    private ArrayAgama arrayAgama=new ArrayAgama();
+    private ListStatus listStatus = new ListStatus();
+    private StaticData staticData;
+    private NumberFormat numberFormat = NumberFormat.getNumberInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +60,7 @@ public class AsistenActivity extends ParentActivity {
         setContentView(R.layout.activity_asisten);
         Intent intent = getIntent();
         art = GsonUtils.getObjectFromJson(intent.getStringExtra(ConstClass.ART_EXTRA), User.class);
+        staticData = ((MasterCleanApplication)getApplication()).getGlobalStaticData();
         initAllView();
 
 
@@ -56,7 +70,9 @@ public class AsistenActivity extends ParentActivity {
                 if (SharedPref.getValueString(ConstClass.USER) == "")
                     Toast.makeText(getApplicationContext(),"Silahkan login terlebih dahulu", Toast.LENGTH_SHORT).show();
                 else {
-
+                    Intent i = new Intent(getApplicationContext(), TulisPesanActivity.class);
+                    i.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
+                    startActivity(i);
                 }
             }
         });
@@ -73,7 +89,10 @@ public class AsistenActivity extends ParentActivity {
             public void onClick(View view) {
                 if (SharedPref.getValueString(ConstClass.USER) == "")
                     Toast.makeText(getApplicationContext(),"Silahkan login terlebih dahulu", Toast.LENGTH_SHORT).show();
-                else {
+                else if (art.getStatus() == 0){
+                    Toast.makeText(getApplicationContext(),"Asisten ini sedang tidak aktif", Toast.LENGTH_SHORT).show();
+                }
+                else{
                     Intent i = new Intent(getApplicationContext(), PemesananActivity.class);
                     i.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
                     startActivity(i);
@@ -87,6 +106,7 @@ public class AsistenActivity extends ParentActivity {
     private void initAllView(){
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         nama = (TextView) findViewById(R.id.asis_tv_nama);
+        ratingBar = (RatingBar) findViewById(R.id.asis_ratingBar);
         usia = (TextView) findViewById(R.id.asis_tv_usia);
         pengalaman = (TextView) findViewById(R.id.asis_tv_pengalaman);
         notelp = (TextView) findViewById(R.id.asis_tv_notelp);
@@ -97,10 +117,8 @@ public class AsistenActivity extends ParentActivity {
         gajijam = (TextView) findViewById(R.id.asis_tv_gajijam);
         gajihari = (TextView) findViewById(R.id.asis_tv_gajihari);
         gajibulan = (TextView) findViewById(R.id.asis_tv_gajibulan);
-        layoutprof = (LinearLayout) findViewById(R.id.asis_alyout_prof);
-        inggris = (CheckBox) findViewById(R.id.asis_cb_inggris);
-        mandarin = (CheckBox) findViewById(R.id.asis_cb_mandarin);
-        melayu = (CheckBox) findViewById(R.id.asis_cb_melayu);
+        txtprofesi = (TextView) findViewById(R.id.asis_tv_profesi);
+        txtbhs = (TextView) findViewById(R.id.asis_tv_bhs);
         tktanjg = (CheckBox) findViewById(R.id.asis_cb_tktanjg);
         docpndkg = (Button) findViewById(R.id.asis_btn_docpdkg);
         jadwal = (Button) findViewById(R.id.asis_btn_lhtjdwl);
@@ -119,16 +137,57 @@ public class AsistenActivity extends ParentActivity {
         artbornyear = Integer.valueOf(yearformat.format(art.getBorn_date()));
         usia.setText(thisYear - artbornyear + " Thn");
         pengalaman.setText("1 Thn");
-        notelp.setText(art.getContact().get(0).getPhone());
+        if (art.getContact().size() > 0)
+            notelp.setText(art.getContact().get(0).getPhone());
+        agama.setText(arrayAgama.getArrayList().get(art.getReligion()-1));
+        suku.setText(art.getRace());
+//        keterangan.setText(art.);
+        status.setText(listStatus.getStatus().get(art.getStatus()));
+        String temp = "Profesi : ";
+        for(int n=0;n<art.getUser_job().size();n++){
+            if (n != 0)
+                temp = temp + ", ";
+            temp = temp + staticData.getJobs().get(art.getUser_job().get(n).getJob_id()-1);
+        }
+        txtprofesi.setText(temp);
+        temp = "Dapat Berbahasa : ";
+        for(int n=0;n<art.getUser_language().size();n++){
+            if (n != 0)
+                temp = temp + ", ";
+            temp = temp + staticData.getLanguages().get(art.getUser_language().get(n).getLanguage_id()-1).getLanguage();
+        }
+        txtbhs.setText(temp);
 
-        pemesanan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), PemesananActivity.class);
-                i.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
-                startActivity(i);
+        //rate
+        try{
+            ratingBar.setRating(art.getRate());
+        }
+        catch (Exception e){
+            ratingBar.setRating(0);
+        }
+
+
+        for (int n=0;n<art.getUser_work_time().size();n++){
+            switch (art.getUser_work_time().get(n).getWork_time_id()){
+                case 1:
+                    gajijam.setText(setRP(art.getUser_work_time().get(n).getCost()));
+                    break;
+                case 2:
+                    gajihari.setText(setRP(art.getUser_work_time().get(n).getCost()));
+                    break;
+                case 3:
+                    gajibulan.setText(setRP(art.getUser_work_time().get(n).getCost()));
+                    break;
             }
-        });
+        }
+        tktanjg.setChecked(false);
+        if (art.getUser_additional_info().size() > 0) {
+            switch (art.getUser_additional_info().get(0).getInfo_id()){
+                case 1:
+                    tktanjg.setChecked(true);
+                    break;
+            }
+        }
         //toolbar
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.toolbar_asisten);
@@ -144,5 +203,10 @@ public class AsistenActivity extends ParentActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+    public String setRP(Integer number){
+        String tempp = "Rp. ";
+        tempp = tempp + numberFormat.format(number) + ".00";
+        return tempp;
     }
 }

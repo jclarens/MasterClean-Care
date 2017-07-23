@@ -1,4 +1,4 @@
-package com.TA.MVP.appmobilemember.Model.Array;
+package com.mvp.mobile_art.Model.Array;
 
 import com.TA.MVP.appmobilemember.Model.Basic.Language;
 
@@ -23,7 +23,7 @@ public class ArrayLanguage {
     }
     public void addLanguage(String text){
         Language language = new Language();
-        language.setText(text);
+        language.setLanguage(text);
         languages.add(language);
     }
 }

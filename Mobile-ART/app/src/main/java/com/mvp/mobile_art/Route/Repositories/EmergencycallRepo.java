@@ -1,7 +1,8 @@
-package com.TA.MVP.appmobilemember.Route.Repositories;
+package com.mvp.mobile_art.Route.Repositories;
 
-import com.TA.MVP.appmobilemember.Model.Basic.Emergencycall;
-import com.TA.MVP.appmobilemember.Model.Responses.EmergencyCallResponse;
+
+import com.mvp.mobile_art.Model.Basic.Emergencycall;
+import com.mvp.mobile_art.Model.Responses.EmergencyCallResponse;
 
 import java.util.HashMap;
 import java.util.List;

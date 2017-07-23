@@ -1,4 +1,4 @@
-package com.TA.MVP.appmobilemember.lib.utils;
+package com.mvp.mobile_art.lib.utils;
 
 /**
  * Created by Zackzack on 15/07/2017.
@@ -17,11 +17,6 @@ public class ConstClass {
     public static String WTS_EXTRA = "WTs";
     public static String ADDITIONALINFOS_EXTRA = "additionalInfos";
     public static String WALLETS_EXTRA = "wallets";
-
-//    private List<Place> places;
-//    private List<Language> languages;
-//    private List<Job> jobs;
-//    private List<Waktu_Kerja> waktu_kerjas;
-//    private List<AdditionalInfo> additionalInfos;
-//    private List<Wallet> wallets;
+    public static String ART_EXTRA = "art";
+    public static String ORDER_EXTRA = "order";
 }

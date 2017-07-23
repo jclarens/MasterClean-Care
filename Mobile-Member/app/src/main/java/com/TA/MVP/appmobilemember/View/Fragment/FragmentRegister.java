@@ -99,7 +99,7 @@ public class FragmentRegister extends Fragment {
                 userContact.setCity((spinnerkota.getSelectedItemPosition()+1));
                 userContact.setProvince(((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getPlaces().get(spinnerkota.getSelectedItemPosition()+1).getId());
                 userContact.setPhone(notelp.getText().toString());
-                userContact.setLocation("8008.80080");
+                userContact.setLocation("3.584949, 98.672400");//harusnya get location
                 userContacts.add(userContact);
                 map.put("contact", userContacts);//cek lg
                 Call<UserResponse> caller = APIManager.getRepository(UserRepo.class).registeruser(map);
@@ -109,7 +109,6 @@ public class FragmentRegister extends Fragment {
                         super.onSuccess(call, response);
                         Intent i = new Intent();
                         i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
-                        getActivity().setResult(MainActivity.RESULT_SUCCESS, i);
                         getToken(email.getText().toString(), katasandi.getText().toString());
                         ((AuthActivity)getActivity()).dismissDialog();
                         ((AuthActivity)getActivity()).dofinishActivity(i);

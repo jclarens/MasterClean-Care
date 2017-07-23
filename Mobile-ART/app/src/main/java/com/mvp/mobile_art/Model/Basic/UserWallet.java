@@ -1,4 +1,4 @@
-package com.TA.MVP.appmobilemember.Model.Basic;
+package com.mvp.mobile_art.Model.Basic;
 
 /**
  * Created by Zackzack on 14/07/2017.

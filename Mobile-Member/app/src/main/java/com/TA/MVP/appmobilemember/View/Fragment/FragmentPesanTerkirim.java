@@ -8,9 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterPesanMasuk;
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterPesanTerkirim;
-import com.TA.MVP.appmobilemember.Model.Basic.Message;
+import com.TA.MVP.appmobilemember.Model.Basic.MyMessage;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.MessageRepo;
@@ -34,7 +33,7 @@ public class FragmentPesanTerkirim extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager rec_LayoutManager;
     private RecyclerAdapterPesanTerkirim rec_Adapter;
-    private List<Message> messages = new ArrayList<>();
+    private List<MyMessage> myMessages = new ArrayList<>();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_pesan_terkirim, container, false);
@@ -46,24 +45,24 @@ public class FragmentPesanTerkirim extends Fragment {
 
         rec_Adapter = new RecyclerAdapterPesanTerkirim();
         recyclerView.setAdapter(rec_Adapter);
-        rec_Adapter.setPesan(messages);
+        rec_Adapter.setPesan(myMessages);
 
         String userid = String.valueOf(GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class).getId());
-        Call<List<Message>> caller = APIManager.getRepository(MessageRepo.class).getallmsgfromsenderid(userid);
-        caller.enqueue(new APICallback<List<Message>>() {
+        Call<List<MyMessage>> caller = APIManager.getRepository(MessageRepo.class).getallmsgfromsenderid(userid);
+        caller.enqueue(new APICallback<List<MyMessage>>() {
             @Override
-            public void onSuccess(Call<List<Message>> call, Response<List<Message>> response) {
+            public void onSuccess(Call<List<MyMessage>> call, Response<List<MyMessage>> response) {
                 super.onSuccess(call, response);
                 rec_Adapter.setPesan(response.body());
             }
 
             @Override
-            public void onUnauthorized(Call<List<Message>> call, Response<List<Message>> response) {
+            public void onUnauthorized(Call<List<MyMessage>> call, Response<List<MyMessage>> response) {
                 super.onUnauthorized(call, response);
             }
 
             @Override
-            public void onFailure(Call<List<Message>> call, Throwable t) {
+            public void onFailure(Call<List<MyMessage>> call, Throwable t) {
                 super.onFailure(call, t);
             }
         });

@@ -1,12 +1,17 @@
-package com.TA.MVP.appmobilemember.Model.Basic;
+package com.mvp.mobile_art.Model.Basic;
 
 /**
  * Created by Zackzack on 11/07/2017.
  */
 
 public class Place {
+    private Integer id;
     private String name;
     private Integer parent;
+
+    public Integer getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -22,5 +27,9 @@ public class Place {
 
     public void setParent(Integer parent) {
         this.parent = parent;
+    }
+
+    public  String toString(){
+        return name;
     }
 }

@@ -3,13 +3,12 @@ package com.mvp.mobile_art.View.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mvp.mobile_art.Model.PagerAdapterPesan;
+import com.mvp.mobile_art.Model.Adapter.PagerAdapterPesan;
 import com.mvp.mobile_art.R;
 
 /**
@@ -19,7 +18,7 @@ import com.mvp.mobile_art.R;
 public class FragmentPesan extends Fragment {
     private TabLayout tabLayoutpesan;
     private ViewPager viewPagerpesan;
-    private PagerAdapter pagerAdapterpesan;
+    private PagerAdapterPesan pagerAdapterpesan;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_pesan, container, false);

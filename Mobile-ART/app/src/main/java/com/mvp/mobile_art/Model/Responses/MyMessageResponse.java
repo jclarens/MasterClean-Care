@@ -1,12 +1,13 @@
-package com.TA.MVP.appmobilemember.Model.Responses;
+package com.mvp.mobile_art.Model.Responses;
 
-import com.TA.MVP.appmobilemember.Model.Basic.Message;
+
+import com.mvp.mobile_art.Model.Basic.Message;
 
 /**
  * Created by Zackzack on 15/07/2017.
  */
 
-public class MessageResponse {
+public class MyMessageResponse {
     private Message message;
 
     public Message getMessage() {

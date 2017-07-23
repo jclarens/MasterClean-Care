@@ -1,4 +1,4 @@
-package com.TA.MVP.appmobilemember.lib.api;
+package com.mvp.mobile_art.lib.api;
 
 import android.util.Log;
 

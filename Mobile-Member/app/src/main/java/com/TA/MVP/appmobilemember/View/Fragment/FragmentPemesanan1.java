@@ -15,9 +15,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.TA.MVP.appmobilemember.Model.Basic.Contact;
+import com.TA.MVP.appmobilemember.Model.Basic.Order;
+import com.TA.MVP.appmobilemember.Model.Basic.OrderContact;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Activity.PemesananActivity;
+import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 import com.google.android.gms.common.ConnectionResult;
@@ -33,6 +37,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -44,6 +49,8 @@ import static android.app.Activity.RESULT_OK;
 public class FragmentPemesanan1 extends Fragment{
     public static final int PLACE_PICKER_REQUEST = 1;
     private PlacePicker.IntentBuilder ppbuilder = new PlacePicker.IntentBuilder();
+    private Order order = new Order();
+    private Bundle bundle = new Bundle();
 
     private static final int PERMS_REQUEST_CODE = 123;
     private Button next;
@@ -55,7 +62,8 @@ public class FragmentPemesanan1 extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_pemesanan1, container, false);
-        art = GsonUtils.getObjectFromJson(getArguments().getString(ConstClass.ART_EXTRA), User.class);
+        art = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.ART_EXTRA), User.class);
+        order = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.ORDER_EXTRA), Order.class);
 
         address = (EditText) _view.findViewById(R.id.pms1_et_address);
         next = (Button) _view.findViewById(R.id.pms1_btn_next);
@@ -81,6 +89,14 @@ public class FragmentPemesanan1 extends Fragment{
             @Override
             public void onClick(View view) {
                 if (!(place == null)){
+                    Contact contact = new Contact();
+                    contact.setAddress(address.getText().toString());
+                    contact.setLocation(place.getLatLng().latitude + "," +place.getLatLng().longitude);
+                    contact.setPhone(art.getContact().get(0).getPhone());
+                    List<Contact> contacts = new ArrayList<Contact>();
+                    order.setContact(contacts);
+                    SharedPref.save(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
+                    SharedPref.save(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(order));
                     ((PemesananActivity)getActivity()).doChangeFragment(2);
                 }
                 else
@@ -99,6 +115,7 @@ public class FragmentPemesanan1 extends Fragment{
             if (resultCode == RESULT_OK) {
                 place = PlacePicker.getPlace(data, getActivity().getApplicationContext());
                 address.setText(place.getAddress());
+                //simpan latlng
                 ((PemesananActivity)getActivity()).setPlace(place);
             }
         }

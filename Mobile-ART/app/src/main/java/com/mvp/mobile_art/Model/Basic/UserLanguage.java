@@ -1,4 +1,4 @@
-package com.TA.MVP.appmobilemember.Model.Basic;
+package com.mvp.mobile_art.Model.Basic;
 
 /**
  * Created by Zackzack on 14/07/2017.
@@ -6,7 +6,7 @@ package com.TA.MVP.appmobilemember.Model.Basic;
 
 public class UserLanguage {
     private User user;
-    private Language language;
+    private Integer language_id;
 
     public User getUser() {
         return user;
@@ -16,11 +16,11 @@ public class UserLanguage {
         this.user = user;
     }
 
-    public Language getLanguage() {
-        return language;
+    public Integer getLanguage_id() {
+        return language_id;
     }
 
-    public void setLanguage(Language language) {
-        this.language = language;
+    public void setLanguage_id(Integer language_id) {
+        this.language_id = language_id;
     }
 }

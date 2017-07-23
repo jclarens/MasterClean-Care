@@ -29,7 +29,7 @@
         android:visibility="visible" />
 
     <TextView
-        android:id="@+id/tv_username"
+        android:id="@+id/tv_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/space"
@@ -40,12 +40,12 @@
         android:textColor="@android:color/black" />
 
     <EditText
-        android:id="@+id/lgn_et_username"
+        android:id="@+id/lgn_et_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/tv_username"
-        android:layout_alignStart="@+id/tv_username"
-        android:layout_below="@+id/tv_username"
+        android:layout_alignLeft="@+id/tv_email"
+        android:layout_alignStart="@+id/tv_email"
+        android:layout_below="@+id/tv_email"
         android:ems="10"
         android:hint="@string/username"
         android:inputType="textPersonName" />
@@ -54,7 +54,7 @@
         android:id="@+id/tv_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lgn_et_username"
+        android:layout_below="@+id/lgn_et_email"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"

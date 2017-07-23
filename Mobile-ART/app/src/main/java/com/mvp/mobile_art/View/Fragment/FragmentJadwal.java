@@ -9,7 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mvp.mobile_art.Model.PagerAdapterJadwal;
+import com.mvp.mobile_art.Model.Adapter.PagerAdapterJadwal;
 import com.mvp.mobile_art.R;
 
 /**

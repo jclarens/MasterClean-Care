@@ -40,7 +40,7 @@
             android:layout_marginStart="10dp" />
 
         <TextView
-            android:id="@+id/card_wallet_nominal"
+            android:id="@+id/card_pesan_nama"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/card_wallet_img"

@@ -1,6 +1,7 @@
-package com.TA.MVP.appmobilemember.Model.Responses;
+package com.mvp.mobile_art.Model.Responses;
 
-import com.TA.MVP.appmobilemember.Model.Basic.Emergencycall;
+
+import com.mvp.mobile_art.Model.Basic.Emergencycall;
 
 /**
  * Created by Zackzack on 15/07/2017.

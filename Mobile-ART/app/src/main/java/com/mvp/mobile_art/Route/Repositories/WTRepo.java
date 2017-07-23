@@ -1,7 +1,7 @@
-package com.TA.MVP.appmobilemember.Route.Repositories;
+package com.mvp.mobile_art.Route.Repositories;
 
-import com.TA.MVP.appmobilemember.Model.Basic.Waktu_Kerja;
-import com.TA.MVP.appmobilemember.Model.Responses.WTResponse;
+import com.mvp.mobile_art.Model.Basic.Waktu_Kerja;
+import com.mvp.mobile_art.Model.Responses.WTResponse;
 
 import java.util.HashMap;
 import java.util.List;

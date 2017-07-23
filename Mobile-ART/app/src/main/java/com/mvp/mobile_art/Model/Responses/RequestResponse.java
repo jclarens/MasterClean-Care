@@ -1,6 +1,6 @@
-package com.TA.MVP.appmobilemember.Model.Responses;
+package com.mvp.mobile_art.Model.Responses;
 
-import com.TA.MVP.appmobilemember.Model.Basic.Request;
+import com.mvp.mobile_art.Model.Basic.Request;
 
 /**
  * Created by Zackzack on 15/07/2017.

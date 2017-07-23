@@ -1,17 +1,17 @@
-package com.TA.MVP.appmobilemember.Model.Basic;
+package com.mvp.mobile_art.Model.Basic;
 
 /**
  * Created by Zackzack on 09/07/2017.
  */
 
 public class Language {
-    private String text;
+    private String language;
 
-    public String getText() {
-        return text;
+    public String getLanguage() {
+        return language;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

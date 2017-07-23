@@ -7,21 +7,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.TA.MVP.appmobilemember.Model.Basic.Message;
-import com.TA.MVP.appmobilemember.Model.Responses.MessageResponse;
+import com.TA.MVP.appmobilemember.Model.Basic.MyMessage;
+import com.TA.MVP.appmobilemember.Model.Basic.User;
+import com.TA.MVP.appmobilemember.Model.Responses.MyMessageResponse;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.MessageRepo;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
-import com.TA.MVP.appmobilemember.lib.models.Response;
+import com.TA.MVP.appmobilemember.lib.database.SharedPref;
+import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Created by Zackzack on 08/07/2017.
@@ -31,13 +32,15 @@ public class TulisPesanActivity extends ParentActivity {
     private EditText nama, sub, msg;
     private Button batal, kirim;
     private Toolbar toolbar;
-    private Message message;
+    private MyMessage myMessage;
+    private User art;
+    private User user;
+    private Integer targetid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tulispesan);
-        Intent i = getIntent();
-        message = GsonUtils.getObjectFromJson(i.getStringExtra("msg"), Message.class);
+        user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
 
         nama = (EditText) findViewById(R.id.tp_et_reciever);
         sub = (EditText) findViewById(R.id.tp_et_subject);
@@ -45,8 +48,18 @@ public class TulisPesanActivity extends ParentActivity {
         batal = (Button) findViewById(R.id.tp_btn_btl);
         kirim = (Button) findViewById(R.id.tp_btn_krm);
 
-        nama.setText(message.getSender().getName());
-        sub.setText(message.getSubject());
+        Intent i = getIntent();
+        if (i.getStringExtra("msg") != null){
+            myMessage = GsonUtils.getObjectFromJson(i.getStringExtra("msg"), MyMessage.class);
+            nama.setText(myMessage.getSender().getName());
+            sub.setText(myMessage.getSubject());
+            targetid = myMessage.getSender().getId();
+        }
+        else if (i.getStringExtra(ConstClass.ART_EXTRA) != null){
+            art = GsonUtils.getObjectFromJson(i.getStringExtra(ConstClass.ART_EXTRA), User.class);
+            nama.setText(art.getName());
+            targetid = art.getId();
+        }
 
         batal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,26 +74,7 @@ public class TulisPesanActivity extends ParentActivity {
                 abuilder.setPositiveButton("Kirim", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        HashMap<String,String> map = new HashMap<>();
-                        map.put("sender_id", message.getReceiver().getId().toString());
-                        map.put("receiver_id", message.getSender().getId().toString());
-                        map.put("subject", sub.getText().toString());
-                        map.put("message", msg.getText().toString());
-                        map.put("status", "0");
-                        Call<MessageResponse> caller = APIManager.getRepository(MessageRepo.class).postmessage(map);
-                        caller.enqueue(new APICallback<MessageResponse>() {
-                            @Override
-                            public void onSuccess(Call<MessageResponse> call, retrofit2.Response<MessageResponse> response) {
-                                super.onSuccess(call, response);
-                                Toast.makeText(getApplicationContext(),"Pesan Terkirim", Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
-
-                            @Override
-                            public void onFailure(Call<MessageResponse> call, Throwable t) {
-                                super.onFailure(call, t);
-                            }
-                        });
+                        sendmessage();
                     }
                 });
                 abuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
@@ -98,5 +92,26 @@ public class TulisPesanActivity extends ParentActivity {
         getSupportActionBar().setTitle(R.string.toolbar_pesan);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+    public void sendmessage(){
+        HashMap<String,String> map = new HashMap<>();
+        map.put("sender_id", user.getId().toString());
+        map.put("receiver_id", targetid.toString());
+        map.put("subject", sub.getText().toString());
+        map.put("message", msg.getText().toString());
+        map.put("status", "0");
+        Call<MyMessageResponse> caller = APIManager.getRepository(MessageRepo.class).postmessage(map);
+        caller.enqueue(new APICallback<MyMessageResponse>() {
+            @Override
+            public void onSuccess(Call<MyMessageResponse> call, Response<MyMessageResponse> response) {
+                super.onSuccess(call, response);
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<MyMessageResponse> call, Throwable t) {
+                super.onFailure(call, t);
+            }
+        });
     }
 }

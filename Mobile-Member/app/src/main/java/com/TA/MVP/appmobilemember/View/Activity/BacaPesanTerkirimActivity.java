@@ -10,12 +10,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.TA.MVP.appmobilemember.Model.Basic.Message;
-import com.TA.MVP.appmobilemember.Model.Responses.MessageResponse;
+import com.TA.MVP.appmobilemember.Model.Basic.MyMessage;
+import com.TA.MVP.appmobilemember.Model.Responses.MyMessageResponse;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.MessageRepo;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
+import com.TA.MVP.appmobilemember.lib.models.GenericResponse;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
 import retrofit2.Call;
@@ -27,26 +28,25 @@ import retrofit2.Response;
 
 public class BacaPesanTerkirimActivity extends ParentActivity {
     private EditText nama, sub, msg;
-    private Button kembali, hapus, balas;
+    private Button kembali, hapus;
     private Toolbar toolbar;
-    private Message message;
+    private MyMessage myMessage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bacapesan_terkirim);
         Intent i = getIntent();
-        message = GsonUtils.getObjectFromJson(i.getStringExtra("message"), Message.class);
+        myMessage = GsonUtils.getObjectFromJson(i.getStringExtra("msg"), MyMessage.class);
 
         nama = (EditText) findViewById(R.id.bp_et_sender);
         sub = (EditText) findViewById(R.id.bp_et_subject);
         msg = (EditText) findViewById(R.id.bp_et_pesan);
         kembali = (Button) findViewById(R.id.bp_btn_kembali);
         hapus = (Button) findViewById(R.id.bp_btn_hps);
-        balas = (Button) findViewById(R.id.bp_btn_balas);
 
-        nama.setText(message.getSender().getName());
-        sub.setText(message.getSubject());
-        msg.setText(message.getMessage());
+        nama.setText(myMessage.getReceiver().getName());
+        sub.setText(myMessage.getSubject());
+        msg.setText(myMessage.getMessage());
 
         hapus.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,17 +55,17 @@ public class BacaPesanTerkirimActivity extends ParentActivity {
                 abuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Call<MessageResponse> caller = APIManager.getRepository(MessageRepo.class).deletemessage(message.getId().toString());
-                        caller.enqueue(new APICallback<MessageResponse>() {
+                        Call<MyMessageResponse> caller = APIManager.getRepository(MessageRepo.class).deletemessage(myMessage.getId().toString());
+                        caller.enqueue(new APICallback<MyMessageResponse>() {
                             @Override
-                            public void onSuccess(Call<MessageResponse> call, Response<MessageResponse> response) {
+                            public void onSuccess(Call<MyMessageResponse> call, Response<MyMessageResponse> response) {
                                 super.onSuccess(call, response);
                                 Toast.makeText(getApplicationContext(),"Pesan Terhapus", Toast.LENGTH_SHORT).show();
                                 finish();
                             }
 
                             @Override
-                            public void onFailure(Call<MessageResponse> call, Throwable t) {
+                            public void onFailure(Call<MyMessageResponse> call, Throwable t) {
                                 super.onFailure(call, t);
                             }
                         });
@@ -84,14 +84,6 @@ public class BacaPesanTerkirimActivity extends ParentActivity {
             @Override
             public void onClick(View view) {
                 finish();
-            }
-        });
-        balas.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),TulisPesanActivity.class);
-                intent.putExtra("msg", GsonUtils.getJsonFromObject(message));
-                startActivity(intent);
             }
         });
 

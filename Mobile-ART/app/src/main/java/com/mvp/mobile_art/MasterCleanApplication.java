@@ -1,21 +1,24 @@
-package com.TA.MVP.appmobilemember;
+package com.mvp.mobile_art;
 
-import com.TA.MVP.appmobilemember.Model.Basic.StaticData;
-import com.TA.MVP.appmobilemember.Route.Repositories.AdditionalInfoRepo;
-import com.TA.MVP.appmobilemember.Route.Repositories.JobRepo;
-import com.TA.MVP.appmobilemember.Route.Repositories.LanguageRepo;
-import com.TA.MVP.appmobilemember.Route.Repositories.PlaceRepo;
-import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
-import com.TA.MVP.appmobilemember.Route.Repositories.WTRepo;
-import com.TA.MVP.appmobilemember.Route.Repositories.WalletRepo;
-import com.TA.MVP.appmobilemember.lib.api.APIManager;
-import com.TA.MVP.appmobilemember.lib.api.SessionInterceptor;
-import com.TA.MVP.appmobilemember.lib.database.SharedPref;
-import com.TA.MVP.appmobilemember.lib.utils.FileUtils;
-import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
-import com.TA.MVP.appmobilemember.lib.utils.Settings;
 
 import android.app.Application;
+
+import com.mvp.mobile_art.Model.Basic.StaticData;
+import com.mvp.mobile_art.Route.Repositories.AdditionalInfoRepo;
+import com.mvp.mobile_art.Route.Repositories.JobRepo;
+import com.mvp.mobile_art.Route.Repositories.LanguageRepo;
+import com.mvp.mobile_art.Route.Repositories.MessageRepo;
+import com.mvp.mobile_art.Route.Repositories.OrderRepo;
+import com.mvp.mobile_art.Route.Repositories.PlaceRepo;
+import com.mvp.mobile_art.Route.Repositories.UserRepo;
+import com.mvp.mobile_art.Route.Repositories.WTRepo;
+import com.mvp.mobile_art.Route.Repositories.WalletRepo;
+import com.mvp.mobile_art.lib.api.APIManager;
+import com.mvp.mobile_art.lib.api.SessionInterceptor;
+import com.mvp.mobile_art.lib.database.SharedPref;
+import com.mvp.mobile_art.lib.utils.FileUtils;
+import com.mvp.mobile_art.lib.utils.GsonUtils;
+import com.mvp.mobile_art.lib.utils.Settings;
 
 
 /**
@@ -25,7 +28,7 @@ import android.app.Application;
  */
 
 public class MasterCleanApplication extends Application {
-    public StaticData globalStaticData = new StaticData();
+    public StaticData globalStaticData;
 
     public StaticData getGlobalStaticData() {
         return globalStaticData;
@@ -37,6 +40,7 @@ public class MasterCleanApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        globalStaticData = new StaticData();
 //        Log.d("tmp","onCreate:" +
 //                FileUtils.loadSettingsJsonFile(getApplicationContext())
 //        );
@@ -49,11 +53,6 @@ public class MasterCleanApplication extends Application {
         if(Settings.isUsingSharedPreference())
             SharedPref.getInstance().SetUpSharedPreference(getApplicationContext());
 
-        // Untuk simpan token jika mau pake JWT
-//        SharedPref.save(SharedPref.ACCESS_TOKEN, token);
-        // Untuk ambe token
-//        SharedPref.getValueString(SharedPref.ACCESS_TOKEN);
-
         // Ini untuk mempermudah request jika butuh JWT token
         APIManager.addInterceptor(new SessionInterceptor());
         if(Settings.isUsingRetrofitAPI())
@@ -61,6 +60,8 @@ public class MasterCleanApplication extends Application {
 
         //Ini tuntuk register repository request (serives)
         APIManager.registerRepository(UserRepo.class);
+        APIManager.registerRepository(OrderRepo.class);
+        APIManager.registerRepository(MessageRepo.class);
         APIManager.registerRepository(WalletRepo.class);
         APIManager.registerRepository(PlaceRepo.class);
         APIManager.registerRepository(LanguageRepo.class);

@@ -5,6 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,12 +25,34 @@ import java.util.List;
  */
 
 public class RecyclerAdapterListKerja extends RecyclerView.Adapter<RecyclerAdapterListKerja.ViewHolder> {
-    private List<OrderTask> orderTasks = new ArrayList<>();
+    private List<OrderTask> orderTasks = new ArrayList<>();//list semua pilihan default
+    private List<OrderTask> orderTasksselected = new ArrayList<>();//list yang sudah terpilih
     class ViewHolder extends RecyclerView.ViewHolder{
+        public int lightgreen, lightgrey;
+        public CheckBox checkBox;
+        public LinearLayout linearLayout;
         //itemview
 
         public ViewHolder(final View itemview){
             super(itemview);
+            lightgreen = itemview.getResources().getColor(R.color.colorLightGreen);
+            lightgrey = itemview.getResources().getColor(R.color.colorunselected);
+            linearLayout = (LinearLayout) itemview.findViewById(R.id.card_listkerja_layout);
+            checkBox = (CheckBox) itemview.findViewById(R.id.card_listkerja_item);
+            final int position = getAdapterPosition();
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    if (checkBox.isChecked()){
+                        orderTasksselected.add(orderTasks.get(position));
+                        linearLayout.setBackgroundColor(lightgreen);
+                    }
+                    else {
+                        orderTasksselected.remove(orderTasks.get(position));
+                        linearLayout.setBackgroundColor(lightgrey);
+                    }
+                }
+            });
             //view
         }
     }

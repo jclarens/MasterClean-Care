@@ -1,13 +1,18 @@
-package com.TA.MVP.appmobilemember.Model.Basic;
+package com.mvp.mobile_art.Model.Basic;
 
 /**
  * Created by Zackzack on 15/07/2017.
  */
 
 public class OrderTask {
+    private Integer id;
     private Order order;
     private String task;
     private Integer status;
+
+    public Integer getId() {
+        return id;
+    }
 
     public Order getOrder() {
         return order;

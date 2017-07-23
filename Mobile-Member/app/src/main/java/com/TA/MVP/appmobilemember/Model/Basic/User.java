@@ -28,7 +28,7 @@ public class User {
     private List<UserLanguage> user_language;
     private List<UserJob> user_job;
     private List<UserWorkTime> user_work_time;
-    private List<UserOrderRate> order_rate;
+    private float rate;
 
     public Integer getId() {
         return id;
@@ -186,11 +186,11 @@ public class User {
         this.user_work_time = user_work_time;
     }
 
-    public List<UserOrderRate> getOrder_rate() {
-        return order_rate;
+    public float getRate() {
+        return rate;
     }
 
-    public void setOrder_rate(List<UserOrderRate> order_rate) {
-        this.order_rate = order_rate;
+    public void setRate(float rate) {
+        this.rate = rate;
     }
 }

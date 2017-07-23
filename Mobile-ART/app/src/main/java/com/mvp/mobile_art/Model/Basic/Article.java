@@ -1,4 +1,4 @@
-package com.TA.MVP.appmobilemember.Model.Basic;
+package com.mvp.mobile_art.Model.Basic;
 
 import java.util.Date;
 

@@ -233,29 +233,12 @@
                 android:text="@string/filter_bahasa"
                 android:textColor="@android:color/black" />
 
-            <LinearLayout
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/filter_recview_bahasa"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
-                <CheckBox
-                    android:id="@+id/filter_cb_bhsinggris"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/filter_bahasainggris" />
-
-                <CheckBox
-                    android:id="@+id/filter_cb_bhsmandarin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/filter_bahasamandarin" />
-
-                <CheckBox
-                    android:id="@+id/filter_cb_bhsmelayu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/filter_bahasamelayu" />
-            </LinearLayout>
+            </android.support.v7.widget.RecyclerView>
 
             <TextView
                 android:id="@+id/textView23"
@@ -289,7 +272,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="@string/filter_gajijam"
+                android:text="Gaji :"
                 android:textColor="@android:color/black" />
 
             <EditText
@@ -297,7 +280,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="numberDecimal"
+                android:inputType="number"
                 android:textColor="@android:color/black" />
 
             <Button

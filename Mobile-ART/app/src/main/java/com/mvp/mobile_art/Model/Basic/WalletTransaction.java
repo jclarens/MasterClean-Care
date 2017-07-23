@@ -1,4 +1,4 @@
-package com.TA.MVP.appmobilemember.Model.Basic;
+package com.mvp.mobile_art.Model.Basic;
 
 import java.util.Date;
 
@@ -7,11 +7,15 @@ import java.util.Date;
  */
 
 public class WalletTransaction {
+    private Integer id;
     private User user;
-    private Wallet wallet;
+    private Integer amount;
     private Integer trc_type;
     private Date trc_time;
-    private String wallet_code;
+
+    public Integer getId() {
+        return id;
+    }
 
     public User getUser() {
         return user;
@@ -21,12 +25,12 @@ public class WalletTransaction {
         this.user = user;
     }
 
-    public Wallet getWallet() {
-        return wallet;
+    public Integer getAmount() {
+        return amount;
     }
 
-    public void setWallet(Wallet wallet) {
-        this.wallet = wallet;
+    public void setAmount(Integer amount) {
+        this.amount = amount;
     }
 
     public Integer getTrc_type() {
@@ -43,13 +47,5 @@ public class WalletTransaction {
 
     public void setTrc_time(Date trc_time) {
         this.trc_time = trc_time;
-    }
-
-    public String getWallet_code() {
-        return wallet_code;
-    }
-
-    public void setWallet_code(String wallet_code) {
-        this.wallet_code = wallet_code;
     }
 }

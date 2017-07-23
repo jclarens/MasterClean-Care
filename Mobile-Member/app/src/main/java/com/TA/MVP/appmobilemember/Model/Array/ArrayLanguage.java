@@ -23,7 +23,7 @@ public class ArrayLanguage {
     }
     public void addLanguage(String text){
         Language language = new Language();
-        language.setText(text);
+        language.setLanguage(text);
         languages.add(language);
     }
 }

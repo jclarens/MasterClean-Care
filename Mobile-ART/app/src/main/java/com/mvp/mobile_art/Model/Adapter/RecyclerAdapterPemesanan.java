@@ -1,6 +1,5 @@
-package com.TA.MVP.appmobilemember.Model.Adapter;
+package com.mvp.mobile_art.Model.Adapter;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,17 +8,20 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.TA.MVP.appmobilemember.R;
-import com.TA.MVP.appmobilemember.View.Activity.PemesananActiveActivity;
+import com.mvp.mobile_art.Model.Basic.Order;
+import com.mvp.mobile_art.R;
+import com.mvp.mobile_art.lib.utils.ConstClass;
+import com.mvp.mobile_art.lib.utils.GsonUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Zackzack on 08/07/2017.
  */
 
 public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapterPemesanan.ViewHolder> {
-    private String[] nama = {"nama1", "nama2", "nama3", "nama4", "nama5"};
-    private String[] profesi = {"Nanny", "Baby Sitter", "Nanny", "Baby Sitter", "Pengurus Rumah Tangga"};
-    private String[] mulai = {"01 Januari 2017", "01 Januari 2017", "01 Januari 2017", "01 Januari 2017", "01 Januari 2017"};
+    private List<Order> orders = new ArrayList<>();
     class ViewHolder extends RecyclerView.ViewHolder{
         public TextView itemnama, itemprofesi, itemmulai;
 
@@ -28,14 +30,16 @@ public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapt
             itemnama = (TextView) itemview.findViewById(R.id.card_pms_nama);
             itemprofesi = (TextView) itemview.findViewById(R.id.card_pms_prof);
             itemmulai = (TextView) itemview.findViewById(R.id.card_pms_mulai);
-            itemview.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = getAdapterPosition();
-                    Toast.makeText(itemview.getContext(),"Clicking card number " + position, Toast.LENGTH_SHORT).show();
-                    doStartActivity(itemview.getContext(), PemesananActiveActivity.class);
-                }
-            });
+//            itemview.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    int position = getAdapterPosition();
+//                    Toast.makeText(itemview.getContext(),"Clicking card number " + position, Toast.LENGTH_SHORT).show();
+//                    Intent i = new Intent(itemview.getContext(), PemesananActiveActivity.class);
+//                    i.putExtra(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(orders.get(position)));
+//                    itemview.getContext().startActivity(i);
+//                }
+//            });
         }
     }
 
@@ -48,18 +52,24 @@ public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapt
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.itemnama.setText(nama[position]);
-        holder.itemprofesi.setText(profesi[position]);
-        holder.itemmulai.setText(mulai[position]);
+        holder.itemnama.setText(orders.get(position).getArt().getName());
+        holder.itemprofesi.setText(orders.get(position).getWork_time().getWork_time());
+        holder.itemmulai.setText(orders.get(position).getStart_date().toString());
     }
 
     @Override
     public int getItemCount() {
-        return nama.length;
+        return orders.size();
     }
 
-    public static void doStartActivity(Context context, Class activityClass) {
-        Intent _intent = new Intent(context, activityClass);
-        context.startActivity(_intent);
+    public void setOrders(List<Order> orders, Integer status){
+        List<Order> temp = new ArrayList<>();
+        for (int n=0; n<orders.size();n++){
+            if (orders.get(n).getStatus() == status)
+                temp.add(orders.get(n));
+        }
+        this.orders = temp;
+//        this.orders = orders;
+        notifyDataSetChanged();
     }
 }

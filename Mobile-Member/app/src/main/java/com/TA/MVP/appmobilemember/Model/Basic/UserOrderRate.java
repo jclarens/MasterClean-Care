@@ -6,8 +6,8 @@ package com.TA.MVP.appmobilemember.Model.Basic;
 
 public class UserOrderRate {
     private Integer id;
-    private Order order;
-    private User member;
+    private Integer order_id;
+    private Integer art_id;
     private float rate;
     private String remark;
     private String created_at;
@@ -17,20 +17,12 @@ public class UserOrderRate {
         return id;
     }
 
-    public Order getOrder() {
-        return order;
+    public Integer getOrder_id() {
+        return order_id;
     }
 
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
-    public User getMember() {
-        return member;
-    }
-
-    public void setMember(User member) {
-        this.member = member;
+    public Integer getArt_id() {
+        return art_id;
     }
 
     public float getRate() {

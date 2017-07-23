@@ -1,4 +1,4 @@
-package com.TA.MVP.appmobilemember.Model.Basic;
+package com.mvp.mobile_art.Model.Basic;
 
 /**
  * Created by Zackzack on 09/07/2017.
@@ -13,5 +13,9 @@ public class Waktu_Kerja {
 
     public void setWork_time(String work_time) {
         this.work_time = work_time;
+    }
+
+    public String toString() {
+        return (work_time);
     }
 }

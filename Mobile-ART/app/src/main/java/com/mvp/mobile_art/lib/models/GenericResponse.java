@@ -1,4 +1,4 @@
-package com.TA.MVP.appmobilemember.lib.models;
+package com.mvp.mobile_art.lib.models;
 
 import com.google.gson.annotations.SerializedName;
 

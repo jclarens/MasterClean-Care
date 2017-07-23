@@ -5,13 +5,18 @@ package com.TA.MVP.appmobilemember.Model.Basic;
  */
 
 public class Language {
-    private String text;
+    private Integer id;
+    private String language;
 
-    public String getText() {
-        return text;
+    public Integer getId() {
+        return id;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

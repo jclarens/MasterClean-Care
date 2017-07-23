@@ -14,9 +14,11 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.TA.MVP.appmobilemember.Model.Basic.Order;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Activity.PemesananActivity;
+import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
@@ -26,6 +28,9 @@ import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
  */
 
 public class FragmentPemesanan3 extends Fragment {
+    private Bundle b = new Bundle();
+    private User art = new User();
+    private Order order = new Order();
     private TextView namaasis, usiaasis, agamaasis, estimasitext;
     private EditText prof, estimasi, mulaitime, mulaidate, selesaitime, selesaidate, total;
     private LinearLayout layoutlistpekerjaan;
@@ -34,12 +39,12 @@ public class FragmentPemesanan3 extends Fragment {
     private CheckBox ketentuan;
     private Button prev, pesan, selengkapnya;
     private RelativeLayout layoutasisten;
-    private User art;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_pemesanan3, container, false);
-        art = GsonUtils.getObjectFromJson(getArguments().getString(ConstClass.ART_EXTRA), User.class);
+        art = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.ART_EXTRA), User.class);
+        order = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.ORDER_EXTRA), Order.class);
 
 //        layoutasisten = (RelativeLayout) _view.findViewById(R.id.layout_asisten);
 //        estimasitext = (TextView) _view.findViewById(R.id.pms3_tv_estimasiwaktu);

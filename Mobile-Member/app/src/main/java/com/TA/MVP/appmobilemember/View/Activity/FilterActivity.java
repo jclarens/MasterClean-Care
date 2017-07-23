@@ -3,9 +3,12 @@ package com.TA.MVP.appmobilemember.View.Activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -14,12 +17,15 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
+import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterBahasa;
 import com.TA.MVP.appmobilemember.Model.Adapter.SpinnerAdapter;
 import com.TA.MVP.appmobilemember.Model.Array.FilterArrays;
 import com.TA.MVP.appmobilemember.Model.Basic.Job;
+import com.TA.MVP.appmobilemember.Model.Basic.Language;
 import com.TA.MVP.appmobilemember.Model.Basic.Place;
 import com.TA.MVP.appmobilemember.Model.Basic.Waktu_Kerja;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +36,10 @@ import java.util.List;
 
 public class FilterActivity extends ParentActivity{
     private Toolbar toolbar;
+    private RecyclerView.LayoutManager rec_LayoutManager;
+    private RecyclerAdapterBahasa rec_Adapter;
+
+    private RecyclerView recviewbahasa;
     private EditText nama, gaji, usiamin, usiamax, pk, suku;
     private Spinner spinnerkota, spinneragama, spinnersuku, spinnerprofesi, spinnerwaktukrj;
     private CheckBox inggris, mandarin, melayu;
@@ -39,6 +49,7 @@ public class FilterActivity extends ParentActivity{
     private FilterArrays filterArrays;
     private Integer tmp;
     private ArrayAdapter arrayAdapterJob, arrayAdapterWaktu, arrayAdapterKota;
+    private List<Language> defaultlistbahasa = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +66,19 @@ public class FilterActivity extends ParentActivity{
             public void onClick(View view) {
                 Intent i = new Intent();
                 i.putExtra("nama", nama.getText().toString());
-                i.putExtra("kota", String.valueOf(spinnerkota.getSelectedItemPosition()));
-                i.putExtra("agama", String.valueOf(spinneragama.getSelectedItemPosition()));
+                if (spinnerkota.getSelectedItemPosition() != 0)
+                    i.putExtra("kota", String.valueOf(spinnerkota.getSelectedItemPosition()));
+                if (spinneragama.getSelectedItemPosition() != 0)
+                    i.putExtra("agama", String.valueOf(spinneragama.getSelectedItemPosition()));
                 i.putExtra("suku", suku.getText().toString());
-                i.putExtra("profesi", String.valueOf(spinnerprofesi.getSelectedItemPosition()));
-                i.putExtra("WT", String.valueOf(spinnerwaktukrj.getSelectedItemPosition()));
-                i.putExtra("gaji", gaji.getText().toString());
+                if (spinnerprofesi.getSelectedItemPosition() != 0)
+                    i.putExtra("profesi", String.valueOf(spinnerprofesi.getSelectedItemPosition()));
+                if (spinnerwaktukrj.getSelectedItemPosition() != 0)
+                    i.putExtra("WT", String.valueOf(spinnerwaktukrj.getSelectedItemPosition()));
+                i.putExtra("gaji", Integer.parseInt( gaji.getText().toString() ));
+                i.putExtra("usiamin", usiamin.getText().toString());
+                i.putExtra("usiamax", usiamax.getText().toString());
+                i.putExtra("listbahasa", GsonUtils.getJsonFromObject(rec_Adapter.getselectedlist()));
                 setResult(Activity.RESULT_OK, i);
                 finish();
             }
@@ -103,9 +121,7 @@ public class FilterActivity extends ParentActivity{
         spinnersuku = (Spinner) findViewById(R.id.filter_spinner_suku);
         spinnerprofesi = (Spinner) findViewById(R.id.filter_spinner_profesi);
         spinnerwaktukrj = (Spinner) findViewById(R.id.filter_spinner_waktukrj);
-        inggris = (CheckBox) findViewById(R.id.filter_cb_bhsinggris);
-        mandarin = (CheckBox) findViewById(R.id.filter_cb_bhsmandarin);
-        melayu = (CheckBox) findViewById(R.id.filter_cb_bhsmelayu);
+        recviewbahasa = (RecyclerView) findViewById(R.id.filter_recview_bahasa);
         btncari = (Button) findViewById(R.id.filter_btn_cari);
         btnbatal = (Button) findViewById(R.id.filter_btn_batal);
         btnuminup = (Button) findViewById(R.id.filter_btn_uminup);
@@ -119,11 +135,19 @@ public class FilterActivity extends ParentActivity{
     }
 
     private void setAll(){
+        defaultlistbahasa = ((MasterCleanApplication)getApplication()).getGlobalStaticData().getLanguages();
         //toolbar
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.toolbar_filter);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //recviewbahasa
+        rec_LayoutManager = new LinearLayoutManager(getApplicationContext());
+        recviewbahasa.setLayoutManager(rec_LayoutManager);
+        rec_Adapter = new RecyclerAdapterBahasa();
+        recviewbahasa.setAdapter(rec_Adapter);
+        rec_Adapter.setlistbahasa(defaultlistbahasa);
 
         //Spinner
         filterArrays = new FilterArrays();
@@ -133,6 +157,21 @@ public class FilterActivity extends ParentActivity{
 
         arrayAdapterWaktu = new ArrayAdapter(getApplicationContext(), R.layout.spinner_item, addallwkt(((MasterCleanApplication) getApplication()).getGlobalStaticData().getWaktu_kerjas()));
         spinnerwaktukrj.setAdapter(arrayAdapterWaktu);
+        spinnerwaktukrj.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == 0){
+                    gaji.setText("0");
+                    gaji.setEnabled(false);
+                }
+                else gaji.setEnabled(true);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         arrayAdapterKota = new ArrayAdapter(getApplicationContext(), R.layout.spinner_item, addallkota(((MasterCleanApplication) getApplication()).getGlobalStaticData().getPlaces()));
         spinnerkota.setAdapter(arrayAdapterKota);
@@ -141,6 +180,17 @@ public class FilterActivity extends ParentActivity{
         spinnerAdapteragama = new SpinnerAdapter(this, filterArrays.getArrayAgama().getArrayList2());
         spinneragama.setAdapter(spinnerAdapteragama.getArrayAdapter());
 
+        gaji.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (!b){
+                    String temp = gaji.getText().toString();
+                    if (temp.matches(""))
+                        gaji.setText("0");//gak bisa set after leave focus
+                }
+            }
+        });
+        gaji.setText("0");
         usiamin.setText(String.valueOf(20));
         usiamax.setText(String.valueOf(70));
         pk.setText(String.valueOf(1));

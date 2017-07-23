@@ -54,6 +54,8 @@ public class ProfileActivity extends ParentActivity {
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        btnlog.setText("Riwayat Transaksi");
         btnlog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -73,58 +73,58 @@
                 android:textAlignment="center" />
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/linearlayout3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+        <!--<LinearLayout-->
+            <!--android:id="@+id/linearlayout3"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
 
-            <ImageView
-                android:id="@+id/iv_ketentuan"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_weight="1"
-                android:contentDescription="@string/ketentuan"
-                app:srcCompat="@drawable/ic_dashboard_black_24dp" />
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_ketentuan"-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:layout_marginRight="20dp"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:contentDescription="@string/ketentuan"-->
+                <!--app:srcCompat="@drawable/ic_dashboard_black_24dp" />-->
 
-            <ImageView
-                android:id="@+id/iv_bantuan"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_weight="1"
-                app:srcCompat="@drawable/ic_dashboard_black_24dp"
-                android:contentDescription="@string/bantuan"/>
+            <!--<ImageView-->
+                <!--android:id="@+id/iv_bantuan"-->
+                <!--android:layout_width="100dp"-->
+                <!--android:layout_height="100dp"-->
+                <!--android:layout_marginLeft="20dp"-->
+                <!--android:layout_marginRight="20dp"-->
+                <!--android:layout_marginTop="20dp"-->
+                <!--android:layout_weight="1"-->
+                <!--app:srcCompat="@drawable/ic_dashboard_black_24dp"-->
+                <!--android:contentDescription="@string/bantuan"/>-->
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
 
-        <LinearLayout
-            android:id="@+id/linearlayout4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+        <!--<LinearLayout-->
+            <!--android:id="@+id/linearlayout4"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
 
-            <TextView
-                android:id="@+id/tv_ketentuan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/ketentuan"
-                android:textAlignment="center" />
+            <!--<TextView-->
+                <!--android:id="@+id/tv_ketentuan"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:text="@string/ketentuan"-->
+                <!--android:textAlignment="center" />-->
 
-            <TextView
-                android:id="@+id/tv_bantuan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/bantuan"
-                android:textAlignment="center" />
-        </LinearLayout>
+            <!--<TextView-->
+                <!--android:id="@+id/tv_bantuan"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:text="@string/bantuan"-->
+                <!--android:textAlignment="center" />-->
+        <!--</LinearLayout>-->
 
         <LinearLayout
             android:id="@+id/linearlayout5"

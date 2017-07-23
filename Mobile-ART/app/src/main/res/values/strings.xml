@@ -37,10 +37,10 @@
     <string name="menu_pesan">Pesan</string>
     <string name="menu_lainnya">Lainnya</string>
 
-    <string name="pager_pesananmasuk">Pesanan Masuk</string>
-    <string name="pager_pesananditerima">Pesanan Diterima</string>
     <string name="pager_pesan_masuk">Masuk</string>
     <string name="pager_pesan_terkirim">Terkirim</string>
+    <string name="pager_pesanan_masuk">Pesanan Masuk</string>
+    <string name="pager_pesanan_diterima">Pesanan Diterima</string>
 
     <string name="action_alarm">SOS</string>
 

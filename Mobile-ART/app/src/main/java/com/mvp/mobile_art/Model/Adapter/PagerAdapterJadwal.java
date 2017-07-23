@@ -1,4 +1,4 @@
-package com.mvp.mobile_art.Model;
+package com.mvp.mobile_art.Model.Adapter;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
@@ -10,7 +10,7 @@ import com.mvp.mobile_art.View.Fragment.FragmentPesananDiterima;
 import com.mvp.mobile_art.View.Fragment.FragmentPesananMasuk;
 
 /**
- * Created by Zackzack on 06/07/2017.
+ * Created by jcla123ns on 22/07/17.
  */
 
 public class PagerAdapterJadwal extends FragmentPagerAdapter {
@@ -41,9 +41,9 @@ public class PagerAdapterJadwal extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position){
             case 0:
-                return thiscontext.getResources().getString(R.string.pager_pesananmasuk);
+                return thiscontext.getResources().getString(R.string.pager_pesanan_masuk);
             case 1:
-                return thiscontext.getResources().getString(R.string.pager_pesananditerima);
+                return thiscontext.getResources().getString(R.string.pager_pesanan_diterima);
             default:
                 return null;
         }

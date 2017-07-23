@@ -1,9 +1,7 @@
-package com.TA.MVP.appmobilemember.Route.Repositories;
+package com.mvp.mobile_art.Route.Repositories;
 
-import com.TA.MVP.appmobilemember.Model.Basic.Order;
-import com.TA.MVP.appmobilemember.Model.Basic.OrderTask;
-import com.TA.MVP.appmobilemember.Model.Responses.OrderResponse;
-import com.TA.MVP.appmobilemember.Model.Responses.TaskResponse;
+
+import com.mvp.mobile_art.Model.Basic.Order;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,65 +21,10 @@ import retrofit2.http.Path;
 
 public interface OrderRepo {
     @Headers("Accept: application/json")
-    @GET("api/order/{order_id}/task_list")
-    Call<List<OrderTask>> gettasklistinorder(@Path("order_id") Integer order_id);
+    @GET("api/order/art/{art}")
+    Call<List<Order>> getorderByArt(@Path("art") String art);
 
     @Headers("Accept: application/json")
-    @POST("api/order/{order_id}/task_list")
-    Call<TaskResponse> posttasklistinorder(@Path("order_id") Integer order_id);
-
-    @Headers("Accept: application/json")
-    @GET("api/order/{order_id}/task_list/{task_list_id}")
-    Call<TaskResponse> gettaskinorder(@Path("order_id") Integer order_id, @Path("task_list_id") Integer task_list_id);
-
-    @Headers("Accept: application/json")
-    @PATCH("api/order/{order_id}/task_list/{task_list_id}")
-    Call<TaskResponse> patchtaskinorder(@Path("order_id") Integer order_id, @Path("task_list_id") Integer task_list_id);
-
-    @Headers("Accept: application/json")
-    @DELETE("api/order/{order_id}/task_list/{task_list_id}")
-    Call<TaskResponse> deletetaskinorder(@Path("order_id") Integer order_id, @Path("task_list_id") Integer task_list_id);
-
-//    @Headers("Accept: application/json")
-//    @GET("api/{order_id}/review_order")
-//    Call<TaskResponse> gettaskinorder(@Path("order_id") Integer order_id);
-
-    @Headers("Accept: application/json")
-    @GET("api/order/")
-    Call<List<Order>> getorders();
-
-    @Headers("Accept: application/json")
-    @POST("api/order/")
-    Call<OrderResponse> postorder(@Body HashMap map);
-
-    @Headers("Accept: application/json")
-    @GET("api/order/{task_list_id}")
-    Call<OrderResponse> showtasklist(@Path("task_list_id") Integer order_id);
-
-    @Headers("Accept: application/json")
-    @PATCH("api/order/{task_list_id}")
-    Call<OrderResponse> updatetasklist(@Path("task_list_id") Integer order_id);
-
-    @Headers("Accept: application/json")
-    @DELETE("api/order/{task_list_id}")
-    Call<OrderResponse> destroytasklist(@Path("task_list_id") Integer order_id);
-
-    @Headers("Accept: application/json")
-    @GET("api/order/search/{param}/{text}")
-    Call<List<Order>> searchorderByParam(@Path("param") Integer param, @Path("text") Integer text);
+    @GET("api/order/member/{member}")
+    Call<List<Order>> getorderByMember(@Path("member") String member);
 }
-//    Route::get('/{order_id}/review_order', 'ReviewOrderController@index')->where('order_id', '[0-9]+');
-//
-//    Route::post('/{order_id}/review_order', 'ReviewOrderController@store')->where('order_id', '[0-9]+');
-//
-//    Route::get('/{order_id}/review_order/{task_list_id}', 'ReviewOrderController@show')->where('order_id', '[0-9]+')->where('task_list_id', '[0-9]+');
-//
-//    Route::patch('/{order_id}/review_order/{task_list_id}', 'ReviewOrderController@update')->where('order_id', '[0-9]+')->where('task_list_id', '[0-9]+');
-//
-//    Route::delete('/{order_id}/review_order/{task_list_id}', 'ReviewOrderController@destroy')->where('order_id', '[0-9]+')->where('task_list_id', '[0-9]+');
-
-
-
-
-
-// +++ ++ + + ++ + + + order link

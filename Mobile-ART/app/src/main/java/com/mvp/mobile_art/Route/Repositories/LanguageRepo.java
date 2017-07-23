@@ -1,7 +1,8 @@
-package com.TA.MVP.appmobilemember.Route.Repositories;
+package com.mvp.mobile_art.Route.Repositories;
 
-import com.TA.MVP.appmobilemember.Model.Basic.Language;
-import com.TA.MVP.appmobilemember.Model.Responses.LanguageResponse;
+
+import com.mvp.mobile_art.Model.Basic.Language;
+import com.mvp.mobile_art.Model.Responses.LanguageResponse;
 
 import java.util.List;
 

@@ -19,7 +19,10 @@ import com.TA.MVP.appmobilemember.View.Activity.PemesananActivity;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -27,16 +30,19 @@ import java.util.List;
  */
 
 public class RecyclerAdapterAsisten extends RecyclerView.Adapter<RecyclerAdapterAsisten.ViewHolder> {
-//    private String[] nama = {"nama1", "nama2", "nama3", "nama4", "nama5"};
-//    private String[] umur = {"20 Thn", "25 Thn", "25 Thn", "25 Thn", "25 Thn"};
+    private int thisYear, artbornyear;
+    private Calendar calendar = Calendar.getInstance();
+    private DateFormat yearformat = new SimpleDateFormat("yyyy");
     private List<User> users = new ArrayList<>();
     class ViewHolder extends RecyclerView.ViewHolder{
         public TextView itemnama,itemumur;
+        public RatingBar itemrate;
 
         public ViewHolder(final View itemview){
             super(itemview);
             itemnama = (TextView) itemview.findViewById(R.id.card_wallet_nominal);
             itemumur = (TextView) itemview.findViewById(R.id.card_asis_umur);
+            itemrate = (RatingBar) itemview.findViewById(R.id.card_asis_rating);
             itemview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -59,9 +65,11 @@ public class RecyclerAdapterAsisten extends RecyclerView.Adapter<RecyclerAdapter
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-//        holder.itemnama.setText(nama[position]);
-//        holder.itemumur.setText(umur[position]);
         holder.itemnama.setText(users.get(position).getName());
+        thisYear = calendar.get(Calendar.YEAR);
+        artbornyear = Integer.valueOf(yearformat.format(users.get(position).getBorn_date()));
+        holder.itemumur.setText(thisYear - artbornyear + " Thn");
+        holder.itemrate.setRating(users.get(position).getRate());
     }
 
     @Override

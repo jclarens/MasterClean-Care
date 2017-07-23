@@ -1,4 +1,4 @@
-package com.TA.MVP.appmobilemember.Model.Basic;
+package com.mvp.mobile_art.Model.Basic;
 
 /**
  * Created by Zackzack on 15/07/2017.
@@ -6,7 +6,7 @@ package com.TA.MVP.appmobilemember.Model.Basic;
 
 public class UserAdditionalInfo {
     private User user;
-    private AdditionalInfo additionalInfo;
+    private Integer info_id;
 
     public User getUser() {
         return user;
@@ -16,11 +16,11 @@ public class UserAdditionalInfo {
         this.user = user;
     }
 
-    public AdditionalInfo getAdditionalInfo() {
-        return additionalInfo;
+    public Integer getInfo_id() {
+        return info_id;
     }
 
-    public void setAdditionalInfo(AdditionalInfo additionalInfo) {
-        this.additionalInfo = additionalInfo;
+    public void setInfo_id(Integer info_id) {
+        this.info_id = info_id;
     }
 }

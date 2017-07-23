@@ -1,4 +1,4 @@
-package com.TA.MVP.appmobilemember.lib.utils;
+package com.mvp.mobile_art.lib.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

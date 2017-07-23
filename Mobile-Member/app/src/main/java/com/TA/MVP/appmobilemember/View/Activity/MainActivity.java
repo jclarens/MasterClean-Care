@@ -71,7 +71,7 @@ public class MainActivity extends ParentActivity {
         setContentView(R.layout.activity_main);
 //        Toast.makeText(getApplicationContext(),SharedPref.getValueString(ConstClass.USER), Toast.LENGTH_SHORT).show();
 //        alertDialog = new AlertDialog.Builder(getApplicationContext());
-//        alertDialog.setMessage("Loading failed. reloading.");
+//        alertDialog.setMyMessage("Loading failed. reloading.");
 //        alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 //            @Override
 //            public void onClick(DialogInterface dialogInterface, int i) {
@@ -175,10 +175,10 @@ public class MainActivity extends ParentActivity {
                 SharedPref.save(ConstClass.USER, data.getStringExtra(ConstClass.USER));
                 final FragmentTransaction transaction2 = fragmentManager.beginTransaction();
                 transaction2.replace(R.id.main_container, fragment).commit();
-                invalidateOptionsMenu();
 //                Toast.makeText(context,SharedPref.getValueString(ConstClass.USER), Toast.LENGTH_SHORT).show();
             }
         }
+        invalidateOptionsMenu();
     }
 
     public void getstaticData1() {

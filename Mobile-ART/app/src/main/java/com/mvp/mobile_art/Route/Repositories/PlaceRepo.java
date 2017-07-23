@@ -1,7 +1,8 @@
-package com.TA.MVP.appmobilemember.Route.Repositories;
+package com.mvp.mobile_art.Route.Repositories;
 
-import com.TA.MVP.appmobilemember.Model.Basic.Place;
-import com.TA.MVP.appmobilemember.Model.Responses.PlaceResponse;
+
+import com.mvp.mobile_art.Model.Basic.Place;
+import com.mvp.mobile_art.Model.Responses.PlaceResponse;
 
 import java.util.HashMap;
 import java.util.List;

@@ -1,7 +1,9 @@
-package com.TA.MVP.appmobilemember.Route.Repositories;
+package com.mvp.mobile_art.Route.Repositories;
 
-import com.TA.MVP.appmobilemember.Model.Basic.Article;
-import com.TA.MVP.appmobilemember.Model.Responses.ArticleResponse;
+
+
+import com.mvp.mobile_art.Model.Basic.Article;
+import com.mvp.mobile_art.Model.Responses.ArticleResponse;
 
 import java.util.HashMap;
 import java.util.List;

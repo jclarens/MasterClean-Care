@@ -7,12 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.TA.MVP.appmobilemember.Model.Basic.Message;
+import com.TA.MVP.appmobilemember.Model.Basic.MyMessage;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Activity.BacaPesanMasukActivity;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -20,20 +21,21 @@ import java.util.List;
  */
 
 public class RecyclerAdapterPesanMasuk extends RecyclerView.Adapter<RecyclerAdapterPesanMasuk.ViewHolder> {
-    private List<Message> messages = new ArrayList<>();
+    private List<MyMessage> myMessages = new ArrayList<>();
     class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView itemnama,itemtanggal,itemsubject;
+        public TextView itemnama,itemusia,itemsubject;
 
         public ViewHolder(final View itemview){
             super(itemview);
-            itemnama = (TextView) itemview.findViewById(R.id.card_wallet_nominal);
+            itemnama = (TextView) itemview.findViewById(R.id.card_pesan_nama);
+//            itemusia = (TextView) itemview.findViewById(R.id.card_asis_umur);
             itemsubject = (TextView) itemview.findViewById(R.id.card_pesan_subject);
             itemview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     Intent i = new Intent(itemview.getContext(), BacaPesanMasukActivity.class);
-                    i.putExtra("message", GsonUtils.getJsonFromObject(messages.get(position)));
+                    i.putExtra("msg", GsonUtils.getJsonFromObject(myMessages.get(position)));
                     itemview.getContext().startActivity(i);
                 }
             });
@@ -49,20 +51,20 @@ public class RecyclerAdapterPesanMasuk extends RecyclerView.Adapter<RecyclerAdap
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.itemnama.setText(messages.get(position).getSender().getName());
-        holder.itemsubject.setText(messages.get(position).getSubject());
+        holder.itemnama.setText(myMessages.get(position).getSender().getName());
+        holder.itemsubject.setText(myMessages.get(position).getSubject());
 //        holder.itemnama.setText(nama[position]);
 //        holder.itemsubject.setText(subject[position]);
     }
 
     @Override
     public int getItemCount() {
-        return messages.size();
+        return myMessages.size();
 //        return nama.length;
     }
 
-    public void setPesan(List<Message> messages){
-        this.messages = messages;
+    public void setPesan(List<MyMessage> myMessages){
+        this.myMessages = myMessages;
         notifyDataSetChanged();
     }
 }

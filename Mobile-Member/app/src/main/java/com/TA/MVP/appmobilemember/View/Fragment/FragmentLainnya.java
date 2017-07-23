@@ -36,13 +36,13 @@ public class FragmentLainnya extends Fragment {
         View _view = inflater.inflate(R.layout.fragment_lainnya, container, false);
         imageprofile = (ImageView) _view.findViewById(R.id.iv_profile);
         imagewallet = (ImageView) _view.findViewById(R.id.iv_wallet);
-        imagebantuan = (ImageView) _view.findViewById(R.id.iv_bantuan);
-        imageketentuan = (ImageView) _view.findViewById(R.id.iv_ketentuan);
+//        imagebantuan = (ImageView) _view.findViewById(R.id.iv_bantuan);
+//        imageketentuan = (ImageView) _view.findViewById(R.id.iv_ketentuan);
         imagelogout = (ImageView) _view.findViewById(R.id.iv_logout);
         txtprofile = (TextView) _view.findViewById(R.id.tv_profile);
         txtwallet = (TextView) _view.findViewById(R.id.tv_wallet);
-        txtbantuan = (TextView) _view.findViewById(R.id.tv_bantuan);
-        txtketentuan = (TextView) _view.findViewById(R.id.tv_ketentuan);
+//        txtbantuan = (TextView) _view.findViewById(R.id.tv_bantuan);
+//        txtketentuan = (TextView) _view.findViewById(R.id.tv_ketentuan);
         txtlogout = (TextView) _view.findViewById(R.id.tv_logout);
 
         if (SharedPref.getValueString(SharedPref.ACCESS_TOKEN) == ""){
@@ -72,18 +72,18 @@ public class FragmentLainnya extends Fragment {
                 MainActivity.doStartActivity(getContext(), WalletActivity.class);
             }
         });
-        imagebantuan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MainActivity.doStartActivity(getContext(), BantuanActivity.class);
-            }
-        });
-        imageketentuan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MainActivity.doStartActivity(getContext(), KetentuanActivity.class);
-            }
-        });
+//        imagebantuan.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                MainActivity.doStartActivity(getContext(), BantuanActivity.class);
+//            }
+//        });
+//        imageketentuan.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                MainActivity.doStartActivity(getContext(), KetentuanActivity.class);
+//            }
+//        });
         imagelogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -18,14 +18,18 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterListKerja;
+import com.TA.MVP.appmobilemember.Model.Basic.Order;
 import com.TA.MVP.appmobilemember.Model.Basic.OrderTask;
+import com.TA.MVP.appmobilemember.Model.Basic.OrderTime;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Basic.Waktu_Kerja;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Activity.PemesananActivity;
+import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
@@ -48,13 +52,15 @@ public class FragmentPemesanan2 extends Fragment {
     private RecyclerView.LayoutManager rec_LayoutManager;
     private RecyclerAdapterListKerja rec_Adapter;
     private List<OrderTask> orderTasks = new ArrayList<>();
+    private User art = new User();
+    private Order order = new Order();
+    private Bundle bundle = new Bundle();
 
     private Spinner prof, waktukrj;
     private LinearLayout layoutlistkerja;
     private EditText mulaitime, mulaidate, selesaitime, selesaidate, estimasi, cttntmbhn, totalbiaya;
     private TextView estimasiwaktutext;
     private Button prev,next;
-    private User art;
     private ArrayAdapter arrayAdapterWaktu;
     private List<Waktu_Kerja> defaultWK = new ArrayList<>();
 
@@ -64,17 +70,24 @@ public class FragmentPemesanan2 extends Fragment {
     private DatePickerDialog datePickerDialog1;
     private TimePickerDialog timePickerDialog;
     private Calendar calendar = Calendar.getInstance();
-//    private Calendar startcalendar = Calendar.getInstance();
-//    private Calendar endcalendar = Calendar.getInstance();
-    int mYear, mMounth, mDay, mHour, mMinute;
+    private OrderTime now = new OrderTime();
+    private OrderTime temp = new OrderTime();
+    private OrderTime endtemp = new OrderTime();
+    private OrderTime waktumulai = new OrderTime();
+    private OrderTime waktuselesai = new OrderTime();
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-d-MM", Locale.ENGLISH);
     private DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
     private Date startdate, enddate;
+//    private Date startdatelimit, enddatelimit;
+    private int status = 1;
+    private boolean valid = false;
+    private Date tempdate;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_pemesanan2, container, false);
-        art = GsonUtils.getObjectFromJson(getArguments().getString(ConstClass.ART_EXTRA), User.class);
+        art = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.ART_EXTRA), User.class);
+        order = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.ORDER_EXTRA), Order.class);
         defaultWK = ((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getWaktu_kerjas();
 
         waktukrj = (Spinner) _view.findViewById(R.id.pms2_spinner_waktukerja);
@@ -89,10 +102,7 @@ public class FragmentPemesanan2 extends Fragment {
         prev = (Button) _view.findViewById(R.id.pms2_btn_prev);
         next = (Button) _view.findViewById(R.id.pms2_btn_next);
 
-
-        mYear = calendar.get(Calendar.YEAR);
-        mMounth = calendar.get(Calendar.MONTH);
-        mDay = calendar.get(Calendar.DAY_OF_MONTH);
+        setwaktusekarang();
         datePickerDialog1 = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
@@ -100,20 +110,19 @@ public class FragmentPemesanan2 extends Fragment {
                 calendar.set(Calendar.YEAR,i);
                 calendar.set(Calendar.MONTH,i1);
                 calendar.set(Calendar.DAY_OF_MONTH,i2);
-                renderendtime();
+                settanggal();
             }
-        }, mYear, mMounth, mDay);
-        mHour = calendar.get(Calendar.HOUR);
-        mMinute = calendar.get(Calendar.MINUTE);
+        }, now.year, now.month, now.day);
         timePickerDialog = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
                 mulaitime.setText(i + ":" + i1);
                 calendar.set(Calendar.HOUR,i);
                 calendar.set(Calendar.MINUTE,i1);
-                renderendtime();
+                calendar.set(Calendar.MILLISECOND, 0);
+                settanggal();
             }
-        },mHour, mMinute, false);
+        },0, 0, false);
 
         mulaidate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,34 +150,36 @@ public class FragmentPemesanan2 extends Fragment {
                 switch (art.getUser_work_time().get(i).getWork_time_id()){
                     case 1:
                         //jam
+                        status = 1;
                         mulaitime.setEnabled(true);
                         estimasiwaktutext.setText("Jam");
                         minestimasi = 2;
                         maxestimasi = 8;
+                        estimasi.setEnabled(false);
                         estimasi.setText(String.valueOf(minestimasi));
                         break;
                     case 2:
                         //hari
+                        status = 2;
                         mulaitime.setEnabled(false);
-                        calendar.set(Calendar.HOUR,8);
-                        calendar.set(Calendar.MINUTE,0);
                         estimasiwaktutext.setText("Hari");
                         minestimasi = 1;
                         maxestimasi = 14;
+                        estimasi.setEnabled(true);
                         estimasi.setText(String.valueOf(minestimasi));
                         break;
                     case 3:
                         //bulan
+                        status = 3;
                         mulaitime.setEnabled(false);
-                        calendar.set(Calendar.HOUR,8);
-                        calendar.set(Calendar.MINUTE,0);
                         estimasiwaktutext.setText("Bulan");
                         minestimasi = 1;
                         maxestimasi = 12;
+                        estimasi.setEnabled(true);
                         estimasi.setText(String.valueOf(minestimasi));
                         break;
                 }
-                renderendtime();
+                settanggal();
             }
 
             @Override
@@ -188,6 +199,8 @@ public class FragmentPemesanan2 extends Fragment {
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SharedPref.save(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
+                SharedPref.save(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(order));
                 ((PemesananActivity)getActivity()).doChangeFragment(1);
             }
         });
@@ -195,8 +208,11 @@ public class FragmentPemesanan2 extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //validasi dulu
-                ((PemesananActivity)getActivity()).doChangeFragment(3);
+                if (validasi()){
+                    SharedPref.save(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
+                    SharedPref.save(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(order));
+                    ((PemesananActivity)getActivity()).doChangeFragment(3);
+                }
             }
         });
 
@@ -210,37 +226,133 @@ public class FragmentPemesanan2 extends Fragment {
                         estimasi.setText(String.valueOf(maxestimasi));
                     else if (tmp < minestimasi)
                         estimasi.setText(String.valueOf(minestimasi));
-                    renderendtime();
+                    settanggal();
                 }
             }
         });
 
         return _view;
     }
-    public void renderendtime(){
+    public void setwaktusekarang(){
+        calendar = Calendar.getInstance();
+        now.year = calendar.get(Calendar.YEAR);
+        now.month = calendar.get(Calendar.MONTH);
+        now.day = calendar.get(Calendar.DAY_OF_MONTH);
+        now.hour = calendar.get(Calendar.HOUR);
+        now.minute = calendar.get(Calendar.MINUTE);
+    }
+    public void setwaktutemp(){
+        temp.year = calendar.get(Calendar.YEAR);
+        temp.month = calendar.get(Calendar.MONTH);
+        temp.day = calendar.get(Calendar.DAY_OF_MONTH);
+        temp.hour = calendar.get(Calendar.HOUR);
+        temp.minute = calendar.get(Calendar.MINUTE);
+    }
+    public void getwaktutemp(){
+        calendar.set(Calendar.YEAR,temp.year);
+        calendar.set(Calendar.MONTH,temp.month);
+        calendar.set(Calendar.DAY_OF_MONTH,temp.day);
+        calendar.set(Calendar.HOUR,temp.hour);
+        calendar.set(Calendar.MINUTE,temp.minute);
+    }
+    public void setwaktuendtemp(){
+        endtemp.year = calendar.get(Calendar.YEAR);
+        endtemp.month = calendar.get(Calendar.MONTH);
+        endtemp.day = calendar.get(Calendar.DAY_OF_MONTH);
+        endtemp.hour = calendar.get(Calendar.HOUR);
+        endtemp.minute = calendar.get(Calendar.MINUTE);
+    }
+    public void getwaktuendtemp(){
+        calendar.set(Calendar.YEAR,endtemp.year);
+        calendar.set(Calendar.MONTH,endtemp.month);
+        calendar.set(Calendar.DAY_OF_MONTH,endtemp.day);
+        calendar.set(Calendar.HOUR,endtemp.hour);
+        calendar.set(Calendar.MINUTE,endtemp.minute);
+    }
+    public  void settanggal(){
+        switch (estimasiwaktutext.getText().toString()){
+            case "Jam":
+                break;
+            case "Hari":
+                calendar.set(Calendar.HOUR_OF_DAY,8);
+                calendar.set(Calendar.MINUTE,0);
+                break;
+            case "Bulan":
+                calendar.set(Calendar.HOUR_OF_DAY,8);
+                calendar.set(Calendar.MINUTE,0);
+                break;
+        }
+        setwaktutemp();
         startdate = calendar.getTime();
         switch (estimasiwaktutext.getText().toString()){
             case "Jam":
-                calendar.add(Calendar.HOUR, Integer.valueOf(estimasi.getText().toString()));
+                calendar.add(Calendar.HOUR_OF_DAY, Integer.valueOf(estimasi.getText().toString()));
                 break;
             case "Hari":
-                calendar.add(Calendar.HOUR, 8);
+                calendar.add(Calendar.DAY_OF_MONTH, Integer.valueOf(estimasi.getText().toString()));
+                calendar.add(Calendar.HOUR_OF_DAY, 9);
                 break;
             case "Bulan":
                 calendar.add(Calendar.MONTH, Integer.valueOf(estimasi.getText().toString()));
-                calendar.add(Calendar.HOUR, 8);
+                calendar.add(Calendar.HOUR_OF_DAY, 9);
                 break;
         }
+        setwaktuendtemp();
         enddate = calendar.getTime();
+        getwaktutemp();
+        settampilan();
+    }
+    public void settampilan(){
         mulaidate.setText(dateFormat.format(startdate.getTime()));
         mulaitime.setText(timeFormat.format(startdate.getTime()));
         selesaidate.setText(dateFormat.format(enddate.getTime()));
         selesaitime.setText(timeFormat.format(enddate.getTime()));
-
-        calendar.set(Calendar.YEAR,mYear);
-        calendar.set(Calendar.MONTH,mMounth);
-        calendar.set(Calendar.DAY_OF_MONTH,mDay);
-        calendar.set(Calendar.HOUR,mHour);
-        calendar.set(Calendar.MINUTE,mMinute);
+    }
+    public Date getbatassekarang(){
+        calendar = Calendar.getInstance();
+        calendar.add(Calendar.HOUR_OF_DAY,2);
+        Date ddate = calendar.getTime();
+        getwaktutemp();
+        return ddate;
+    }
+    public Date getbatasmulai(){
+        calendar.set(Calendar.HOUR_OF_DAY, 7);
+        calendar.set(Calendar.MINUTE, 59);
+        Date ddate = calendar.getTime();
+        getwaktutemp();
+        return ddate;
+    }
+    public Date getbatasselesai(){
+        calendar.set(Calendar.HOUR_OF_DAY, 17);
+        calendar.set(Calendar.MINUTE, 1);
+        Date ddate = calendar.getTime();
+        getwaktutemp();
+        return ddate;
+    }
+    public Date getbatasselesai2(){
+        getwaktuendtemp();
+        calendar.set(Calendar.HOUR_OF_DAY, 17);
+        Date ddate = calendar.getTime();
+        getwaktutemp();
+        return ddate;
+    }
+    public boolean validasi(){
+        if (startdate.before(getbatassekarang())){
+            Toast.makeText(getContext(), "Harap memesan untuk 2 jam kedepan", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (startdate.before(getbatasmulai())){
+            Toast.makeText(getContext(), "Tidak dapat menerima pesanan sebelum jam 8 Pagi", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (startdate.after(getbatasselesai())){
+            Toast.makeText(getContext(), "Tidak dapat menerima pesanan setelah jam 5 Sore", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (enddate.after(getbatasselesai2())){
+            Toast.makeText(getContext(), "Tidak dapat menerima pesanan setelah jam 5 Sore", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }

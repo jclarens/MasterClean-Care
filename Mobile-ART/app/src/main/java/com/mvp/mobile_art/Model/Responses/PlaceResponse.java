@@ -1,7 +1,7 @@
-package com.TA.MVP.appmobilemember.Model.Responses;
+package com.mvp.mobile_art.Model.Responses;
 
-import com.TA.MVP.appmobilemember.Model.Basic.Place;
-import com.TA.MVP.appmobilemember.lib.models.Response;
+import com.mvp.mobile_art.Model.Basic.Place;
+import com.mvp.mobile_art.lib.models.Response;
 
 /**
  * Created by Zackzack on 11/07/2017.

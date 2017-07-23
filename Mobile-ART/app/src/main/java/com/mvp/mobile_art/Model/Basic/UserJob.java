@@ -1,4 +1,4 @@
-package com.TA.MVP.appmobilemember.Model.Basic;
+package com.mvp.mobile_art.Model.Basic;
 
 /**
  * Created by Zackzack on 15/07/2017.
@@ -6,7 +6,7 @@ package com.TA.MVP.appmobilemember.Model.Basic;
 
 public class UserJob {
     private User user;
-    private Job job;
+    private Integer job_id;
 
     public User getUser() {
         return user;
@@ -16,11 +16,11 @@ public class UserJob {
         this.user = user;
     }
 
-    public Job getJob() {
-        return job;
+    public Integer getJob_id() {
+        return job_id;
     }
 
-    public void setJob(Job job) {
-        this.job = job;
+    public void setJob_id(Integer job_id) {
+        this.job_id = job_id;
     }
 }

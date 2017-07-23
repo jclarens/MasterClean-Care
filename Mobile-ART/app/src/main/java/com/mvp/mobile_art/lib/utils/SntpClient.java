@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.TA.MVP.appmobilemember.lib.utils;
+package com.mvp.mobile_art.lib.utils;
 
 import android.os.SystemClock;
 import android.util.Log;

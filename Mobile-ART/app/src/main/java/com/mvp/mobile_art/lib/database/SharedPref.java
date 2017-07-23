@@ -1,4 +1,4 @@
-package com.TA.MVP.appmobilemember.lib.database;
+package com.mvp.mobile_art.lib.database;
 
 import com.TA.MVP.appmobilemember.lib.utils.Settings;
 

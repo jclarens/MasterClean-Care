@@ -37,11 +37,10 @@
                 android:textStyle="bold" />
 
             <RatingBar
-                android:id="@+id/ratingBar"
+                android:id="@+id/asis_ratingBar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:clickable="false"
-                android:focusable="false"
+                android:isIndicator="true"
                 android:layout_gravity="center_horizontal"
                 style="@style/Base.TextAppearance.AppCompat.Medium"/>
 
@@ -106,7 +105,7 @@
                         android:id="@+id/asis_tv_usia"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
+                        android:text=" - "
                         android:textColor="@android:color/black"
                         android:textStyle="bold" />
 
@@ -114,7 +113,7 @@
                         android:id="@+id/asis_tv_pengalaman"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
+                        android:text=" - "
                         android:textColor="@android:color/black"
                         android:textStyle="bold" />
 
@@ -122,7 +121,7 @@
                         android:id="@+id/asis_tv_notelp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
+                        android:text=" - "
                         android:textColor="@android:color/black"
                         android:textStyle="bold" />
 
@@ -130,7 +129,7 @@
                         android:id="@+id/asis_tv_agama"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
+                        android:text=" - "
                         android:textColor="@android:color/black"
                         android:textStyle="bold" />
 
@@ -138,7 +137,7 @@
                         android:id="@+id/asis_tv_suku"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="TextView"
+                        android:text=" - "
                         android:textColor="@android:color/black"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -188,31 +187,18 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/textView35"
+                android:id="@+id/asis_tv_profesi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/filter_profesi"
                 android:textColor="@android:color/black" />
 
             <LinearLayout
-                android:id="@+id/asis_alyout_prof"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView36"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/prof_bs"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
-
-            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_margin="10dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -252,63 +238,39 @@
                         android:id="@+id/asis_tv_gajijam"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/nominalangka"
+                        android:text=" - "
                         android:textColor="@android:color/black" />
 
                     <TextView
                         android:id="@+id/asis_tv_gajihari"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/nominalangka"
+                        android:text=" - "
                         android:textColor="@android:color/black" />
 
                     <TextView
                         android:id="@+id/asis_tv_gajibulan"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/nominalangka"
+                        android:text=" - "
                         android:textColor="@android:color/black" />
                 </LinearLayout>
             </LinearLayout>
 
             <TextView
-                android:id="@+id/textView39"
+                android:id="@+id/asis_tv_bhs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/filter_bahasa"
+                android:text="Dapat Berbahasa : "
                 android:textColor="@android:color/black" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
-                android:orientation="vertical">
-
-                <CheckBox
-                    android:id="@+id/asis_cb_inggris"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/filter_bahasainggris" />
-
-                <CheckBox
-                    android:id="@+id/asis_cb_mandarin"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/filter_bahasamandarin" />
-
-                <CheckBox
-                    android:id="@+id/asis_cb_melayu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/filter_bahasamelayu" />
-            </LinearLayout>
 
             <CheckBox
                 android:id="@+id/asis_cb_tktanjg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/tktanjg" />
+                android:text="@string/tktanjg"
+                android:enabled="false"
+                android:textColor="@color/colorBlack"/>
 
             <Button
                 android:id="@+id/asis_btn_docpdkg"
@@ -324,16 +286,16 @@
                 android:text="@string/lhtjdwl"
                 android:textAllCaps="false" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content">-->
 
-                <TextView
-                    android:id="@+id/textView40"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/review" />
-            </RelativeLayout>
+                <!--<TextView-->
+                    <!--android:id="@+id/textView40"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="@string/review" />-->
+            <!--</RelativeLayout>-->
 
             <LinearLayout
                 android:layout_width="wrap_content"

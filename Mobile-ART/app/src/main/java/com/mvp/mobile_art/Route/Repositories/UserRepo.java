@@ -1,11 +1,13 @@
-package com.TA.MVP.appmobilemember.Route.Repositories;
+package com.mvp.mobile_art.Route.Repositories;
 
-import com.TA.MVP.appmobilemember.Model.Basic.User;
-import com.TA.MVP.appmobilemember.Model.Responses.Token;
-import com.TA.MVP.appmobilemember.Model.Responses.UserResponse;
+
+import com.mvp.mobile_art.Model.Basic.WalletTransaction;
+import com.mvp.mobile_art.Model.Responses.Token;
+import com.mvp.mobile_art.Model.Responses.UserResponse;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -15,6 +17,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.QueryMap;
 
 /**
  * Created by Jay Clarens on 7/8/2017.
@@ -26,16 +29,20 @@ public interface UserRepo {
     Call<UserResponse> checkLogin(@Body HashMap map);
 
     @Headers("Accept: application/json")
-    @POST("me")
-    Call<User> getOwnData();
+    @POST("api/check_login")
+    Call<UserResponse> getOwnData(@Body HashMap map);
 
     @Headers("Accept: application/json")
     @POST("oauth/token")
     Call<Token> loginuser(@Body HashMap map);
 
     @Headers("Accept: application/json")
-    @POST("oauth/register")
-    Call<Token> registeruser(@Body HashMap map);
+    @POST("api/user/")
+    Call<UserResponse> registeruser(@Body HashMap map);
+
+    @Headers("Accept: application/json")
+    @GET("api/user/wallet_transaction_list/{user}")
+    Call<List<WalletTransaction>> getwallettrans(@Path("user") Integer user_id);
 
     @Headers("Accept: application/json")
     @POST("api/logout")
@@ -46,22 +53,22 @@ public interface UserRepo {
     Call<List<User>> getusers();
 
     @Headers("Accept: application/json")
+    @GET("api/user/search?user_type=2")
+    Call<List<User>> getallart();
+
+    @Headers("Accept: application/json")
     @GET("api/user/{user_id}")
     Call<UserResponse> getuser(@Path("user_id") String user_id);
 
     @Headers("Accept: application/json")
     @PATCH("api/user/{user_id}")
-    Call<UserResponse> updateuser(@Path("user_id") String user_id);
+    Call<UserResponse> updateuser(@Path("user_id") String user_id, @Body HashMap map);
 
     @Headers("Accept: application/json")
     @DELETE("api/user/{user_id}")
     Call<UserResponse> destroyuser(@Path("user_id") String user_id);
 
     @Headers("Accept: application/json")
-    @GET("job/search/{text}")
-    Call<List<User>> searchuserByParam(@Path("text") Integer text);
-
-    @Headers("Accept: application/json")
-    @GET("job/search/{param}/{text}")
-    Call<List<User>> searchuserByParam(@Path("param") Integer param, @Path("text") Integer text);
+    @GET("api/user/search")
+    Call<List<User>> searchuser(@QueryMap Map<String, String> option);
 }

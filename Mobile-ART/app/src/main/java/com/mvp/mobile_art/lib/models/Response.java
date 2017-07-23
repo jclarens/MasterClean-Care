@@ -1,4 +1,4 @@
-package com.TA.MVP.appmobilemember.lib.models;
+package com.mvp.mobile_art.lib.models;
 
 /**
  * Created by michael on 1/31/17.

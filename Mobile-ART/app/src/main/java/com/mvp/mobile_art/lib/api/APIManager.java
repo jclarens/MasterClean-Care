@@ -1,8 +1,8 @@
-package com.TA.MVP.appmobilemember.lib.api;
+package com.mvp.mobile_art.lib.api;
 
 import android.util.Log;
 
-import com.TA.MVP.appmobilemember.lib.utils.Settings;
+import com.mvp.mobile_art.lib.utils.Settings;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
