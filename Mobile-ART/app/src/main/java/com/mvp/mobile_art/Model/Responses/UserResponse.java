@@ -1,5 +1,6 @@
 package com.mvp.mobile_art.Model.Responses;
 
+import com.mvp.mobile_art.Model.Basic.User;
 import com.mvp.mobile_art.lib.models.Response;
 
 /**

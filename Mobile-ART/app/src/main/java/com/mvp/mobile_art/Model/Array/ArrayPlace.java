@@ -1,6 +1,6 @@
 package com.mvp.mobile_art.Model.Array;
 
-import com.TA.MVP.appmobilemember.Model.Basic.Place;
+import com.mvp.mobile_art.Model.Basic.Place;
 
 import java.util.ArrayList;
 import java.util.List;

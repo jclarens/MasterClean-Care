@@ -1,20 +1,20 @@
 package com.mvp.mobile_art.Model.Responses;
 
 
-import com.mvp.mobile_art.Model.Basic.Message;
+import com.mvp.mobile_art.Model.Basic.MyMessage;
 
 /**
  * Created by Zackzack on 15/07/2017.
  */
 
 public class MyMessageResponse {
-    private Message message;
+    private MyMessage message;
 
-    public Message getMessage() {
+    public MyMessage getMessage() {
         return message;
     }
 
-    public void setMessage(Message message) {
+    public void setMessage(MyMessage message) {
         this.message = message;
     }
 }

@@ -51,6 +51,9 @@ import retrofit2.Response;
 
 public class MainActivity extends ParentActivity {
     public final static int REQUEST_LOGIN = 1;
+    public final static int REQUEST_PESAN = 2;
+    public final static int REQUEST_ORDER = 3;
+    public final static int REQUEST_OFFER = 4;
     public final static int RESULT_SUCCESS = 1;
 
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -64,6 +67,7 @@ public class MainActivity extends ParentActivity {
     private AlertDialog.Builder alertDialog;
     public StaticData staticData = new StaticData();
     private User user;
+    private Integer posisiF;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +90,7 @@ public class MainActivity extends ParentActivity {
 
         context = getApplicationContext();
 
+        posisiF =1;
         fragmentManager.beginTransaction().replace(R.id.main_container, new FragmentHome()).commit();
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -93,24 +98,29 @@ public class MainActivity extends ParentActivity {
                 int id = item.getItemId();
                 switch (id){
                     case R.id.menu_beranda:
+                        posisiF=1;
                         fragment = new FragmentHome();
                         break;
                     case R.id.menu_cari:
+                        posisiF=2;
                         fragment = new FragmentCari();
                         break;
                     case R.id.menu_status:
+                        posisiF=3;
                         if (SharedPref.getValueString(ConstClass.USER) == "")
                             fragment = new FragmentUnauthorized();
                         else
                             fragment = new FragmentStatus();
                         break;
                     case R.id.menu_pesan:
+                        posisiF=4;
                         if (SharedPref.getValueString(ConstClass.USER) == "")
                             fragment = new FragmentUnauthorized();
                         else
                             fragment = new FragmentPesan();
                         break;
                     case R.id.menu_lainnya:
+                        posisiF=5;
                         fragment = new FragmentLainnya();
                         break;
                 }
@@ -159,10 +169,43 @@ public class MainActivity extends ParentActivity {
                 SharedPref.save(ConstClass.USER, data.getStringExtra(ConstClass.USER));
                 final FragmentTransaction transaction2 = fragmentManager.beginTransaction();
                 transaction2.replace(R.id.main_container, fragment).commit();
+                refreshfragment();
 //                Toast.makeText(context,SharedPref.getValueString(ConstClass.USER), Toast.LENGTH_SHORT).show();
             }
         }
+        else if(requestCode == REQUEST_PESAN){
+            refreshfragment();
+        }
         invalidateOptionsMenu();
+//        refreshfragment();
+    }
+    public void refreshfragment(){
+        switch (posisiF){
+            case 1:
+                fragment = new FragmentHome();
+                break;
+            case 2:
+                fragment = new FragmentCari();
+                break;
+            case 3:
+                if (SharedPref.getValueString(ConstClass.USER) == "")
+                    fragment = new FragmentUnauthorized();
+                else
+                    fragment = new FragmentStatus();
+                break;
+            case 4:
+                if (SharedPref.getValueString(ConstClass.USER) == "")
+                    fragment = new FragmentUnauthorized();
+                else
+                    fragment = new FragmentPesan();
+                break;
+            case 5:
+                posisiF=5;
+                fragment = new FragmentLainnya();
+                break;
+        }
+        final FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.main_container, fragment).commit();
     }
 
     public void getstaticData1() {

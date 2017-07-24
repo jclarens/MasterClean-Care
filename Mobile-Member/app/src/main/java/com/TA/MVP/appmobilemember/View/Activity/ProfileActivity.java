@@ -70,14 +70,13 @@ public class ProfileActivity extends ParentActivity {
             case R.id.prof_menu_edit:
                 intent = new Intent(getApplicationContext(), EditProfileActivity.class);
                 ProfileActivity.this.startActivityForResult(intent, REQUEST_EDIT);
-//                doStartActivity(ProfileActivity.this, EditProfileActivity.class);
                 break;
             case R.id.prof_menu_editks:
                 doStartActivity(ProfileActivity.this, EditPassActivity.class);
                 break;
-            case R.id.prof_menu_editdoc:
-                doStartActivity(ProfileActivity.this, DokumenTambahanActivity.class);
-                break;
+//            case R.id.prof_menu_editdoc:
+//                doStartActivity(ProfileActivity.this, DokumenTambahanActivity.class);
+//                break;
         }
         return super.onOptionsItemSelected(item);
     }

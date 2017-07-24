@@ -22,9 +22,6 @@
             android:layout_height="100dp"
             android:layout_centerVertical="true"
             android:layout_marginEnd="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_toEndOf="@+id/card_pesan_checkBox"
-            android:layout_toRightOf="@+id/card_pesan_checkBox"
             android:contentDescription="@string/foto"
             app:srcCompat="@android:drawable/ic_menu_gallery" />
 
@@ -32,26 +29,23 @@
             android:id="@+id/card_wallet_nominal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignTop="@+id/card_wallet_img"
-            android:layout_marginLeft="102dp"
-            android:layout_marginStart="102dp"
             android:text="@string/nominal"
             android:textColor="@android:color/black"
             android:textSize="30sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/card_wallet_img" />
 
-        <TextView
-            android:id="@+id/card_wallet_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/card_wallet_nominal"
-            android:layout_alignStart="@+id/card_wallet_nominal"
-            android:layout_below="@+id/card_wallet_nominal"
-            android:text="@string/nominal"
-            android:textColor="@android:color/black"
-            android:textSize="24sp" />
+        <!--<TextView-->
+            <!--android:id="@+id/card_wallet_price"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignLeft="@+id/card_wallet_nominal"-->
+            <!--android:layout_alignStart="@+id/card_wallet_nominal"-->
+            <!--android:layout_below="@+id/card_wallet_nominal"-->
+            <!--android:text="@string/nominal"-->
+            <!--android:textColor="@android:color/black"-->
+            <!--android:textSize="24sp" />-->
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

@@ -16,7 +16,7 @@
         android:layout_height="86dp"
         android:padding="5dp">
         <ImageView
-            android:id="@+id/card_wallet_img"
+            android:id="@+id/card_pesan_img"
             android:layout_width="80dp"
             android:layout_height="100dp"
             android:layout_centerVertical="true"
@@ -27,7 +27,7 @@
             android:layout_toEndOf="@+id/card_pesan_checkBox"
             android:layout_toRightOf="@+id/card_pesan_checkBox"
             android:contentDescription="@string/foto"
-            app:srcCompat="@drawable/ic_person" />
+            app:srcCompat="@drawable/ic_closed_msg" />
 
         <CheckBox
             android:id="@+id/card_pesan_checkBox"
@@ -36,39 +36,39 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp" />
 
         <TextView
             android:id="@+id/card_pesan_nama"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/card_wallet_img"
-            android:layout_toEndOf="@+id/card_wallet_img"
-            android:layout_toRightOf="@+id/card_wallet_img"
+            android:layout_alignTop="@+id/card_pesan_img"
+            android:layout_toEndOf="@+id/card_pesan_img"
+            android:layout_toRightOf="@+id/card_pesan_img"
             android:text="Nama Pengirim"
             android:textColor="@android:color/black"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/card_asis_umur"
+            android:id="@+id/card_pesan_tanggal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/card_wallet_nominal"
-            android:layout_toEndOf="@+id/card_wallet_img"
-            android:layout_toRightOf="@+id/card_wallet_img"
+            android:layout_below="@+id/card_pesan_nama"
+            android:layout_toEndOf="@+id/card_pesan_img"
+            android:layout_toRightOf="@+id/card_pesan_img"
             android:text="Tanggal"
             android:textColor="@android:color/black"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/card_pesan_subject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/card_asis_umur"
-            android:layout_toEndOf="@+id/card_wallet_img"
-            android:layout_toRightOf="@+id/card_wallet_img"
+            android:layout_below="@id/card_pesan_tanggal"
+            android:layout_toEndOf="@+id/card_pesan_img"
+            android:layout_toRightOf="@+id/card_pesan_img"
             android:text="subject"
             android:textColor="@android:color/black"
             android:textSize="12sp" />

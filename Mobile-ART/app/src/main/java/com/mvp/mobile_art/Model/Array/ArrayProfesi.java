@@ -1,6 +1,6 @@
 package com.mvp.mobile_art.Model.Array;
 
-import com.TA.MVP.appmobilemember.Model.Basic.Job;
+import com.mvp.mobile_art.Model.Basic.Job;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +10,9 @@ import java.util.List;
  */
 
 public class ArrayProfesi {
-    private List<Job> jobs;
+    private List<Job> jobs = new ArrayList<>();
     public ArrayProfesi() {
-        jobs = new ArrayList<>();
+
     }
     public void addProfesi(String text){
         Job job = new Job();

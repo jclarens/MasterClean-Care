@@ -1,8 +1,6 @@
 package com.mvp.mobile_art.Model.Array;
 
-import android.content.Intent;
-
-import com.TA.MVP.appmobilemember.Model.Basic.Wallet;
+import com.mvp.mobile_art.Model.Basic.Wallet;
 
 import java.util.ArrayList;
 import java.util.List;

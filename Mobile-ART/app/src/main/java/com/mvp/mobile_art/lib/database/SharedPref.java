@@ -1,11 +1,9 @@
 package com.mvp.mobile_art.lib.database;
 
-import com.TA.MVP.appmobilemember.lib.utils.Settings;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.lang.ref.WeakReference;
+import com.mvp.mobile_art.lib.utils.Settings;
 
 /**
  * Created by michael on 1/30/17.
@@ -15,7 +13,7 @@ public class SharedPref {
 
     private static String TAG = "tmp-SharedPref";
 
-    public static String ACCESS_TOKEN = "access-token";
+    public static String ACCESS_TOKEN = "access-token2";
 
     private static SharedPref mInstance;
 

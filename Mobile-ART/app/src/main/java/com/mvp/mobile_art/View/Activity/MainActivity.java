@@ -63,14 +63,6 @@ public class MainActivity extends ParentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (SharedPref.getValueString(ConstClass.USER) == ""){
-            Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-            startActivityForResult(i, REQUEST_LOGIN);
-        }
-        initProgressDialog("Loading...");
-        showDialog();
-        getstaticData1();
-
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
 
@@ -78,6 +70,19 @@ public class MainActivity extends ParentActivity {
         bottomNavigation.inflateMenu(R.menu.navigation);
         fragmentManager = getSupportFragmentManager();
 
+
+        if (SharedPref.getValueString(SharedPref.ACCESS_TOKEN) == ""){
+            Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+            startActivityForResult(i, REQUEST_LOGIN);
+        }
+        else {
+            initProgressDialog("Loading...");
+            showDialog();
+            getstaticData1();
+
+        }
+    }
+    public void settampilan(){
         fragmentManager.beginTransaction().replace(R.id.content, new FragmentProfile()).commit();
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -129,7 +134,9 @@ public class MainActivity extends ParentActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_LOGIN)
             if (resultCode == RESULT_SUCCESS){
-
+                initProgressDialog("Loading...");
+                showDialog();
+                getstaticData1();
             }
     }
 
@@ -148,7 +155,7 @@ public class MainActivity extends ParentActivity {
             public void onFailure(Call<List<Place>> call, Throwable t) {
                 super.onFailure(call, t);
                 success = false;
-                Toast.makeText(context,"Failed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Failed", Toast.LENGTH_SHORT).show();
                 dismissDialog();
                 abuildermessage("Reconnect?","No Connection");
                 abuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -239,8 +246,9 @@ public class MainActivity extends ParentActivity {
             public void onSuccess(Call<List<Wallet>> call, Response<List<Wallet>> response) {
                 super.onSuccess(call, response);
                 staticData.setWallets(response.body());
-                Toast.makeText(context,"Success", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Success", Toast.LENGTH_SHORT).show();
                 success = true;
+                settampilan();
                 dismissDialog();
             }
 

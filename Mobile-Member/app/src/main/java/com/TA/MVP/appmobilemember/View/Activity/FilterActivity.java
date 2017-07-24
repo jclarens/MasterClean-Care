@@ -59,7 +59,7 @@ public class FilterActivity extends ParentActivity{
         initAllView();
         setbtnlistener(btnuminup, usiamin, btnumindown, 20, 70);
         setbtnlistener(btnumaxup, usiamax, btnumaxdown, 20, 70);
-        setbtnlistener(btnpkup, pk, btnpkdown, 0, 50);
+//        setbtnlistener(btnpkup, pk, btnpkdown, 0, 50);
 
         btncari.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,7 +75,7 @@ public class FilterActivity extends ParentActivity{
                     i.putExtra("profesi", String.valueOf(spinnerprofesi.getSelectedItemPosition()));
                 if (spinnerwaktukrj.getSelectedItemPosition() != 0)
                     i.putExtra("WT", String.valueOf(spinnerwaktukrj.getSelectedItemPosition()));
-                i.putExtra("gaji", Integer.parseInt( gaji.getText().toString() ));
+                i.putExtra("gaji", Integer.valueOf( gaji.getText().toString() ));
                 i.putExtra("usiamin", usiamin.getText().toString());
                 i.putExtra("usiamax", usiamax.getText().toString());
                 i.putExtra("listbahasa", GsonUtils.getJsonFromObject(rec_Adapter.getselectedlist()));
@@ -114,7 +114,7 @@ public class FilterActivity extends ParentActivity{
         gaji = (EditText) findViewById(R.id.filter_et_gaji);
         usiamin = (EditText) findViewById(R.id.filter_et_umin);
         usiamax = (EditText) findViewById(R.id.filter_et_umax);
-        pk = (EditText) findViewById(R.id.filter_et_pk);
+//        pk = (EditText) findViewById(R.id.filter_et_pk);
         suku = (EditText) findViewById(R.id.filter_et_suku);
         spinnerkota = (Spinner) findViewById(R.id.filter_spinner_kota);
         spinneragama = (Spinner) findViewById(R.id.filter_spinner_agama);
@@ -128,8 +128,8 @@ public class FilterActivity extends ParentActivity{
         btnumindown = (Button) findViewById(R.id.filter_btn_umindown);
         btnumaxup = (Button) findViewById(R.id.filter_btn_umaxup);
         btnumaxdown = (Button) findViewById(R.id.filter_btn_umaxdown);
-        btnpkup = (Button) findViewById(R.id.filter_btn_pkup);
-        btnpkdown = (Button) findViewById(R.id.filter_btn_pkdown);
+//        btnpkup = (Button) findViewById(R.id.filter_btn_pkup);
+//        btnpkdown = (Button) findViewById(R.id.filter_btn_pkdown);
 
         setAll();
     }
@@ -193,7 +193,7 @@ public class FilterActivity extends ParentActivity{
         gaji.setText("0");
         usiamin.setText(String.valueOf(20));
         usiamax.setText(String.valueOf(70));
-        pk.setText(String.valueOf(1));
+//        pk.setText(String.valueOf(1));
     }
     private void setbtnlistener(Button btnup, final EditText editText, Button btndown, final Integer min2, final Integer max2){
         btnup.setOnClickListener(new View.OnClickListener() {

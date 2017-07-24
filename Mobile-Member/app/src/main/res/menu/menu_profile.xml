@@ -8,9 +8,9 @@
         android:id="@+id/prof_menu_editks"
         android:title="@string/menu_editks"
         />
-    <item
-        android:id="@+id/prof_menu_editdoc"
-        android:title="@string/menu_editdoc"
-        />
+    <!--<item-->
+        <!--android:id="@+id/prof_menu_editdoc"-->
+        <!--android:title="@string/menu_editdoc"-->
+        <!--/>-->
 
 </menu>

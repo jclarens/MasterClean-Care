@@ -1,6 +1,7 @@
 package com.TA.MVP.appmobilemember.View.Fragment;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -100,11 +101,23 @@ public class FragmentLainnya extends Fragment {
                         txtlogout.setText("Logout");
                 }
                 else{
-                    SharedPref.save(SharedPref.ACCESS_TOKEN, "");
-                    SharedPref.save(ConstClass.USER, "");
-                    Toast.makeText(context,"Logout", Toast.LENGTH_SHORT).show();
-                    txtlogout.setText("Login");
-                    getActivity().invalidateOptionsMenu();
+                    ((MainActivity)getActivity()).abuildermessage("Anda akan melakukan logout?","Konfirmasi Logout");
+                    ((MainActivity)getActivity()).abuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+                    ((MainActivity)getActivity()).abuilder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            SharedPref.save(SharedPref.ACCESS_TOKEN, "");
+                            SharedPref.save(ConstClass.USER, "");
+                            Toast.makeText(context,"Logout", Toast.LENGTH_SHORT).show();
+                            txtlogout.setText("Login");
+                            getActivity().invalidateOptionsMenu();
+                        }
+                    });
                 }
 //                Toast.makeText(context,"Logout", Toast.LENGTH_SHORT).show();
             }

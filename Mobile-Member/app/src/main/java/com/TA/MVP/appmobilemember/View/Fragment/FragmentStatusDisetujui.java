@@ -47,6 +47,7 @@ public class FragmentStatusDisetujui extends Fragment {
         rec_Adapter = new RecyclerAdapterPemesanan();
         recyclerView.setAdapter(rec_Adapter);
         rec_Adapter.setOrders(orders, 2);
+        rec_Adapter.setcontext(getActivity());
 
         Call<List<Order>> caller = APIManager.getRepository(OrderRepo.class).getorderByMember(user.getId().toString());
         caller.enqueue(new APICallback<List<Order>>() {

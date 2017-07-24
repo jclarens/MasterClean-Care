@@ -9,15 +9,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.TA.MVP.appmobilemember.Model.Basic.MyMessage;
 import com.TA.MVP.appmobilemember.Model.Basic.Order;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.View.Activity.MainActivity;
 import com.TA.MVP.appmobilemember.View.Activity.PemesananActiveActivity;
 import com.TA.MVP.appmobilemember.View.Activity.PemesananActivity;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -26,6 +30,7 @@ import java.util.List;
 
 public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapterPemesanan.ViewHolder> {
     private List<Order> orders = new ArrayList<>();
+    private Context context;
     class ViewHolder extends RecyclerView.ViewHolder{
         public TextView itemnama, itemprofesi, itemmulai;
 
@@ -41,7 +46,8 @@ public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapt
                     Toast.makeText(itemview.getContext(),"Clicking card number " + position, Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(itemview.getContext(), PemesananActiveActivity.class);
                     i.putExtra(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(orders.get(position)));
-                    itemview.getContext().startActivity(i);
+//                    itemview.getContext().startActivity(i);
+                    ((MainActivity)context).startActivityForResult(i,MainActivity.REQUEST_ORDER);
                 }
             });
         }
@@ -58,7 +64,7 @@ public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapt
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.itemnama.setText(orders.get(position).getArt().getName());
         holder.itemprofesi.setText(orders.get(position).getWork_time().getWork_time());
-        holder.itemmulai.setText(orders.get(position).getStart_date().toString());
+        holder.itemmulai.setText(orders.get(position).getStart_date());
     }
 
     @Override
@@ -76,4 +82,8 @@ public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapt
 //        this.orders = orders;
         notifyDataSetChanged();
     }
+    public void setcontext(Context context){
+        this.context = context;
+    }
 }
+

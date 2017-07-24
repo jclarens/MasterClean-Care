@@ -1,7 +1,5 @@
 package com.mvp.mobile_art.lib.api;
 
-import android.util.Log;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 

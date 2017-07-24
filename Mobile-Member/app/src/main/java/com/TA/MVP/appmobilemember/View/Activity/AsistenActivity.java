@@ -3,7 +3,9 @@ package com.TA.MVP.appmobilemember.View.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -27,14 +29,17 @@ import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
+import com.google.android.gms.location.places.Place;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -46,18 +51,18 @@ import retrofit2.Response;
 
 public class AsistenActivity extends ParentActivity {
     private Toolbar toolbar;
-    private TextView nama,usia,pengalaman,notelp,agama,suku,status,keterangan, txtprofesi, txtbhs;
+    private TextView nama,usia,pengalaman,notelp,agama,suku,status,keterangan, txtprofesi, txtbhs, kota;
     private RatingBar ratingBar;
     private TextView gajijam, gajihari, gajibulan;
     private LinearLayout layoutprof;
     private CheckBox inggris, mandarin, melayu, tktanjg;
-    private Button docpndkg, jadwal, pemesanan, kirimpesan;
+    private Button docpndkg, jadwal, pemesanan;
     private int thisYear, artbornyear;
     private Calendar calendar = Calendar.getInstance();
     private Date date;
     private DateFormat yearformat = new SimpleDateFormat("yyyy");
     private User art;
-    private ArrayAgama arrayAgama=new ArrayAgama();
+    private ArrayAgama arrayAgama = new ArrayAgama();
     private ListStatus listStatus = new ListStatus();
     private StaticData staticData;
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
@@ -85,6 +90,7 @@ public class AsistenActivity extends ParentActivity {
         notelp = (TextView) findViewById(R.id.asis_tv_notelp);
         agama = (TextView) findViewById(R.id.asis_tv_agama);
         suku = (TextView) findViewById(R.id.asis_tv_suku);
+        kota = (TextView) findViewById(R.id.asis_tv_kota);
         status = (TextView) findViewById(R.id.asis_tv_status);
         keterangan = (TextView) findViewById(R.id.asis_tv_keterangan);
         gajijam = (TextView) findViewById(R.id.asis_tv_gajijam);
@@ -93,10 +99,9 @@ public class AsistenActivity extends ParentActivity {
         txtprofesi = (TextView) findViewById(R.id.asis_tv_profesi);
         txtbhs = (TextView) findViewById(R.id.asis_tv_bhs);
         tktanjg = (CheckBox) findViewById(R.id.asis_cb_tktanjg);
-        docpndkg = (Button) findViewById(R.id.asis_btn_docpdkg);
+//        docpndkg = (Button) findViewById(R.id.asis_btn_docpdkg);
         jadwal = (Button) findViewById(R.id.asis_btn_lhtjdwl);
         pemesanan = (Button) findViewById(R.id.asis_btn_pemesanan);
-        kirimpesan = (Button) findViewById(R.id.asis_btn_kirimpesan);
 
         setAll();
 
@@ -114,9 +119,14 @@ public class AsistenActivity extends ParentActivity {
             notelp.setText(art.getContact().get(0).getPhone());
         agama.setText(arrayAgama.getArrayList().get(art.getReligion()-1));
         suku.setText(art.getRace());
+        kota.setText(staticData.getPlaces().get(art.getContact().get(0).getCity()-1).getName());
 //        keterangan.setText(art.);
         status.setText(listStatus.getStatus().get(art.getStatus()));
-        String temp = "Profesi : ";
+        if (art.getStatus() == 1){
+            status.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.backgroundgreen));
+        }
+        else status.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.backgroundred));
+        String temp = "";
         for(int n=0;n<art.getUser_job().size();n++){
             if (n != 0)
                 temp = temp + ", ";
@@ -161,20 +171,6 @@ public class AsistenActivity extends ParentActivity {
                     break;
             }
         }
-
-
-        kirimpesan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SharedPref.getValueString(ConstClass.USER) == "")
-                    Toast.makeText(getApplicationContext(),"Silahkan login terlebih dahulu", Toast.LENGTH_SHORT).show();
-                else {
-                    Intent i = new Intent(getApplicationContext(), TulisPesanActivity.class);
-                    i.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
-                    startActivity(i);
-                }
-            }
-        });
         jadwal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -188,7 +184,7 @@ public class AsistenActivity extends ParentActivity {
             public void onClick(View view) {
                 if (SharedPref.getValueString(ConstClass.USER) == "")
                     Toast.makeText(getApplicationContext(),"Silahkan login terlebih dahulu", Toast.LENGTH_SHORT).show();
-                else if (art.getStatus() == 0){
+                else if (art.getStatus() != 1){
                     Toast.makeText(getApplicationContext(),"Asisten ini sedang tidak aktif", Toast.LENGTH_SHORT).show();
                 }
                 else{
@@ -208,10 +204,25 @@ public class AsistenActivity extends ParentActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_asisten, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                break;
+            case R.id.prof_menu_pesan:
+                if (SharedPref.getValueString(ConstClass.USER) == "")
+                    Toast.makeText(getApplicationContext(),"Silahkan login terlebih dahulu untuk mengirim pesan", Toast.LENGTH_SHORT).show();
+                else {
+                    Intent i = new Intent(getApplicationContext(), TulisPesanActivity.class);
+                    i.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
+                    startActivity(i);
+                }
                 break;
         }
         return super.onOptionsItemSelected(item);

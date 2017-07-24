@@ -7,7 +7,7 @@
         android:id="@+id/action_alarm"
         android:title="@string/action_alarm"
         android:orderInCategory="100"
-        android:icon="@drawable/ic_alert_test"
+        android:icon="@drawable/ic_emergency"
         app:showAsAction="ifRoom"
         />
 </menu>

@@ -32,23 +32,20 @@ public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterW
     private List<Wallet> wallets = new ArrayList<>();
     protected AlertDialog.Builder abuilder;
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
-//    private ArrayWallet wallets = new ArrayWallet();
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView itemnominal, itemprice;
-        public String nominal, price;
+        public TextView itemnominal;
+        public String nominal;
 
         public ViewHolder(final View itemview){
             super(itemview);
             itemnominal = (TextView) itemview.findViewById(R.id.card_wallet_nominal);
-            itemprice = (TextView) itemview.findViewById(R.id.card_wallet_price);
             itemview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
-                    nominal = setRP(Integer.valueOf(itemnominal.getText().toString()));
-                    price = setRP(Integer.valueOf(itemprice.getText().toString()));
-                    abuildermessage("Request pembelian wallet "+nominal+ " dengan biaya "+price,"Konfirmasi Request", itemview.getContext());
+                    nominal = setRP(wallets.get(position).getAmt());
+                    abuildermessage("Request pembelian wallet "+nominal,"Konfirmasi Request", itemview.getContext());
                     abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
@@ -63,7 +60,6 @@ public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterW
                         }
                     });
                     showalertdialog();
-//                    Toast.makeText(itemview.getContext(),"Clicking card number " + position, Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -78,10 +74,7 @@ public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterW
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.itemnominal.setText(String.format(Locale.getDefault(),"Rp. %d", wallets.get(position).getAmt()));
-        holder.itemprice.setText(String.format(Locale.getDefault(),"Rp. %d", wallets.get(position).getPrice()));
-//        holder.itemnominal.setText(String.format(Locale.getDefault(),"Rp. %d",wallets.getWallets().get(position).getAmt()));
-//        holder.itemprice.setText(String.format(Locale.getDefault(),"Rp. %d",wallets.getWallets().get(position).getPrice()));
+        holder.itemnominal.setText(setRP(wallets.get(position).getAmt()));
     }
 
     @Override

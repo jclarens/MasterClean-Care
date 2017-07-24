@@ -1,6 +1,7 @@
 package com.mvp.mobile_art.lib.api;
 
-import com.TA.MVP.appmobilemember.lib.database.SharedPref;
+
+import com.mvp.mobile_art.lib.database.SharedPref;
 
 import java.io.IOException;
 

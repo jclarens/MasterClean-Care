@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.mvp.mobile_art.Model.Basic.MyMessage;
 import com.mvp.mobile_art.R;
+import com.mvp.mobile_art.View.Activity.BacaPesanTerkirimActivity;
 import com.mvp.mobile_art.lib.utils.GsonUtils;
 
 import java.util.ArrayList;
@@ -25,17 +26,17 @@ public class RecyclerAdapterPesanTerkirim extends RecyclerView.Adapter<RecyclerA
 
         public ViewHolder(final View itemview){
             super(itemview);
-//            itemnama = (TextView) itemview.findViewById(R.id.card_wallet_nominal);
-//            itemsubject = (TextView) itemview.findViewById(R.id.card_pesan_subject);
-//            itemview.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    int position = getAdapterPosition();
-//                    Intent i = new Intent(itemview.getContext(), BacaPesanMasukActivity.class);
-//                    i.putExtra("message", GsonUtils.getJsonFromObject(messages.get(position)));
-//                    itemview.getContext().startActivity(i);
-//                }
-//            });
+            itemnama = (TextView) itemview.findViewById(R.id.card_wallet_nominal);
+            itemsubject = (TextView) itemview.findViewById(R.id.card_pesan_subject);
+            itemview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    Intent i = new Intent(itemview.getContext(), BacaPesanTerkirimActivity.class);
+                    i.putExtra("message", GsonUtils.getJsonFromObject(messages.get(position)));
+                    itemview.getContext().startActivity(i);
+                }
+            });
         }
     }
 

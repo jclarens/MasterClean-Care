@@ -23,6 +23,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -78,6 +80,14 @@ public class RecyclerAdapterAsisten extends RecyclerView.Adapter<RecyclerAdapter
     }
     public void setART(List<User> users){
         this.users = users;
+        doshorting();
         notifyDataSetChanged();
+    }
+    public void doshorting(){
+        Collections.sort(users, new Comparator<User>(){
+            public int compare(User obj1, User obj2) {
+                return Float.toString(obj2.getRate()).compareTo(Float.toString(obj1.getRate()));
+            }
+        });
     }
 }

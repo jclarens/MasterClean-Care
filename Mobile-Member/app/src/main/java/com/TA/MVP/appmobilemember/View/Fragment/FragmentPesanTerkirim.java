@@ -46,6 +46,7 @@ public class FragmentPesanTerkirim extends Fragment {
         rec_Adapter = new RecyclerAdapterPesanTerkirim();
         recyclerView.setAdapter(rec_Adapter);
         rec_Adapter.setPesan(myMessages);
+        rec_Adapter.setcontext(getActivity());
 
         String userid = String.valueOf(GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class).getId());
         Call<List<MyMessage>> caller = APIManager.getRepository(MessageRepo.class).getallmsgfromsenderid(userid);

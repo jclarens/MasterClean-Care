@@ -2,15 +2,14 @@ package com.mvp.mobile_art.lib.api;
 
 import android.util.Log;
 
-import com.mvp.mobile_art.lib.utils.Settings;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mvp.mobile_art.lib.utils.Settings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;

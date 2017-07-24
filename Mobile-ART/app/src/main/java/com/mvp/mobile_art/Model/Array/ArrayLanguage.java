@@ -1,6 +1,6 @@
 package com.mvp.mobile_art.Model.Array;
 
-import com.TA.MVP.appmobilemember.Model.Basic.Language;
+import com.mvp.mobile_art.Model.Basic.Language;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +10,13 @@ import java.util.List;
  */
 
 public class ArrayLanguage {
-    private List<Language> languages;
+    private List<Language> languages = new ArrayList<>();
 
     public List<Language> getLanguages() {
         return languages;
     }
 
     public ArrayLanguage() {
-        this.languages = new ArrayList<>();
         addLanguage("Indonesia");
         addLanguage("English");
     }

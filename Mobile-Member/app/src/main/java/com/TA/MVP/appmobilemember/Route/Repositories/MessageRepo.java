@@ -2,7 +2,6 @@ package com.TA.MVP.appmobilemember.Route.Repositories;
 
 import com.TA.MVP.appmobilemember.Model.Basic.MyMessage;
 import com.TA.MVP.appmobilemember.Model.Responses.MyMessageResponse;
-import com.TA.MVP.appmobilemember.lib.models.GenericResponse;
 
 import java.util.HashMap;
 import java.util.List;
@@ -12,8 +11,10 @@ import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by Zackzack on 15/07/2017.
@@ -36,6 +37,10 @@ public interface MessageRepo {
     @Headers("Accept: application/json")
     @GET("api/message/get_receiver/{user}")
     Call<List<MyMessage>> getallmsgfromreciverid(@Path("user") String userid);
+
+    @Headers("Accept: application/json")
+    @PATCH("api/message/{message_id}")
+    Call<MyMessageResponse> patchmessage(@Path("message_id") String message_id, @Query("status") Integer status);
 
     @Headers("Accept: application/json")
     @DELETE("api/message/{message_id}")

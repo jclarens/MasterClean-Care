@@ -15,118 +15,77 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="15dp">
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="20dp">
-
-                <TextView
-                    android:id="@+id/pms3_tv_namaasis"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:text="@string/namalkp"
-                    android:textColor="@android:color/black"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/pms3_tv_usiaasis"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/pms3_tv_namaasis"
-                    android:layout_marginBottom="5dp"
-                    android:text="@string/usia"
-                    android:textColor="@android:color/black" />
-
-                <TextView
-                    android:id="@+id/pms3_tv_agamaasis"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/pms3_tv_usiaasis"
-                    android:layout_marginBottom="5dp"
-                    android:text="@string/agama"
-                    android:textColor="@android:color/black" />
-
-                <Button
-                    android:id="@+id/pms3_btn_selengkapnya"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/pms3_tv_agamaasis"
-                    android:text="@string/btn_selengkapnya"
-                    android:textAllCaps="false" />
-
-                <ImageView
-                    android:id="@+id/pms3_img_asis"
-                    app:srcCompat="@mipmap/ic_launcher"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentTop="true"
-                    android:contentDescription="@string/foto" />
-
-                <RatingBar
-                    android:id="@+id/pms3_asisrating"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:layout_alignLeft="@+id/pms3_img_asis"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignStart="@+id/pms3_img_asis"
-                    android:layout_below="@+id/pms3_img_asis"
-                    android:numStars="5"
-                    android:rating="5" />
+                android:padding="20dp"
+                android:id="@+id/layout_asisten">
             </RelativeLayout>
-
-            <EditText
-                android:id="@+id/pmsa_et_prof"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:enabled="false"
-                android:focusable="false"
-                android:inputType="textPersonName" />
-
-            <LinearLayout
-                android:id="@+id/pmsa_layout_listpekerjaan"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:orientation="vertical"></LinearLayout>
-
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:text="Tugas :"
+                android:textColor="@color/colorBlack"/>
 
-                <TextView
-                    android:id="@+id/textView34"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/estimasi"
-                    android:textColor="@android:color/black" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/pmsa_rec_listkerja"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:orientation="vertical"
+                android:scrollbars="vertical"
+                android:padding="10dp"
+                android:background="#eeeeee">
 
-                <EditText
-                    android:id="@+id/pmsa_et_estimate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:enabled="false"
-                    android:focusable="false"
-                    android:inputType="numberDecimal" />
+            </android.support.v7.widget.RecyclerView>
 
-                <TextView
-                    android:id="@+id/pmsa_tv_estimasiwaktu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
+            <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/textView34"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="@string/estimasi"-->
+            <!--android:textColor="@android:color/black" />-->
+
+            <!--<EditText-->
+            <!--android:id="@+id/pmsa_et_estimate"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:ems="10"-->
+            <!--android:enabled="false"-->
+            <!--android:focusable="false"-->
+            <!--android:inputType="numberDecimal" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/pmsa_tv_estimasiwaktu"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:textColor="@android:color/black" />-->
+            <!--</LinearLayout>-->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Catatan :"
+                android:textColor="@android:color/black" />
+            <EditText
+                android:id="@+id/pmsa_et_catatan"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:enabled="false"
+                android:focusable="false"
+                android:textColor="@color/colorBlack"
+                android:gravity="top"/>
 
             <TextView
                 android:id="@+id/textView37"
@@ -141,16 +100,6 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/pmsa_et_mulaitime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:enabled="false"
-                    android:focusable="false"
-                    android:inputType="time" />
-
-                <EditText
                     android:id="@+id/pmsa_et_mulaidate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -158,7 +107,19 @@
                     android:ems="10"
                     android:enabled="false"
                     android:focusable="false"
-                    android:inputType="date" />
+                    android:inputType="date"
+                    android:textColor="@color/colorBlack"/>
+
+                <EditText
+                    android:id="@+id/pmsa_et_mulaitime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:inputType="time"
+                    android:textColor="@color/colorBlack" />
             </LinearLayout>
 
             <TextView
@@ -174,24 +135,26 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/pms3_et_selesaitime"
+                    android:id="@+id/pmsa_et_selesaidate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
                     android:enabled="false"
                     android:focusable="false"
-                    android:inputType="time" />
+                    android:inputType="date"
+                    android:textColor="@color/colorBlack" />
 
                 <EditText
-                    android:id="@+id/pms3_et_selesaidate"
+                    android:id="@+id/pmsa_et_selesaitime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
                     android:enabled="false"
                     android:focusable="false"
-                    android:inputType="date" />
+                    android:inputType="time"
+                    android:textColor="@color/colorBlack" />
             </LinearLayout>
 
             <TextView
@@ -209,7 +172,9 @@
                 android:ems="10"
                 android:enabled="false"
                 android:focusable="false"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textColor="@color/colorBlack" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -217,22 +182,22 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/pmsa_btn_btlkn"
-                    tools:ignore="ButtonStyle"
+                    android:id="@+id/pmsa_btn_kembali"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/btn_tolak"
-                    android:textAllCaps="false" />
+                    android:text="@string/btn_kmbl"
+                    android:textAllCaps="false"
+                    tools:ignore="ButtonStyle" />
 
                 <Button
-                    android:id="@+id/pmsa_btn_kembali"
-                    tools:ignore="ButtonStyle"
+                    android:id="@+id/pmsa_btn_selesaikan"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/btn_terima"
-                    android:textAllCaps="false" />
+                    android:text="Selesaikan"
+                    android:textAllCaps="false"
+                    tools:ignore="ButtonStyle" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

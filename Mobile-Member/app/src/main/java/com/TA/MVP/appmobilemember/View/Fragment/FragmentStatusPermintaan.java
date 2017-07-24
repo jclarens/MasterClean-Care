@@ -41,6 +41,7 @@ public class FragmentStatusPermintaan extends Fragment {
         recyclerView.setLayoutManager(rec_LayoutManager);
         rec_Adapter = new RecyclerAdapterPemesanan();
         recyclerView.setAdapter(rec_Adapter);
+        rec_Adapter.setcontext(getActivity());
         return _view;
     }
 }

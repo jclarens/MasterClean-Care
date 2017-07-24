@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -100,6 +102,7 @@ public class TulisPesanActivity extends ParentActivity {
         map.put("subject", sub.getText().toString());
         map.put("message", msg.getText().toString());
         map.put("status", "0");
+        Log.d("testing", map.toString());
         Call<MyMessageResponse> caller = APIManager.getRepository(MessageRepo.class).postmessage(map);
         caller.enqueue(new APICallback<MyMessageResponse>() {
             @Override
@@ -113,5 +116,15 @@ public class TulisPesanActivity extends ParentActivity {
                 super.onFailure(call, t);
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

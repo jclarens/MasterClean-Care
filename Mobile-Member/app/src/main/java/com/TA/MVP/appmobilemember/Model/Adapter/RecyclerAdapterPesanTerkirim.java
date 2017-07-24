@@ -1,19 +1,33 @@
 package com.TA.MVP.appmobilemember.Model.Adapter;
 
+import android.content.Context;
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.Model.Basic.MyMessage;
+import com.TA.MVP.appmobilemember.Model.Responses.MyMessageResponse;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.Route.Repositories.MessageRepo;
 import com.TA.MVP.appmobilemember.View.Activity.BacaPesanTerkirimActivity;
+import com.TA.MVP.appmobilemember.View.Activity.MainActivity;
+import com.TA.MVP.appmobilemember.lib.api.APICallback;
+import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Created by jcla123ns on 20/07/17.
@@ -21,20 +35,26 @@ import java.util.List;
 
 public class RecyclerAdapterPesanTerkirim extends RecyclerView.Adapter<RecyclerAdapterPesanTerkirim.ViewHolder> {
     private List<MyMessage> myMessages = new ArrayList<>();
+    private Context context;
     class ViewHolder extends RecyclerView.ViewHolder{
         public TextView itemnama,itemtanggal,itemsubject;
+        public ImageView imageView;
 
         public ViewHolder(final View itemview){
             super(itemview);
             itemnama = (TextView) itemview.findViewById(R.id.card_pesan_nama);
             itemsubject = (TextView) itemview.findViewById(R.id.card_pesan_subject);
+            itemtanggal = (TextView) itemview.findViewById(R.id.card_pesan_tanggal);
+            imageView = (ImageView) itemview.findViewById(R.id.card_pesan_img);
             itemview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     Intent i = new Intent(itemview.getContext(), BacaPesanTerkirimActivity.class);
                     i.putExtra("msg", GsonUtils.getJsonFromObject(myMessages.get(position)));
-                    itemview.getContext().startActivity(i);
+                    if (myMessages.get(position).getStatus() == 0)
+                        openmessage(myMessages.get(position).getId(), i);
+                    else ((MainActivity)context).startActivityForResult(i,MainActivity.REQUEST_PESAN);
                 }
             });
         }
@@ -50,19 +70,47 @@ public class RecyclerAdapterPesanTerkirim extends RecyclerView.Adapter<RecyclerA
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.itemnama.setText(myMessages.get(position).getReceiver().getName());
+        holder.itemtanggal.setText(myMessages.get(position).getCreated_at());
         holder.itemsubject.setText(myMessages.get(position).getSubject());
-//        holder.itemnama.setText(nama[position]);
-//        holder.itemsubject.setText(subject[position]);
+        if (myMessages.get(position).getStatus() == 0){
+            holder.imageView.setImageResource(R.drawable.ic_closed_msg);
+        } else holder.imageView.setImageResource(R.drawable.ic_opened_msg);
     }
 
     @Override
     public int getItemCount() {
         return myMessages.size();
-//        return nama.length;
     }
 
     public void setPesan(List<MyMessage> myMessages){
         this.myMessages = myMessages;
+        doshorting();
         notifyDataSetChanged();
+    }
+    public void setcontext(Context context){
+        this.context = context;
+    }
+    public void doshorting(){
+        Collections.sort(myMessages, new Comparator<MyMessage>(){
+            public int compare(MyMessage obj1, MyMessage obj2) {
+                return obj2.getCreated_at().compareToIgnoreCase(obj1.getCreated_at());
+            }
+        });
+    }
+    public void openmessage(Integer id, final Intent intent){
+        Call<MyMessageResponse> caller = APIManager.getRepository(MessageRepo.class).patchmessage(id.toString(), 1);
+        caller.enqueue(new APICallback<MyMessageResponse>() {
+            @Override
+            public void onSuccess(Call<MyMessageResponse> call, Response<MyMessageResponse> response) {
+                super.onSuccess(call, response);
+                ((MainActivity)context).startActivityForResult(intent,MainActivity.REQUEST_PESAN);
+            }
+
+            @Override
+            public void onFailure(Call<MyMessageResponse> call, Throwable t) {
+                super.onFailure(call, t);
+                Toast.makeText(context,"Gagal membuka pesan", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

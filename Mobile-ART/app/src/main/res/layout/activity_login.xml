@@ -36,7 +36,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:text="@string/username"
+        android:text="Email"
         android:textColor="@android:color/black" />
 
     <EditText
@@ -47,8 +47,8 @@
         android:layout_alignStart="@+id/tv_email"
         android:layout_below="@+id/tv_email"
         android:ems="10"
-        android:hint="@string/username"
-        android:inputType="textPersonName" />
+        android:hint="Email"
+        android:inputType="textEmailAddress" />
 
     <TextView
         android:id="@+id/tv_password"
@@ -67,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/lgn_et_katasandi"
         android:layout_centerHorizontal="true"
-        android:text="@string/btn_login"
+        android:text="Login"
         android:textAllCaps="false" />
 
     <EditText
