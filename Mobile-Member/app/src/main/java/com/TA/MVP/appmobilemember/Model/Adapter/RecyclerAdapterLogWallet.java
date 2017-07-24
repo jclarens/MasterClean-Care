@@ -23,13 +23,14 @@ import java.util.Locale;
 public class RecyclerAdapterLogWallet extends RecyclerView.Adapter<RecyclerAdapterLogWallet.ViewHolder> {
     private List<WalletTransaction> walletTransactions = new ArrayList<>();
     class ViewHolder extends RecyclerView.ViewHolder {
-        public int lightgreen, lightred;
+        public int lightgreen, lightred, lightyellow;
         public TextView status, nominal, date;
         public LinearLayout cardwallettransactionlayout;
         public ViewHolder(final View itemview) {
             super(itemview);
             lightgreen = itemview.getResources().getColor(R.color.colorLightGreen);
             lightred = itemview.getResources().getColor(R.color.colorLightRed);
+            lightyellow = itemview.getResources().getColor(R.color.colorLightYellow);
             status = (TextView) itemview.findViewById(R.id.card_wallettransaction_status);
             nominal = (TextView) itemview.findViewById(R.id.card_wallettransaction_nominal);
             date = (TextView) itemview.findViewById(R.id.card_wallettransaction_date);
@@ -51,9 +52,13 @@ public class RecyclerAdapterLogWallet extends RecyclerView.Adapter<RecyclerAdapt
             holder.cardwallettransactionlayout.setBackgroundColor(holder.lightgreen);
             holder.status.setText("+ Rp.");
         }
-        else{
+        else if (walletTransactions.get(position).getTrc_type() == 2){
             holder.cardwallettransactionlayout.setBackgroundColor(holder.lightred);
             holder.status.setText("- Rp.");
+        }
+        else {
+            holder.cardwallettransactionlayout.setBackgroundColor(holder.lightyellow);
+            holder.status.setText("+ Rp.");
         }
 
         holder.nominal.setText(walletTransactions.get(position).getAmount());

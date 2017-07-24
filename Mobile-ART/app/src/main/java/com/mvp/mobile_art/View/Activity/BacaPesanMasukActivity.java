@@ -1,4 +1,4 @@
-package com.TA.MVP.appmobilemember.View.Activity;
+package com.mvp.mobile_art.View.Activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,31 +10,30 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.TA.MVP.appmobilemember.Model.Basic.MyMessage;
-import com.TA.MVP.appmobilemember.Model.Responses.MyMessageResponse;
-import com.TA.MVP.appmobilemember.R;
-import com.TA.MVP.appmobilemember.Route.Repositories.MessageRepo;
-import com.TA.MVP.appmobilemember.lib.api.APICallback;
-import com.TA.MVP.appmobilemember.lib.api.APIManager;
-import com.TA.MVP.appmobilemember.lib.models.GenericResponse;
-import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
+import com.mvp.mobile_art.Model.Basic.MyMessage;
+import com.mvp.mobile_art.Model.Responses.MyMessageResponse;
+import com.mvp.mobile_art.R;
+import com.mvp.mobile_art.Route.Repositories.MessageRepo;
+import com.mvp.mobile_art.lib.api.APICallback;
+import com.mvp.mobile_art.lib.api.APIManager;
+import com.mvp.mobile_art.lib.utils.GsonUtils;
 
 import retrofit2.Call;
 import retrofit2.Response;
 
 /**
- * Created by jcla123ns on 20/07/17.
+ * Created by Zackzack on 08/07/2017.
  */
 
-public class BacaPesanTerkirimActivity extends ParentActivity {
+public class BacaPesanMasukActivity extends ParentActivity {
     private EditText nama, sub, msg;
-    private Button kembali, hapus;
+    private Button kembali, hapus, balas;
     private Toolbar toolbar;
     private MyMessage myMessage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bacapesan_terkirim);
+        setContentView(R.layout.activity_bacapesan_masuk);
         Intent i = getIntent();
         myMessage = GsonUtils.getObjectFromJson(i.getStringExtra("msg"), MyMessage.class);
 
@@ -43,8 +42,9 @@ public class BacaPesanTerkirimActivity extends ParentActivity {
         msg = (EditText) findViewById(R.id.bp_et_pesan);
         kembali = (Button) findViewById(R.id.bp_btn_kembali);
         hapus = (Button) findViewById(R.id.bp_btn_hps);
+        balas = (Button) findViewById(R.id.bp_btn_balas);
 
-        nama.setText(myMessage.getReceiver().getName());
+        nama.setText(myMessage.getSender().getName());
         sub.setText(myMessage.getSubject());
         msg.setText(myMessage.getMessage());
 
@@ -72,7 +72,6 @@ public class BacaPesanTerkirimActivity extends ParentActivity {
                             @Override
                             public void onNotFound(Call<MyMessageResponse> call, Response<MyMessageResponse> response) {
                                 super.onNotFound(call, response);
-                                Toast.makeText(getApplicationContext(),"Pesan Terhapus", Toast.LENGTH_SHORT).show();
                                 finish();
                             }
                         });
@@ -91,6 +90,14 @@ public class BacaPesanTerkirimActivity extends ParentActivity {
             @Override
             public void onClick(View view) {
                 finish();
+            }
+        });
+        balas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),TulisPesanActivity.class);
+                intent.putExtra("msg", GsonUtils.getJsonFromObject(myMessage));
+                startActivity(intent);
             }
         });
 

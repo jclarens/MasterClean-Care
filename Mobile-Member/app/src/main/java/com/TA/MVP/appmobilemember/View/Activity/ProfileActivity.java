@@ -13,9 +13,15 @@ import android.widget.TextView;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Basic.UserContact;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
+import com.TA.MVP.appmobilemember.lib.api.APICallback;
+import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Created by Zackzack on 09/06/2017.
@@ -38,6 +44,8 @@ public class ProfileActivity extends ParentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
+        getallinfo(user.getId());
 
         imgfoto = (ImageView) findViewById(R.id.prof_iv_foto);
         nama = (TextView) findViewById(R.id.prof_tv_nama);
@@ -45,24 +53,6 @@ public class ProfileActivity extends ParentActivity {
         notelp = (TextView) findViewById(R.id.prof_tv_notelp);
         email = (TextView) findViewById(R.id.prof_tv_email);
         btnlog =(Button) findViewById(R.id.prof_btn_isi);
-
-        setdata();
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.toolbar_profile);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
-        btnlog.setText("Riwayat Transaksi");
-        btnlog.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), LogWalletActivity.class);
-                startActivity(i);
-            }
-        });
     }
 
     @Override
@@ -93,11 +83,26 @@ public class ProfileActivity extends ParentActivity {
     }
 
     public void setdata(){
-        user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
         nama.setText(user.getName());
 //        alamat.setText(user.getContact().getAddress());
 //        notelp.setText(user.getContact().getPhone());
         email.setText(user.getEmail());
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.toolbar_profile);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+        btnlog.setText("Riwayat Transaksi");
+        btnlog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), LogWalletActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     @Override
@@ -109,5 +114,22 @@ public class ProfileActivity extends ParentActivity {
                     setdata();
                 break;
         }
+    }
+    public void getallinfo(Integer id){
+        Call<User> caller = APIManager.getRepository(UserRepo.class).getuser(id.toString());
+        caller.enqueue(new APICallback<User>() {
+            @Override
+            public void onSuccess(Call<User> call, Response<User> response) {
+                super.onSuccess(call, response);
+                user = response.body();
+                SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(user));
+                setdata();
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                super.onFailure(call, t);
+            }
+        });
     }
 }

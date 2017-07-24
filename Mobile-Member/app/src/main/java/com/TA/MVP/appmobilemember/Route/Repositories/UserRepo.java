@@ -27,10 +27,6 @@ import retrofit2.http.QueryMap;
 public interface UserRepo {
     @Headers("Accept: application/json")
     @POST("api/check_login")
-    Call<UserResponse> checkLogin(@Body HashMap map);
-
-    @Headers("Accept: application/json")
-    @POST("api/check_login")
     Call<UserResponse> getOwnData(@Body HashMap map);
 
     @Headers("Accept: application/json")
@@ -59,7 +55,7 @@ public interface UserRepo {
 
     @Headers("Accept: application/json")
     @GET("api/user/{user_id}")
-    Call<UserResponse> getuser(@Path("user_id") String user_id);
+    Call<User> getuser(@Path("user_id") String user_id);
 
     @Headers("Accept: application/json")
     @PATCH("api/user/{user_id}")

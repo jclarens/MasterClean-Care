@@ -1,5 +1,6 @@
 package com.TA.MVP.appmobilemember.View.Activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -18,7 +19,11 @@ import com.TA.MVP.appmobilemember.Model.Array.ListStatus;
 import com.TA.MVP.appmobilemember.Model.Basic.StaticData;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Responses.Token;
+import com.TA.MVP.appmobilemember.Model.Responses.UserResponse;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
+import com.TA.MVP.appmobilemember.lib.api.APICallback;
+import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
@@ -31,6 +36,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Created by Zackzack on 12/06/2017.
@@ -61,45 +69,10 @@ public class AsistenActivity extends ParentActivity {
         Intent intent = getIntent();
         art = GsonUtils.getObjectFromJson(intent.getStringExtra(ConstClass.ART_EXTRA), User.class);
         staticData = ((MasterCleanApplication)getApplication()).getGlobalStaticData();
-        initAllView();
 
-
-        kirimpesan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SharedPref.getValueString(ConstClass.USER) == "")
-                    Toast.makeText(getApplicationContext(),"Silahkan login terlebih dahulu", Toast.LENGTH_SHORT).show();
-                else {
-                    Intent i = new Intent(getApplicationContext(), TulisPesanActivity.class);
-                    i.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
-                    startActivity(i);
-                }
-            }
-        });
-        jadwal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), AsistenJadwalActivity.class);
-                i.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
-                startActivity(i);
-            }
-        });
-        pemesanan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (SharedPref.getValueString(ConstClass.USER) == "")
-                    Toast.makeText(getApplicationContext(),"Silahkan login terlebih dahulu", Toast.LENGTH_SHORT).show();
-                else if (art.getStatus() == 0){
-                    Toast.makeText(getApplicationContext(),"Asisten ini sedang tidak aktif", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    Intent i = new Intent(getApplicationContext(), PemesananActivity.class);
-                    i.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
-                    startActivity(i);
-                }
-
-            }
-        });
+        initProgressDialog("Loading...");
+        showDialog();
+        getart(art.getId());
 
     }
 
@@ -188,6 +161,45 @@ public class AsistenActivity extends ParentActivity {
                     break;
             }
         }
+
+
+        kirimpesan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (SharedPref.getValueString(ConstClass.USER) == "")
+                    Toast.makeText(getApplicationContext(),"Silahkan login terlebih dahulu", Toast.LENGTH_SHORT).show();
+                else {
+                    Intent i = new Intent(getApplicationContext(), TulisPesanActivity.class);
+                    i.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
+                    startActivity(i);
+                }
+            }
+        });
+        jadwal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), AsistenJadwalActivity.class);
+                i.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
+                startActivity(i);
+            }
+        });
+        pemesanan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (SharedPref.getValueString(ConstClass.USER) == "")
+                    Toast.makeText(getApplicationContext(),"Silahkan login terlebih dahulu", Toast.LENGTH_SHORT).show();
+                else if (art.getStatus() == 0){
+                    Toast.makeText(getApplicationContext(),"Asisten ini sedang tidak aktif", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Intent i = new Intent(getApplicationContext(), PemesananActivity.class);
+                    i.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
+                    startActivity(i);
+                }
+
+            }
+        });
+
         //toolbar
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.toolbar_asisten);
@@ -208,5 +220,37 @@ public class AsistenActivity extends ParentActivity {
         String tempp = "Rp. ";
         tempp = tempp + numberFormat.format(number) + ".00";
         return tempp;
+    }
+    public void getart(Integer id){
+        Call<User> caller = APIManager.getRepository(UserRepo.class).getuser(id.toString());
+        caller.enqueue(new APICallback<User>() {
+            @Override
+            public void onSuccess(Call<User> call, Response<User> response) {
+                super.onSuccess(call, response);
+                art = response.body();
+                initAllView();
+                dismissDialog();
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                super.onFailure(call, t);
+                abuildermessage("Reconnect?","No Connection");
+                abuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        showDialog();
+                    }
+                });
+                abuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                dismissDialog();
+                finish();
+            }
+        });
     }
 }

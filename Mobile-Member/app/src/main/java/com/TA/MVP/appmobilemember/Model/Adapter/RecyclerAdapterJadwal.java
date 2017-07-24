@@ -58,7 +58,13 @@ public class RecyclerAdapterJadwal extends RecyclerView.Adapter<RecyclerAdapterJ
         return orders.size();
     }
     public void setOrders(List<Order> orders){
-        this.orders = orders;
+        List<Order> temporder = new ArrayList<>();
+        for (int n=0;n<orders.size();n++){
+            if (orders.get(n).getStatus() == 2){
+                temporder.add(orders.get(n));
+            }
+        }
+        this.orders = temporder;
         notifyDataSetChanged();
     }
 }

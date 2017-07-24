@@ -69,26 +69,10 @@ public class MainActivity extends ParentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        Toast.makeText(getApplicationContext(),SharedPref.getValueString(ConstClass.USER), Toast.LENGTH_SHORT).show();
-//        alertDialog = new AlertDialog.Builder(getApplicationContext());
-//        alertDialog.setMyMessage("Loading failed. reloading.");
-//        alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//
-//            }
-//        });
 
         initProgressDialog("Loading...");
         showDialog();
         getstaticData1();
-//        while (!success) {
-//            progressDialog = ProgressDialog.show(MainActivity.this," ","Loading Data.", true);
-//            progressDialog.dismiss();
-//            if (!success){
-//                alertDialog.show();
-//            }
-//        }
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);

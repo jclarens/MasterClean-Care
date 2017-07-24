@@ -42,20 +42,14 @@ public class WalletActivity extends ParentActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_wallet, menu);
-        return true;
-    }
-
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 break;
-            case R.id.menu_isi_code:
-                doStartActivity(WalletActivity.this, WalletVoucherActivity.class);
-                break;
+//            case R.id.menu_isi_code:
+//                doStartActivity(WalletActivity.this, WalletVoucherActivity.class);
+//                break;
         }
         return super.onOptionsItemSelected(item);
     }

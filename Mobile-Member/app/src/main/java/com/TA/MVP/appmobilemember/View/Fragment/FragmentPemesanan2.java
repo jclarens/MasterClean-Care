@@ -75,7 +75,7 @@ public class FragmentPemesanan2 extends Fragment {
     private OrderTime endtemp = new OrderTime();
     private OrderTime waktumulai = new OrderTime();
     private OrderTime waktuselesai = new OrderTime();
-    private DateFormat dateFormat = new SimpleDateFormat("yyyy-d-MM", Locale.ENGLISH);
+    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-d", Locale.ENGLISH);
     private DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
     private Date startdate, enddate;
 //    private Date startdatelimit, enddatelimit;
@@ -106,7 +106,7 @@ public class FragmentPemesanan2 extends Fragment {
         datePickerDialog1 = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                mulaidate.setText(i + "-" + i1 + "-" + i2);
+                mulaidate.setText(i + "-" + i2 + "-" + i1);
                 calendar.set(Calendar.YEAR,i);
                 calendar.set(Calendar.MONTH,i1);
                 calendar.set(Calendar.DAY_OF_MONTH,i2);

@@ -71,7 +71,6 @@ public class FragmentCariMap extends Fragment implements OnMapReadyCallback {
         _view = inflater.inflate(R.layout.fragment_cari_map, container, false);
         defaultjobs = ((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getJobs();
 
-
         if (getContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             location = getLastKnownLocation();
         }

@@ -10,6 +10,7 @@ import com.TA.MVP.appmobilemember.Route.Repositories.PlaceRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.WTRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.WalletRepo;
+import com.TA.MVP.appmobilemember.Route.Repositories.WalletTransactionRepo;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.api.SessionInterceptor;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
@@ -62,6 +63,7 @@ public class MasterCleanApplication extends Application {
         APIManager.registerRepository(OrderRepo.class);
         APIManager.registerRepository(MessageRepo.class);
         APIManager.registerRepository(WalletRepo.class);
+        APIManager.registerRepository(WalletTransactionRepo.class);
         APIManager.registerRepository(PlaceRepo.class);
         APIManager.registerRepository(LanguageRepo.class);
         APIManager.registerRepository(JobRepo.class);

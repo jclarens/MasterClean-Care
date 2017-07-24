@@ -1,4 +1,4 @@
-package com.TA.MVP.appmobilemember.View.Activity;
+package com.mvp.mobile_art.View.Activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,14 +10,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.TA.MVP.appmobilemember.Model.Basic.MyMessage;
-import com.TA.MVP.appmobilemember.Model.Responses.MyMessageResponse;
-import com.TA.MVP.appmobilemember.R;
-import com.TA.MVP.appmobilemember.Route.Repositories.MessageRepo;
-import com.TA.MVP.appmobilemember.lib.api.APICallback;
-import com.TA.MVP.appmobilemember.lib.api.APIManager;
-import com.TA.MVP.appmobilemember.lib.models.GenericResponse;
-import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
+import com.mvp.mobile_art.Model.Basic.MyMessage;
+import com.mvp.mobile_art.Model.Responses.MyMessageResponse;
+import com.mvp.mobile_art.R;
+import com.mvp.mobile_art.Route.Repositories.MessageRepo;
+import com.mvp.mobile_art.lib.api.APICallback;
+import com.mvp.mobile_art.lib.api.APIManager;
+import com.mvp.mobile_art.lib.utils.GsonUtils;
 
 import retrofit2.Call;
 import retrofit2.Response;

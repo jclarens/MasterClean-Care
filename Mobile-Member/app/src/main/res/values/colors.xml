@@ -9,6 +9,7 @@
         <color name="colorWhite">#ffffff</color>
         <color name="colorLightRed">#ff9696</color>
         <color name="colorLightGreen">#96ff96</color>
+        <color name="colorLightYellow">#ffff96</color>
         <color name="colorunselected">#eeeeee</color>
         <color name="colorgold">#ffd700</color>
 </resources>
