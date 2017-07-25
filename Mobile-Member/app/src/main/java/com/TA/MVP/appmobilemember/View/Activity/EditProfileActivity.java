@@ -99,7 +99,6 @@ public class EditProfileActivity extends ParentActivity {
                         dismissDialog();
                     }
                 });
-                finish();
             }
         });
 

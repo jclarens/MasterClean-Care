@@ -20,4 +20,8 @@ public class ConstClass {
     public static String ART_EXTRA = "art";
     public static String ORDER_EXTRA = "order";
     public static String OFFER_EXTRA = "offer";
+    public static String EMERGENCY_EXTRA = "emergency";
+
+    //status
+    public static String GRANTED_EXTRA = "granted";
 }

@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Basic.UserContact;
@@ -114,19 +115,22 @@ public class ProfileActivity extends ParentActivity {
                 startActivity(i);
             }
         });
+        dismissDialog();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
-            case 1:
+            case REQUEST_EDIT:
                 if (resultCode == RESULT_SUCCESS)
                     getallinfo(user.getId());
                 break;
         }
     }
     public void getallinfo(Integer id){
+        initProgressDialog("Memuat data...");
+        showDialog();
         Call<User> caller = APIManager.getRepository(UserRepo.class).getuser(id.toString());
         caller.enqueue(new APICallback<User>() {
             @Override
@@ -140,6 +144,9 @@ public class ProfileActivity extends ParentActivity {
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 super.onFailure(call, t);
+                dismissDialog();
+                Toast.makeText(getApplicationContext(),"Koneksi bermasalah", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }

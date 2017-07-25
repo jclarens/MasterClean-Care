@@ -55,27 +55,9 @@ public class BacaPesanTerkirimActivity extends ParentActivity {
                 abuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Call<MyMessageResponse> caller = APIManager.getRepository(MessageRepo.class).deletemessage(myMessage.getId().toString());
-                        caller.enqueue(new APICallback<MyMessageResponse>() {
-                            @Override
-                            public void onSuccess(Call<MyMessageResponse> call, Response<MyMessageResponse> response) {
-                                super.onSuccess(call, response);
-                                Toast.makeText(getApplicationContext(),"Pesan Terhapus", Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
-
-                            @Override
-                            public void onFailure(Call<MyMessageResponse> call, Throwable t) {
-                                super.onFailure(call, t);
-                            }
-
-                            @Override
-                            public void onNotFound(Call<MyMessageResponse> call, Response<MyMessageResponse> response) {
-                                super.onNotFound(call, response);
-                                Toast.makeText(getApplicationContext(),"Pesan Terhapus", Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
-                        });
+                        initProgressDialog("Menghapus pesan");
+                        showDialog();
+                        hapuspesan();
                     }
                 });
                 abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
@@ -109,5 +91,32 @@ public class BacaPesanTerkirimActivity extends ParentActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+    public void hapuspesan(){
+        Call<MyMessageResponse> caller = APIManager.getRepository(MessageRepo.class).deletemessage(myMessage.getId().toString());
+        caller.enqueue(new APICallback<MyMessageResponse>() {
+            @Override
+            public void onSuccess(Call<MyMessageResponse> call, Response<MyMessageResponse> response) {
+                super.onSuccess(call, response);
+                Toast.makeText(getApplicationContext(),"Pesan Terhapus", Toast.LENGTH_SHORT).show();
+                dismissDialog();
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<MyMessageResponse> call, Throwable t) {
+                super.onFailure(call, t);
+                Toast.makeText(getApplicationContext(),"Koneksi bermasalah, silahkan coba lagi.", Toast.LENGTH_SHORT).show();
+                dismissDialog();
+            }
+
+            @Override
+            public void onNotFound(Call<MyMessageResponse> call, Response<MyMessageResponse> response) {
+                super.onNotFound(call, response);
+                Toast.makeText(getApplicationContext(),"Pesan Terhapus", Toast.LENGTH_SHORT).show();
+                dismissDialog();
+                finish();
+            }
+        });
     }
 }

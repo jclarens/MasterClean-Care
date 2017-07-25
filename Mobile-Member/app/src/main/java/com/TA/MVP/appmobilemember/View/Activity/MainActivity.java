@@ -1,15 +1,19 @@
 package com.TA.MVP.appmobilemember.View.Activity;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -50,6 +54,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 public class MainActivity extends ParentActivity {
+    private static final int PERMS_REQUEST_CODE = 123;
     public final static int REQUEST_LOGIN = 1;
     public final static int REQUEST_PESAN = 2;
     public final static int REQUEST_ORDER = 3;
@@ -141,8 +146,17 @@ public class MainActivity extends ParentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_alarm:
-                Toast.makeText(getApplicationContext(),"Sedang dinonaktifkan", Toast.LENGTH_SHORT).show();
-//                doChangeActivity(context,EmergencyActivity.class);
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.CALL_PHONE},
+                        PERMS_REQUEST_CODE);
+                if (ContextCompat.checkSelfPermission(getApplicationContext(),
+                    Manifest.permission.CALL_PHONE)
+                    != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.CALL_PHONE},
+                            PERMS_REQUEST_CODE);
+                }
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -328,5 +342,25 @@ public class MainActivity extends ParentActivity {
 //        if (!success)
 //            getstaticData1();
         ((MasterCleanApplication) getApplication()).setGlobalStaticData(staticData);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMS_REQUEST_CODE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    SharedPref.save(ConstClass.EMERGENCY_EXTRA, ConstClass.GRANTED_EXTRA);
+                    Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
+                    startActivity(intent);
+
+                } else {
+                    SharedPref.save(ConstClass.EMERGENCY_EXTRA, "");
+                    Toast.makeText(getApplicationContext(),"Fitur tidak dapat dijalankan tanpa izin pengguna", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
     }
 }
