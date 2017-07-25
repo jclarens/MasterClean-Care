@@ -49,7 +49,7 @@ public class RecyclerAdapterAsisten extends RecyclerView.Adapter<RecyclerAdapter
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
-                    Toast.makeText(itemview.getContext(),"Clicking card number " + position, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(itemview.getContext(),"Clicking card number " + position, Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(itemview.getContext(), AsistenActivity.class);
                     i.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(users.get(position)));
                     itemview.getContext().startActivity(i);

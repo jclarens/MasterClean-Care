@@ -21,7 +21,11 @@ import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -38,6 +42,8 @@ public class TulisPesanActivity extends ParentActivity {
     private User art;
     private User user;
     private Integer targetid;
+    private Calendar calendar = Calendar.getInstance();
+    private DateFormat fixFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,12 +108,15 @@ public class TulisPesanActivity extends ParentActivity {
         map.put("subject", sub.getText().toString());
         map.put("message", msg.getText().toString());
         map.put("status", "0");
+        calendar = Calendar.getInstance();
+        map.put("created_at", fixFormat.format(calendar.getTime()));
         Log.d("testing", map.toString());
         Call<MyMessageResponse> caller = APIManager.getRepository(MessageRepo.class).postmessage(map);
         caller.enqueue(new APICallback<MyMessageResponse>() {
             @Override
             public void onSuccess(Call<MyMessageResponse> call, Response<MyMessageResponse> response) {
                 super.onSuccess(call, response);
+                Log.d("response on success", GsonUtils.getJsonFromObject(response.body()));
                 finish();
             }
 

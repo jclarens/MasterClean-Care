@@ -32,6 +32,7 @@
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.DokumenTambahanActivity"
             android:screenOrientation="sensorPortrait"/>
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.FilterActivity"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="sensorPortrait"/>
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.BantuanActivity"
             android:screenOrientation="sensorPortrait"/>
@@ -51,6 +52,8 @@
             android:screenOrientation="sensorPortrait"/>
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.PemesananActiveActivity"
             android:screenOrientation="sensorPortrait"/>
+        <activity android:name="com.TA.MVP.appmobilemember.View.Activity.PermintaanActivity"
+            android:screenOrientation="sensorPortrait"/>
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.BacaPesanMasukActivity"
             android:screenOrientation="sensorPortrait"/>
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.BacaPesanTerkirimActivity"
@@ -63,6 +66,7 @@
             android:screenOrientation="sensorPortrait"/>
         <activity
             android:name="com.TA.MVP.appmobilemember.View.Activity.MainActivity"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="sensorPortrait"
             android:label="@string/app_name">
             <intent-filter>

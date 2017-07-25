@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterPemesanan;
 import com.TA.MVP.appmobilemember.R;
@@ -31,6 +32,7 @@ public class FragmentStatusPermintaan extends Fragment {
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(getContext(),"Sedang dinonaktifkan", Toast.LENGTH_SHORT).show();
 //                Intent i = new Intent(getContext(), PemesananActivity.class);
 //                startActivity(i);
             }

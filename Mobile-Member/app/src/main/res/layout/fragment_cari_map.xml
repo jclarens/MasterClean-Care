@@ -18,7 +18,7 @@
             android:layout_weight="1"
             android:ems="10"
             android:hint="@string/carilokasi"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"/>
 
         <ImageButton
             android:id="@+id/carimap_icon_cari"
@@ -26,9 +26,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
+            android:nextFocusUp="@id/carimap_icon_cari"
+            android:nextFocusLeft="@id/carimap_icon_cari"
             android:background="@android:color/transparent"
             android:contentDescription="@string/carilokasi"
-            app:srcCompat="@drawable/icon_search" />
+            app:srcCompat="@drawable/icon_search"/>
     </LinearLayout>
 
     <FrameLayout

@@ -38,12 +38,12 @@ public class FragmentLainnya extends Fragment {
         imageprofile = (ImageView) _view.findViewById(R.id.iv_profile);
         imagewallet = (ImageView) _view.findViewById(R.id.iv_wallet);
 //        imagebantuan = (ImageView) _view.findViewById(R.id.iv_bantuan);
-//        imageketentuan = (ImageView) _view.findViewById(R.id.iv_ketentuan);
+        imageketentuan = (ImageView) _view.findViewById(R.id.iv_ketentuan);
         imagelogout = (ImageView) _view.findViewById(R.id.iv_logout);
         txtprofile = (TextView) _view.findViewById(R.id.tv_profile);
         txtwallet = (TextView) _view.findViewById(R.id.tv_wallet);
 //        txtbantuan = (TextView) _view.findViewById(R.id.tv_bantuan);
-//        txtketentuan = (TextView) _view.findViewById(R.id.tv_ketentuan);
+        txtketentuan = (TextView) _view.findViewById(R.id.tv_ketentuan);
         txtlogout = (TextView) _view.findViewById(R.id.tv_logout);
 
         if (SharedPref.getValueString(SharedPref.ACCESS_TOKEN) == ""){
@@ -79,12 +79,12 @@ public class FragmentLainnya extends Fragment {
 //                MainActivity.doStartActivity(getContext(), BantuanActivity.class);
 //            }
 //        });
-//        imageketentuan.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                MainActivity.doStartActivity(getContext(), KetentuanActivity.class);
-//            }
-//        });
+        imageketentuan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.doStartActivity(getContext(), KetentuanActivity.class);
+            }
+        });
         imagelogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,6 +118,7 @@ public class FragmentLainnya extends Fragment {
                             getActivity().invalidateOptionsMenu();
                         }
                     });
+                    ((MainActivity)getActivity()).showalertdialog();
                 }
 //                Toast.makeText(context,"Logout", Toast.LENGTH_SHORT).show();
             }

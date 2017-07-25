@@ -40,6 +40,7 @@ public class PemesananActivity extends ParentActivity {
     private User art = new User();
     private Order order = new Order();
     private Place place;
+    private Integer posisifragment = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,15 +66,18 @@ public class PemesananActivity extends ParentActivity {
         this.place = place;
     }
 
-    public void doChangeFragment(int nmrfrag){
+    public void doChangeFragment(Integer nmrfrag){
         switch (nmrfrag){
             case 1:
+                posisifragment = 1;
                 getSupportFragmentManager().beginTransaction().replace(R.id.layout_pemesanan, fragp1).commit();
                 break;
             case 2:
+                posisifragment = 2;
                 getSupportFragmentManager().beginTransaction().replace(R.id.layout_pemesanan, fragp2).commit();
                 break;
             case 3:
+                posisifragment =3;
                 getSupportFragmentManager().beginTransaction().replace(R.id.layout_pemesanan, fragp3).commit();
                 break;
         }
@@ -90,5 +94,23 @@ public class PemesananActivity extends ParentActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        switch (posisifragment){
+            case 1:
+                finish();
+                break;
+            case 2:
+                posisifragment = 1;
+                getSupportFragmentManager().beginTransaction().replace(R.id.layout_pemesanan, fragp1).commit();
+                break;
+            case 3:
+                posisifragment = 2;
+                getSupportFragmentManager().beginTransaction().replace(R.id.layout_pemesanan, fragp2).commit();
+                break;
+        }
     }
 }

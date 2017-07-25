@@ -84,21 +84,21 @@
                     android:id="@+id/prof_tv_alamat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text="-"
                     android:textColor="@android:color/black" />
 
                 <TextView
                     android:id="@+id/prof_tv_notelp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text="-"
                     android:textColor="@android:color/black" />
 
                 <TextView
                     android:id="@+id/prof_tv_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text="-"
                     android:textColor="@android:color/black" />
             </LinearLayout>
         </LinearLayout>
@@ -118,7 +118,7 @@
             android:id="@+id/prof_tv_nominal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/nominalangka"
+            android:text="-"
             android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="24sp" />

@@ -20,6 +20,7 @@ import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -35,7 +36,7 @@ public class LogWalletActivity extends ParentActivity {
     private RecyclerAdapterLogWallet rec_Adapter;
     private Toolbar toolbar;
     private User user;
-    private List<WalletTransaction> walletTransactions;
+    private List<WalletTransaction> walletTransactions = new ArrayList<>();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logwallet);

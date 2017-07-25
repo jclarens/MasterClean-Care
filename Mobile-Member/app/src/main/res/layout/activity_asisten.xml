@@ -24,7 +24,7 @@
                 android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/foto"
-                app:srcCompat="@drawable/ic_person" />
+                app:srcCompat="@mipmap/ic_person_box" />
 
             <TextView
                 android:id="@+id/asis_tv_nama"
@@ -63,12 +63,12 @@
                         android:text="Usia :"
                         android:textColor="@android:color/black" />
 
-                    <TextView
-                        android:id="@+id/textView48"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Pengalaman :"
-                        android:textColor="@android:color/black" />
+                    <!--<TextView-->
+                        <!--android:id="@+id/textView48"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Pengalaman :"-->
+                        <!--android:textColor="@android:color/black" />-->
 
                     <TextView
                         android:id="@+id/textView49"
@@ -120,13 +120,13 @@
                         android:textColor="@android:color/black"
                         android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/asis_tv_pengalaman"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text=" - "
-                        android:textColor="@android:color/black"
-                        android:textStyle="bold" />
+                    <!--<TextView-->
+                        <!--android:id="@+id/asis_tv_pengalaman"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text=" - "-->
+                        <!--android:textColor="@android:color/black"-->
+                        <!--android:textStyle="bold" />-->
 
                     <TextView
                         android:id="@+id/asis_tv_notelp"

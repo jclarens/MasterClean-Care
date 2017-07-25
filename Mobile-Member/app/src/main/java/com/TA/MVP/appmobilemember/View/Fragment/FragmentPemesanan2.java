@@ -22,6 +22,9 @@ import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterListKerja;
+import com.TA.MVP.appmobilemember.Model.Array.ArrayBulan;
+import com.TA.MVP.appmobilemember.Model.Array.ArrayHari;
+import com.TA.MVP.appmobilemember.Model.Basic.Job;
 import com.TA.MVP.appmobilemember.Model.Basic.Order;
 import com.TA.MVP.appmobilemember.Model.Basic.OrderTask;
 import com.TA.MVP.appmobilemember.Model.Basic.OrderTime;
@@ -62,11 +65,20 @@ public class FragmentPemesanan2 extends Fragment {
     private TextView estimasiwaktutext;
     private Button prev,next;
     private ArrayAdapter arrayAdapterWaktu;
+    private ArrayAdapter arrayAdapterProfesi;
     private List<Waktu_Kerja> defaultWK = new ArrayList<>();
+    private List<Job> defaultProf = new ArrayList<>();
 
     private int minestimasi = 1;
     private int maxestimasi = 2;
     private int tmp;
+
+    private DateFormat fixFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
+    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-d", Locale.ENGLISH);
+    private DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+    private DateFormat tahunFormat = new SimpleDateFormat("yyyy", Locale.ENGLISH);
+    private DateFormat bulanFormat = new SimpleDateFormat("MM", Locale.ENGLISH);
+    private DateFormat tglFormat = new SimpleDateFormat("d", Locale.ENGLISH);
     private DatePickerDialog datePickerDialog1;
     private TimePickerDialog timePickerDialog;
     private Calendar calendar = Calendar.getInstance();
@@ -75,13 +87,14 @@ public class FragmentPemesanan2 extends Fragment {
     private OrderTime endtemp = new OrderTime();
     private OrderTime waktumulai = new OrderTime();
     private OrderTime waktuselesai = new OrderTime();
-    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-d", Locale.ENGLISH);
-    private DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+    private ArrayHari arrayHari = new ArrayHari();
+    private ArrayBulan arrayBulan = new ArrayBulan();
     private Date startdate, enddate;
-//    private Date startdatelimit, enddatelimit;
+
     private int status = 1;
     private boolean valid = false;
     private Date tempdate;
+    private String fixstart, fixend;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -89,8 +102,11 @@ public class FragmentPemesanan2 extends Fragment {
         art = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.ART_EXTRA), User.class);
         order = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.ORDER_EXTRA), Order.class);
         defaultWK = ((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getWaktu_kerjas();
+        defaultProf = ((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getJobs();
 
         waktukrj = (Spinner) _view.findViewById(R.id.pms2_spinner_waktukerja);
+        prof = (Spinner) _view.findViewById(R.id.pms2_spinner_profesi);
+        recyclerView = (RecyclerView) _view.findViewById(R.id.pms2_rec_listkerja);
         mulaitime = (EditText) _view.findViewById(R.id.pms2_et_mulaitime);
         mulaidate = (EditText) _view.findViewById(R.id.pms2_et_mulaidate);
         selesaitime = (EditText) _view.findViewById(R.id.pms2_et_selesaitime);
@@ -122,7 +138,7 @@ public class FragmentPemesanan2 extends Fragment {
                 calendar.set(Calendar.MILLISECOND, 0);
                 settanggal();
             }
-        },0, 0, false);
+        },0, 0, true);
 
         mulaidate.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,13 +153,13 @@ public class FragmentPemesanan2 extends Fragment {
             }
         });
 
+        //spinner WK
         List<Waktu_Kerja> tempWK = new ArrayList<>();
         for (int i=0;i<art.getUser_work_time().size(); i++){
             tempWK.add(defaultWK.get(art.getUser_work_time().get(i).getWork_time_id()-1));
         }
         arrayAdapterWaktu = new ArrayAdapter(getContext(), R.layout.spinner_item, tempWK);
         waktukrj.setAdapter(arrayAdapterWaktu);
-
         waktukrj.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -157,6 +173,7 @@ public class FragmentPemesanan2 extends Fragment {
                         maxestimasi = 8;
                         estimasi.setEnabled(false);
                         estimasi.setText(String.valueOf(minestimasi));
+                        recyclerView.setVisibility(View.VISIBLE);
                         break;
                     case 2:
                         //hari
@@ -167,6 +184,7 @@ public class FragmentPemesanan2 extends Fragment {
                         maxestimasi = 14;
                         estimasi.setEnabled(true);
                         estimasi.setText(String.valueOf(minestimasi));
+                        recyclerView.setVisibility(View.GONE);
                         break;
                     case 3:
                         //bulan
@@ -177,6 +195,7 @@ public class FragmentPemesanan2 extends Fragment {
                         maxestimasi = 12;
                         estimasi.setEnabled(true);
                         estimasi.setText(String.valueOf(minestimasi));
+                        recyclerView.setVisibility(View.GONE);
                         break;
                 }
                 settanggal();
@@ -189,12 +208,49 @@ public class FragmentPemesanan2 extends Fragment {
         });
 
         //listkerja
-        recyclerView = (RecyclerView) _view.findViewById(R.id.pms2_rec_listkerja);
         rec_LayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(rec_LayoutManager);
         rec_Adapter = new RecyclerAdapterListKerja();
         recyclerView.setAdapter(rec_Adapter);
-        rec_Adapter.setList(orderTasks);
+        //set full task         disini
+//        rec_Adapter.setList(orderTasks);
+
+        //spinner prof
+        List<Job> tempprof = new ArrayList<>();
+        for (int i=0;i<art.getUser_job().size(); i++){
+            tempprof.add(defaultProf.get(art.getUser_job().get(i).getJob_id()-1));
+        }
+        arrayAdapterProfesi = new ArrayAdapter(getContext(), R.layout.spinner_item, tempprof);
+        prof.setAdapter(arrayAdapterProfesi);
+        prof.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (art.getUser_job().get(i).getJob_id()){
+                    case 1:
+                        //Asisten Rumah Tangga
+//                        rec_Adapter.setList(orderTasks);
+                        break;
+                    case 2:
+                        //Perawat Lansia
+//                        rec_Adapter.setList(orderTasks);
+                        break;
+                    case 3:
+                        //Babysitter
+//                        rec_Adapter.setList(orderTasks);
+                        break;
+                    case 4:
+                        //Perawat Balita
+//                        rec_Adapter.setList(orderTasks);
+                        break;
+                }
+                settanggal();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -303,9 +359,11 @@ public class FragmentPemesanan2 extends Fragment {
         settampilan();
     }
     public void settampilan(){
-        mulaidate.setText(dateFormat.format(startdate.getTime()));
+        fixstart = fixFormat.format(startdate.getTime());
+        fixend = fixFormat.format(enddate.getTime());
+        mulaidate.setText(costumedateformat(startdate));
         mulaitime.setText(timeFormat.format(startdate.getTime()));
-        selesaidate.setText(dateFormat.format(enddate.getTime()));
+        selesaidate.setText(costumedateformat(enddate));
         selesaitime.setText(timeFormat.format(enddate.getTime()));
     }
     public Date getbatassekarang(){
@@ -354,5 +412,11 @@ public class FragmentPemesanan2 extends Fragment {
             return false;
         }
         return true;
+    }
+    public String costumedateformat(Date date){
+//        String hari = arrayHari.getArrayList().get(Integer.parseInt(hariFormat.format(date)));
+        String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date)));
+        // Senin, Januari 30
+        return tglFormat.format(date) + " " + bulan + " " + tahunFormat.format(date);
     }
 }

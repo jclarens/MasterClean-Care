@@ -2,7 +2,7 @@
 <resources>
         <color name="colorPrimaryDark">#197aaa</color>
         <color name="colorPrimary">#388fba</color>
-        <color name="colorAccent">#FF4081</color>
+        <color name="colorAccent">#41d0ff</color>
         <color name="colorCheck">#ffffff</color>
         <color name="colorUncheck">#B2D7D2</color>
         <color name="colorBlack">#000000</color>
@@ -18,3 +18,4 @@
 </resources>
 <!--<color name="colorPrimaryDark">#303F9F</color>-->
 <!--<color name="colorPrimary">#3F51B5</color>-->
+<!--<color name="colorAccent">#FF4081</color>-->

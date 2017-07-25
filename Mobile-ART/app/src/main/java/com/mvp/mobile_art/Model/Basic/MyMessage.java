@@ -14,6 +14,24 @@ public class MyMessage {
     private String subject;
     private String message;
     private Integer status;
+    private String created_at;
+    private String update_at;
+
+    public String getCreated_at() {
+        return created_at;
+    }
+
+    public void setCreated_at(String created_at) {
+        this.created_at = created_at;
+    }
+
+    public String getUpdate_at() {
+        return update_at;
+    }
+
+    public void setUpdate_at(String update_at) {
+        this.update_at = update_at;
+    }
 
     public Integer getId() {
         return id;

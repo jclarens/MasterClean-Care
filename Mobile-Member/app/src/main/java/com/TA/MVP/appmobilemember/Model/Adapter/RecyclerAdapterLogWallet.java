@@ -60,9 +60,8 @@ public class RecyclerAdapterLogWallet extends RecyclerView.Adapter<RecyclerAdapt
             holder.cardwallettransactionlayout.setBackgroundColor(holder.lightyellow);
             holder.status.setText("+ Rp.");
         }
-
-        holder.nominal.setText(walletTransactions.get(position).getAmount());
-        holder.date.setText(walletTransactions.get(position).getTrc_time().toString());
+        holder.nominal.setText(walletTransactions.get(position).getAmount().toString());
+        holder.date.setText(walletTransactions.get(position).getTrc_time());
     }
 
     @Override

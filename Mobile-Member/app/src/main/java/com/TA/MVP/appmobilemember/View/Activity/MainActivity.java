@@ -141,7 +141,8 @@ public class MainActivity extends ParentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_alarm:
-                doChangeActivity(context,EmergencyActivity.class);
+                Toast.makeText(getApplicationContext(),"Sedang dinonaktifkan", Toast.LENGTH_SHORT).show();
+//                doChangeActivity(context,EmergencyActivity.class);
         }
         return super.onOptionsItemSelected(item);
     }

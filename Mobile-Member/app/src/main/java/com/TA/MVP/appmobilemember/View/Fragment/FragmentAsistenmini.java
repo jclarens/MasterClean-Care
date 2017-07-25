@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.TA.MVP.appmobilemember.Model.Array.ArrayAgama;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Activity.AsistenActivity;
@@ -35,6 +36,7 @@ public class FragmentAsistenmini extends Fragment {
     private int thisYear, artbornyear;
     private Calendar calendar = Calendar.getInstance();
     private DateFormat yearformat = new SimpleDateFormat("yyyy");
+    private ArrayAgama defaultagama = new ArrayAgama();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,6 +57,8 @@ public class FragmentAsistenmini extends Fragment {
         usia.setText(thisYear - artbornyear + " Thn");
 
         ratingBar.setRating(art.getRate());
+
+        agama.setText(defaultagama.getArrayList().get(art.getReligion()-1));
 
         btn_moreinfo.setOnClickListener(new View.OnClickListener() {
             @Override

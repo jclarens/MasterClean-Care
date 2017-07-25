@@ -1,5 +1,6 @@
 package com.TA.MVP.appmobilemember.View.Fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.TA.MVP.appmobilemember.Model.Basic.Order;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.View.Activity.KetentuanActivity;
 import com.TA.MVP.appmobilemember.View.Activity.PemesananActivity;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
@@ -28,6 +30,7 @@ import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
  */
 
 public class FragmentPemesanan3 extends Fragment {
+    private TextView linkketentuan;
     private Bundle b = new Bundle();
     private User art = new User();
     private Order order = new Order();
@@ -56,11 +59,19 @@ public class FragmentPemesanan3 extends Fragment {
 //        selesaidate = (EditText) _view.findViewById(R.id.pms3_et_selesaidate);
 //        total = (EditText) _view.findViewById(R.id.pms3_et_total);
 //        layoutlistpekerjaan = (LinearLayout) _view.findViewById(R.id.pms3_layout_listpekerjaan);
+        linkketentuan = (TextView) _view.findViewById(R.id.pms3_tv_ketentuan);
         prev = (Button) _view.findViewById(R.id.pms3_btn_prev);
         pesan = (Button) _view.findViewById(R.id.pms3_btn_pesan);
 //        fotoasis = (ImageView) _view.findViewById(R.id.asism_img);
 //        ketentuan = (CheckBox) _view.findViewById(R.id.pms3_cb_kttn);
 
+        linkketentuan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), KetentuanActivity.class);
+                startActivity(intent);
+            }
+        });
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

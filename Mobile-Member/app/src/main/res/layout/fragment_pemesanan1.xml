@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="@string/step1"
+            android:text="Lokasi"
             android:textAlignment="center"
             android:textColor="@color/colorBlack"
             android:textSize="24sp" />
@@ -34,9 +34,7 @@
         <EditText
             android:id="@+id/pms1_et_address"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:focusable="false"/>
+            android:layout_height="wrap_content"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

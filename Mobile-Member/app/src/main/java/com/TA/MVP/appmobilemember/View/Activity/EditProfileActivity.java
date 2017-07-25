@@ -53,13 +53,21 @@ public class EditProfileActivity extends ParentActivity {
 
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
         nama.setText(user.getName());
-        alamat.setText(user.getContact().get(0).getAddress());
-        notelp.setText(user.getContact().get(0).getPhone());
+        try{
+            alamat.setText(user.getContact().get(0).getAddress());
+            notelp.setText(user.getContact().get(0).getPhone());
+        }
+        catch (NullPointerException e){
+            alamat.setText("-");
+            notelp.setText("-");
+        }
         email.setText(user.getEmail());
 
         btnsimpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                initProgressDialog("Sedang Memperoses ...");
+                showDialog();
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("name", nama.getText().toString());
                 List<UserContact> userContacts = new ArrayList<UserContact>();
@@ -68,29 +76,27 @@ public class EditProfileActivity extends ParentActivity {
                 userContact.setPhone(notelp.getText().toString());
                 userContacts.add(userContact);
                 map.put("contact", userContacts);
-//                map.put("email",email.getText().toString()); mungkin g bs
-//                map.put("",""); //foto
-//                map.put("","");
                 Call<UserResponse> caller = APIManager.getRepository(UserRepo.class).updateuser(String.valueOf(user.getId()),map);
                 caller.enqueue(new APICallback<UserResponse>() {
                     @Override
                     public void onSuccess(Call<UserResponse> call, Response<UserResponse> response) {
                         super.onSuccess(call, response);
+                        dismissDialog();
                         Intent i = new Intent();
                         setResult(ProfileActivity.RESULT_SUCCESS, i);
-                        user = response.body().getUser();
-                        SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(user));
                         finish();
                     }
 
                     @Override
                     public void onUnprocessableEntity(Call<UserResponse> call, Response<UserResponse> response) {
                         super.onUnprocessableEntity(call, response);
+                        dismissDialog();
                     }
 
                     @Override
                     public void onFailure(Call<UserResponse> call, Throwable t) {
                         super.onFailure(call, t);
+                        dismissDialog();
                     }
                 });
                 finish();

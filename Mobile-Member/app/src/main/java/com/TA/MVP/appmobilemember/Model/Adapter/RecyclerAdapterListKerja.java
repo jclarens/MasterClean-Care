@@ -25,13 +25,13 @@ import java.util.List;
  */
 
 public class RecyclerAdapterListKerja extends RecyclerView.Adapter<RecyclerAdapterListKerja.ViewHolder> {
-    private List<OrderTask> orderTasks = new ArrayList<>();//list semua pilihan default
-    private List<OrderTask> orderTasksselected = new ArrayList<>();//list yang sudah terpilih
+    private List<OrderTask> fullTasks = new ArrayList<>();//list semua pilihan default
+    private List<OrderTask> showTasks = new ArrayList<>();//list sesuai profefsi
+    private List<OrderTask> selectedTasks = new ArrayList<>();//list yang sudah terpilih
     class ViewHolder extends RecyclerView.ViewHolder{
         public int lightgreen, lightgrey;
         public CheckBox checkBox;
         public LinearLayout linearLayout;
-        //itemview
 
         public ViewHolder(final View itemview){
             super(itemview);
@@ -44,16 +44,15 @@ public class RecyclerAdapterListKerja extends RecyclerView.Adapter<RecyclerAdapt
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     if (checkBox.isChecked()){
-                        orderTasksselected.add(orderTasks.get(position));
+                        selectedTasks.add(showTasks.get(position));
                         linearLayout.setBackgroundColor(lightgreen);
                     }
                     else {
-                        orderTasksselected.remove(orderTasks.get(position));
+                        selectedTasks.remove(showTasks.get(position));
                         linearLayout.setBackgroundColor(lightgrey);
                     }
                 }
             });
-            //view
         }
     }
 
@@ -66,17 +65,30 @@ public class RecyclerAdapterListKerja extends RecyclerView.Adapter<RecyclerAdapt
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        //holder set
+        //set nama task
+        holder.checkBox.setText(showTasks.get(position).getTask());
     }
 
     @Override
     public int getItemCount() {
-        return orderTasks.size();
+        return showTasks.size();
     }
 
-    public void setList(List<OrderTask> orderTasks){
-
+    public void setFullTasks(List<OrderTask> fulltasks, Integer integer){
+        this.fullTasks = fulltasks;
+        setshowtask(integer);
+    }
+    public void setshowtask(Integer integer){
+        showTasks.clear();
+        selectedTasks.clear();
+        for (int n=0; n<fullTasks.size();n++){
+            if (fullTasks.get(n).getId() == integer)
+                showTasks.add(fullTasks.get(n));
+        }
         notifyDataSetChanged();
+    }
+    public List<OrderTask> getselectedtasklist(){
+        return selectedTasks;
     }
 }
 

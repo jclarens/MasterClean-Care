@@ -199,10 +199,15 @@
                 android:text="@string/filter_kota"
                 android:textColor="@android:color/black" />
 
-            <Spinner
-                android:id="@+id/filter_spinner_kota"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:background="@drawable/backgroundlightgray">
+                <Spinner
+                    android:id="@+id/filter_spinner_kota"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView20"
@@ -212,10 +217,15 @@
                 android:text="@string/filter_agama"
                 android:textColor="@android:color/black" />
 
-            <Spinner
-                android:id="@+id/filter_spinner_agama"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:background="@drawable/backgroundlightgray">
+                <Spinner
+                    android:id="@+id/filter_spinner_agama"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView21"
@@ -259,11 +269,16 @@
                 android:text="@string/filter_profesi"
                 android:textColor="@android:color/black" />
 
-            <Spinner
-                android:id="@+id/filter_spinner_profesi"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/backgroundlightgray">
+                <Spinner
+                    android:id="@+id/filter_spinner_profesi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/textView24"
@@ -273,10 +288,15 @@
                 android:text="@string/filter_waktukerja"
                 android:textColor="@android:color/black" />
 
-            <Spinner
-                android:id="@+id/filter_spinner_waktukrj"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/backgroundlightgray">
+                <Spinner
+                    android:id="@+id/filter_spinner_waktukrj"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/filter_tv_gaji"
@@ -291,7 +311,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:maxLength="10"
+                android:maxLength="9"
                 android:inputType="number"
                 android:nextFocusUp="@id/filter_et_gaji"
                 android:nextFocusLeft="@id/filter_et_gaji"

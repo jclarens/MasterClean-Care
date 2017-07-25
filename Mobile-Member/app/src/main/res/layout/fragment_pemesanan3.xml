@@ -21,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="@string/step3"
+                android:text="Konfirmasi Pemesanan"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:textSize="24sp" />
@@ -42,11 +42,16 @@
                 android:focusable="false"
                 android:inputType="textPersonName" />
 
-            <LinearLayout
-                android:id="@+id/pms3_layout_listpekerjaan"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/pmr3_rec_listkerja"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:orientation="vertical"></LinearLayout>
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="#eeeeee"
+                android:orientation="vertical"
+                android:padding="10dp"
+                android:scrollbars="vertical">
+            </android.support.v7.widget.RecyclerView>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -56,16 +61,15 @@
                 <TextView
                     android:id="@+id/textView34"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
                     android:text="@string/estimasi"
                     android:textColor="@android:color/black" />
 
                 <EditText
                     android:id="@+id/pms3_et_estimate"
-                    android:layout_width="wrap_content"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:ems="10"
                     android:enabled="false"
                     android:focusable="false"
@@ -73,9 +77,9 @@
 
                 <TextView
                     android:id="@+id/pms3_tv_estimasiwaktu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:textColor="@android:color/black" />
             </LinearLayout>
 
@@ -162,11 +166,30 @@
                 android:focusable="false"
                 android:inputType="textPersonName" />
 
-            <CheckBox
-                android:id="@+id/pms3_cb_kttn"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/ketentuan" />
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/pms3_cb_kttn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Saya menyetujui" />
+                <TextView
+                    android:id="@+id/pms3_tv_ketentuan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text=" ketentuan "
+                    android:textColor="#0000ff"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="yang berlaku."
+                    android:textColor="@color/colorBlack"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

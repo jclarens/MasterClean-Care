@@ -57,19 +57,16 @@ public class FragmentProfile extends Fragment{
         keterangan = (TextView) _view.findViewById(R.id.prof_tv_keterangan);
         profesi = (TextView) _view.findViewById(R.id.prof_tv_prof);
         aSwitch  = (Switch) _view.findViewById(R.id.prof_switch);
-        logout = (Button) _view.findViewById(R.id.prof_logout);
+//        logout = (Button) _view.findViewById(R.id.prof_logout);
 
 
         getallinfo(user.getId());
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                SharedPref.save(SharedPref.ACCESS_TOKEN, "");
-                SharedPref.save(ConstClass.USER, "");
-                Intent intent = new Intent(getContext(), LoginActivity.class);
-                startActivityForResult(intent, MainActivity.REQUEST_LOGIN);
-            }
-        });
+//        logout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
         return _view;
     }
     public void settampilan(){

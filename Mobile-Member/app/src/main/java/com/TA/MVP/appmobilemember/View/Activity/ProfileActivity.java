@@ -20,6 +20,8 @@ import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
+import java.text.NumberFormat;
+
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -37,9 +39,10 @@ public class ProfileActivity extends ParentActivity {
     private UserContact userContact = new UserContact();
     private Toolbar toolbar;
     private ImageView imgfoto;
-    private TextView nama, alamat, notelp, email;
+    private TextView nama, alamat, notelp, email, nominal;
     private Button btnlog;
     private Intent intent = new Intent();
+    private NumberFormat numberFormat = NumberFormat.getNumberInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +55,14 @@ public class ProfileActivity extends ParentActivity {
         alamat = (TextView) findViewById(R.id.prof_tv_alamat);
         notelp = (TextView) findViewById(R.id.prof_tv_notelp);
         email = (TextView) findViewById(R.id.prof_tv_email);
+        nominal = (TextView) findViewById(R.id.prof_tv_nominal);
         btnlog =(Button) findViewById(R.id.prof_btn_isi);
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.toolbar_profile);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -82,16 +92,18 @@ public class ProfileActivity extends ParentActivity {
     }
 
     public void setdata(){
+        user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
         nama.setText(user.getName());
-//        alamat.setText(user.getContact().getAddress());
-//        notelp.setText(user.getContact().getPhone());
+        try{
+            alamat.setText(user.getContact().get(0).getAddress());
+            notelp.setText(user.getContact().get(0).getPhone());
+        }
+        catch (NullPointerException e){
+            alamat.setText("-");
+            notelp.setText("-");
+        }
         email.setText(user.getEmail());
-
-        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.toolbar_profile);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        nominal.setText(setRP(user.getUser_wallet().get(0).getAmt()));
 
 
         btnlog.setText("Riwayat Transaksi");
@@ -110,7 +122,7 @@ public class ProfileActivity extends ParentActivity {
         switch (requestCode){
             case 1:
                 if (resultCode == RESULT_SUCCESS)
-                    setdata();
+                    getallinfo(user.getId());
                 break;
         }
     }
@@ -130,5 +142,10 @@ public class ProfileActivity extends ParentActivity {
                 super.onFailure(call, t);
             }
         });
+    }
+    public String setRP(Integer number){
+        String tempp = "Rp. ";
+        tempp = tempp + numberFormat.format(number) + ".00";
+        return tempp;
     }
 }

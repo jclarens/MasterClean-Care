@@ -51,11 +51,10 @@ import retrofit2.Response;
 
 public class AsistenActivity extends ParentActivity {
     private Toolbar toolbar;
-    private TextView nama,usia,pengalaman,notelp,agama,suku,status,keterangan, txtprofesi, txtbhs, kota;
+    private TextView nama,usia,notelp,agama,suku,status,keterangan, txtprofesi, txtbhs, kota;
     private RatingBar ratingBar;
     private TextView gajijam, gajihari, gajibulan;
-    private LinearLayout layoutprof;
-    private CheckBox inggris, mandarin, melayu, tktanjg;
+    private CheckBox tktanjg;
     private Button docpndkg, jadwal, pemesanan;
     private int thisYear, artbornyear;
     private Calendar calendar = Calendar.getInstance();
@@ -86,7 +85,7 @@ public class AsistenActivity extends ParentActivity {
         nama = (TextView) findViewById(R.id.asis_tv_nama);
         ratingBar = (RatingBar) findViewById(R.id.asis_ratingBar);
         usia = (TextView) findViewById(R.id.asis_tv_usia);
-        pengalaman = (TextView) findViewById(R.id.asis_tv_pengalaman);
+//        pengalaman = (TextView) findViewById(R.id.asis_tv_pengalaman);
         notelp = (TextView) findViewById(R.id.asis_tv_notelp);
         agama = (TextView) findViewById(R.id.asis_tv_agama);
         suku = (TextView) findViewById(R.id.asis_tv_suku);
@@ -114,7 +113,7 @@ public class AsistenActivity extends ParentActivity {
         thisYear = calendar.get(Calendar.YEAR);
         artbornyear = Integer.valueOf(yearformat.format(art.getBorn_date()));
         usia.setText(thisYear - artbornyear + " Thn");
-        pengalaman.setText("1 Thn");
+//        pengalaman.setText("1 Thn");
         if (art.getContact().size() > 0)
             notelp.setText(art.getContact().get(0).getPhone());
         agama.setText(arrayAgama.getArrayList().get(art.getReligion()-1));

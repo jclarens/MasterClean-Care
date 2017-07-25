@@ -49,8 +49,11 @@ import retrofit2.Response;
  */
 
 public class MainActivity extends ParentActivity {
-    public static final int REQUEST_LOGIN = 1;
-    public static final int RESULT_SUCCESS = 11;
+    public final static int REQUEST_LOGIN = 1;
+    public final static int REQUEST_PESAN = 2;
+    public final static int REQUEST_ORDER = 3;
+    public final static int REQUEST_OFFER = 4;
+    public static final int RESULT_SUCCESS = 1;
     private BottomNavigationView bottomNavigation;
     private Fragment fragment;
     private FragmentManager fragmentManager;
@@ -58,6 +61,7 @@ public class MainActivity extends ParentActivity {
     public StaticData staticData = new StaticData();
     private Context context;
     private boolean success;
+    private Integer posisiF = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,18 +94,23 @@ public class MainActivity extends ParentActivity {
                 int id = item.getItemId();
                 switch (id){
                     case R.id.menu_profile:
+                        posisiF = 1;
                         fragment = new FragmentProfile();
                         break;
                     case R.id.menu_pekerjaan:
+                        posisiF = 2;
                         fragment = new FragmentPekerjaan();
                         break;
                     case R.id.menu_jadwal:
+                        posisiF = 3;
                         fragment = new FragmentJadwal();
                         break;
                     case R.id.menu_pesan:
+                        posisiF = 4;
                         fragment = new FragmentPesan();
                         break;
                     case R.id.menu_lainnya:
+                        posisiF = 5;
                         fragment = new FragmentHistory();
                         break;
                 }
@@ -125,6 +134,24 @@ public class MainActivity extends ParentActivity {
                 Intent intent = new Intent(getApplicationContext(),EmergencyActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.action_logout:SharedPref.save(SharedPref.ACCESS_TOKEN, "");
+                abuildermessage("Anda akan melakukan Logout?", "Konfirmasi");
+                abuilder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        SharedPref.save(ConstClass.USER, "");
+                        Intent intent1 = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivityForResult(intent1, MainActivity.REQUEST_LOGIN);
+                    }
+                });
+                abuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                showalertdialog();
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -132,12 +159,39 @@ public class MainActivity extends ParentActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_LOGIN)
-            if (resultCode == RESULT_SUCCESS){
+        if (requestCode == REQUEST_LOGIN) {
+            if (resultCode == RESULT_SUCCESS) {
                 initProgressDialog("Loading...");
                 showDialog();
                 getstaticData1();
             }
+            else finish();
+        }
+        else if(requestCode == REQUEST_PESAN){
+            refreshfragment();
+        }
+    }
+    public void refreshfragment(){
+        switch (posisiF){
+            case 1:
+                fragment = new FragmentProfile();
+                break;
+            case 2:
+                fragment = new FragmentPekerjaan();
+                break;
+            case 3:
+                fragment = new FragmentJadwal();
+                break;
+            case 4:
+                fragment = new FragmentPesan();
+                break;
+            case 5:
+                posisiF=5;
+                fragment = new FragmentHistory();
+                break;
+        }
+        final FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.content, fragment).commit();
     }
 
     public void getstaticData1() {

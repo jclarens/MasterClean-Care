@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterListKerja;
+import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterListKerjaShow;
 import com.TA.MVP.appmobilemember.Model.Basic.Order;
 import com.TA.MVP.appmobilemember.Model.Basic.OrderTask;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
@@ -44,7 +45,7 @@ import retrofit2.Response;
 public class PemesananActiveActivity extends ParentActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager rec_LayoutManager;
-    private RecyclerAdapterListKerja rec_Adapter;
+    private RecyclerAdapterListKerjaShow rec_Adapter;
     private List<OrderTask> orderTasks = new ArrayList<>();
 
     private EditText mulaitime, mulaidate, selesaitime, selesaidate, total, cttn;
@@ -98,7 +99,7 @@ public class PemesananActiveActivity extends ParentActivity {
         recyclerView = (RecyclerView) findViewById(R.id.pmsa_rec_listkerja);
         rec_LayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(rec_LayoutManager);
-        rec_Adapter = new RecyclerAdapterListKerja();
+        rec_Adapter = new RecyclerAdapterListKerjaShow();
         recyclerView.setAdapter(rec_Adapter);
         rec_Adapter.setList(orderTasks);
 

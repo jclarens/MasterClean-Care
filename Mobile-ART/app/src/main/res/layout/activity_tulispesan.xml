@@ -18,17 +18,20 @@
             android:layout_height="wrap_content"
             android:text="Kepada :"
             android:textColor="@android:color/black"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/tp_et_reciever"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:ems="10"
             android:inputType="textPersonName"
             android:enabled="false"
             android:focusable="false"
             android:textColor="@color/colorBlack"
+            android:background="@drawable/backgroundlightgray"
             />
 
         <TextView
@@ -36,24 +39,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Subject :"
+            android:layout_marginTop="5dp"
             android:textColor="@android:color/black"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/tp_et_subject"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:inputType="textPersonName"
-            android:textColor="@color/colorBlack" />
+            android:textColor="@color/colorBlack"
+            android:maxLength="20"
+            android:background="@drawable/backgroundlightgray"/>
 
         <TextView
             android:id="@+id/textView54"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Pesan :"
+            android:layout_marginTop="5dp"
             android:textColor="@android:color/black"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/tp_et_pesan"
@@ -62,9 +71,13 @@
             android:layout_weight="1"
             android:gravity="top"
             android:ems="10"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:inputType="textMultiLine"
             android:textColor="@color/colorBlack"
-            android:textSize="20dp"/>
+            android:textSize="20sp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/backgroundlightgray"/>
 
         <LinearLayout
             android:layout_width="match_parent"

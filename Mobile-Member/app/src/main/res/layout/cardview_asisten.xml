@@ -22,11 +22,8 @@
             android:layout_height="100dp"
             android:layout_centerVertical="true"
             android:layout_marginEnd="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_toEndOf="@+id/card_pesan_checkBox"
-            android:layout_toRightOf="@+id/card_pesan_checkBox"
             android:contentDescription="@string/foto"
-            app:srcCompat="@android:drawable/ic_menu_gallery" />
+            app:srcCompat="@mipmap/ic_person_box" />
 
         <TextView
             android:id="@+id/card_wallet_nominal"
@@ -34,7 +31,6 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/card_wallet_img"
             android:layout_toEndOf="@+id/card_wallet_img"
-            android:layout_toRightOf="@+id/card_wallet_img"
             android:text="Nama Pengirim"
             android:textColor="@android:color/black"
             android:textSize="18sp"
