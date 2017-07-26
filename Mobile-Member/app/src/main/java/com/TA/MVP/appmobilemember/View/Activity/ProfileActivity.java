@@ -96,15 +96,20 @@ public class ProfileActivity extends ParentActivity {
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
         nama.setText(user.getName());
         try{
-            alamat.setText(user.getContact().get(0).getAddress());
-            notelp.setText(user.getContact().get(0).getPhone());
+            alamat.setText(user.getContact().getAddress());
+            notelp.setText(user.getContact().getPhone());
         }
         catch (NullPointerException e){
             alamat.setText("-");
             notelp.setText("-");
         }
         email.setText(user.getEmail());
-        nominal.setText(setRP(user.getUser_wallet().get(0).getAmt()));
+        try{
+            nominal.setText(setRP(user.getUserWallet().getAmt()));
+        }
+        catch (NullPointerException e){
+            nominal.setText("Rp. 0.00");
+        }
 
         btnlog.setOnClickListener(new View.OnClickListener() {
             @Override

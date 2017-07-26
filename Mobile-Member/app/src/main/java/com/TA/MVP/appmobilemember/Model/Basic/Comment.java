@@ -5,9 +5,14 @@ package com.TA.MVP.appmobilemember.Model.Basic;
  */
 
 public class Comment {
+    private Integer id;
     private Article article;
     private User user;
     private String comment;
+
+    public Integer getId() {
+        return id;
+    }
 
     public Article getArticle() {
         return article;

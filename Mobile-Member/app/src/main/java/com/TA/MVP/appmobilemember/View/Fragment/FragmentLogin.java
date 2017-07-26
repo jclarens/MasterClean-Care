@@ -108,23 +108,20 @@ public class FragmentLogin extends Fragment {
     }
 
     public void getOwnData(){
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("email",email.getText().toString());
-        map.put("password",katasandi.getText().toString());
-        Call<UserResponse> caller = APIManager.getRepository(UserRepo.class).getOwnData(map);
-        caller.enqueue(new APICallback<UserResponse>() {
+        Call<User> caller = APIManager.getRepository(UserRepo.class).getOwnData();
+        caller.enqueue(new APICallback<User>() {
             @Override
-            public void onSuccess(Call<UserResponse> call, Response<UserResponse> response) {
+            public void onSuccess(Call<User> call, Response<User> response) {
                 super.onSuccess(call, response);
                 ((AuthActivity)getActivity()).dismissDialog();
                 Intent i = new Intent();
-                User user = response.body().getUser();
+                User user = response.body();
                 i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(user));
                 ((AuthActivity)getActivity()).dofinishActivity(i);
             }
 
             @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 super.onFailure(call, t);
                 ((AuthActivity)getActivity()).dismissDialog();
             }

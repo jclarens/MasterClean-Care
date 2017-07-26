@@ -54,8 +54,8 @@ public class EditProfileActivity extends ParentActivity {
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
         nama.setText(user.getName());
         try{
-            alamat.setText(user.getContact().get(0).getAddress());
-            notelp.setText(user.getContact().get(0).getPhone());
+            alamat.setText(user.getContact().getAddress());
+            notelp.setText(user.getContact().getPhone());
         }
         catch (NullPointerException e){
             alamat.setText("-");
@@ -71,15 +71,15 @@ public class EditProfileActivity extends ParentActivity {
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("name", nama.getText().toString());
                 List<UserContact> userContacts = new ArrayList<UserContact>();
-                UserContact userContact = new UserContact();
+                UserContact userContact = user.getContact();
                 userContact.setAddress(alamat.getText().toString());
                 userContact.setPhone(notelp.getText().toString());
                 userContacts.add(userContact);
                 map.put("contact", userContacts);
 
                 user.setName(nama.getText().toString());
-                user.getContact().get(0).setAddress(alamat.getText().toString());
-                user.getContact().get(0).setPhone(notelp.getText().toString());
+                user.getContact().setAddress(alamat.getText().toString());
+                user.getContact().setPhone(notelp.getText().toString());
                 SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(user));
 
 

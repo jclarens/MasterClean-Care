@@ -36,7 +36,6 @@ public class ArrayPlace {
     public void addPlace(String name, Integer parent){
         Place place = new Place();
         place.setName(name);
-        place.setParent(parent);
         places.add(place);
     }
 }

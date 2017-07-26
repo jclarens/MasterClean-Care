@@ -1,6 +1,7 @@
 package com.TA.MVP.appmobilemember.Model.Basic;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Zackzack on 19/07/2017.
@@ -9,12 +10,16 @@ import java.util.Date;
 public class Offer {
     private Integer id;
     private User member;
-    private Integer cost;
     private Waktu_Kerja work_time;
+    private Integer cost;
     private Date start_date;
     private Date end_date;
     private String remark;
     private Integer status;
+    private OfferContact offerContact;
+    private List<OfferArt> arts;
+    private List<OfferTask> taskList;
+
 
     public Integer getId() {
         return id;
@@ -74,5 +79,29 @@ public class Offer {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public OfferContact getOfferContact() {
+        return offerContact;
+    }
+
+    public void setOfferContact(OfferContact offerContact) {
+        this.offerContact = offerContact;
+    }
+
+    public List<OfferArt> getArts() {
+        return arts;
+    }
+
+    public void setArts(List<OfferArt> arts) {
+        this.arts = arts;
+    }
+
+    public List<OfferTask> getTaskList() {
+        return taskList;
+    }
+
+    public void setTaskList(List<OfferTask> taskList) {
+        this.taskList = taskList;
     }
 }

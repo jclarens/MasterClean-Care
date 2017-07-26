@@ -5,7 +5,12 @@ package com.TA.MVP.appmobilemember.Model.Basic;
  */
 
 public class Waktu_Kerja {
+    private Integer id;
     private String work_time;
+
+    public Integer getId() {
+        return id;
+    }
 
     public String getWork_time() {
         return work_time;

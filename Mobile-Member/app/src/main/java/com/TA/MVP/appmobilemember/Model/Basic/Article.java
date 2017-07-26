@@ -7,11 +7,16 @@ import java.util.Date;
  */
 
 public class Article {
+    private Integer id;
     private User user;
     private String title;
     private String tag;
     private Date published_date;
     private String content;
+
+    public Integer getId() {
+        return id;
+    }
 
     public User getUser() {
         return user;

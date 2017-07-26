@@ -7,7 +7,12 @@ package com.TA.MVP.appmobilemember.Model.Basic;
 public class UserWorkTime {
     private User user;
     private Integer work_time_id;
+    private Waktu_Kerja work_time;
     private Integer cost;
+
+    public Integer getWork_time_id() {
+        return work_time_id;
+    }
 
     public User getUser() {
         return user;
@@ -17,12 +22,12 @@ public class UserWorkTime {
         this.user = user;
     }
 
-    public Integer getWork_time_id() {
-        return work_time_id;
+    public Waktu_Kerja getWork_time() {
+        return work_time;
     }
 
-    public void setWork_time_id(Integer work_time_id) {
-        this.work_time_id = work_time_id;
+    public void setWork_time(Waktu_Kerja work_time) {
+        this.work_time = work_time;
     }
 
     public Integer getCost() {

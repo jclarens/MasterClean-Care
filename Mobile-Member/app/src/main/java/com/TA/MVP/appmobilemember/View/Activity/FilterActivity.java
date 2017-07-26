@@ -229,7 +229,7 @@ public class FilterActivity extends ParentActivity{
     public List<Job> addalljob(List<Job> jobs){
         List<Job> tmp = new ArrayList<>();
         Job alljob = new Job();
-        alljob.setText("Semua");
+        alljob.setJob("Semua");
         tmp.add(alljob);
         for (int n=0;n<jobs.size();n++){
             tmp.add(jobs.get(n));

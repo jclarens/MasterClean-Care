@@ -7,7 +7,6 @@ package com.TA.MVP.appmobilemember.Model.Basic;
 public class Place {
     private Integer id;
     private String name;
-    private Integer parent;
 
     public Integer getId() {
         return id;
@@ -19,14 +18,6 @@ public class Place {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getParent() {
-        return parent;
-    }
-
-    public void setParent(Integer parent) {
-        this.parent = parent;
     }
 
     public  String toString(){

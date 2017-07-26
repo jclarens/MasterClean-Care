@@ -11,20 +11,20 @@ public class User {
     private Integer id;
     private String name;
     private String email;
-    private String password;
     private Integer gender;
     private String born_place;
     private Date born_date;
     private Integer religion;
     private String race;
     private Integer user_type;
+    private String description;
     private String profile_img_name;
     private String profile_img_path;
     private Integer status;
-    private List<UserContact> contact;
+    private UserContact contact;
+    private UserWallet userWallet;
     private List<UserAdditionalInfo> user_additional_info;
     private List<UserDocument> user_document;
-    private List<UserWallet> user_wallet;
     private List<UserLanguage> user_language;
     private List<UserJob> user_job;
     private List<UserWorkTime> user_work_time;
@@ -48,14 +48,6 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public Integer getGender() {
@@ -130,14 +122,6 @@ public class User {
         this.status = status;
     }
 
-    public List<UserContact> getContact() {
-        return contact;
-    }
-
-    public void setContact(List<UserContact> contact) {
-        this.contact = contact;
-    }
-
     public List<UserAdditionalInfo> getUser_additional_info() {
         return user_additional_info;
     }
@@ -152,14 +136,6 @@ public class User {
 
     public void setUser_document(List<UserDocument> user_document) {
         this.user_document = user_document;
-    }
-
-    public List<UserWallet> getUser_wallet() {
-        return user_wallet;
-    }
-
-    public void setUser_wallet(List<UserWallet> user_wallet) {
-        this.user_wallet = user_wallet;
     }
 
     public List<UserLanguage> getUser_language() {
@@ -192,5 +168,29 @@ public class User {
 
     public void setRate(float rate) {
         this.rate = rate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public UserContact getContact() {
+        return contact;
+    }
+
+    public void setContact(UserContact contact) {
+        this.contact = contact;
+    }
+
+    public UserWallet getUserWallet() {
+        return userWallet;
+    }
+
+    public void setUserWallet(UserWallet userWallet) {
+        this.userWallet = userWallet;
     }
 }

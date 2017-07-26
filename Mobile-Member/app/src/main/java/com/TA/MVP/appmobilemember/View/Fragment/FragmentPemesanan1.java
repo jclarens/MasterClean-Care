@@ -89,12 +89,11 @@ public class FragmentPemesanan1 extends Fragment{
             @Override
             public void onClick(View view) {
                 if (!(place == null)){
-                    Contact contact = new Contact();
-                    contact.setAddress(address.getText().toString());
-                    contact.setLocation(place.getLatLng().latitude + "," +place.getLatLng().longitude);
-                    contact.setPhone(art.getContact().get(0).getPhone());
-                    List<Contact> contacts = new ArrayList<Contact>();
-                    order.setContact(contacts);
+                    OrderContact orderContact = new OrderContact();
+                    orderContact.setAddress(address.getText().toString());
+                    orderContact.setLocation(place.getLatLng().latitude + "," +place.getLatLng().longitude);
+                    orderContact.setPhone(art.getContact().getPhone());
+                    order.setOrderContact(orderContact);
                     SharedPref.save(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
                     SharedPref.save(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(order));
                     ((PemesananActivity)getActivity()).doChangeFragment(2);

@@ -10,7 +10,6 @@ public class OfferContact {
     private String phone;
     private String address;
     private String location;
-    private Integer province;
     private Integer City;
 
     public Integer getId() {
@@ -47,14 +46,6 @@ public class OfferContact {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public Integer getProvince() {
-        return province;
-    }
-
-    public void setProvince(Integer province) {
-        this.province = province;
     }
 
     public Integer getCity() {

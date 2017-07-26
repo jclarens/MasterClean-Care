@@ -191,16 +191,14 @@ public class FragmentCariMap extends Fragment implements OnMapReadyCallback {
     public void resetmapview(List<User> art){
         mGoogleMap.clear();
         for (int i = 0; i < art.size(); i++){
-            if (art.get(i).getContact().size()>0){
-                latlng = art.get(i).getContact().get(0).getLocation().split(",");
-                String temp = "Profesi : ";
-                for(int n=0;n<art.get(i).getUser_job().size();n++){
-                    if (n != 0)
-                        temp = temp + ", ";
-                    temp = temp + defaultjobs.get(art.get(i).getUser_job().get(n).getJob_id()-1);
-                }
-                mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(latlng[0]),Double.parseDouble(latlng[1]))).title(art.get(i).getName()).snippet(temp)).setTag(art.get(i));
+            latlng = art.get(i).getContact().getLocation().split(",");
+            String temp = "Profesi : ";
+            for(int n=0;n<art.get(i).getUser_job().size();n++){
+                if (n != 0)
+                    temp = temp + ", ";
+                temp = temp + defaultjobs.get(art.get(i).getUser_job().get(n).getJob_id()-1);
             }
+            mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(latlng[0]),Double.parseDouble(latlng[1]))).title(art.get(i).getName()).snippet(temp)).setTag(art.get(i));
         }
     }
 }

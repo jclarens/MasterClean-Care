@@ -16,7 +16,7 @@ public class ArrayProfesi {
     }
     public void addProfesi(String text){
         Job job = new Job();
-        job.setText(text);
+        job.setJob(text);
         jobs.add(job);
     }
 
@@ -27,7 +27,7 @@ public class ArrayProfesi {
     public ArrayList<String> getStringArrayList(){
         ArrayList<String> result = new ArrayList<>();
         for (int i = 0;i < jobs.size();i++){
-            result.add(jobs.get(i).getText());
+            result.add(jobs.get(i).getJob());
         }
         return result;
     }

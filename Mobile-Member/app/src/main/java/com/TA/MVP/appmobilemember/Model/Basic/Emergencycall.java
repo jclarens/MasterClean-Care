@@ -7,9 +7,14 @@ import java.util.Date;
  */
 
 public class Emergencycall {
+    private Integer id;
     private User user;
     private Date init_time;
     private Integer status;
+
+    public Integer getId() {
+        return id;
+    }
 
     public User getUser() {
         return user;

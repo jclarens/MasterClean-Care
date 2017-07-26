@@ -24,4 +24,6 @@ public class ConstClass {
 
     //status
     public static String GRANTED_EXTRA = "granted";
+
+    public static String HEADER_AUTH = "Authorization";
 }

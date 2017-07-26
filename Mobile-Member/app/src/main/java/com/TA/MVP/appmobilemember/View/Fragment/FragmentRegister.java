@@ -97,7 +97,6 @@ public class FragmentRegister extends Fragment {
                 UserContact userContact = new UserContact();
                 userContact.setAddress(alamat.getText().toString());
                 userContact.setCity((spinnerkota.getSelectedItemPosition()+1));
-                userContact.setProvince(((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getPlaces().get(spinnerkota.getSelectedItemPosition()+1).getId());
                 userContact.setPhone(notelp.getText().toString());
                 userContact.setLocation("3.584949, 98.672400");//harusnya get location
                 userContacts.add(userContact);

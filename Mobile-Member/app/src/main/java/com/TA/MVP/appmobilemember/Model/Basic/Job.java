@@ -5,14 +5,19 @@ package com.TA.MVP.appmobilemember.Model.Basic;
  */
 
 public class Job {
+    private Integer id;
     private String job;
 
-    public String getText() {
+    public Integer getId() {
+        return id;
+    }
+
+    public String getJob() {
         return job;
     }
 
-    public void setText(String text) {
-        this.job = text;
+    public void setJob(String job) {
+        this.job = job;
     }
 
     public String toString(){

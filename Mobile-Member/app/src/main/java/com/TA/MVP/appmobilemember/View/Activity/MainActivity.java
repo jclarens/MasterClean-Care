@@ -18,6 +18,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
@@ -146,15 +148,20 @@ public class MainActivity extends ParentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_alarm:
-                ActivityCompat.requestPermissions(this,
-                        new String[]{Manifest.permission.CALL_PHONE},
-                        PERMS_REQUEST_CODE);
-                if (ContextCompat.checkSelfPermission(getApplicationContext(),
-                    Manifest.permission.CALL_PHONE)
-                    != PackageManager.PERMISSION_GRANTED) {
+                if (SharedPref.getValueString(ConstClass.USER) == ""){
+                    Toast.makeText(getApplicationContext(), "Fitur membutuhkan authentikasi",Toast.LENGTH_SHORT).show();
+                }
+                else {
                     ActivityCompat.requestPermissions(this,
                             new String[]{Manifest.permission.CALL_PHONE},
                             PERMS_REQUEST_CODE);
+//                if (ContextCompat.checkSelfPermission(getApplicationContext(),
+//                    Manifest.permission.CALL_PHONE)
+//                    != PackageManager.PERMISSION_GRANTED) {
+//                    ActivityCompat.requestPermissions(this,
+//                            new String[]{Manifest.permission.CALL_PHONE},
+//                            PERMS_REQUEST_CODE);
+//                }
                 }
                 break;
         }
@@ -185,6 +192,8 @@ public class MainActivity extends ParentActivity {
                 final FragmentTransaction transaction2 = fragmentManager.beginTransaction();
                 transaction2.replace(R.id.main_container, fragment).commit();
                 refreshfragment();
+                //hide keyboard
+//                hideSoftKeyboard(this);
 //                Toast.makeText(context,SharedPref.getValueString(ConstClass.USER), Toast.LENGTH_SHORT).show();
             }
         }

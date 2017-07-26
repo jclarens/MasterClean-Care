@@ -114,11 +114,10 @@ public class AsistenActivity extends ParentActivity {
         artbornyear = Integer.valueOf(yearformat.format(art.getBorn_date()));
         usia.setText(thisYear - artbornyear + " Thn");
 //        pengalaman.setText("1 Thn");
-        if (art.getContact().size() > 0)
-            notelp.setText(art.getContact().get(0).getPhone());
+        notelp.setText(art.getContact().getPhone());
         agama.setText(arrayAgama.getArrayList().get(art.getReligion()-1));
         suku.setText(art.getRace());
-        kota.setText(staticData.getPlaces().get(art.getContact().get(0).getCity()-1).getName());
+        kota.setText(staticData.getPlaces().get(art.getContact().getCity()-1).getName());
 //        keterangan.setText(art.);
         status.setText(listStatus.getStatus().get(art.getStatus()));
         if (art.getStatus() == 1){

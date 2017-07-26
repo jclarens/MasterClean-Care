@@ -5,13 +5,17 @@ package com.TA.MVP.appmobilemember.Model.Basic;
  */
 
 public class AdditionalInfo {
-    private String text;
+    private Integer id;
+    private String info;
 
-    public String getText() {
-        return text;
+    public Integer getId() {
+        return id;
+    }
+    public String getInfo() {
+        return info;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setInfo(String info) {
+        this.info = info;
     }
 }

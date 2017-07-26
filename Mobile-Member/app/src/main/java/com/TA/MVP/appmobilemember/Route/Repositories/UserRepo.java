@@ -26,8 +26,8 @@ import retrofit2.http.QueryMap;
 
 public interface UserRepo {
     @Headers("Accept: application/json")
-    @POST("api/check_login")
-    Call<UserResponse> getOwnData(@Body HashMap map);
+    @GET("api/user/me")
+    Call<User> getOwnData();
 
     @Headers("Accept: application/json")
     @POST("oauth/token")

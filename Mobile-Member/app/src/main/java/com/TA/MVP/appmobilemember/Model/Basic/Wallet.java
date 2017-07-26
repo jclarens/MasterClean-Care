@@ -5,8 +5,13 @@ package com.TA.MVP.appmobilemember.Model.Basic;
  */
 
 public class Wallet {
+    private Integer id;
     private Integer amt;
     private Integer price;
+
+    public Integer getId() {
+        return id;
+    }
 
     public Integer getAmt() {
         return amt;

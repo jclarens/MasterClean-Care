@@ -12,6 +12,7 @@ public class WalletTransaction {
     private Integer amount;
     private Integer trc_type;
     private String trc_time;
+    private Integer status;
 
     public Integer getId() {
         return id;
@@ -47,5 +48,13 @@ public class WalletTransaction {
 
     public void setTrc_time(String trc_time) {
         this.trc_time = trc_time;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

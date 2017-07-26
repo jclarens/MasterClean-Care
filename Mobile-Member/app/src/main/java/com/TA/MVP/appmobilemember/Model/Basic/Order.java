@@ -19,8 +19,8 @@ public class Order {
     private String end_date;
     private String remark;
     private Integer status;
-    private List<ReviewOrder> review_order;
-    private List<Contact> contact;
+    private OrderContact orderContact;
+    private List<OrderTask> taskList;
 
     public Integer getId() {
         return id;
@@ -58,22 +58,6 @@ public class Order {
         this.work_time = work_time;
     }
 
-    public List<ReviewOrder> getReview_order() {
-        return review_order;
-    }
-
-    public void setReview_order(List<ReviewOrder> review_order) {
-        this.review_order = review_order;
-    }
-
-    public List<Contact> getContact() {
-        return contact;
-    }
-
-    public void setContact(List<Contact> contact) {
-        this.contact = contact;
-    }
-
     public String getStart_date() {
         return start_date;
     }
@@ -104,5 +88,21 @@ public class Order {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public OrderContact getOrderContact() {
+        return orderContact;
+    }
+
+    public void setOrderContact(OrderContact orderContact) {
+        this.orderContact = orderContact;
+    }
+
+    public List<OrderTask> getTaskList() {
+        return taskList;
+    }
+
+    public void setTaskList(List<OrderTask> taskList) {
+        this.taskList = taskList;
     }
 }
