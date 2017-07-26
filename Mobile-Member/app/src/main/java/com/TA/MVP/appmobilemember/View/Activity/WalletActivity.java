@@ -31,7 +31,9 @@ public class WalletActivity extends ParentActivity {
         recyclerView.setLayoutManager(rec_LayoutManager);
         rec_Adapter = new RecyclerAdapterWallet();
         rec_Adapter.setWallets(((MasterCleanApplication) getApplication()).getGlobalStaticData().getWallets());
+        rec_Adapter.setcontext(this);
         recyclerView.setAdapter(rec_Adapter);
+
 
         //toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);

@@ -22,7 +22,7 @@ public class User {
     private String profile_img_path;
     private Integer status;
     private UserContact contact;
-    private UserWallet userWallet;
+    private UserWallet user_wallet;
     private List<UserAdditionalInfo> user_additional_info;
     private List<UserDocument> user_document;
     private List<UserLanguage> user_language;
@@ -186,11 +186,11 @@ public class User {
         this.contact = contact;
     }
 
-    public UserWallet getUserWallet() {
-        return userWallet;
+    public UserWallet getUser_wallet() {
+        return user_wallet;
     }
 
-    public void setUserWallet(UserWallet userWallet) {
-        this.userWallet = userWallet;
+    public void setUser_wallet(UserWallet user_wallet) {
+        this.user_wallet = user_wallet;
     }
 }

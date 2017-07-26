@@ -60,9 +60,9 @@ public class TulisPesanActivity extends ParentActivity {
         Intent i = getIntent();
         if (i.getStringExtra("msg") != null){
             myMessage = GsonUtils.getObjectFromJson(i.getStringExtra("msg"), MyMessage.class);
-            nama.setText(myMessage.getSender().getName());
+            nama.setText(myMessage.getSender_id().getName());
             sub.setText(myMessage.getSubject());
-            targetid = myMessage.getSender().getId();
+            targetid = myMessage.getSender_id().getId();
         }
         else if (i.getStringExtra(ConstClass.ART_EXTRA) != null){
             art = GsonUtils.getObjectFromJson(i.getStringExtra(ConstClass.ART_EXTRA), User.class);

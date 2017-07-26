@@ -70,13 +70,10 @@ public class EditProfileActivity extends ParentActivity {
                 showDialog();
                 HashMap<String, Object> map = new HashMap<>();
                 map.put("name", nama.getText().toString());
-                List<UserContact> userContacts = new ArrayList<UserContact>();
                 UserContact userContact = user.getContact();
                 userContact.setAddress(alamat.getText().toString());
                 userContact.setPhone(notelp.getText().toString());
-                userContacts.add(userContact);
-                map.put("contact", userContacts);
-
+                map.put("contact", userContact);
                 user.setName(nama.getText().toString());
                 user.getContact().setAddress(alamat.getText().toString());
                 user.getContact().setPhone(notelp.getText().toString());

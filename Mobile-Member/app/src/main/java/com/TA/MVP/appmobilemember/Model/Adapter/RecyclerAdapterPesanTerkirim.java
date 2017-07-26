@@ -21,10 +21,14 @@ import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -34,10 +38,13 @@ import retrofit2.Response;
  */
 
 public class RecyclerAdapterPesanTerkirim extends RecyclerView.Adapter<RecyclerAdapterPesanTerkirim.ViewHolder> {
+    private DateFormat getdateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
+    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-d", Locale.ENGLISH);
+    private DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
     private List<MyMessage> myMessages = new ArrayList<>();
     private Context context;
     class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView itemnama,itemtanggal,itemsubject;
+        public TextView itemnama,itemtanggal,itemjam,itemsubject;
         public ImageView imageView;
 
         public ViewHolder(final View itemview){
@@ -45,6 +52,7 @@ public class RecyclerAdapterPesanTerkirim extends RecyclerView.Adapter<RecyclerA
             itemnama = (TextView) itemview.findViewById(R.id.card_pesan_nama);
             itemsubject = (TextView) itemview.findViewById(R.id.card_pesan_subject);
             itemtanggal = (TextView) itemview.findViewById(R.id.card_pesan_tanggal);
+            itemjam = (TextView) itemview.findViewById(R.id.card_pesan_jam);
             imageView = (ImageView) itemview.findViewById(R.id.card_pesan_img);
             itemview.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -69,8 +77,14 @@ public class RecyclerAdapterPesanTerkirim extends RecyclerView.Adapter<RecyclerA
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.itemnama.setText(myMessages.get(position).getReceiver().getName());
-        holder.itemtanggal.setText(myMessages.get(position).getCreated_at());
+        holder.itemnama.setText(myMessages.get(position).getReceiver_id().getName());
+        try{
+            holder.itemtanggal.setText(dateFormat.format(getdateFormat.parse(myMessages.get(position).getCreated_at())));
+            holder.itemjam.setText(timeFormat.format(getdateFormat.parse(myMessages.get(position).getCreated_at())));
+        }
+        catch (ParseException pe){
+
+        }
         holder.itemsubject.setText(myMessages.get(position).getSubject());
         if (myMessages.get(position).getStatus() == 0){
             holder.imageView.setImageResource(R.drawable.ic_closed_msg);

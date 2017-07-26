@@ -45,7 +45,7 @@ public class BacaPesanMasukActivity extends ParentActivity {
         hapus = (Button) findViewById(R.id.bp_btn_hps);
         balas = (Button) findViewById(R.id.bp_btn_balas);
 
-        nama.setText(myMessage.getSender().getName());
+        nama.setText(myMessage.getSender_id().getName());
         sub.setText(myMessage.getSubject());
         msg.setText(myMessage.getMessage());
 

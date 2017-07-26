@@ -7,19 +7,25 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Process;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
@@ -75,14 +81,22 @@ public class MainActivity extends ParentActivity {
     public StaticData staticData = new StaticData();
     private User user;
     private Integer posisiF;
+    private ImageView splash;
+    private LinearLayout splashscreen;
+    private FrameLayout frameLayout;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initProgressDialog("Loading...");
-        showDialog();
+        progressBar = (ProgressBar) findViewById(R.id.splashprogressbar);
+        splashscreen = (LinearLayout) findViewById(R.id.splashscreen);
+        frameLayout = (FrameLayout) findViewById(R.id.main_container);
+
+//        initProgressDialog("Loading...");
+//        showDialog();
         getstaticData1();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
@@ -98,7 +112,6 @@ public class MainActivity extends ParentActivity {
         context = getApplicationContext();
 
         posisiF =1;
-        fragmentManager.beginTransaction().replace(R.id.main_container, new FragmentHome()).commit();
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -137,6 +150,7 @@ public class MainActivity extends ParentActivity {
             }
         });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -247,13 +261,13 @@ public class MainActivity extends ParentActivity {
             public void onFailure(Call<List<Place>> call, Throwable t) {
                 super.onFailure(call, t);
                 success = false;
-                Toast.makeText(context,"Failed", Toast.LENGTH_SHORT).show();
-                dismissDialog();
+//                Toast.makeText(context,"Failed", Toast.LENGTH_SHORT).show();
+//                dismissDialog();
                 abuildermessage("Reconnect?","No Connection");
                 abuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        showDialog();
+//                        showDialog();
                         getstaticData1();
                     }
                 });
@@ -338,9 +352,10 @@ public class MainActivity extends ParentActivity {
             public void onSuccess(Call<List<Wallet>> call, Response<List<Wallet>> response) {
                 super.onSuccess(call, response);
                 staticData.setWallets(response.body());
-                Toast.makeText(context,"Success", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context,"Success", Toast.LENGTH_SHORT).show();
                 success = true;
-                dismissDialog();
+                splashout();
+//                dismissDialog();
             }
 
             @Override
@@ -372,4 +387,15 @@ public class MainActivity extends ParentActivity {
             }
         }
     }
+    public void splashout(){
+        //tunggu beberapa dtk
+        SystemClock.sleep(2000);
+        progressBar.setVisibility(View.VISIBLE);
+
+        splashscreen.setVisibility(View.GONE);
+        toolbar.setVisibility(View.VISIBLE);
+        bottomNavigation.setVisibility(View.VISIBLE);
+        fragmentManager.beginTransaction().replace(R.id.main_container, new FragmentHome()).commit();
+    }
+
 }

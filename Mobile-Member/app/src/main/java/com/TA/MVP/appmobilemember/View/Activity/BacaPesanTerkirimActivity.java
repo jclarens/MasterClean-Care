@@ -44,7 +44,7 @@ public class BacaPesanTerkirimActivity extends ParentActivity {
         kembali = (Button) findViewById(R.id.bp_btn_kembali);
         hapus = (Button) findViewById(R.id.bp_btn_hps);
 
-        nama.setText(myMessage.getReceiver().getName());
+        nama.setText(myMessage.getReceiver_id().getName());
         sub.setText(myMessage.getSubject());
         msg.setText(myMessage.getMessage());
 

@@ -105,7 +105,7 @@ public class ProfileActivity extends ParentActivity {
         }
         email.setText(user.getEmail());
         try{
-            nominal.setText(setRP(user.getUserWallet().getAmt()));
+            nominal.setText(setRP(user.getUser_wallet().getAmt()));
         }
         catch (NullPointerException e){
             nominal.setText("Rp. 0.00");

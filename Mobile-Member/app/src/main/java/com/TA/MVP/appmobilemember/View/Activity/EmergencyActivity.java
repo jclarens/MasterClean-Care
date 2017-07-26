@@ -13,8 +13,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.Model.Basic.User;
+import com.TA.MVP.appmobilemember.Model.Responses.EmergencyCallResponse;
 import com.TA.MVP.appmobilemember.Model.Responses.Token;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.Route.Repositories.EmergencycallRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
@@ -23,7 +25,11 @@ import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 import com.TA.MVP.appmobilemember.lib.utils.Settings;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -35,6 +41,7 @@ import static java.security.AccessController.getContext;
  */
 
 public class EmergencyActivity extends ParentActivity {
+    private DateFormat fixFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
     private static final int PERMS_REQUEST_CODE = 123;
     private Button tutup;
     private EditText code;
@@ -45,6 +52,7 @@ public class EmergencyActivity extends ParentActivity {
         setContentView(R.layout.activity_emergency);
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
 
+        addtoemergencylist();
 
         if (getApplicationContext().checkSelfPermission(Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
             calladmin();
@@ -98,7 +106,8 @@ public class EmergencyActivity extends ParentActivity {
         callIntent.setData(Uri.parse("tel:082168360303"));
         startActivity(callIntent);
     }
-    public void trypass(){HashMap<String,Object> map = new HashMap<>();
+    public void trypass(){
+        HashMap<String,Object> map = new HashMap<>();
         map.put("grant_type","password");
         map.put("client_id", Settings.getClientID());
         map.put("client_secret",Settings.getclientSecret());
@@ -141,6 +150,30 @@ public class EmergencyActivity extends ParentActivity {
                 super.onFailure(call, t);
                 dismissDialog();
                 Toast.makeText(getApplicationContext(), "Fail to connect", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(getApplicationContext(), "Harus melalui tombol tutup", Toast.LENGTH_SHORT).show();
+    }
+    public void addtoemergencylist(){
+        Calendar calendar = Calendar.getInstance();
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("user_id", user.getId().toString());
+        map.put("init_time", fixFormat.format(calendar.getTime()));
+        map.put("status", 1);
+        Call<EmergencyCallResponse> caller = APIManager.getRepository(EmergencycallRepo.class).postemergencycall(map);
+        caller.enqueue(new APICallback<EmergencyCallResponse>() {
+            @Override
+            public void onSuccess(Call<EmergencyCallResponse> call, Response<EmergencyCallResponse> response) {
+                super.onSuccess(call, response);
+            }
+
+            @Override
+            public void onFailure(Call<EmergencyCallResponse> call, Throwable t) {
+                super.onFailure(call, t);
             }
         });
     }

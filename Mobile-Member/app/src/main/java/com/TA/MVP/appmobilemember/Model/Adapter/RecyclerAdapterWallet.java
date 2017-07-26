@@ -2,6 +2,7 @@ package com.TA.MVP.appmobilemember.Model.Adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,7 +16,9 @@ import com.TA.MVP.appmobilemember.Model.Array.ArrayWallet;
 import com.TA.MVP.appmobilemember.Model.Basic.Wallet;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Activity.MainActivity;
+import com.TA.MVP.appmobilemember.View.Activity.TakePictureActivity;
 import com.TA.MVP.appmobilemember.View.Activity.WalletActivity;
+import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -30,6 +33,7 @@ import retrofit2.Call;
 
 public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterWallet.ViewHolder> {
     private List<Wallet> wallets = new ArrayList<>();
+    private Context context;
     protected AlertDialog.Builder abuilder;
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
 
@@ -43,7 +47,7 @@ public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterW
             itemview.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int position = getAdapterPosition();
+                    final int position = getAdapterPosition();
                     nominal = setRP(wallets.get(position).getAmt());
                     abuildermessage("Request pembelian wallet "+nominal,"Konfirmasi Request", itemview.getContext());
                     abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -51,6 +55,9 @@ public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterW
                         public void onClick(DialogInterface dialogInterface, int i) {
                             //do request transaction trs type = 3
                             //admin nnti ubah 3 ke 1
+                            Intent intent = new Intent(itemview.getContext(), TakePictureActivity.class);
+                            intent.putExtra("wallet", GsonUtils.getJsonFromObject(wallets.get(position)));
+                            ((WalletActivity)context).startActivity(intent);
                         }
                     });
                     abuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
@@ -63,6 +70,9 @@ public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterW
                 }
             });
         }
+    }
+    public void setcontext(Context context){
+        this.context = context;
     }
 
     @Override

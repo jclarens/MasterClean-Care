@@ -92,15 +92,13 @@ public class FragmentRegister extends Fragment {
                 map.put("born_date", thn.getText() + "-" + bln.getText() + "-" + hr.getText());
                 map.put("religion",String.valueOf(spinneragama.getSelectedItemPosition()+1));
                 map.put("user_type",String.valueOf(1));//cek lg
-                map.put("status",String.valueOf(1));//cek lg
-                List<UserContact> userContacts = new ArrayList<UserContact>();
+                map.put("status",String.valueOf(1));//register 0
                 UserContact userContact = new UserContact();
                 userContact.setAddress(alamat.getText().toString());
                 userContact.setCity((spinnerkota.getSelectedItemPosition()+1));
                 userContact.setPhone(notelp.getText().toString());
                 userContact.setLocation("3.584949, 98.672400");//harusnya get location
-                userContacts.add(userContact);
-                map.put("contact", userContacts);//cek lg
+                map.put("contact", userContact);//cek lg
                 Call<UserResponse> caller = APIManager.getRepository(UserRepo.class).registeruser(map);
                 caller.enqueue(new APICallback<UserResponse>() {
                     @Override
