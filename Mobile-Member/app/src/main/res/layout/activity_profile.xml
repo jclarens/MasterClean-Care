@@ -33,7 +33,7 @@
             android:id="@+id/prof_tv_nama"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/namalengkap"
+            android:text=" "
             android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="24sp"
@@ -109,7 +109,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:layout_marginTop="40dp"
-            android:text="@string/wallet"
+            android:text="Wallet :"
             android:textAlignment="center"
             android:textColor="@android:color/black"
             android:textSize="24sp" />
@@ -118,8 +118,9 @@
             android:id="@+id/prof_tv_nominal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="-"
+            android:text=" "
             android:textAlignment="center"
+            android:gravity="center"
             android:textColor="@android:color/black"
             android:textSize="24sp" />
 
@@ -128,7 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="-"
+            android:text="Status Transaksi"
             android:textAllCaps="false" />
     </LinearLayout>
 

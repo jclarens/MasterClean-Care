@@ -58,7 +58,7 @@ public class PemesananActiveActivity extends ParentActivity {
     private Toolbar toolbar;
     private FragmentAsistenmini fragmentAsistenmini;
 
-    private Button batalkan, kembali;
+    private Button btnextra, kembali;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +73,21 @@ public class PemesananActiveActivity extends ParentActivity {
         selesaidate = (EditText) findViewById(R.id.pmsa_et_selesaidate);
         cttn = (EditText) findViewById(R.id.pmsa_et_catatan);
         total = (EditText) findViewById(R.id.pmsa_et_total);
-        batalkan = (Button) findViewById(R.id.pmsa_btn_btlkn);
+        btnextra = (Button) findViewById(R.id.pmsa_btn_extra);
         kembali = (Button) findViewById(R.id.pmsa_btn_kembali);
+
+        switch (order.getStatus()){
+            case 0:
+                btnextra.setText("Batalkan");
+                break;
+            case 1:
+                btnextra.setText("Kirim Pesan");
+                //selesaikan dari member
+                break;
+            case 3:
+                btnextra.setText("Review");
+                break;
+        }
 
 
         try{
@@ -116,23 +129,22 @@ public class PemesananActiveActivity extends ParentActivity {
                 finish();
             }
         });
-        batalkan.setOnClickListener(new View.OnClickListener() {
+        btnextra.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                abuildermessage("Anda yakin ingin membatalkan pesanan ini?","Konfirmasi pembatalan");
-                abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                switch (order.getStatus()){
+                    case 0:
                         batalkanorder(order.getId());
-                    }
-                });
-                abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-                showalertdialog();
+                        break;
+                    case 1:
+                        Intent intent1 = new Intent();
+                        intent1.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(order.getArt()));
+                        startActivity(intent1);
+                        break;
+                    case 3:
+                        Toast.makeText(getApplicationContext(),"Sedang dalam pengembangan.", Toast.LENGTH_SHORT).show();
+                        break;
+                }
             }
         });
     }
@@ -151,23 +163,37 @@ public class PemesananActiveActivity extends ParentActivity {
         tempp = tempp + numberFormat.format(number) + ".00";
         return tempp;
     }
-    public void batalkanorder(Integer id){
-        Call<Order> caller = APIManager.getRepository(OrderRepo.class).getorderById(id.toString());
-        caller.enqueue(new APICallback<Order>() {
+    public void batalkanorder(final Integer id){
+        abuildermessage("Anda yakin ingin membatalkan pesanan ini?","Konfirmasi pembatalan");
+        abuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
             @Override
-            public void onSuccess(Call<Order> call, Response<Order> response) {
-                super.onSuccess(call, response);
-                order = response.body();
-                if (order.getStatus() == 1){
-                    deleteorder(order.getId());
-                }
-            }
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Call<Order> caller = APIManager.getRepository(OrderRepo.class).getorderById(id.toString());
+                caller.enqueue(new APICallback<Order>() {
+                    @Override
+                    public void onSuccess(Call<Order> call, Response<Order> response) {
+                        super.onSuccess(call, response);
+                        order = response.body();
+                        if (order.getStatus() == 1){
+                            deleteorder(order.getId());
+                        }
+                    }
 
-            @Override
-            public void onFailure(Call<Order> call, Throwable t) {
-                super.onFailure(call, t);
+                    @Override
+                    public void onFailure(Call<Order> call, Throwable t) {
+                        super.onFailure(call, t);
+                        Toast.makeText(getApplicationContext(),"Koneksi bermasalah, silahkan coba lagi",Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
+        abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+            }
+        });
+        showalertdialog();
     }
     public void deleteorder(Integer id){
         Call<OrderResponse> caller = APIManager.getRepository(OrderRepo.class).deleteorderById(order.getId().toString());

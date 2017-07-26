@@ -52,9 +52,9 @@ public class RecyclerAdapterPesanTerkirim extends RecyclerView.Adapter<RecyclerA
                     int position = getAdapterPosition();
                     Intent i = new Intent(itemview.getContext(), BacaPesanTerkirimActivity.class);
                     i.putExtra("msg", GsonUtils.getJsonFromObject(myMessages.get(position)));
-                    if (myMessages.get(position).getStatus() == 0)
-                        openmessage(myMessages.get(position).getId(), i);
-                    else ((MainActivity)context).startActivityForResult(i,MainActivity.REQUEST_PESAN);
+//                    if (myMessages.get(position).getStatus() == 0)
+//                        openmessage(myMessages.get(position).getId(), i);
+                    ((MainActivity)context).startActivityForResult(i,MainActivity.REQUEST_PESAN);
                 }
             });
         }
@@ -94,22 +94,6 @@ public class RecyclerAdapterPesanTerkirim extends RecyclerView.Adapter<RecyclerA
         Collections.sort(myMessages, new Comparator<MyMessage>(){
             public int compare(MyMessage obj1, MyMessage obj2) {
                 return obj2.getCreated_at().compareToIgnoreCase(obj1.getCreated_at());
-            }
-        });
-    }
-    public void openmessage(Integer id, final Intent intent){
-        Call<MyMessageResponse> caller = APIManager.getRepository(MessageRepo.class).patchmessage(id.toString(), 1);
-        caller.enqueue(new APICallback<MyMessageResponse>() {
-            @Override
-            public void onSuccess(Call<MyMessageResponse> call, Response<MyMessageResponse> response) {
-                super.onSuccess(call, response);
-                ((MainActivity)context).startActivityForResult(intent,MainActivity.REQUEST_PESAN);
-            }
-
-            @Override
-            public void onFailure(Call<MyMessageResponse> call, Throwable t) {
-                super.onFailure(call, t);
-                Toast.makeText(context,"Gagal membuka pesan", Toast.LENGTH_SHORT).show();
             }
         });
     }

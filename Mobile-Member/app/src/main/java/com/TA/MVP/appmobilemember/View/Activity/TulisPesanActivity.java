@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.Model.Basic.MyMessage;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
@@ -68,6 +69,8 @@ public class TulisPesanActivity extends ParentActivity {
             nama.setText(art.getName());
             targetid = art.getId();
         }
+        else
+            Toast.makeText(getApplicationContext(),"Tujuan tidak ditemukan", Toast.LENGTH_SHORT).show();
 
         batal.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -6,7 +6,7 @@
 
     <string name="menu_beranda">Beranda</string>
     <string name="menu_cari">Cari</string>
-    <string name="menu_status">Status</string>
+    <string name="menu_status">Transaksi</string>
     <string name="menu_pesan">Pesan</string>
     <string name="menu_lainnya">Lainnya</string>
     <string name="menu_editprofile">Edit Profile</string>

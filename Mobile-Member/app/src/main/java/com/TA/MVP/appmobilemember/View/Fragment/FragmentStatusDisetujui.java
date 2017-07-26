@@ -46,7 +46,7 @@ public class FragmentStatusDisetujui extends Fragment {
         recyclerView.setLayoutManager(rec_LayoutManager);
         rec_Adapter = new RecyclerAdapterPemesanan();
         recyclerView.setAdapter(rec_Adapter);
-        rec_Adapter.setOrders(orders, 2);
+        rec_Adapter.setOrders(orders, 1);
         rec_Adapter.setcontext(getActivity());
 
         Call<List<Order>> caller = APIManager.getRepository(OrderRepo.class).getorderByMember(user.getId().toString());
@@ -55,7 +55,7 @@ public class FragmentStatusDisetujui extends Fragment {
             public void onSuccess(Call<List<Order>> call, Response<List<Order>> response) {
                 super.onSuccess(call, response);
                 orders = response.body();
-                rec_Adapter.setOrders(orders, 2);
+                rec_Adapter.setOrders(orders, 1);
             }
 
             @Override

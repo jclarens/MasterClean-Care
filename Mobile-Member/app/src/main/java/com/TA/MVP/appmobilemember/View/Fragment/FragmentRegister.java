@@ -107,11 +107,8 @@ public class FragmentRegister extends Fragment {
                     @Override
                     public void onSuccess(Call<UserResponse> call, Response<UserResponse> response) {
                         super.onSuccess(call, response);
-                        Intent i = new Intent();
-                        i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
-                        getToken(email.getText().toString(), katasandi.getText().toString());
-                        ((AuthActivity)getActivity()).dismissDialog();
-                        ((AuthActivity)getActivity()).dofinishActivity(i);
+                        User user = response.body().getUser();
+                        getToken(user,katasandi.getText().toString());
                     }
 
                     @Override
@@ -151,19 +148,23 @@ public class FragmentRegister extends Fragment {
 
         return _view;
     }
-    public void getToken(String email, String password){
+    public void getToken(final User user, String pass){
         HashMap<String,Object> map = new HashMap<>();
         map.put("grant_type","password");
         map.put("client_id", Settings.getClientID());
         map.put("client_secret",Settings.getclientSecret());
-        map.put("username",email);
-        map.put("password",password);
+        map.put("username",user.getEmail());
+        map.put("password",pass);
         Call<Token> caller = APIManager.getRepository(UserRepo.class).loginuser(map);
         caller.enqueue(new APICallback<Token>() {
             @Override
             public void onSuccess(Call<Token> call, Response<Token> response) {
                 super.onSuccess(call, response);
                 SharedPref.save(SharedPref.ACCESS_TOKEN, response.body().getAccess_token());
+                Intent i = new Intent();
+                i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(user));
+                ((AuthActivity)getActivity()).dismissDialog();
+                ((AuthActivity)getActivity()).dofinishActivity(i);
             }
 
             @Override

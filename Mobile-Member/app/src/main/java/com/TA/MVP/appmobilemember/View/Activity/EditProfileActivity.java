@@ -76,6 +76,13 @@ public class EditProfileActivity extends ParentActivity {
                 userContact.setPhone(notelp.getText().toString());
                 userContacts.add(userContact);
                 map.put("contact", userContacts);
+
+                user.setName(nama.getText().toString());
+                user.getContact().get(0).setAddress(alamat.getText().toString());
+                user.getContact().get(0).setPhone(notelp.getText().toString());
+                SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(user));
+
+
                 Call<UserResponse> caller = APIManager.getRepository(UserRepo.class).updateuser(String.valueOf(user.getId()),map);
                 caller.enqueue(new APICallback<UserResponse>() {
                     @Override

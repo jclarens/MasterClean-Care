@@ -43,7 +43,7 @@ public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapt
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
-                    Toast.makeText(itemview.getContext(),"Clicking card number " + position, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(itemview.getContext(),"Clicking card number " + position, Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(itemview.getContext(), PemesananActiveActivity.class);
                     i.putExtra(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(orders.get(position)));
 //                    itemview.getContext().startActivity(i);

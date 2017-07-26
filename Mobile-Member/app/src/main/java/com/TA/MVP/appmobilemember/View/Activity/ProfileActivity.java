@@ -106,8 +106,6 @@ public class ProfileActivity extends ParentActivity {
         email.setText(user.getEmail());
         nominal.setText(setRP(user.getUser_wallet().get(0).getAmt()));
 
-
-        btnlog.setText("Riwayat Transaksi");
         btnlog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -124,7 +122,7 @@ public class ProfileActivity extends ParentActivity {
         switch (requestCode){
             case REQUEST_EDIT:
                 if (resultCode == RESULT_SUCCESS)
-                    getallinfo(user.getId());
+                    user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
                 break;
         }
     }
