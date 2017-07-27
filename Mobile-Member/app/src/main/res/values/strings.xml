@@ -96,7 +96,7 @@
 
     <string name="pager_cari_map">Map</string>
     <string name="pager_cari_list">List</string>
-    <string name="pager_status_penawaran">Permintaan</string>
+    <string name="pager_status_penawaran">Penawaran</string>
     <string name="pager_status_pending">Pending</string>
     <string name="pager_status_disetujui">Disetujui</string>
     <string name="pager_status_riwayat">Riwayat</string>
@@ -104,9 +104,9 @@
     <string name="pager_pesan_terkirim">Pesan Terkirim</string>
 
     <string name="filter_nama">Nama:</string>
-    <string name="filter_usiamin">Usia (min):</string>
-    <string name="filter_usiamax">Usia (max):</string>
-    <string name="filter_pengalamankrj">Pengalaman Kerja (Thn):</string>
+    <string name="filter_usiamin">Usia (min) :</string>
+    <string name="filter_usiamax">Usia (max) :</string>
+    <string name="filter_pengalamankrj">Pengalaman Kerja (Thn) :</string>
     <string name="filter_kota">Kota :</string>
     <string name="filter_agama">Agama :</string>
     <string name="filter_suku">Suku :</string>
@@ -141,7 +141,7 @@
     <string name="btn_kmbl">Kembali</string>
     <string name="btn_hps">Hapus</string>
     <string name="btn_bls">Balas</string>
-    <string name="btn_add_penawaran">Buat Permintaan</string>
+    <string name="btn_add_penawaran">Buat Penawaran</string>
     <string name="btn_trshistory">Riwayat Transaksi</string>
 
     <string name="API_MAP_KEY">AIzaSyCQV-_kS7IAFCZtHML0O_BCq2kBz7b4rXQ</string>
