@@ -126,8 +126,10 @@ public class ProfileActivity extends ParentActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case REQUEST_EDIT:
-                if (resultCode == RESULT_SUCCESS)
+                if (resultCode == RESULT_SUCCESS) {
                     user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
+                    setdata();
+                }
                 break;
         }
     }

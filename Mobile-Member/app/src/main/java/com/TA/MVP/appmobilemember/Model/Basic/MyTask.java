@@ -6,26 +6,35 @@ package com.TA.MVP.appmobilemember.Model.Basic;
 
 public class MyTask {
     private Integer Id;
-    private Job job;
-    private Integer Point;
+    private Job job_id;
+    private String task;
+    private Integer point;
 
     public Integer getId() {
         return Id;
     }
 
-    public Job getJob() {
-        return job;
+    public Job getJob_id() {
+        return job_id;
     }
 
-    public void setJob(Job job) {
-        this.job = job;
+    public void setJob_id(Job job_id) {
+        this.job_id = job_id;
+    }
+
+    public String getTask() {
+        return task;
+    }
+
+    public void setTask(String task) {
+        this.task = task;
     }
 
     public Integer getPoint() {
-        return Point;
+        return point;
     }
 
     public void setPoint(Integer point) {
-        Point = point;
+        this.point = point;
     }
 }

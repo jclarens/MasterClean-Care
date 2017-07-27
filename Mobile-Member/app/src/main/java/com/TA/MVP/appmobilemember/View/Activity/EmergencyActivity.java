@@ -120,6 +120,7 @@ public class EmergencyActivity extends ParentActivity {
                 super.onSuccess(call, response);
                 SharedPref.save(SharedPref.ACCESS_TOKEN, response.body().getAccess_token());
                 dismissDialog();
+                SharedPref.save(ConstClass.EMERGENCY_EXTRA, "");
                 doChangeActivity(EmergencyActivity.this, MainActivity.class);
             }
 

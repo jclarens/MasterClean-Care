@@ -60,16 +60,17 @@
             </RelativeLayout>
 
             <EditText
-                android:id="@+id/pms3_et_prof"
+                android:id="@+id/pms3_et_worktime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:enabled="false"
                 android:focusable="false"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textColor="@color/colorBlack"/>
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/pmr3_rec_listkerja"
+                android:id="@+id/pms3_rec_listkerja"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
@@ -99,7 +100,9 @@
                     android:ems="10"
                     android:enabled="false"
                     android:focusable="false"
-                    android:inputType="numberDecimal" />
+                    android:inputType="numberDecimal"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorBlack"/>
 
                 <TextView
                     android:id="@+id/pms3_tv_estimasiwaktu"
@@ -122,24 +125,16 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/pms3_et_mulaitime"
+                    android:id="@+id/pms3_et_mulai"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
                     android:enabled="false"
                     android:focusable="false"
-                    android:inputType="time" />
+                    android:inputType="time"
+                    android:textColor="@color/colorBlack"/>
 
-                <EditText
-                    android:id="@+id/pms3_et_mulaidate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:enabled="false"
-                    android:focusable="false"
-                    android:inputType="date" />
             </LinearLayout>
 
             <TextView
@@ -155,24 +150,16 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/pms3_et_selesaitime"
+                    android:id="@+id/pms3_et_selesai"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
                     android:enabled="false"
                     android:focusable="false"
-                    android:inputType="time" />
+                    android:inputType="time"
+                    android:textColor="@color/colorBlack" />
 
-                <EditText
-                    android:id="@+id/pms3_et_selesaidate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:enabled="false"
-                    android:focusable="false"
-                    android:inputType="date" />
             </LinearLayout>
 
             <TextView
@@ -190,7 +177,9 @@
                 android:ems="10"
                 android:enabled="false"
                 android:focusable="false"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textColor="@color/colorBlack"
+                android:textAlignment="center"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

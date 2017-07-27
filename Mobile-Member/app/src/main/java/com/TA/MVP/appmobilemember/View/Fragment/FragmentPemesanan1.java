@@ -51,6 +51,7 @@ public class FragmentPemesanan1 extends Fragment{
     private PlacePicker.IntentBuilder ppbuilder = new PlacePicker.IntentBuilder();
     private Order order = new Order();
     private Bundle bundle = new Bundle();
+    private User member = new User();
 
     private static final int PERMS_REQUEST_CODE = 123;
     private Button next;
@@ -62,6 +63,7 @@ public class FragmentPemesanan1 extends Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_pemesanan1, container, false);
+        member = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
         art = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.ART_EXTRA), User.class);
         order = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.ORDER_EXTRA), Order.class);
 
@@ -92,8 +94,9 @@ public class FragmentPemesanan1 extends Fragment{
                     OrderContact orderContact = new OrderContact();
                     orderContact.setAddress(address.getText().toString());
                     orderContact.setLocation(place.getLatLng().latitude + "," +place.getLatLng().longitude);
-                    orderContact.setPhone(art.getContact().getPhone());
-                    order.setOrderContact(orderContact);
+                    orderContact.setPhone(member.getContact().getPhone());
+                    orderContact.setCity(member.getContact().getCity());
+                    order.setContact(orderContact);
                     SharedPref.save(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
                     SharedPref.save(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(order));
                     ((PemesananActivity)getActivity()).doChangeFragment(2);

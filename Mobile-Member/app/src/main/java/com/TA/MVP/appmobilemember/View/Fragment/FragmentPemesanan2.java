@@ -2,11 +2,13 @@ package com.TA.MVP.appmobilemember.View.Fragment;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -25,19 +27,24 @@ import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterListKerja;
 import com.TA.MVP.appmobilemember.Model.Array.ArrayBulan;
 import com.TA.MVP.appmobilemember.Model.Array.ArrayHari;
 import com.TA.MVP.appmobilemember.Model.Basic.Job;
+import com.TA.MVP.appmobilemember.Model.Basic.MyTask;
 import com.TA.MVP.appmobilemember.Model.Basic.Order;
 import com.TA.MVP.appmobilemember.Model.Basic.OrderTask;
 import com.TA.MVP.appmobilemember.Model.Basic.OrderTime;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Basic.Waktu_Kerja;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.Route.Repositories.MyTaskRepo;
 import com.TA.MVP.appmobilemember.View.Activity.PemesananActivity;
+import com.TA.MVP.appmobilemember.lib.api.APICallback;
+import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
 import java.sql.Time;
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -45,6 +52,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Created by Zackzack on 18/06/2017.
@@ -54,7 +64,7 @@ public class FragmentPemesanan2 extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager rec_LayoutManager;
     private RecyclerAdapterListKerja rec_Adapter;
-    private List<OrderTask> orderTasks = new ArrayList<>();
+    private List<MyTask> myTasks = new ArrayList<>();
     private User art = new User();
     private Order order = new Order();
     private Bundle bundle = new Bundle();
@@ -69,6 +79,7 @@ public class FragmentPemesanan2 extends Fragment {
     private List<Waktu_Kerja> defaultWK = new ArrayList<>();
     private List<Job> defaultProf = new ArrayList<>();
 
+    private NumberFormat numberFormat = NumberFormat.getNumberInstance();
     private int minestimasi = 1;
     private int maxestimasi = 2;
     private int tmp;
@@ -95,6 +106,10 @@ public class FragmentPemesanan2 extends Fragment {
     private boolean valid = false;
     private Date tempdate;
     private String fixstart, fixend;
+    private Integer artcost = 0;
+    private Integer total = 0;
+    private boolean asistenrt = false;
+    private boolean perjam = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -173,7 +188,10 @@ public class FragmentPemesanan2 extends Fragment {
                         maxestimasi = 8;
                         estimasi.setEnabled(false);
                         estimasi.setText(String.valueOf(minestimasi));
-                        recyclerView.setVisibility(View.VISIBLE);
+                        rec_Adapter.setshowtask(1);
+                        artcost = art.getUser_work_time().get(i).getCost();
+                        order.setWork_time_id(art.getUser_work_time().get(i).getWork_time_id());
+                        perjam = true;
                         break;
                     case 2:
                         //hari
@@ -184,7 +202,9 @@ public class FragmentPemesanan2 extends Fragment {
                         maxestimasi = 14;
                         estimasi.setEnabled(true);
                         estimasi.setText(String.valueOf(minestimasi));
-                        recyclerView.setVisibility(View.GONE);
+                        artcost = art.getUser_work_time().get(i).getCost();
+                        order.setWork_time_id(art.getUser_work_time().get(i).getWork_time_id());
+                        perjam = false;
                         break;
                     case 3:
                         //bulan
@@ -195,9 +215,13 @@ public class FragmentPemesanan2 extends Fragment {
                         maxestimasi = 12;
                         estimasi.setEnabled(true);
                         estimasi.setText(String.valueOf(minestimasi));
-                        recyclerView.setVisibility(View.GONE);
+                        artcost = art.getUser_work_time().get(i).getCost();
+                        order.setWork_time_id(art.getUser_work_time().get(i).getWork_time_id());
+                        perjam = false;
                         break;
                 }
+                setRecyclerViewvisibility();
+                settotal();
                 settanggal();
             }
 
@@ -210,10 +234,10 @@ public class FragmentPemesanan2 extends Fragment {
         //listkerja
         rec_LayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(rec_LayoutManager);
-        rec_Adapter = new RecyclerAdapterListKerja();
+        rec_Adapter = new RecyclerAdapterListKerja(FragmentPemesanan2.this);
         recyclerView.setAdapter(rec_Adapter);
-        //set full task         disini
-//        rec_Adapter.setList(orderTasks);
+        rec_Adapter.setFullTasks(myTasks);
+        loadlist();
 
         //spinner prof
         List<Job> tempprof = new ArrayList<>();
@@ -229,20 +253,30 @@ public class FragmentPemesanan2 extends Fragment {
                     case 1:
                         //Asisten Rumah Tangga
 //                        rec_Adapter.setList(orderTasks);
+                        rec_Adapter.setshowtask(1);
+                        asistenrt = true;
                         break;
                     case 2:
                         //Perawat Lansia
 //                        rec_Adapter.setList(orderTasks);
+                        rec_Adapter.setshowtask(2);
+                        asistenrt = false;
                         break;
                     case 3:
                         //Babysitter
 //                        rec_Adapter.setList(orderTasks);
+                        rec_Adapter.setshowtask(3);
+                        asistenrt = false;
                         break;
                     case 4:
                         //Perawat Balita
 //                        rec_Adapter.setList(orderTasks);
+                        rec_Adapter.setshowtask(4);
+                        asistenrt = false;
                         break;
                 }
+                setRecyclerViewvisibility();
+                settotal();
                 settanggal();
             }
 
@@ -265,6 +299,26 @@ public class FragmentPemesanan2 extends Fragment {
             @Override
             public void onClick(View view) {
                 if (validasi()){
+                    //save data from this fragment ----------------------------------------------------------------------------------------------------
+                    order.setCost(total);
+                    order.setStart_date(fixstart);
+                    order.setEnd_date(fixend);
+                    try {
+                        order.setRemark(cttntmbhn.getText().toString());
+                    }catch (NullPointerException e){
+                        order.setRemark("");
+                    }
+                    order.setStatus(0);
+                    List<MyTask> templist = rec_Adapter.getselectedtasklist();
+                    List<OrderTask> newlist = new ArrayList<>();
+                    for (int n=0;n<templist.size();n++){
+                        OrderTask orderTask = new OrderTask();
+                        orderTask.setTask_list_id(templist.get(n).getId());
+                        orderTask.setStatus(0);
+                        newlist.add(orderTask);
+                    }
+                    order.setOrder_task_list(newlist);
+
                     SharedPref.save(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
                     SharedPref.save(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(order));
                     ((PemesananActivity)getActivity()).doChangeFragment(3);
@@ -283,9 +337,20 @@ public class FragmentPemesanan2 extends Fragment {
                     else if (tmp < minestimasi)
                         estimasi.setText(String.valueOf(minestimasi));
                     settanggal();
+                    settotal();
                 }
             }
         });
+
+        //load awal recview
+        try{
+            if (art.getUser_job().get(0).getJob_id() == 1)
+                rec_Adapter.setshowtask(1);
+            else recyclerView.setVisibility(View.GONE);
+        }catch (NullPointerException e){
+            Toast.makeText(getContext(),"Asisten ini tidak memilih pekerjaan", Toast.LENGTH_SHORT).show();
+        }
+
 
         return _view;
     }
@@ -418,5 +483,64 @@ public class FragmentPemesanan2 extends Fragment {
         String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date)));
         // Senin, Januari 30
         return tglFormat.format(date) + " " + bulan + " " + tahunFormat.format(date);
+    }
+    public void loadlist(){
+        ((PemesananActivity)getActivity()).initProgressDialog("Sedang memuat data . . ");
+        ((PemesananActivity)getActivity()).showDialog();
+        Call<List<MyTask>> caller = APIManager.getRepository(MyTaskRepo.class).gettasks();
+        caller.enqueue(new APICallback<List<MyTask>>() {
+            @Override
+            public void onSuccess(Call<List<MyTask>> call, Response<List<MyTask>> response) {
+                super.onSuccess(call, response);
+                myTasks = response.body();
+                rec_Adapter.setFullTasks(myTasks);
+                ((PemesananActivity)getActivity()).dismissDialog();
+            }
+
+            @Override
+            public void onFailure(Call<List<MyTask>> call, Throwable t) {
+                super.onFailure(call, t);
+                Toast.makeText(getContext(),"Koneksi bermasalah.", Toast.LENGTH_SHORT).show();
+                ((PemesananActivity)getActivity()).dismissDialog();
+                //dosomething here pls
+            }
+        });
+
+    }
+    public String setRP(Integer number){
+        String tempp = "Rp. ";
+        tempp = tempp + numberFormat.format(number) + ".00";
+        return tempp;
+    }
+    public void settotal(){
+        tmp = Integer.valueOf(estimasi.getText().toString());
+        total = artcost * tmp;
+        totalbiaya.setText(setRP(total));
+    }
+
+    public void setbobot(){
+        List<MyTask> selectedtasks = rec_Adapter.getselectedtasklist();
+        Integer tmpbobot = 0;
+        for(int n=0; n<selectedtasks.size();n++){
+            tmpbobot += selectedtasks.get(n).getPoint();
+        }
+        Toast.makeText(getContext(), "Bobot :" + tmpbobot, Toast.LENGTH_SHORT).show();
+        Integer bobot = 0;
+        if (tmpbobot > 20) {
+            bobot = tmpbobot / 10;
+            estimasi.setText(bobot.toString());
+        } else if (tmpbobot <= 20)
+            estimasi.setText(String.valueOf(2));
+        settanggal();
+        settotal();
+    }
+    public void setRecyclerViewvisibility(){
+        if (perjam && asistenrt){
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+        else {
+            recyclerView.setVisibility(View.GONE);
+            rec_Adapter.clearselectedlist();
+        }
     }
 }

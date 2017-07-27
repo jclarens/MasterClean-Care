@@ -8,6 +8,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 
+import com.TA.MVP.appmobilemember.MasterCleanApplication;
+import com.TA.MVP.appmobilemember.Model.Basic.MyTask;
 import com.TA.MVP.appmobilemember.Model.Basic.OrderTask;
 import com.TA.MVP.appmobilemember.R;
 
@@ -19,12 +21,16 @@ import java.util.List;
  */
 
 public class RecyclerAdapterListKerjaShow extends RecyclerView.Adapter<RecyclerAdapterListKerjaShow.ViewHolder> {
-    private List<OrderTask> taskList = new ArrayList<>();
+    private List<OrderTask> orderTasks = new ArrayList<>();
+    private int black;
+    private List<MyTask> myTasks = new ArrayList<>();
+    private List<MyTask> defaulttask = new ArrayList<>();
     class ViewHolder extends RecyclerView.ViewHolder{
         public CheckBox checkBox;
 
         public ViewHolder(final View itemview){
             super(itemview);
+            black = itemview.getResources().getColor(R.color.colorBlack);
             checkBox = (CheckBox) itemview.findViewById(R.id.card_listkerja_item);
         }
     }
@@ -38,15 +44,24 @@ public class RecyclerAdapterListKerjaShow extends RecyclerView.Adapter<RecyclerA
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        //set nama task
+        holder.checkBox.setEnabled(false);
+        holder.checkBox.setTextColor(black);
+        holder.checkBox.setText(defaulttask.get(orderTasks.get(position).getTask_list_id()).getTask());
+        if (orderTasks.get(position).getStatus().equals(1)){
+            holder.checkBox.setChecked(true);
+        }
     }
 
     @Override
     public int getItemCount() {
-        return taskList.size();
+        return orderTasks.size();
     }
 
-    public void setList(List<OrderTask> tasklist){
-        this.taskList = tasklist;
+    public void setList(List<OrderTask> orderTasks){
+        this.orderTasks = orderTasks;
+        notifyDataSetChanged();
+    }
+    public void setDefaulttask(List<MyTask> defaulttask){
+        this.defaulttask = defaulttask;
     }
 }

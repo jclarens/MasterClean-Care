@@ -199,10 +199,10 @@ public class FragmentPermintaan2 extends Fragment {
         });
 
         //listkerja
-        rec_LayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(rec_LayoutManager);
-        rec_Adapter = new RecyclerAdapterListKerja();
-        recyclerView.setAdapter(rec_Adapter);
+//        rec_LayoutManager = new LinearLayoutManager(getContext());
+//        recyclerView.setLayoutManager(rec_LayoutManager);
+//        rec_Adapter = new RecyclerAdapterListKerja();
+//        recyclerView.setAdapter(rec_Adapter);
         //set full task         disini
 //        rec_Adapter.setList(orderTasks);
 

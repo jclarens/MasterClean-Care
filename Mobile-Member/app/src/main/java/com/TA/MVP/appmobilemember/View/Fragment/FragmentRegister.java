@@ -109,12 +109,6 @@ public class FragmentRegister extends Fragment {
                     }
 
                     @Override
-                    public void onUnauthorized(Call<UserResponse> call, Response<UserResponse> response) {
-                        super.onUnauthorized(call, response);
-                        ((AuthActivity)getActivity()).dismissDialog();
-                    }
-
-                    @Override
                     public void onUnprocessableEntity(Call<UserResponse> call, Response<UserResponse> response) {
                         super.onUnprocessableEntity(call, response);
                         ((AuthActivity)getActivity()).dismissDialog();

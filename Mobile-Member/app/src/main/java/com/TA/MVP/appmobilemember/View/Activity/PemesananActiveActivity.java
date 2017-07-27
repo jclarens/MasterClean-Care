@@ -13,8 +13,10 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterListKerja;
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterListKerjaShow;
+import com.TA.MVP.appmobilemember.Model.Basic.MyTask;
 import com.TA.MVP.appmobilemember.Model.Basic.Order;
 import com.TA.MVP.appmobilemember.Model.Basic.OrderTask;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
@@ -46,7 +48,8 @@ public class PemesananActiveActivity extends ParentActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager rec_LayoutManager;
     private RecyclerAdapterListKerjaShow rec_Adapter;
-    private List<OrderTask> orderTasks = new ArrayList<>();
+    private List<MyTask> myTasks = new ArrayList<>();
+    private List<MyTask> defaulttask = new ArrayList<>();
 
     private EditText mulaitime, mulaidate, selesaitime, selesaidate, total, cttn;
     private DateFormat getdateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
@@ -66,6 +69,7 @@ public class PemesananActiveActivity extends ParentActivity {
         setContentView(R.layout.activity_pemesanan_active);
         Intent intent = getIntent();
         order = GsonUtils.getObjectFromJson(intent.getStringExtra(ConstClass.ORDER_EXTRA), Order.class);
+        defaulttask = ((MasterCleanApplication)getApplication()).getGlobalStaticData().getMyTasks();
 
         mulaitime = (EditText) findViewById(R.id.pmsa_et_mulaitime);
         mulaidate = (EditText) findViewById(R.id.pmsa_et_mulaidate);
@@ -114,7 +118,8 @@ public class PemesananActiveActivity extends ParentActivity {
         recyclerView.setLayoutManager(rec_LayoutManager);
         rec_Adapter = new RecyclerAdapterListKerjaShow();
         recyclerView.setAdapter(rec_Adapter);
-        rec_Adapter.setList(orderTasks);
+        rec_Adapter.setDefaulttask(defaulttask);
+        rec_Adapter.setList(order.getOrder_task_list());
 
         //toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);

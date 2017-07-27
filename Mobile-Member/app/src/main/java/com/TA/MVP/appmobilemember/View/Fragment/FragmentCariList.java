@@ -209,6 +209,15 @@ public class FragmentCariList extends Fragment {
             }
         }
 
+        //filter status
+        users = result;
+        result = new ArrayList<>();
+        for (int n = 0; n<users.size(); n++){
+            if (users.get(n).getStatus() == 1){
+                result.add(users.get(n));
+            }
+        }
+
         return result;
     }
 }

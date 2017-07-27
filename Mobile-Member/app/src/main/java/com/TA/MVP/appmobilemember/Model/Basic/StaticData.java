@@ -13,6 +13,7 @@ public class StaticData {
     private List<Waktu_Kerja> waktu_kerjas;
     private List<AdditionalInfo> additionalInfos;
     private List<Wallet> wallets;
+    private List<MyTask> myTasks;
 
     public List<Place> getPlaces() {
         return places;
@@ -60,5 +61,13 @@ public class StaticData {
 
     public void setWallets(List<Wallet> wallets) {
         this.wallets = wallets;
+    }
+
+    public List<MyTask> getMyTasks() {
+        return myTasks;
+    }
+
+    public void setMyTasks(List<MyTask> myTasks) {
+        this.myTasks = myTasks;
     }
 }

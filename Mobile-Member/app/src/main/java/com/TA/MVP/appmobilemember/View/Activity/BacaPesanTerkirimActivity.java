@@ -16,7 +16,9 @@ import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.MessageRepo;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
+import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.models.GenericResponse;
+import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
 import retrofit2.Call;
@@ -35,6 +37,7 @@ public class BacaPesanTerkirimActivity extends ParentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bacapesan_terkirim);
+        SharedPref.save(ConstClass.PAGER_PESAN_POS, "out");
         Intent i = getIntent();
         myMessage = GsonUtils.getObjectFromJson(i.getStringExtra("msg"), MyMessage.class);
 

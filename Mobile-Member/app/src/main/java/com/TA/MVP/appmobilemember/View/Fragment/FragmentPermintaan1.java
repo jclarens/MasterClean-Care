@@ -73,7 +73,7 @@ public class FragmentPermintaan1 extends Fragment {
                     orderContact.setAddress(address.getText().toString());
                     orderContact.setLocation(place.getLatLng().latitude + "," +place.getLatLng().longitude);
                     orderContact.setPhone(art.getContact().getPhone());
-                    order.setOrderContact(orderContact);
+                    order.setContact(orderContact);
                     SharedPref.save(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
                     SharedPref.save(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(order));
                     ((PemesananActivity)getActivity()).doChangeFragment(2);

@@ -105,6 +105,7 @@
                     android:ems="10"
                     android:focusable="false"
                     android:inputType="time"
+                    android:textColor="@color/colorBlack"
                     android:hint="time"/>
             </LinearLayout>
 
@@ -126,7 +127,9 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:maxLength="2"
-                    android:inputType="numberDecimal" />
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/colorBlack"
+                    android:textAlignment="center"/>
 
                 <TextView
                     android:id="@+id/pms2_tv_estimasiwaktu"
@@ -157,6 +160,7 @@
                     android:focusable="false"
                     android:enabled="false"
                     android:inputType="date"
+                    android:textColor="@color/colorBlack"
                     android:hint="Date"/>
 
                 <EditText
@@ -168,6 +172,7 @@
                     android:focusable="false"
                     android:enabled="false"
                     android:inputType="time"
+                    android:textColor="@color/colorBlack"
                     android:hint="Time"/>
             </LinearLayout>
 
@@ -204,7 +209,9 @@
                 android:ems="10"
                 android:enabled="false"
                 android:focusable="false"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textColor="@color/colorBlack"
+                android:textAlignment="center"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

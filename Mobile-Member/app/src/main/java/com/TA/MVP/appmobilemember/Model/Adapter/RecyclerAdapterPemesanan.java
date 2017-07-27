@@ -19,16 +19,20 @@ import com.TA.MVP.appmobilemember.View.Activity.PemesananActivity;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Zackzack on 08/07/2017.
  */
 
 public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapterPemesanan.ViewHolder> {
+    private DateFormat fixFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
     private List<Order> orders = new ArrayList<>();
     private Context context;
     class ViewHolder extends RecyclerView.ViewHolder{
@@ -63,7 +67,7 @@ public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapt
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.itemnama.setText(orders.get(position).getArt().getName());
-        holder.itemprofesi.setText(orders.get(position).getWork_time().getWork_time());
+//        holder.itemprofesi.setText(orders.get(position).getWork_time_id().getWork_time());
         holder.itemmulai.setText(orders.get(position).getStart_date());
     }
 

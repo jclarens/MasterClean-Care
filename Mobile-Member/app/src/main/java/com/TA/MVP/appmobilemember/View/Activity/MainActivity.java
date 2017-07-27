@@ -32,6 +32,7 @@ import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Basic.AdditionalInfo;
 import com.TA.MVP.appmobilemember.Model.Basic.Job;
 import com.TA.MVP.appmobilemember.Model.Basic.Language;
+import com.TA.MVP.appmobilemember.Model.Basic.MyTask;
 import com.TA.MVP.appmobilemember.Model.Basic.Place;
 import com.TA.MVP.appmobilemember.Model.Basic.StaticData;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
@@ -41,6 +42,7 @@ import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.AdditionalInfoRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.JobRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.LanguageRepo;
+import com.TA.MVP.appmobilemember.Route.Repositories.MyTaskRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.PlaceRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.WTRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.WalletRepo;
@@ -97,6 +99,10 @@ public class MainActivity extends ParentActivity {
 
 //        initProgressDialog("Loading...");
 //        showDialog();
+        if (SharedPref.getValueString(ConstClass.EMERGENCY_EXTRA).equals("on")){
+            Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
+            startActivity(intent);
+        }
         getstaticData1();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
@@ -346,6 +352,22 @@ public class MainActivity extends ParentActivity {
         });
     }
     public  void getstaticData6(){
+        Call<List<MyTask>> caller = APIManager.getRepository(MyTaskRepo.class).gettasks();
+        caller.enqueue(new APICallback<List<MyTask>>() {
+            @Override
+            public void onSuccess(Call<List<MyTask>> call, Response<List<MyTask>> response) {
+                super.onSuccess(call, response);
+                staticData.setMyTasks(response.body());
+                getstaticData7();
+            }
+
+            @Override
+            public void onFailure(Call<List<MyTask>> call, Throwable t) {
+                super.onFailure(call, t);
+            }
+        });
+    }
+    public  void getstaticData7(){
         Call < List < Wallet >> caller6 = APIManager.getRepository(WalletRepo.class).getwallets();
         caller6.enqueue(new APICallback<List<Wallet>>() {
             @Override
@@ -375,12 +397,11 @@ public class MainActivity extends ParentActivity {
             case PERMS_REQUEST_CODE: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    SharedPref.save(ConstClass.EMERGENCY_EXTRA, ConstClass.GRANTED_EXTRA);
+                    SharedPref.save(ConstClass.EMERGENCY_EXTRA, "on");
                     Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
                     startActivity(intent);
 
                 } else {
-                    SharedPref.save(ConstClass.EMERGENCY_EXTRA, "");
                     Toast.makeText(getApplicationContext(),"Fitur tidak dapat dijalankan tanpa izin pengguna", Toast.LENGTH_SHORT).show();
                 }
                 return;

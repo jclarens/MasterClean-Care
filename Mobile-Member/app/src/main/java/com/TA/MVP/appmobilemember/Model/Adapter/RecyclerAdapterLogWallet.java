@@ -48,11 +48,11 @@ public class RecyclerAdapterLogWallet extends RecyclerView.Adapter<RecyclerAdapt
 
     @Override
     public void onBindViewHolder(RecyclerAdapterLogWallet.ViewHolder holder, int position) {
-        if (walletTransactions.get(position).getTrc_type() == 1){//bertambah
+        if (walletTransactions.get(position).getTrc_type() == 0){//bertambah
             holder.cardwallettransactionlayout.setBackgroundColor(holder.lightgreen);
             holder.status.setText("+ Rp.");
         }
-        else if (walletTransactions.get(position).getTrc_type() == 2){
+        else if (walletTransactions.get(position).getTrc_type() == 1){
             holder.cardwallettransactionlayout.setBackgroundColor(holder.lightred);
             holder.status.setText("- Rp.");
         }

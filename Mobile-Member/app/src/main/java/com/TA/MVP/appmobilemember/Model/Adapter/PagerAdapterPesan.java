@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentPesanMasuk;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentPesanTerkirim;
+import com.TA.MVP.appmobilemember.lib.database.SharedPref;
+import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 
 /**
  * Created by Zackzack on 10/06/2017.

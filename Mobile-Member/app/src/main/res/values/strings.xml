@@ -86,7 +86,7 @@
     <string name="toolbar_filter">Filter</string>
     <string name="toolbar_pemesanan">Pemesanan</string>
     <string name="toolbar_wallet">ISI ulang Wallet</string>
-    <string name="toolbar_logwallet">Riwayat Transaksi</string>
+    <string name="toolbar_logwallet">Status Transaksi</string>
     <string name="toolbar_walletvoucher">Voucher</string>
     <string name="toolbar_pmsa">Pemesanan Active</string>
     <string name="toolbar_profile">Profile</string>

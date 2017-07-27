@@ -16,7 +16,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCQV-_kS7IAFCZtHML0O_BCq2kBz7b4rXQ"/>
+            android:value="AIzaSyCUCiRRwuWdXNOYu_68bVpYysvxbdDJ2AU"/>
 
         <activity android:name="com.mvp.mobile_art.View.Activity.ParentActivity"
             android:screenOrientation="sensorPortrait" />

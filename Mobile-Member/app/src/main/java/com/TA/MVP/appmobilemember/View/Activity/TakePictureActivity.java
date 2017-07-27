@@ -38,7 +38,7 @@ public class TakePictureActivity extends ParentActivity{
         btnkonfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"Sending msg", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Fitur masih dlm pengembangan", Toast.LENGTH_SHORT).show();
             }
         });
 

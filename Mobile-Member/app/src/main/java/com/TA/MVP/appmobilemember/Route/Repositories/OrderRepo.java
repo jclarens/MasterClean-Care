@@ -26,6 +26,9 @@ public interface OrderRepo {
     @GET("api/order/{id}")
     Call<Order> getorderById(@Path("id") String id);
 
+    @Headers("Accept: application/json")
+    @POST("api/order/")
+    Call<OrderResponse> postorder(@Body HashMap map);
 
     @Headers("Accept: application/json")
     @DELETE("api/order/{id}")
