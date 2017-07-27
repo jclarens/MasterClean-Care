@@ -97,34 +97,15 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/reg_et_thn"
+                    android:id="@+id/reg_et_tgl"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:inputType="numberDecimal"
-                    android:hint="Tahun"
-                    android:maxLength="4"/>
-
-                <EditText
-                    android:id="@+id/reg_et_bln"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="numberDecimal"
-                    android:hint="Bulan"
-                    android:maxLength="2"/>
-
-                <EditText
-                    android:id="@+id/reg_et_hr"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="numberDecimal"
-                    android:hint="Tanggal"
-                    android:maxLength="2"/>
+                    android:inputType="date"
+                    android:hint="Tanggal Lahir"
+                    android:focusable="false"
+                    android:textColor="@color/colorBlack"/>
             </LinearLayout>
             <!--<EditText-->
             <!--android:id="@+id/reg_et_borndate"-->

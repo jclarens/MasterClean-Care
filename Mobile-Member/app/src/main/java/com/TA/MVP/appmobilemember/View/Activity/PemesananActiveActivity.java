@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
@@ -62,6 +63,7 @@ public class PemesananActiveActivity extends ParentActivity {
     private FragmentAsistenmini fragmentAsistenmini;
 
     private Button btnextra, kembali;
+    private TextView estimasitext, tugastext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +81,8 @@ public class PemesananActiveActivity extends ParentActivity {
         total = (EditText) findViewById(R.id.pmsa_et_total);
         btnextra = (Button) findViewById(R.id.pmsa_btn_extra);
         kembali = (Button) findViewById(R.id.pmsa_btn_kembali);
+//        estimasitext = (TextView) findViewById(R.id.pmsa_tv_estimasiwaktu);
+        tugastext = (TextView) findViewById(R.id.pmsa_tv_tugas);
 
         switch (order.getStatus()){
             case 0:
@@ -120,6 +124,23 @@ public class PemesananActiveActivity extends ParentActivity {
         recyclerView.setAdapter(rec_Adapter);
         rec_Adapter.setDefaulttask(defaulttask);
         rec_Adapter.setList(order.getOrder_task_list());
+        switch (order.getWork_time_id()){
+            case 1:
+//                estimasitext.setText("Jam");
+                recyclerView.setVisibility(View.VISIBLE);
+                tugastext.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+//                estimasitext.setText("Hari");
+                recyclerView.setVisibility(View.GONE);
+                tugastext.setVisibility(View.GONE);
+                break;
+            case 3:
+//                estimasitext.setText("Bulan");
+                recyclerView.setVisibility(View.GONE);
+                tugastext.setVisibility(View.GONE);
+                break;
+        }
 
         //toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);

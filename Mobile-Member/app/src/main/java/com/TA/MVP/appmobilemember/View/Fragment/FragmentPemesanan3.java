@@ -131,12 +131,15 @@ public class FragmentPemesanan3 extends Fragment {
         switch (order.getWork_time_id()){
             case 1:
                 estimasitext.setText("Jam");
+                recyclerView.setVisibility(View.VISIBLE);
                 break;
             case 2:
                 estimasitext.setText("Hari");
+                recyclerView.setVisibility(View.GONE);
                 break;
             case 3:
                 estimasitext.setText("Bulan");
+                recyclerView.setVisibility(View.GONE);
                 break;
         }
         try {
@@ -174,9 +177,7 @@ public class FragmentPemesanan3 extends Fragment {
         return _view;
     }
     public String costumedateformat(Date date){
-//        String hari = arrayHari.getArrayList().get(Integer.parseInt(hariFormat.format(date)));
         String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date)));
-        // Senin, Januari 30
         return tglFormat.format(date) + " " + bulan + " " + tahunFormat.format(date) + " " + timeFormat.format(date);
     }
     public String setRP(Integer number){

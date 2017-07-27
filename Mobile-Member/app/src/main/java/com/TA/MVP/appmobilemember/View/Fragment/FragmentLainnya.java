@@ -58,10 +58,9 @@ public class FragmentLainnya extends Fragment {
             @Override
             public void onClick(View view) {
                 if (SharedPref.getValueString(SharedPref.ACCESS_TOKEN) == ""){
-                    Toast.makeText(context,"Silahkan login terlebih dahulu", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"Silahkan login terlebih dahulu.", Toast.LENGTH_SHORT).show();
                 }
                 else{
-//                    Toast.makeText(context,"Profile", Toast.LENGTH_SHORT).show();
                     MainActivity.doStartActivity(getContext(), ProfileActivity.class);
                 }
 
@@ -70,7 +69,12 @@ public class FragmentLainnya extends Fragment {
         imagewallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.doStartActivity(getContext(), WalletActivity.class);
+                if (SharedPref.getValueString(SharedPref.ACCESS_TOKEN) == ""){
+                    Toast.makeText(context,"Silahkan login terlebih dahulu.", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    MainActivity.doStartActivity(getContext(), WalletActivity.class);
+                }
             }
         });
 //        imagebantuan.setOnClickListener(new View.OnClickListener() {
@@ -120,7 +124,6 @@ public class FragmentLainnya extends Fragment {
                     });
                     ((MainActivity)getActivity()).showalertdialog();
                 }
-//                Toast.makeText(context,"Logout", Toast.LENGTH_SHORT).show();
             }
         });
 

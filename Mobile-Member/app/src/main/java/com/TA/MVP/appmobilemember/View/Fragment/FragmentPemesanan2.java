@@ -148,7 +148,7 @@ public class FragmentPemesanan2 extends Fragment {
             @Override
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
                 mulaitime.setText(i + ":" + i1);
-                calendar.set(Calendar.HOUR,i);
+                calendar.set(Calendar.HOUR_OF_DAY,i);
                 calendar.set(Calendar.MINUTE,i1);
                 calendar.set(Calendar.MILLISECOND, 0);
                 settanggal();
@@ -342,15 +342,6 @@ public class FragmentPemesanan2 extends Fragment {
             }
         });
 
-        //load awal recview
-        try{
-            if (art.getUser_job().get(0).getJob_id() == 1)
-                rec_Adapter.setshowtask(1);
-            else recyclerView.setVisibility(View.GONE);
-        }catch (NullPointerException e){
-            Toast.makeText(getContext(),"Asisten ini tidak memilih pekerjaan", Toast.LENGTH_SHORT).show();
-        }
-
 
         return _view;
     }
@@ -359,35 +350,35 @@ public class FragmentPemesanan2 extends Fragment {
         now.year = calendar.get(Calendar.YEAR);
         now.month = calendar.get(Calendar.MONTH);
         now.day = calendar.get(Calendar.DAY_OF_MONTH);
-        now.hour = calendar.get(Calendar.HOUR);
+        now.hour = calendar.get(Calendar.HOUR_OF_DAY);
         now.minute = calendar.get(Calendar.MINUTE);
     }
     public void setwaktutemp(){
         temp.year = calendar.get(Calendar.YEAR);
         temp.month = calendar.get(Calendar.MONTH);
         temp.day = calendar.get(Calendar.DAY_OF_MONTH);
-        temp.hour = calendar.get(Calendar.HOUR);
+        temp.hour = calendar.get(Calendar.HOUR_OF_DAY);
         temp.minute = calendar.get(Calendar.MINUTE);
     }
     public void getwaktutemp(){
         calendar.set(Calendar.YEAR,temp.year);
         calendar.set(Calendar.MONTH,temp.month);
         calendar.set(Calendar.DAY_OF_MONTH,temp.day);
-        calendar.set(Calendar.HOUR,temp.hour);
+        calendar.set(Calendar.HOUR_OF_DAY,temp.hour);
         calendar.set(Calendar.MINUTE,temp.minute);
     }
     public void setwaktuendtemp(){
         endtemp.year = calendar.get(Calendar.YEAR);
         endtemp.month = calendar.get(Calendar.MONTH);
         endtemp.day = calendar.get(Calendar.DAY_OF_MONTH);
-        endtemp.hour = calendar.get(Calendar.HOUR);
+        endtemp.hour = calendar.get(Calendar.HOUR_OF_DAY);
         endtemp.minute = calendar.get(Calendar.MINUTE);
     }
     public void getwaktuendtemp(){
         calendar.set(Calendar.YEAR,endtemp.year);
         calendar.set(Calendar.MONTH,endtemp.month);
         calendar.set(Calendar.DAY_OF_MONTH,endtemp.day);
-        calendar.set(Calendar.HOUR,endtemp.hour);
+        calendar.set(Calendar.HOUR_OF_DAY,endtemp.hour);
         calendar.set(Calendar.MINUTE,endtemp.minute);
     }
     public  void settanggal(){
@@ -494,6 +485,15 @@ public class FragmentPemesanan2 extends Fragment {
                 super.onSuccess(call, response);
                 myTasks = response.body();
                 rec_Adapter.setFullTasks(myTasks);
+
+                //load awal recview
+                try{
+                    if (art.getUser_job().get(0).getJob_id() == 1)
+                        rec_Adapter.setshowtask(1);
+                    else recyclerView.setVisibility(View.GONE);
+                }catch (NullPointerException e){
+                    Toast.makeText(getContext(),"Asisten ini tidak memilih pekerjaan", Toast.LENGTH_SHORT).show();
+                }
                 ((PemesananActivity)getActivity()).dismissDialog();
             }
 

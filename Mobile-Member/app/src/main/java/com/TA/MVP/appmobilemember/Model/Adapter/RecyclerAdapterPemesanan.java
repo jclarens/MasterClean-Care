@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.TA.MVP.appmobilemember.Model.Array.ArrayBulan;
 import com.TA.MVP.appmobilemember.Model.Basic.MyMessage;
 import com.TA.MVP.appmobilemember.Model.Basic.Order;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
@@ -20,10 +21,13 @@ import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -33,7 +37,13 @@ import java.util.Locale;
 
 public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapterPemesanan.ViewHolder> {
     private DateFormat fixFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
+    private DateFormat tahunFormat = new SimpleDateFormat("yyyy", Locale.ENGLISH);
+    private DateFormat bulanFormat = new SimpleDateFormat("MM", Locale.ENGLISH);
+    private DateFormat tglFormat = new SimpleDateFormat("d", Locale.ENGLISH);
+    private DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
     private List<Order> orders = new ArrayList<>();
+    private ArrayBulan arrayBulan = new ArrayBulan();
+    private NumberFormat numberFormat = NumberFormat.getNumberInstance();
     private Context context;
     class ViewHolder extends RecyclerView.ViewHolder{
         public TextView itemnama, itemprofesi, itemmulai;
@@ -67,8 +77,12 @@ public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapt
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.itemnama.setText(orders.get(position).getArt().getName());
-//        holder.itemprofesi.setText(orders.get(position).getWork_time_id().getWork_time());
-        holder.itemmulai.setText(orders.get(position).getStart_date());
+        holder.itemprofesi.setText(orders.get(position).getWork_time().getWork_time());
+        try{
+        holder.itemmulai.setText(costumedateformat(fixFormat.parse(orders.get(position).getStart_date())));
+        }catch (ParseException e) {
+
+        }
     }
 
     @Override
@@ -85,6 +99,10 @@ public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapt
         this.orders = temp;
 //        this.orders = orders;
         notifyDataSetChanged();
+    }
+    public String costumedateformat(Date date){
+        String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date)));
+        return tglFormat.format(date) + " " + bulan + " " + tahunFormat.format(date) + " " + timeFormat.format(date);
     }
     public void setcontext(Context context){
         this.context = context;

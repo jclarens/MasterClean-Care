@@ -175,13 +175,6 @@ public class MainActivity extends ParentActivity {
                     ActivityCompat.requestPermissions(this,
                             new String[]{Manifest.permission.CALL_PHONE},
                             PERMS_REQUEST_CODE);
-//                if (ContextCompat.checkSelfPermission(getApplicationContext(),
-//                    Manifest.permission.CALL_PHONE)
-//                    != PackageManager.PERMISSION_GRANTED) {
-//                    ActivityCompat.requestPermissions(this,
-//                            new String[]{Manifest.permission.CALL_PHONE},
-//                            PERMS_REQUEST_CODE);
-//                }
                 }
                 break;
         }
@@ -391,8 +384,7 @@ public class MainActivity extends ParentActivity {
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case PERMS_REQUEST_CODE: {
                 if (grantResults.length > 0

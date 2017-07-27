@@ -1,5 +1,6 @@
 package com.TA.MVP.appmobilemember.View.Fragment;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,13 +9,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Adapter.SpinnerAdapter;
 import com.TA.MVP.appmobilemember.Model.Array.ArrayAgama;
+import com.TA.MVP.appmobilemember.Model.Basic.OrderTime;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Basic.UserContact;
 import com.TA.MVP.appmobilemember.Model.Responses.Token;
@@ -30,9 +34,13 @@ import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 import com.TA.MVP.appmobilemember.lib.utils.Settings;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -42,7 +50,7 @@ import retrofit2.Response;
  */
 
 public class FragmentRegister extends Fragment {
-    private EditText nama, email, katasandi, konfkatasandi, notelp, alamat, bplace, bdate, thn, bln, hr;
+    private EditText nama, email, katasandi, konfkatasandi, notelp, alamat, bplace, bdate, tgl;
     private Spinner spinnergender, spinnerkota, spinneragama;
     private Button btndaftar;
     private TextView tvlogin;
@@ -50,6 +58,10 @@ public class FragmentRegister extends Fragment {
     private SpinnerAdapter spinnerAdapteragama;
     private ArrayAgama arrayAgama=new ArrayAgama();
     private String[] genders = new String[]{"Pria","Wanita"};
+    private DatePickerDialog datePickerDialog1;
+    private OrderTime now = new OrderTime();
+    private Calendar calendar = Calendar.getInstance();
+    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-d", Locale.ENGLISH);
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,10 +72,7 @@ public class FragmentRegister extends Fragment {
         katasandi = (EditText) _view.findViewById(R.id.reg_et_katasandi);
         konfkatasandi = (EditText) _view.findViewById(R.id.reg_et_konfkatasandi);
         bplace = (EditText) _view.findViewById(R.id.reg_et_bornplace);
-        thn = (EditText) _view.findViewById(R.id.reg_et_thn);
-        bln = (EditText) _view.findViewById(R.id.reg_et_bln);
-        hr = (EditText) _view.findViewById(R.id.reg_et_hr);
-//        bdate = (EditText) _view.findViewById(R.id.reg_et_borndate);
+        tgl = (EditText) _view.findViewById(R.id.reg_et_tgl);
         spinnergender = (Spinner) _view.findViewById(R.id.reg_spinner_gender);
         spinneragama = (Spinner) _view.findViewById(R.id.reg_spinner_agama);
         notelp = (EditText) _view.findViewById(R.id.reg_et_notelp);
@@ -71,6 +80,23 @@ public class FragmentRegister extends Fragment {
         alamat = (EditText) _view.findViewById(R.id.reg_et_alamat);
         btndaftar = (Button) _view.findViewById(R.id.reg_btn_daftar);
         tvlogin = (TextView) _view.findViewById(R.id.reg_tv_login);
+
+        setwaktusekarang();
+        datePickerDialog1 = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                tgl.setText(i2 + " - " + i1 + " - " + i);
+                calendar.set(Calendar.YEAR,i);
+                calendar.set(Calendar.MONTH,i1);
+                calendar.set(Calendar.DAY_OF_MONTH,i2);
+            }
+        }, now.year, now.month, now.day);
+        tgl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                datePickerDialog1.show();
+            }
+        });
 
         arrayAdaptergender = new ArrayAdapter(getContext(), R.layout.spinner_item, genders);
         spinnergender.setAdapter(arrayAdaptergender);
@@ -82,50 +108,57 @@ public class FragmentRegister extends Fragment {
         btndaftar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((AuthActivity)getActivity()).showDialog("registering");
-                HashMap<String,Object> map = new HashMap<>();
-                map.put("name",nama.getText().toString());
-                map.put("email",email.getText().toString());
-                map.put("password",katasandi.getText().toString());
-                map.put("gender", String.valueOf(spinnergender.getSelectedItemPosition()+1));
-                map.put("born_place",bplace.getText().toString());
-                map.put("born_date", thn.getText() + "-" + bln.getText() + "-" + hr.getText());
-                map.put("religion",String.valueOf(spinneragama.getSelectedItemPosition()+1));
-                map.put("user_type",String.valueOf(1));//cek lg
-                map.put("status",String.valueOf(1));//register 0
-                UserContact userContact = new UserContact();
-                userContact.setAddress(alamat.getText().toString());
-                userContact.setCity((spinnerkota.getSelectedItemPosition()+1));
-                userContact.setPhone(notelp.getText().toString());
-                userContact.setLocation("3.584949, 98.672400");//harusnya get location
-                map.put("contact", userContact);//cek lg
-                Call<UserResponse> caller = APIManager.getRepository(UserRepo.class).registeruser(map);
-                caller.enqueue(new APICallback<UserResponse>() {
-                    @Override
-                    public void onSuccess(Call<UserResponse> call, Response<UserResponse> response) {
-                        super.onSuccess(call, response);
-                        User user = response.body().getUser();
-                        getToken(user,katasandi.getText().toString());
-                    }
+                if (valid()) {
+                    try {
+                        ((AuthActivity) getActivity()).showDialog("registering");
+                        HashMap<String, Object> map = new HashMap<>();
+                        map.put("name", nama.getText().toString());
+                        map.put("email", email.getText().toString());
+                        map.put("password", katasandi.getText().toString());
+                        map.put("gender", String.valueOf(spinnergender.getSelectedItemPosition() + 1));
+                        map.put("born_place", bplace.getText().toString());
+                        map.put("born_date", tgl.getText());
+                        map.put("religion", String.valueOf(spinneragama.getSelectedItemPosition() + 1));
+                        map.put("user_type", String.valueOf(1));//cek lg
+                        map.put("status", String.valueOf(1));//register 0
+                        UserContact userContact = new UserContact();
+                        userContact.setAddress(alamat.getText().toString());
+                        userContact.setCity((spinnerkota.getSelectedItemPosition() + 1));
+                        userContact.setPhone(notelp.getText().toString());
+                        userContact.setLocation("3.584949, 98.672400");//harusnya get location
+                        map.put("contact", userContact);//cek lg
+                        Call<UserResponse> caller = APIManager.getRepository(UserRepo.class).registeruser(map);
+                        caller.enqueue(new APICallback<UserResponse>() {
+                            @Override
+                            public void onSuccess(Call<UserResponse> call, Response<UserResponse> response) {
+                                super.onSuccess(call, response);
+                                User user = response.body().getUser();
+                                getToken(user, katasandi.getText().toString());
+                            }
 
-                    @Override
-                    public void onUnprocessableEntity(Call<UserResponse> call, Response<UserResponse> response) {
-                        super.onUnprocessableEntity(call, response);
-                        ((AuthActivity)getActivity()).dismissDialog();
-                    }
+                            @Override
+                            public void onUnprocessableEntity(Call<UserResponse> call, Response<UserResponse> response) {
+                                super.onUnprocessableEntity(call, response);
+                                ((AuthActivity) getActivity()).dismissDialog();
+                            }
 
-                    @Override
-                    public void onError(Call<UserResponse> call, Response<UserResponse> response) {
-                        super.onError(call, response);;
-                        ((AuthActivity)getActivity()).dismissDialog();
-                    }
+                            @Override
+                            public void onError(Call<UserResponse> call, Response<UserResponse> response) {
+                                super.onError(call, response);
+                                ((AuthActivity) getActivity()).dismissDialog();
+                            }
 
-                    @Override
-                    public void onFailure(Call<UserResponse> call, Throwable t) {
-                        super.onFailure(call, t);
-                        ((AuthActivity)getActivity()).dismissDialog();
+                            @Override
+                            public void onFailure(Call<UserResponse> call, Throwable t) {
+                                super.onFailure(call, t);
+                                ((AuthActivity) getActivity()).dismissDialog();
+                            }
+                        });
                     }
-                });
+                    catch (NullPointerException e){
+                        Toast.makeText(getContext(), "Data tidak lengkap.", Toast.LENGTH_SHORT);
+                    }
+                }
 
             }
         });
@@ -164,5 +197,20 @@ public class FragmentRegister extends Fragment {
                 ((AuthActivity)getActivity()).dismissDialog();
             }
         });
+    }
+    public void setwaktusekarang(){
+        calendar = Calendar.getInstance();
+        now.year = calendar.get(Calendar.YEAR);
+        now.month = calendar.get(Calendar.MONTH);
+        now.day = calendar.get(Calendar.DAY_OF_MONTH);
+        now.hour = calendar.get(Calendar.HOUR);
+        now.minute = calendar.get(Calendar.MINUTE);
+    }
+    public boolean valid(){
+        if (katasandi.getText().toString() != konfkatasandi.getText().toString()){
+            Toast.makeText(getContext(), "Konfirmasi katasandi tidak sesuai", Toast.LENGTH_SHORT);
+            return false;
+        }
+        return true;
     }
 }

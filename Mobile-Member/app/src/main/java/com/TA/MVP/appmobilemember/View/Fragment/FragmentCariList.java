@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -212,9 +213,11 @@ public class FragmentCariList extends Fragment {
         //filter status
         users = result;
         result = new ArrayList<>();
+        String temp="";
         for (int n = 0; n<users.size(); n++){
             if (users.get(n).getStatus() == 1){
                 result.add(users.get(n));
+                temp = temp + users.get(n).getStatus();
             }
         }
 

@@ -209,6 +209,17 @@ public class FragmentHome extends Fragment {
             }
         }
 
+        //filter status
+        users = result;
+        result = new ArrayList<>();
+        String temp="";
+        for (int n = 0; n<users.size(); n++){
+            if (users.get(n).getStatus() == 1){
+                result.add(users.get(n));
+                temp = temp + users.get(n).getStatus();
+            }
+        }
+
         return result;
     }
 }

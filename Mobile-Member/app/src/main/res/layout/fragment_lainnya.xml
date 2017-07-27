@@ -63,6 +63,7 @@
                 android:layout_weight="1"
                 android:text="@string/profile"
                 android:textAlignment="center"
+                android:textColor="@color/colorBlack"
                 android:textSize="20dp"/>
 
             <TextView
@@ -71,6 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/wallet"
+                android:textColor="@color/colorBlack"
                 android:textAlignment="center"
                 android:textSize="20dp"/>
         </LinearLayout>
@@ -119,6 +121,7 @@
                 android:layout_weight="1"
                 android:text="@string/ketentuan"
                 android:textAlignment="center"
+                android:textColor="@color/colorBlack"
                 android:textSize="20dp"/>
 
             <!--<TextView-->
@@ -162,6 +165,7 @@
                 android:layout_weight="1"
                 android:text="@string/logout"
                 android:textAlignment="center"
+                android:textColor="@color/colorBlack"
                 android:textSize="20dp"/>
         </LinearLayout>
     </LinearLayout>
