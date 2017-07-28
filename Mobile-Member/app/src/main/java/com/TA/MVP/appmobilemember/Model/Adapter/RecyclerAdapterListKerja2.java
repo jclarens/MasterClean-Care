@@ -1,25 +1,17 @@
 package com.TA.MVP.appmobilemember.Model.Adapter;
 
-import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.Model.Basic.MyTask;
-import com.TA.MVP.appmobilemember.Model.Basic.Order;
-import com.TA.MVP.appmobilemember.Model.Basic.OrderTask;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentPemesanan2;
-import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
-import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
+import com.TA.MVP.appmobilemember.View.Fragment.FragmentPermintaan2;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +20,13 @@ import java.util.List;
  * Created by jcla123ns on 21/07/17.
  */
 
-public class RecyclerAdapterListKerja extends RecyclerView.Adapter<RecyclerAdapterListKerja.ViewHolder> {
+public class RecyclerAdapterListKerja2 extends RecyclerView.Adapter<RecyclerAdapterListKerja2.ViewHolder> {
     private List<MyTask> fullTasks = new ArrayList<>();//list semua pilihan default
     private List<MyTask> showTasks = new ArrayList<>();//list sesuai profefsi
     private List<MyTask> selectedTasks = new ArrayList<>();//list yang sudah terpilih
-    private FragmentPemesanan2 fragment;
+    private FragmentPermintaan2 fragment;
 
-    public RecyclerAdapterListKerja(FragmentPemesanan2 fragment){
+    public RecyclerAdapterListKerja2(FragmentPermintaan2 fragment){
         this.fragment = fragment;
     }
 
@@ -55,7 +47,6 @@ public class RecyclerAdapterListKerja extends RecyclerView.Adapter<RecyclerAdapt
                     int position = getAdapterPosition();
                     if (checkBox.isChecked()){
                         selectedTasks.add(showTasks.get(position));
-//                        Log.d("Selectedid - showid",selectedTasks.get(0).getId() + " - "+ showTasks.get(0).getId() + " - "+ fullTasks.get(0).getId());
                         linearLayout.setBackgroundColor(lightgreen);
                     }
                     else {
@@ -85,6 +76,9 @@ public class RecyclerAdapterListKerja extends RecyclerView.Adapter<RecyclerAdapt
     public int getItemCount() {
         return showTasks.size();
     }
+    public List<MyTask> getselectedtasklist(){
+        return selectedTasks;
+    }
 
     public void setFullTasks(List<MyTask> fulltasks){
         this.fullTasks = fulltasks;
@@ -99,9 +93,6 @@ public class RecyclerAdapterListKerja extends RecyclerView.Adapter<RecyclerAdapt
                 showTasks.add(fullTasks.get(n));
         }
         notifyDataSetChanged();
-    }
-    public List<MyTask> getselectedtasklist(){
-        return selectedTasks;
     }
     public void clearselectedlist(){
         selectedTasks = new ArrayList<>();

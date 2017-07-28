@@ -10,12 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.TA.MVP.appmobilemember.Model.Basic.Contact;
-import com.TA.MVP.appmobilemember.Model.Basic.Order;
-import com.TA.MVP.appmobilemember.Model.Basic.OrderContact;
+import com.TA.MVP.appmobilemember.Model.Basic.Offer;
+import com.TA.MVP.appmobilemember.Model.Basic.OfferContact;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
-import com.TA.MVP.appmobilemember.View.Activity.PemesananActivity;
+import com.TA.MVP.appmobilemember.View.Activity.PermintaanActivity;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
@@ -23,9 +22,6 @@ import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -36,20 +32,19 @@ import static android.app.Activity.RESULT_OK;
 public class FragmentPermintaan1 extends Fragment {
     public static final int PLACE_PICKER_REQUEST = 1;
     private PlacePicker.IntentBuilder ppbuilder = new PlacePicker.IntentBuilder();
-    private Order order = new Order();
+    private Offer offer = new Offer();
     private Bundle bundle = new Bundle();
+    private User member = new User();
 
     private static final int PERMS_REQUEST_CODE = 123;
     private Button next;
     private Place place;
     private Button btnpilih;
-    private User art;
     private EditText address;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_permintaan1, container, false);
-        art = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.ART_EXTRA), User.class);
-        order = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.ORDER_EXTRA), Order.class);
+        member = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
 
         address = (EditText) _view.findViewById(R.id.prm1_et_address);
         next = (Button) _view.findViewById(R.id.prm1_btn_next);
@@ -69,14 +64,14 @@ public class FragmentPermintaan1 extends Fragment {
             @Override
             public void onClick(View view) {
                 if (!(place == null)){
-                    OrderContact orderContact = new OrderContact();
-                    orderContact.setAddress(address.getText().toString());
-                    orderContact.setLocation(place.getLatLng().latitude + "," +place.getLatLng().longitude);
-                    orderContact.setPhone(art.getContact().getPhone());
-                    order.setContact(orderContact);
-                    SharedPref.save(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
-                    SharedPref.save(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(order));
-                    ((PemesananActivity)getActivity()).doChangeFragment(2);
+                    OfferContact offerContact = new OfferContact();
+                    offerContact.setAddress(address.getText().toString());
+                    offerContact.setLocation(place.getLatLng().latitude + "," +place.getLatLng().longitude);
+                    offerContact.setPhone(member.getContact().getPhone());
+                    offerContact.setCity(member.getContact().getCity());
+                    offer.setContact(offerContact);
+                    SharedPref.save(ConstClass.OFFER_EXTRA, GsonUtils.getJsonFromObject(offer));
+                    ((PermintaanActivity)getActivity()).doChangeFragment(2);
                 }
                 else
                     Toast.makeText(getContext(),"Silahkan pilih lokasi terlebih dahulu", Toast.LENGTH_SHORT).show();
@@ -95,7 +90,7 @@ public class FragmentPermintaan1 extends Fragment {
                 place = PlacePicker.getPlace(data, getActivity().getApplicationContext());
                 address.setText(place.getAddress());
                 //simpan latlng
-                ((PemesananActivity)getActivity()).setPlace(place);
+                ((PermintaanActivity)getActivity()).setPlace(place);
             }
         }
     }

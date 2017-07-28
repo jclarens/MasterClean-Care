@@ -5,14 +5,17 @@ import android.app.Application;
 
 import com.mvp.mobile_art.Model.Basic.StaticData;
 import com.mvp.mobile_art.Route.Repositories.AdditionalInfoRepo;
+import com.mvp.mobile_art.Route.Repositories.EmergencycallRepo;
 import com.mvp.mobile_art.Route.Repositories.JobRepo;
 import com.mvp.mobile_art.Route.Repositories.LanguageRepo;
 import com.mvp.mobile_art.Route.Repositories.MessageRepo;
+import com.mvp.mobile_art.Route.Repositories.MyTaskRepo;
 import com.mvp.mobile_art.Route.Repositories.OrderRepo;
 import com.mvp.mobile_art.Route.Repositories.PlaceRepo;
 import com.mvp.mobile_art.Route.Repositories.UserRepo;
 import com.mvp.mobile_art.Route.Repositories.WTRepo;
 import com.mvp.mobile_art.Route.Repositories.WalletRepo;
+import com.mvp.mobile_art.Route.Repositories.WalletTransactionRepo;
 import com.mvp.mobile_art.lib.api.APIManager;
 import com.mvp.mobile_art.lib.api.SessionInterceptor;
 import com.mvp.mobile_art.lib.database.SharedPref;
@@ -41,9 +44,6 @@ public class MasterCleanApplication extends Application {
     public void onCreate() {
         super.onCreate();
         globalStaticData = new StaticData();
-//        Log.d("tmp","onCreate:" +
-//                FileUtils.loadSettingsJsonFile(getApplicationContext())
-//        );
         Settings.getInstance().configureAppSetting(
                 GsonUtils.getObjectFromJson(
                         FileUtils.loadSettingsJsonFile(getApplicationContext()),
@@ -53,20 +53,21 @@ public class MasterCleanApplication extends Application {
         if(Settings.isUsingSharedPreference())
             SharedPref.getInstance().SetUpSharedPreference(getApplicationContext());
 
-        // Ini untuk mempermudah request jika butuh JWT token
         APIManager.addInterceptor(new SessionInterceptor());
         if(Settings.isUsingRetrofitAPI())
             APIManager.SetUpRetrofit();
 
-        //Ini tuntuk register repository request (serives)
         APIManager.registerRepository(UserRepo.class);
         APIManager.registerRepository(OrderRepo.class);
         APIManager.registerRepository(MessageRepo.class);
         APIManager.registerRepository(WalletRepo.class);
+        APIManager.registerRepository(WalletTransactionRepo.class);
         APIManager.registerRepository(PlaceRepo.class);
+        APIManager.registerRepository(MyTaskRepo.class);
         APIManager.registerRepository(LanguageRepo.class);
         APIManager.registerRepository(JobRepo.class);
         APIManager.registerRepository(WTRepo.class);
         APIManager.registerRepository(AdditionalInfoRepo.class);
+        APIManager.registerRepository(EmergencycallRepo.class);
     }
 }

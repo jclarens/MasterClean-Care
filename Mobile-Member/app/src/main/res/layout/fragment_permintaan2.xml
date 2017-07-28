@@ -25,17 +25,32 @@
                 android:textColor="@android:color/black"
                 android:textSize="24sp" />
 
-            <Spinner
-                android:id="@+id/pmr2_spinner_waktukerja"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp" />
+                android:orientation="vertical"
+                android:background="@drawable/backgroundlightgray"
+                android:layout_marginBottom="5dp">
+                <Spinner
+                    android:id="@+id/pmr2_spinner_waktukerja"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp" />
+            </LinearLayout>
 
-            <Spinner
-                android:id="@+id/pmr2_spinner_profesi"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp" />
+                android:orientation="vertical"
+                android:background="@drawable/backgroundlightgray"
+                android:layout_marginBottom="5dp">
+
+                <Spinner
+                    android:id="@+id/pmr2_spinner_profesi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp" />
+            </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/pmr2_rec_listkerja"
@@ -79,6 +94,7 @@
                     android:ems="10"
                     android:focusable="false"
                     android:inputType="time"
+                    android:textColor="@color/colorBlack"
                     android:hint="time"/>
             </LinearLayout>
 
@@ -100,7 +116,9 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:maxLength="2"
-                    android:inputType="numberDecimal" />
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/colorBlack"
+                    android:textAlignment="center"/>
 
                 <TextView
                     android:id="@+id/pmr2_tv_estimasiwaktu"
@@ -131,6 +149,7 @@
                     android:focusable="false"
                     android:enabled="false"
                     android:inputType="date"
+                    android:textColor="@color/colorBlack"
                     android:hint="Date"/>
 
                 <EditText
@@ -142,6 +161,7 @@
                     android:focusable="false"
                     android:enabled="false"
                     android:inputType="time"
+                    android:textColor="@color/colorBlack"
                     android:hint="Time"/>
             </LinearLayout>
 
@@ -174,9 +194,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:enabled="false"
-                android:focusable="false"
-                android:inputType="textPersonName" />
+                android:inputType="number"
+                android:textColor="@color/colorBlack"
+                android:textAlignment="center"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

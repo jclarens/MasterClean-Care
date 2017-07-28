@@ -11,6 +11,9 @@ import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentPemesanan1;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentPemesanan2;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentPemesanan3;
+import com.TA.MVP.appmobilemember.View.Fragment.FragmentPermintaan1;
+import com.TA.MVP.appmobilemember.View.Fragment.FragmentPermintaan2;
+import com.TA.MVP.appmobilemember.View.Fragment.FragmentPermintaan3;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
@@ -22,9 +25,9 @@ import com.google.android.gms.location.places.Place;
 
 public class PermintaanActivity extends ParentActivity{
     private Toolbar toolbar;
-    private FragmentPemesanan1 fragp1;
-    private FragmentPemesanan2 fragp2;
-    private FragmentPemesanan3 fragp3;
+    private FragmentPermintaan1 fragp1;
+    private FragmentPermintaan2 fragp2;
+    private FragmentPermintaan3 fragp3;
     private Bundle b = new Bundle();
     private User art = new User();
     private Order order = new Order();
@@ -36,13 +39,13 @@ public class PermintaanActivity extends ParentActivity{
         Intent intent = getIntent();
         art = GsonUtils.getObjectFromJson(intent.getStringExtra(ConstClass.ART_EXTRA), User.class);
 
-        fragp1 = new FragmentPemesanan1();
-        fragp2 = new FragmentPemesanan2();
-        fragp3 = new FragmentPemesanan3();
+        fragp1 = new FragmentPermintaan1();
+        fragp2 = new FragmentPermintaan2();
+        fragp3 = new FragmentPermintaan3();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.toolbar_pemesanan);
+        getSupportActionBar().setTitle("Permintaan");
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

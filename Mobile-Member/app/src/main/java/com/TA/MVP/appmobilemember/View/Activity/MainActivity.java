@@ -96,9 +96,6 @@ public class MainActivity extends ParentActivity {
         progressBar = (ProgressBar) findViewById(R.id.splashprogressbar);
         splashscreen = (LinearLayout) findViewById(R.id.splashscreen);
         frameLayout = (FrameLayout) findViewById(R.id.main_container);
-
-//        initProgressDialog("Loading...");
-//        showDialog();
         if (SharedPref.getValueString(ConstClass.EMERGENCY_EXTRA).equals("on")){
             Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
             startActivity(intent);
@@ -205,9 +202,6 @@ public class MainActivity extends ParentActivity {
                 final FragmentTransaction transaction2 = fragmentManager.beginTransaction();
                 transaction2.replace(R.id.main_container, fragment).commit();
                 refreshfragment();
-                //hide keyboard
-//                hideSoftKeyboard(this);
-//                Toast.makeText(context,SharedPref.getValueString(ConstClass.USER), Toast.LENGTH_SHORT).show();
             }
         }
         else if(requestCode == REQUEST_PESAN){
@@ -370,7 +364,6 @@ public class MainActivity extends ParentActivity {
 //                Toast.makeText(context,"Success", Toast.LENGTH_SHORT).show();
                 success = true;
                 splashout();
-//                dismissDialog();
             }
 
             @Override
@@ -378,8 +371,6 @@ public class MainActivity extends ParentActivity {
                 super.onFailure(call, t);
             }
         });
-//        if (!success)
-//            getstaticData1();
         ((MasterCleanApplication) getApplication()).setGlobalStaticData(staticData);
     }
 

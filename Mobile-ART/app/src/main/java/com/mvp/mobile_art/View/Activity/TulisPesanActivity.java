@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.mvp.mobile_art.Model.Basic.MyMessage;
 import com.mvp.mobile_art.Model.Basic.User;
@@ -21,7 +22,11 @@ import com.mvp.mobile_art.lib.database.SharedPref;
 import com.mvp.mobile_art.lib.utils.ConstClass;
 import com.mvp.mobile_art.lib.utils.GsonUtils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -38,6 +43,8 @@ public class TulisPesanActivity extends ParentActivity {
     private User art;
     private User user;
     private Integer targetid;
+    private Calendar calendar = Calendar.getInstance();
+    private DateFormat fixFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,15 +60,17 @@ public class TulisPesanActivity extends ParentActivity {
         Intent i = getIntent();
         if (i.getStringExtra("msg") != null){
             myMessage = GsonUtils.getObjectFromJson(i.getStringExtra("msg"), MyMessage.class);
-            nama.setText(myMessage.getSender().getName());
+            nama.setText(myMessage.getSender_id().getName());
             sub.setText(myMessage.getSubject());
-            targetid = myMessage.getSender().getId();
+            targetid = myMessage.getSender_id().getId();
         }
         else if (i.getStringExtra(ConstClass.ART_EXTRA) != null){
             art = GsonUtils.getObjectFromJson(i.getStringExtra(ConstClass.ART_EXTRA), User.class);
             nama.setText(art.getName());
             targetid = art.getId();
         }
+        else
+            Toast.makeText(getApplicationContext(),"Tujuan tidak ditemukan", Toast.LENGTH_SHORT).show();
 
         batal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,12 +111,15 @@ public class TulisPesanActivity extends ParentActivity {
         map.put("subject", sub.getText().toString());
         map.put("message", msg.getText().toString());
         map.put("status", "0");
+        calendar = Calendar.getInstance();
+        map.put("created_at", fixFormat.format(calendar.getTime()));
         Log.d("testing", map.toString());
         Call<MyMessageResponse> caller = APIManager.getRepository(MessageRepo.class).postmessage(map);
         caller.enqueue(new APICallback<MyMessageResponse>() {
             @Override
             public void onSuccess(Call<MyMessageResponse> call, Response<MyMessageResponse> response) {
                 super.onSuccess(call, response);
+                Log.d("response on success", GsonUtils.getJsonFromObject(response.body()));
                 finish();
             }
 

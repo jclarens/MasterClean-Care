@@ -97,11 +97,10 @@ public class FragmentPemesanan3 extends Fragment {
 //        myTasks = (List<MyTask>) GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.MYTASK_EXTRA), new TypeToken<List<MyTask>>(){}.getType());
 
         prof = (EditText) _view.findViewById(R.id.pms3_et_worktime);
-        recyclerView = (RecyclerView) _view.findViewById(R.id.pms3_rec_listkerja);
         linkketentuan = (TextView) _view.findViewById(R.id.pms3_tv_ketentuan);
         prev = (Button) _view.findViewById(R.id.pms3_btn_prev);
         pesan = (Button) _view.findViewById(R.id.pms3_btn_pesan);
-        estimasitext = (TextView) _view.findViewById(R.id.pms3_tv_estimasiwaktu);
+//        estimasitext = (TextView) _view.findViewById(R.id.pms3_tv_estimasiwaktu);
 //        layoutasisten = (RelativeLayout) _view.findViewById(R.id.layout_asisten);
 //        estimasi = (EditText) _view.findViewById(R.id.pms3_et_estimate);
         mulai = (EditText) _view.findViewById(R.id.pms3_et_mulai);
@@ -122,6 +121,7 @@ public class FragmentPemesanan3 extends Fragment {
         prof.setText(defaultWK.get(order.getWork_time_id()-1).getWork_time());
 
         //listkerja
+        recyclerView = (RecyclerView) _view.findViewById(R.id.pms3_rec_listkerja);
         rec_LayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(rec_LayoutManager);
         rec_Adapter = new RecyclerAdapterListKerjaShow();
@@ -130,15 +130,15 @@ public class FragmentPemesanan3 extends Fragment {
         rec_Adapter.setList(order.getOrder_task_list());
         switch (order.getWork_time_id()){
             case 1:
-                estimasitext.setText("Jam");
+//                estimasitext.setText("Jam");
                 recyclerView.setVisibility(View.VISIBLE);
                 break;
             case 2:
-                estimasitext.setText("Hari");
+//                estimasitext.setText("Hari");
                 recyclerView.setVisibility(View.GONE);
                 break;
             case 3:
-                estimasitext.setText("Bulan");
+//                estimasitext.setText("Bulan");
                 recyclerView.setVisibility(View.GONE);
                 break;
         }

@@ -9,11 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterPemesanan;
 import com.TA.MVP.appmobilemember.R;
-import com.TA.MVP.appmobilemember.View.Activity.PemesananActivity;
+import com.TA.MVP.appmobilemember.View.Activity.PermintaanActivity;
 
 /**
  * Created by Zackzack on 14/07/2017.
@@ -32,9 +31,9 @@ public class FragmentStatusPermintaan extends Fragment {
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(),"Sedang dinonaktifkan", Toast.LENGTH_SHORT).show();
-//                Intent i = new Intent(getContext(), PemesananActivity.class);
-//                startActivity(i);
+//                Toast.makeText(getContext(),"Sedang dinonaktifkan", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(getContext(), PermintaanActivity.class);
+                startActivity(i);
             }
         });
 

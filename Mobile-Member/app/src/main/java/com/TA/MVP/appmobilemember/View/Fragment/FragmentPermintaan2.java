@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,27 +24,36 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
-import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterListKerja;
+import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterListKerja2;
 import com.TA.MVP.appmobilemember.Model.Array.ArrayBulan;
 import com.TA.MVP.appmobilemember.Model.Array.ArrayHari;
 import com.TA.MVP.appmobilemember.Model.Basic.Job;
-import com.TA.MVP.appmobilemember.Model.Basic.Order;
+import com.TA.MVP.appmobilemember.Model.Basic.MyTask;
+import com.TA.MVP.appmobilemember.Model.Basic.Offer;
 import com.TA.MVP.appmobilemember.Model.Basic.OrderTask;
 import com.TA.MVP.appmobilemember.Model.Basic.OrderTime;
+import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Basic.Waktu_Kerja;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.Route.Repositories.MyTaskRepo;
 import com.TA.MVP.appmobilemember.View.Activity.PermintaanActivity;
+import com.TA.MVP.appmobilemember.lib.api.APICallback;
+import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Created by jcla123ns on 25/07/17.
@@ -50,9 +62,9 @@ import java.util.Locale;
 public class FragmentPermintaan2 extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager rec_LayoutManager;
-    private RecyclerAdapterListKerja rec_Adapter;
-    private List<OrderTask> orderTasks = new ArrayList<>();
-    private Order order = new Order();
+    private RecyclerAdapterListKerja2 rec_Adapter;
+    private List<MyTask> myTasks = new ArrayList<>();
+    private Offer offer = new Offer();
     private Bundle bundle = new Bundle();
 
     private Spinner prof, waktukrj;
@@ -64,7 +76,9 @@ public class FragmentPermintaan2 extends Fragment {
     private ArrayAdapter arrayAdapterProfesi;
     private List<Waktu_Kerja> defaultWK = new ArrayList<>();
     private List<Job> defaultProf = new ArrayList<>();
+    private TextWatcher textWatcher = null;
 
+    private NumberFormat numberFormat = NumberFormat.getNumberInstance();
     private int minestimasi = 1;
     private int maxestimasi = 2;
     private int tmp;
@@ -91,11 +105,15 @@ public class FragmentPermintaan2 extends Fragment {
     private boolean valid = false;
     private Date tempdate;
     private String fixstart, fixend;
+    private Integer artcost = 0;
+    private Integer total = 0;
+    private boolean asistenrt = false;
+    private boolean perjam = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_permintaan2, container, false);
-        order = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.ORDER_EXTRA), Order.class);
+        offer = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.OFFER_EXTRA), Offer.class);
         defaultWK = ((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getWaktu_kerjas();
         defaultProf = ((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getJobs();
 
@@ -128,7 +146,7 @@ public class FragmentPermintaan2 extends Fragment {
             @Override
             public void onTimeSet(TimePicker timePicker, int i, int i1) {
                 mulaitime.setText(i + ":" + i1);
-                calendar.set(Calendar.HOUR,i);
+                calendar.set(Calendar.HOUR_OF_DAY,i);
                 calendar.set(Calendar.MINUTE,i1);
                 calendar.set(Calendar.MILLISECOND, 0);
                 settanggal();
@@ -148,6 +166,30 @@ public class FragmentPermintaan2 extends Fragment {
             }
         });
 
+        textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                totalbiaya.removeTextChangedListener(textWatcher);
+                total = getinttotal(totalbiaya.getText().toString());
+                if (total == null)
+                    totalbiaya.setText(setRP(0));
+                else totalbiaya.setText(setRP(total));
+                totalbiaya.setSelection(totalbiaya.getText().length());
+                totalbiaya.addTextChangedListener(textWatcher);
+            }
+        };
+        totalbiaya.addTextChangedListener(textWatcher);
+
         //spinner WK
         arrayAdapterWaktu = new ArrayAdapter(getContext(), R.layout.spinner_item, defaultWK);
         waktukrj.setAdapter(arrayAdapterWaktu);
@@ -164,7 +206,9 @@ public class FragmentPermintaan2 extends Fragment {
                         maxestimasi = 8;
                         estimasi.setEnabled(false);
                         estimasi.setText(String.valueOf(minestimasi));
-                        recyclerView.setVisibility(View.VISIBLE);
+                        rec_Adapter.setshowtask(1);
+                        offer.setWork_time_id(i+1);
+                        perjam = true;
                         break;
                     case 2:
                         //hari
@@ -175,7 +219,8 @@ public class FragmentPermintaan2 extends Fragment {
                         maxestimasi = 14;
                         estimasi.setEnabled(true);
                         estimasi.setText(String.valueOf(minestimasi));
-                        recyclerView.setVisibility(View.GONE);
+                        offer.setWork_time_id(i+1);
+                        perjam = false;
                         break;
                     case 3:
                         //bulan
@@ -186,9 +231,11 @@ public class FragmentPermintaan2 extends Fragment {
                         maxestimasi = 12;
                         estimasi.setEnabled(true);
                         estimasi.setText(String.valueOf(minestimasi));
-                        recyclerView.setVisibility(View.GONE);
+                        offer.setWork_time_id(i+1);
+                        perjam = false;
                         break;
                 }
+                setRecyclerViewvisibility();
                 settanggal();
             }
 
@@ -199,12 +246,12 @@ public class FragmentPermintaan2 extends Fragment {
         });
 
         //listkerja
-//        rec_LayoutManager = new LinearLayoutManager(getContext());
-//        recyclerView.setLayoutManager(rec_LayoutManager);
-//        rec_Adapter = new RecyclerAdapterListKerja();
-//        recyclerView.setAdapter(rec_Adapter);
-        //set full task         disini
-//        rec_Adapter.setList(orderTasks);
+        rec_LayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(rec_LayoutManager);
+        rec_Adapter = new RecyclerAdapterListKerja2(FragmentPermintaan2.this);
+        recyclerView.setAdapter(rec_Adapter);
+        rec_Adapter.setFullTasks(myTasks);
+        loadlist();
 
         //spinner prof
         arrayAdapterProfesi = new ArrayAdapter(getContext(), R.layout.spinner_item, defaultProf);
@@ -214,22 +261,23 @@ public class FragmentPermintaan2 extends Fragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 switch (i+1){
                     case 1:
-                        //Asisten Rumah Tangga
-//                        rec_Adapter.setList(orderTasks);
+                        rec_Adapter.setshowtask(1);
+                        asistenrt = true;
                         break;
                     case 2:
-                        //Perawat Lansia
-//                        rec_Adapter.setList(orderTasks);
+                        rec_Adapter.setshowtask(2);
+                        asistenrt = false;
                         break;
                     case 3:
-                        //Babysitter
-//                        rec_Adapter.setList(orderTasks);
+                        rec_Adapter.setshowtask(3);
+                        asistenrt = false;
                         break;
                     case 4:
-                        //Perawat Balita
-//                        rec_Adapter.setList(orderTasks);
+                        rec_Adapter.setshowtask(4);
+                        asistenrt = false;
                         break;
                 }
+                setRecyclerViewvisibility();
                 settanggal();
             }
 
@@ -242,7 +290,7 @@ public class FragmentPermintaan2 extends Fragment {
         prev.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPref.save(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(order));
+                SharedPref.save(ConstClass.OFFER_EXTRA, GsonUtils.getJsonFromObject(offer));
                 ((PermintaanActivity)getActivity()).doChangeFragment(1);
             }
         });
@@ -250,14 +298,32 @@ public class FragmentPermintaan2 extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "Disabled fornow", Toast.LENGTH_SHORT).show();
-//                if (validasi()){
-//                    SharedPref.save(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(order));
-//                    ((PermintaanActivity)getActivity()).doChangeFragment(3);
-//                }
+                if (validasi()){
+                    //save data from this fragment ----------------------------------------------------------------------------------------------------
+                    offer.setCost(total);
+                    offer.setStart_date(fixstart);
+                    offer.setEnd_date(fixend);
+                    try {
+                        offer.setRemark(cttntmbhn.getText().toString());
+                    }catch (NullPointerException e){
+                        offer.setRemark("");
+                    }
+                    offer.setStatus(0);
+                    List<MyTask> templist = rec_Adapter.getselectedtasklist();
+                    List<OrderTask> newlist = new ArrayList<>();
+                    for (int n=0; n < templist.size(); n++){
+                        OrderTask orderTask = new OrderTask();
+                        orderTask.setTask_list_id(templist.get(n).getId());
+                        Log.d("ADD list",orderTask.getTask_list_id() + " and "+ templist.get(n).getId());
+                        newlist.add(orderTask);
+                        orderTask.setStatus(0);
+                    }
+                    offer.setOffer_task_list(newlist);
+                    SharedPref.save(ConstClass.OFFER_EXTRA, GsonUtils.getJsonFromObject(offer));
+                    ((PermintaanActivity)getActivity()).doChangeFragment(3);
+                }
             }
         });
-
 
         estimasi.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -273,6 +339,7 @@ public class FragmentPermintaan2 extends Fragment {
             }
         });
 
+
         return _view;
     }
     public void setwaktusekarang(){
@@ -280,35 +347,35 @@ public class FragmentPermintaan2 extends Fragment {
         now.year = calendar.get(Calendar.YEAR);
         now.month = calendar.get(Calendar.MONTH);
         now.day = calendar.get(Calendar.DAY_OF_MONTH);
-        now.hour = calendar.get(Calendar.HOUR);
+        now.hour = calendar.get(Calendar.HOUR_OF_DAY);
         now.minute = calendar.get(Calendar.MINUTE);
     }
     public void setwaktutemp(){
         temp.year = calendar.get(Calendar.YEAR);
         temp.month = calendar.get(Calendar.MONTH);
         temp.day = calendar.get(Calendar.DAY_OF_MONTH);
-        temp.hour = calendar.get(Calendar.HOUR);
+        temp.hour = calendar.get(Calendar.HOUR_OF_DAY);
         temp.minute = calendar.get(Calendar.MINUTE);
     }
     public void getwaktutemp(){
         calendar.set(Calendar.YEAR,temp.year);
         calendar.set(Calendar.MONTH,temp.month);
         calendar.set(Calendar.DAY_OF_MONTH,temp.day);
-        calendar.set(Calendar.HOUR,temp.hour);
+        calendar.set(Calendar.HOUR_OF_DAY,temp.hour);
         calendar.set(Calendar.MINUTE,temp.minute);
     }
     public void setwaktuendtemp(){
         endtemp.year = calendar.get(Calendar.YEAR);
         endtemp.month = calendar.get(Calendar.MONTH);
         endtemp.day = calendar.get(Calendar.DAY_OF_MONTH);
-        endtemp.hour = calendar.get(Calendar.HOUR);
+        endtemp.hour = calendar.get(Calendar.HOUR_OF_DAY);
         endtemp.minute = calendar.get(Calendar.MINUTE);
     }
     public void getwaktuendtemp(){
         calendar.set(Calendar.YEAR,endtemp.year);
         calendar.set(Calendar.MONTH,endtemp.month);
         calendar.set(Calendar.DAY_OF_MONTH,endtemp.day);
-        calendar.set(Calendar.HOUR,endtemp.hour);
+        calendar.set(Calendar.HOUR_OF_DAY,endtemp.hour);
         calendar.set(Calendar.MINUTE,endtemp.minute);
     }
     public  void settanggal(){
@@ -397,6 +464,10 @@ public class FragmentPermintaan2 extends Fragment {
             Toast.makeText(getContext(), "Tidak dapat menerima pesanan setelah jam 5 Sore", Toast.LENGTH_SHORT).show();
             return false;
         }
+        if (total < 10000){
+            Toast.makeText(getContext(), "Biaya terlalu rendah.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         return true;
     }
     public String costumedateformat(Date date){
@@ -404,5 +475,74 @@ public class FragmentPermintaan2 extends Fragment {
         String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date)));
         // Senin, Januari 30
         return tglFormat.format(date) + " " + bulan + " " + tahunFormat.format(date);
+    }
+    public String setRP(Integer number){
+        String tempp = "Rp. ";
+        tempp = tempp + numberFormat.format(number);
+        return tempp;
+    }
+    public Integer getinttotal(String string){
+        string = string.replace("R", "");
+        string = string.replace("p", "");
+        string = string.replace(".", "");
+        string = string.replace(" ", "");
+//        string = string.replace(".00", "");
+        string = string.replace(",", "");
+        Integer result = 0;
+        try{
+            result = Integer.valueOf(string);
+        }catch (NumberFormatException e){
+            return 0;
+        }
+        return result;
+    }
+    public void loadlist(){
+        ((PermintaanActivity)getActivity()).initProgressDialog("Sedang memuat data . . ");
+        ((PermintaanActivity)getActivity()).showDialog();
+        Call<List<MyTask>> caller = APIManager.getRepository(MyTaskRepo.class).gettasks();
+        caller.enqueue(new APICallback<List<MyTask>>() {
+            @Override
+            public void onSuccess(Call<List<MyTask>> call, Response<List<MyTask>> response) {
+                super.onSuccess(call, response);
+                myTasks = response.body();
+                rec_Adapter.setFullTasks(myTasks);
+                rec_Adapter.setshowtask(1);
+                ((PermintaanActivity)getActivity()).dismissDialog();
+            }
+
+            @Override
+            public void onFailure(Call<List<MyTask>> call, Throwable t) {
+                super.onFailure(call, t);
+                Toast.makeText(getContext(),"Koneksi bermasalah.", Toast.LENGTH_SHORT).show();
+                ((PermintaanActivity)getActivity()).dismissDialog();
+                //dosomething here pls
+            }
+        });
+
+    }
+
+    public void setbobot(){
+        List<MyTask> selectedtasks = rec_Adapter.getselectedtasklist();
+        Integer tmpbobot = 0;
+        for(int n=0; n<selectedtasks.size();n++){
+            tmpbobot += selectedtasks.get(n).getPoint();
+        }
+//        Toast.makeText(getContext(), "Bobot :" + tmpbobot, Toast.LENGTH_SHORT).show();
+        Integer bobot = 0;
+        if (tmpbobot > 20) {
+            bobot = tmpbobot / 10;
+            estimasi.setText(bobot.toString());
+        } else if (tmpbobot <= 20)
+            estimasi.setText(String.valueOf(2));
+        settanggal();
+    }
+    public void setRecyclerViewvisibility(){
+        if (perjam && asistenrt){
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+        else {
+            recyclerView.setVisibility(View.GONE);
+            rec_Adapter.clearselectedlist();
+        }
     }
 }

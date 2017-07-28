@@ -9,8 +9,8 @@ import android.support.annotation.IntegerRes;
 
 public class MyMessage {
     private Integer id;
-    private User sender;
-    private User receiver;
+    private User sender_id;
+    private User receiver_id;
     private String subject;
     private String message;
     private Integer status;
@@ -37,20 +37,20 @@ public class MyMessage {
         return id;
     }
 
-    public User getSender() {
-        return sender;
+    public User getSender_id() {
+        return sender_id;
     }
 
-    public void setSender(User sender) {
-        this.sender = sender;
+    public void setSender_id(User sender_id) {
+        this.sender_id = sender_id;
     }
 
-    public User getReceiver() {
-        return receiver;
+    public User getReceiver_id() {
+        return receiver_id;
     }
 
-    public void setReceiver(User receiver) {
-        this.receiver = receiver;
+    public void setReceiver_id(User receiver_id) {
+        this.receiver_id = receiver_id;
     }
 
     public String getSubject() {

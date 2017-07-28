@@ -34,6 +34,7 @@ public class FragmentPesanMasuk extends Fragment {
     private RecyclerView.LayoutManager rec_LayoutManager;
     private RecyclerAdapterPesanMasuk rec_Adapter;
     private List<MyMessage> myMessages = new ArrayList<>();
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_pesan_masuk, container, false);
@@ -44,6 +45,7 @@ public class FragmentPesanMasuk extends Fragment {
         rec_Adapter = new RecyclerAdapterPesanMasuk();
         recyclerView.setAdapter(rec_Adapter);
         rec_Adapter.setPesan(myMessages);
+        rec_Adapter.setcontext(getActivity());
 
         String userid = String.valueOf(GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class).getId());
         Call<List<MyMessage>> caller = APIManager.getRepository(MessageRepo.class).getallmsgfromreciverid(userid);
@@ -64,6 +66,8 @@ public class FragmentPesanMasuk extends Fragment {
                 super.onFailure(call, t);
             }
         });
+
+
         return _view;
     }
 }

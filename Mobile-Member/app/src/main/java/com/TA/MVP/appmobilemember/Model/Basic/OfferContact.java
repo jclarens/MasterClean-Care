@@ -10,7 +10,7 @@ public class OfferContact {
     private String phone;
     private String address;
     private String location;
-    private Integer City;
+    private Integer city;
 
     public Integer getId() {
         return id;
@@ -49,10 +49,10 @@ public class OfferContact {
     }
 
     public Integer getCity() {
-        return City;
+        return city;
     }
 
     public void setCity(Integer city) {
-        City = city;
+        this.city = city;
     }
 }

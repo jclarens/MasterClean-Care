@@ -33,6 +33,13 @@
             android:id="@+id/prm1_et_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/prm1_btn_next"

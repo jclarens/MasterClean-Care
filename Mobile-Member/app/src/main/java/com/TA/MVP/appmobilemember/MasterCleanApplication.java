@@ -56,7 +56,8 @@ public class MasterCleanApplication extends Application {
             SharedPref.getInstance().SetUpSharedPreference(getApplicationContext());
 
         // Ini untuk mempermudah request jika butuh JWT token
-//        APIManager.addInterceptor(new SessionInterceptor());
+        APIManager.addInterceptor(new SessionInterceptor());
+
         if(Settings.isUsingRetrofitAPI())
             APIManager.SetUpRetrofit();
 

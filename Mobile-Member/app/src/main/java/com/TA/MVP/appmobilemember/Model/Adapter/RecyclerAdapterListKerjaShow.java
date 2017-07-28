@@ -1,12 +1,14 @@
 package com.TA.MVP.appmobilemember.Model.Adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Basic.MyTask;
@@ -21,13 +23,11 @@ import java.util.List;
  */
 
 public class RecyclerAdapterListKerjaShow extends RecyclerView.Adapter<RecyclerAdapterListKerjaShow.ViewHolder> {
+    private List<MyTask> defaulttask = new ArrayList<>();
     private List<OrderTask> orderTasks = new ArrayList<>();
     private int black;
-    private List<MyTask> myTasks = new ArrayList<>();
-    private List<MyTask> defaulttask = new ArrayList<>();
     class ViewHolder extends RecyclerView.ViewHolder{
         public CheckBox checkBox;
-
         public ViewHolder(final View itemview){
             super(itemview);
             black = itemview.getResources().getColor(R.color.colorBlack);
@@ -46,7 +46,8 @@ public class RecyclerAdapterListKerjaShow extends RecyclerView.Adapter<RecyclerA
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.checkBox.setEnabled(false);
         holder.checkBox.setTextColor(black);
-        holder.checkBox.setText(defaulttask.get(orderTasks.get(position).getTask_list_id()).getTask());
+        Log.d("Holder tasklistid =", orderTasks.get(position).getTask_list_id().toString());
+        holder.checkBox.setText(defaulttask.get(orderTasks.get(position).getTask_list_id()-1).getTask());
         if (orderTasks.get(position).getStatus().equals(1)){
             holder.checkBox.setChecked(true);
         }

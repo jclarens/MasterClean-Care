@@ -524,7 +524,7 @@ public class FragmentPemesanan2 extends Fragment {
         for(int n=0; n<selectedtasks.size();n++){
             tmpbobot += selectedtasks.get(n).getPoint();
         }
-        Toast.makeText(getContext(), "Bobot :" + tmpbobot, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "Bobot :" + tmpbobot, Toast.LENGTH_SHORT).show();
         Integer bobot = 0;
         if (tmpbobot > 20) {
             bobot = tmpbobot / 10;

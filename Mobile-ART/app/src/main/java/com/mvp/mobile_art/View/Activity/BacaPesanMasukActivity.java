@@ -16,6 +16,8 @@ import com.mvp.mobile_art.R;
 import com.mvp.mobile_art.Route.Repositories.MessageRepo;
 import com.mvp.mobile_art.lib.api.APICallback;
 import com.mvp.mobile_art.lib.api.APIManager;
+import com.mvp.mobile_art.lib.database.SharedPref;
+import com.mvp.mobile_art.lib.utils.ConstClass;
 import com.mvp.mobile_art.lib.utils.GsonUtils;
 
 import retrofit2.Call;
@@ -34,6 +36,7 @@ public class BacaPesanMasukActivity extends ParentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bacapesan_masuk);
+        SharedPref.save(ConstClass.PAGER_PESAN_POS, "in");
         Intent i = getIntent();
         myMessage = GsonUtils.getObjectFromJson(i.getStringExtra("msg"), MyMessage.class);
 
@@ -44,7 +47,7 @@ public class BacaPesanMasukActivity extends ParentActivity {
         hapus = (Button) findViewById(R.id.bp_btn_hps);
         balas = (Button) findViewById(R.id.bp_btn_balas);
 
-        nama.setText(myMessage.getSender().getName());
+        nama.setText(myMessage.getSender_id().getName());
         sub.setText(myMessage.getSubject());
         msg.setText(myMessage.getMessage());
 
@@ -55,26 +58,9 @@ public class BacaPesanMasukActivity extends ParentActivity {
                 abuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        Call<MyMessageResponse> caller = APIManager.getRepository(MessageRepo.class).deletemessage(myMessage.getId().toString());
-                        caller.enqueue(new APICallback<MyMessageResponse>() {
-                            @Override
-                            public void onSuccess(Call<MyMessageResponse> call, Response<MyMessageResponse> response) {
-                                super.onSuccess(call, response);
-                                Toast.makeText(getApplicationContext(),"Pesan Terhapus", Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
-
-                            @Override
-                            public void onFailure(Call<MyMessageResponse> call, Throwable t) {
-                                super.onFailure(call, t);
-                            }
-
-                            @Override
-                            public void onNotFound(Call<MyMessageResponse> call, Response<MyMessageResponse> response) {
-                                super.onNotFound(call, response);
-                                finish();
-                            }
-                        });
+                        initProgressDialog("Menghapus pesan");
+                        showDialog();
+                        hapuspesan();
                     }
                 });
                 abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
@@ -116,5 +102,31 @@ public class BacaPesanMasukActivity extends ParentActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+    public void hapuspesan(){
+        Call<MyMessageResponse> caller = APIManager.getRepository(MessageRepo.class).deletemessage(myMessage.getId().toString());
+        caller.enqueue(new APICallback<MyMessageResponse>() {
+            @Override
+            public void onSuccess(Call<MyMessageResponse> call, Response<MyMessageResponse> response) {
+                super.onSuccess(call, response);
+                Toast.makeText(getApplicationContext(),"Pesan Terhapus", Toast.LENGTH_SHORT).show();
+                dismissDialog();
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<MyMessageResponse> call, Throwable t) {
+                super.onFailure(call, t);
+                Toast.makeText(getApplicationContext(),"Koneksi bermasalah, silahkan coba lagi.", Toast.LENGTH_SHORT).show();
+                dismissDialog();
+            }
+
+            @Override
+            public void onNotFound(Call<MyMessageResponse> call, Response<MyMessageResponse> response) {
+                super.onNotFound(call, response);
+                dismissDialog();
+                finish();
+            }
+        });
     }
 }

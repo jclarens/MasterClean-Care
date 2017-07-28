@@ -1,17 +1,17 @@
-package com.TA.MVP.appmobilemember.Model.Basic;
+package com.mvp.mobile_art.Model.Basic;
 
 /**
  * Created by jcla123ns on 26/07/17.
  */
 
 public class MyTask {
-    private Integer id;
+    private Integer Id;
     private Job job_id;
     private String task;
     private Integer point;
 
     public Integer getId() {
-        return id;
+        return Id;
     }
 
     public Job getJob_id() {

@@ -163,7 +163,7 @@ public class PemesananActiveActivity extends ParentActivity {
                         batalkanorder(order.getId());
                         break;
                     case 1:
-                        Intent intent1 = new Intent();
+                        Intent intent1 = new Intent(getApplicationContext(), TulisPesanActivity.class);
                         intent1.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(order.getArt()));
                         startActivity(intent1);
                         break;

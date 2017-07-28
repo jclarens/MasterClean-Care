@@ -19,4 +19,11 @@ public class ConstClass {
     public static String WALLETS_EXTRA = "wallets";
     public static String ART_EXTRA = "art";
     public static String ORDER_EXTRA = "order";
+    public static String OFFER_EXTRA = "offer";
+    public static String MYTASK_EXTRA = "mytask";
+    public static String EMERGENCY_EXTRA = "emergency";
+
+    //pager
+    public static String PAGER_PESAN_POS = "pesanpos";
+
 }

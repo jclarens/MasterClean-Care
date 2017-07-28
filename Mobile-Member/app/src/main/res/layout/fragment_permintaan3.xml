@@ -21,13 +21,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="Konfirmasi Pemesanan"
+                android:text="Konfirmasi Permintaan"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:textSize="24sp" />
 
             <EditText
-                android:id="@+id/pmr3_et_prof"
+                android:id="@+id/pmr3_et_worktime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
@@ -48,36 +48,36 @@
 
             </android.support.v7.widget.RecyclerView>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:orientation="horizontal">-->
 
-                <TextView
-                    android:id="@+id/textView34"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/estimasi"
-                    android:textColor="@android:color/black" />
+                <!--<TextView-->
+                    <!--android:id="@+id/textView34"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:text="@string/estimasi"-->
+                    <!--android:textColor="@android:color/black" />-->
 
-                <EditText
-                    android:id="@+id/pmr3_et_estimate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:enabled="false"
-                    android:focusable="false"
-                    android:inputType="numberDecimal" />
+                <!--<EditText-->
+                    <!--android:id="@+id/pmr3_et_estimate"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:ems="10"-->
+                    <!--android:enabled="false"-->
+                    <!--android:focusable="false"-->
+                    <!--android:inputType="numberDecimal" />-->
 
-                <TextView
-                    android:id="@+id/pmr3_tv_estimasiwaktu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
+                <!--<TextView-->
+                    <!--android:id="@+id/pmr3_tv_estimasiwaktu"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:textColor="@android:color/black" />-->
+            <!--</LinearLayout>-->
 
             <TextView
                 android:id="@+id/textView37"
@@ -92,24 +92,16 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/pmr3_et_mulaitime"
+                    android:id="@+id/pmr3_et_mulai"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
                     android:enabled="false"
                     android:focusable="false"
-                    android:inputType="time" />
+                    android:inputType="time"
+                    android:textColor="@color/colorBlack"/>
 
-                <EditText
-                    android:id="@+id/pmr3_et_mulaidate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:enabled="false"
-                    android:focusable="false"
-                    android:inputType="date" />
             </LinearLayout>
 
             <TextView
@@ -125,24 +117,16 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/pmr3_et_selesaitime"
+                    android:id="@+id/pmr3_et_selesai"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
                     android:enabled="false"
                     android:focusable="false"
-                    android:inputType="time" />
+                    android:inputType="time"
+                    android:textColor="@color/colorBlack"/>
 
-                <EditText
-                    android:id="@+id/pmr3_et_selesaidate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:enabled="false"
-                    android:focusable="false"
-                    android:inputType="date" />
             </LinearLayout>
 
             <TextView
@@ -160,7 +144,9 @@
                 android:ems="10"
                 android:enabled="false"
                 android:focusable="false"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:textColor="@color/colorBlack"
+                android:textAlignment="center"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -173,7 +159,7 @@
                     android:layout_height="wrap_content"
                     android:text="Saya menyetujui" />
                 <TextView
-                    android:id="@+id/prm3_tv_ketentuan"
+                    android:id="@+id/pmr3_tv_ketentuan"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
