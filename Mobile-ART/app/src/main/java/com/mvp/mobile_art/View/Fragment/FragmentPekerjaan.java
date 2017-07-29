@@ -26,6 +26,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.mvp.mobile_art.Model.Basic.Offer;
 import com.mvp.mobile_art.Model.Basic.Order;
 import com.mvp.mobile_art.R;
+import com.mvp.mobile_art.View.Activity.OfferActivity;
 import com.mvp.mobile_art.lib.utils.ConstClass;
 import com.mvp.mobile_art.lib.utils.GsonUtils;
 

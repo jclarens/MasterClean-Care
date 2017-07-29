@@ -7,8 +7,10 @@ import com.TA.MVP.appmobilemember.Route.Repositories.JobRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.LanguageRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.MessageRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.MyTaskRepo;
+import com.TA.MVP.appmobilemember.Route.Repositories.OfferRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.OrderRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.PlaceRepo;
+import com.TA.MVP.appmobilemember.Route.Repositories.ReviewOrderRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.WTRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.WalletRepo;
@@ -64,6 +66,7 @@ public class MasterCleanApplication extends Application {
         //Ini tuntuk register repository request (serives)
         APIManager.registerRepository(UserRepo.class);
         APIManager.registerRepository(OrderRepo.class);
+        APIManager.registerRepository(OfferRepo.class);
         APIManager.registerRepository(MessageRepo.class);
         APIManager.registerRepository(WalletRepo.class);
         APIManager.registerRepository(WalletTransactionRepo.class);
@@ -74,5 +77,6 @@ public class MasterCleanApplication extends Application {
         APIManager.registerRepository(WTRepo.class);
         APIManager.registerRepository(AdditionalInfoRepo.class);
         APIManager.registerRepository(EmergencycallRepo.class);
+        APIManager.registerRepository(ReviewOrderRepo.class);
     }
 }

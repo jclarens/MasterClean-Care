@@ -20,6 +20,7 @@ import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterListKerjaShow;
 import com.TA.MVP.appmobilemember.Model.Basic.MyTask;
 import com.TA.MVP.appmobilemember.Model.Basic.Order;
 import com.TA.MVP.appmobilemember.Model.Basic.OrderTask;
+import com.TA.MVP.appmobilemember.Model.Basic.ReviewOrder;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Responses.OrderResponse;
 import com.TA.MVP.appmobilemember.R;
@@ -27,6 +28,7 @@ import com.TA.MVP.appmobilemember.Route.Repositories.OrderRepo;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentAsistenmini;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
+import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
@@ -168,7 +170,10 @@ public class PemesananActiveActivity extends ParentActivity {
                         startActivity(intent1);
                         break;
                     case 3:
-                        Toast.makeText(getApplicationContext(),"Sedang dalam pengembangan.", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(getApplicationContext(),"Sedang dalam pengembangan.", Toast.LENGTH_SHORT).show();
+                        Intent intent2 = new Intent(getApplicationContext(), ReviewActivity.class);
+                        intent2.putExtra(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(order));
+                        startActivity(intent2);
                         break;
                 }
             }
@@ -244,7 +249,5 @@ public class PemesananActiveActivity extends ParentActivity {
                 finish();
             }
         });
-
-        //kembalikan uang
     }
 }

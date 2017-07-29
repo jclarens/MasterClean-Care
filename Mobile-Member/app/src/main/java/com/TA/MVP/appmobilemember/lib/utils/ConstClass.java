@@ -25,5 +25,6 @@ public class ConstClass {
 
     //pager
     public static String PAGER_PESAN_POS = "pesanpos";
+    public static String PAGER_TRANSAKSI_POS = "transaksipos";
 
 }

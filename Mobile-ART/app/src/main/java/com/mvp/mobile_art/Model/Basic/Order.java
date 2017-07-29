@@ -11,19 +11,47 @@ import java.util.List;
 
 public class Order {
     private Integer id;
+    private Integer member_id;
+    private Integer art_id;
+    private Integer work_time_id;
     private User member;
     private User art;
-    private Integer cost;
+    private ReviewOrder review_order;
     private Waktu_Kerja work_time;
+    private Integer cost;
     private String start_date;
     private String end_date;
     private String remark;
     private Integer status;
-    private List<ReviewOrder> review_order;
-    private List<Contact> contact;
+    private OrderContact contact;
+    private List<OrderTask> order_task_list;
 
     public Integer getId() {
         return id;
+    }
+
+    public Integer getMember_id() {
+        return member_id;
+    }
+
+    public void setMember_id(Integer member_id) {
+        this.member_id = member_id;
+    }
+
+    public Integer getArt_id() {
+        return art_id;
+    }
+
+    public void setArt_id(Integer art_id) {
+        this.art_id = art_id;
+    }
+
+    public Integer getWork_time_id() {
+        return work_time_id;
+    }
+
+    public void setWork_time_id(Integer work_time_id) {
+        this.work_time_id = work_time_id;
     }
 
     public User getMember() {
@@ -42,12 +70,12 @@ public class Order {
         this.art = art;
     }
 
-    public Integer getCost() {
-        return cost;
+    public ReviewOrder getReview_order() {
+        return review_order;
     }
 
-    public void setCost(Integer cost) {
-        this.cost = cost;
+    public void setReview_order(ReviewOrder review_order) {
+        this.review_order = review_order;
     }
 
     public Waktu_Kerja getWork_time() {
@@ -58,20 +86,12 @@ public class Order {
         this.work_time = work_time;
     }
 
-    public List<ReviewOrder> getReview_order() {
-        return review_order;
+    public Integer getCost() {
+        return cost;
     }
 
-    public void setReview_order(List<ReviewOrder> review_order) {
-        this.review_order = review_order;
-    }
-
-    public List<Contact> getContact() {
-        return contact;
-    }
-
-    public void setContact(List<Contact> contact) {
-        this.contact = contact;
+    public void setCost(Integer cost) {
+        this.cost = cost;
     }
 
     public String getStart_date() {
@@ -104,5 +124,21 @@ public class Order {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public OrderContact getContact() {
+        return contact;
+    }
+
+    public void setContact(OrderContact contact) {
+        this.contact = contact;
+    }
+
+    public List<OrderTask> getOrder_task_list() {
+        return order_task_list;
+    }
+
+    public void setOrder_task_list(List<OrderTask> order_task_list) {
+        this.order_task_list = order_task_list;
     }
 }

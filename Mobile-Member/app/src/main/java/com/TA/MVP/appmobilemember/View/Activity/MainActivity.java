@@ -207,6 +207,12 @@ public class MainActivity extends ParentActivity {
         else if(requestCode == REQUEST_PESAN){
             refreshfragment();
         }
+        else if (requestCode == REQUEST_OFFER){
+            refreshfragment();
+        }
+        else if (requestCode == REQUEST_ORDER){
+            refreshfragment();
+        }
         invalidateOptionsMenu();
 //        refreshfragment();
     }

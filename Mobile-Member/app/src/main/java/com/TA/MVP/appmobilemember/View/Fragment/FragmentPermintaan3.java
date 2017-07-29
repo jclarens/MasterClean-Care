@@ -29,6 +29,7 @@ import com.TA.MVP.appmobilemember.Model.Responses.OfferResponse;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.OfferRepo;
 import com.TA.MVP.appmobilemember.View.Activity.KetentuanActivity;
+import com.TA.MVP.appmobilemember.View.Activity.MainActivity;
 import com.TA.MVP.appmobilemember.View.Activity.PermintaanActivity;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
@@ -179,7 +180,9 @@ public class FragmentPermintaan3 extends Fragment {
         map.put("cost", offer.getCost().toString());
         map.put("start_date", offer.getStart_date());
         map.put("end_date", offer.getEnd_date());
-        map.put("remark", offer.getRemark());
+        if (offer.getRemark() == null)
+            map.put("remark", " ");
+        else map.put("remark", offer.getRemark());
         map.put("status", "0");
         map.put("contact", offer.getContact());
         map.put("created_at", fixFormat.format(calendar.getTime()));
@@ -190,6 +193,7 @@ public class FragmentPermintaan3 extends Fragment {
             public void onSuccess(Call<OfferResponse> call, Response<OfferResponse> response) {
                 super.onSuccess(call, response);
                 ((PermintaanActivity)getActivity()).dismissDialog();
+//                getActivity().setResult(MainActivity.RESULT_SUCCESS);
                 getActivity().finish();
             }
 
@@ -198,6 +202,12 @@ public class FragmentPermintaan3 extends Fragment {
                 super.onFailure(call, t);
                 ((PermintaanActivity)getActivity()).dismissDialog();
                 Toast.makeText(getContext(), "Koneksi bermasalah silahkan coba lagi", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Call<OfferResponse> call, Response<OfferResponse> response) {
+                super.onError(call, response);
+                Toast.makeText(getContext(), "Terjadi kesalahan", Toast.LENGTH_SHORT).show();
             }
         });
     }

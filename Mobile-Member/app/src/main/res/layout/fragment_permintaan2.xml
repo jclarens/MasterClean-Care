@@ -176,6 +176,8 @@
                 android:id="@+id/pmr2_et_cttn"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
+                android:paddingStart="5dp"
+                android:paddingEnd="5dp"
                 android:ems="10"
                 android:inputType="textMultiLine"
                 android:background="@drawable/backgroundlightgray"

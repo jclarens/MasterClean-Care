@@ -37,7 +37,6 @@ public class BacaPesanMasukActivity extends ParentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bacapesan_masuk);
-        SharedPref.save(ConstClass.PAGER_PESAN_POS, "in");
         Intent i = getIntent();
         myMessage = GsonUtils.getObjectFromJson(i.getStringExtra("msg"), MyMessage.class);
 

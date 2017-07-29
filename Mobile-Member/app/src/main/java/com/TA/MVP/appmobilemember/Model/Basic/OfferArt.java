@@ -6,28 +6,29 @@ package com.TA.MVP.appmobilemember.Model.Basic;
 
 public class OfferArt {
     private Integer id;
-    private Offer offer;
-    private User art;
+    private Integer offer_id;
+    private Integer art_id;
     private Integer status;
+    private User art;
 
     public Integer getId() {
         return id;
     }
 
-    public Offer getOffer() {
-        return offer;
+    public Integer getOffer_id() {
+        return offer_id;
     }
 
-    public void setOffer(Offer offer) {
-        this.offer = offer;
+    public void setOffer_id(Integer offer_id) {
+        this.offer_id = offer_id;
     }
 
-    public User getArt() {
-        return art;
+    public Integer getArt_id() {
+        return art_id;
     }
 
-    public void setArt(User art) {
-        this.art = art;
+    public void setArt_id(Integer art_id) {
+        this.art_id = art_id;
     }
 
     public Integer getStatus() {
@@ -36,5 +37,13 @@ public class OfferArt {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public User getArt() {
+        return art;
+    }
+
+    public void setArt(User art) {
+        this.art = art;
     }
 }

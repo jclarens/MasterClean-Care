@@ -1,6 +1,7 @@
 package com.mvp.mobile_art.Model.Basic;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Zackzack on 19/07/2017.
@@ -8,16 +9,37 @@ import java.util.Date;
 
 public class Offer {
     private Integer id;
+    private Integer member_id;
+    private Integer work_time_id;
     private User member;
-    private Integer cost;
     private Waktu_Kerja work_time;
-    private Date start_date;
-    private Date end_date;
+    private Integer cost;
+    private String start_date;
+    private String end_date;
     private String remark;
     private Integer status;
+    private OfferContact contact;
+    private List<OrderTask> offer_task_list;
+    private List<User> arts;
 
     public Integer getId() {
         return id;
+    }
+
+    public Integer getMember_id() {
+        return member_id;
+    }
+
+    public void setMember_id(Integer member_id) {
+        this.member_id = member_id;
+    }
+
+    public Integer getWork_time_id() {
+        return work_time_id;
+    }
+
+    public void setWork_time_id(Integer work_time_id) {
+        this.work_time_id = work_time_id;
     }
 
     public User getMember() {
@@ -28,14 +50,6 @@ public class Offer {
         this.member = member;
     }
 
-    public Integer getCost() {
-        return cost;
-    }
-
-    public void setCost(Integer cost) {
-        this.cost = cost;
-    }
-
     public Waktu_Kerja getWork_time() {
         return work_time;
     }
@@ -44,19 +58,27 @@ public class Offer {
         this.work_time = work_time;
     }
 
-    public Date getStart_date() {
+    public Integer getCost() {
+        return cost;
+    }
+
+    public void setCost(Integer cost) {
+        this.cost = cost;
+    }
+
+    public String getStart_date() {
         return start_date;
     }
 
-    public void setStart_date(Date start_date) {
+    public void setStart_date(String start_date) {
         this.start_date = start_date;
     }
 
-    public Date getEnd_date() {
+    public String getEnd_date() {
         return end_date;
     }
 
-    public void setEnd_date(Date end_date) {
+    public void setEnd_date(String end_date) {
         this.end_date = end_date;
     }
 
@@ -74,5 +96,29 @@ public class Offer {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public List<User> getArts() {
+        return arts;
+    }
+
+    public void setArts(List<User> arts) {
+        this.arts = arts;
+    }
+
+    public OfferContact getContact() {
+        return contact;
+    }
+
+    public void setContact(OfferContact contact) {
+        this.contact = contact;
+    }
+
+    public List<OrderTask> getOffer_task_list() {
+        return offer_task_list;
+    }
+
+    public void setOffer_task_list(List<OrderTask> offer_task_list) {
+        this.offer_task_list = offer_task_list;
     }
 }

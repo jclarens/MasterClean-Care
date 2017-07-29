@@ -34,6 +34,30 @@ public class FragmentPesan extends Fragment{
         viewPagerpesan.setAdapter(pagerAdapterpesan);
         tabLayoutpesan.setupWithViewPager(viewPagerpesan);
 
+        viewPagerpesan.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position){
+                    case 0:
+                        SharedPref.save(ConstClass.PAGER_PESAN_POS, "in");
+                        break;
+                    case 1:
+                        SharedPref.save(ConstClass.PAGER_PESAN_POS, "out");
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         if (SharedPref.getValueString(ConstClass.PAGER_PESAN_POS).equals("out")){
             viewPagerpesan.setCurrentItem(1);
         }
