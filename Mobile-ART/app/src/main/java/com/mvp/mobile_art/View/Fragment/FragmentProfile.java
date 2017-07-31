@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.Switch;
@@ -39,7 +40,8 @@ public class FragmentProfile extends Fragment{
     private Button logout;
     private ImageView image;
     private RatingBar ratingBar;
-    private TextView nama, profesi, keterangan;
+    private TextView nama, profesi;
+    private EditText keterangan;
     private Switch aSwitch;
     private User user = new User();
     private StaticData staticData;
@@ -54,25 +56,18 @@ public class FragmentProfile extends Fragment{
         image = (ImageView) _view.findViewById(R.id.prof_img);
         ratingBar = (RatingBar) _view.findViewById(R.id.prof_rate);
         nama = (TextView) _view.findViewById(R.id.prof_tv_name);
-        keterangan = (TextView) _view.findViewById(R.id.prof_tv_keterangan);
+        keterangan = (EditText) _view.findViewById(R.id.keterangan);
         profesi = (TextView) _view.findViewById(R.id.prof_tv_prof);
         aSwitch  = (Switch) _view.findViewById(R.id.prof_switch);
-//        logout = (Button) _view.findViewById(R.id.prof_logout);
 
 
         getallinfo(user.getId());
-//        logout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
         return _view;
     }
     public void settampilan(){
         ratingBar.setRating(user.getRate());
         nama.setText(user.getName());
-        String temp = "Profesi : ";
+        String temp = "";
         for(int n=0;n<user.getUser_job().size();n++){
             if (n != 0)
                 temp = temp + ", ";

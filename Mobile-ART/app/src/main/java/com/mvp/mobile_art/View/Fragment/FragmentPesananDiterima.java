@@ -46,15 +46,15 @@ public class FragmentPesananDiterima extends Fragment {
         recyclerView.setLayoutManager(rec_LayoutManager);
         rec_Adapter = new RecyclerAdapterPemesanan();
         recyclerView.setAdapter(rec_Adapter);
-        rec_Adapter.setOrders(orders, 2);
+        rec_Adapter.setOrders(orders, 1);
 
-        Call<List<Order>> caller = APIManager.getRepository(OrderRepo.class).getorderByMember(user.getId().toString());
+        Call<List<Order>> caller = APIManager.getRepository(OrderRepo.class).getorderByArt(user.getId().toString());
         caller.enqueue(new APICallback<List<Order>>() {
             @Override
             public void onSuccess(Call<List<Order>> call, Response<List<Order>> response) {
                 super.onSuccess(call, response);
                 orders = response.body();
-                rec_Adapter.setOrders(orders, 2);
+                rec_Adapter.setOrders(orders, 1);
             }
 
             @Override

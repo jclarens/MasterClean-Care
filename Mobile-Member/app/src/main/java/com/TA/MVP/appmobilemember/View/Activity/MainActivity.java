@@ -201,18 +201,19 @@ public class MainActivity extends ParentActivity {
                 SharedPref.save(ConstClass.USER, data.getStringExtra(ConstClass.USER));
                 final FragmentTransaction transaction2 = fragmentManager.beginTransaction();
                 transaction2.replace(R.id.main_container, fragment).commit();
-                refreshfragment();
+//                refreshfragment();
             }
         }
-        else if(requestCode == REQUEST_PESAN){
-            refreshfragment();
-        }
-        else if (requestCode == REQUEST_OFFER){
-            refreshfragment();
-        }
-        else if (requestCode == REQUEST_ORDER){
-            refreshfragment();
-        }
+//        else if(requestCode == REQUEST_PESAN){
+//            refreshfragment();
+//        }
+//        else if (requestCode == REQUEST_OFFER){
+//            refreshfragment();
+//        }
+//        else if (requestCode == REQUEST_ORDER){
+//            refreshfragment();
+//        }
+        refreshfragment();
         invalidateOptionsMenu();
 //        refreshfragment();
     }

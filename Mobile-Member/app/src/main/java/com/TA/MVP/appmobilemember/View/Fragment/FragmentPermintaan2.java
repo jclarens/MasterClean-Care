@@ -398,7 +398,7 @@ public class FragmentPermintaan2 extends Fragment {
                 calendar.add(Calendar.HOUR_OF_DAY, Integer.valueOf(estimasi.getText().toString()));
                 break;
             case "Hari":
-                calendar.add(Calendar.DAY_OF_MONTH, Integer.valueOf(estimasi.getText().toString()));
+                calendar.add(Calendar.DAY_OF_MONTH, Integer.valueOf(estimasi.getText().toString())-1);
                 calendar.add(Calendar.HOUR_OF_DAY, 9);
                 break;
             case "Bulan":

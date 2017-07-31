@@ -110,7 +110,8 @@ public class TulisPesanActivity extends ParentActivity {
         map.put("receiver_id", targetid.toString());
         map.put("subject", sub.getText().toString());
         map.put("message", msg.getText().toString());
-        map.put("status", "0");
+        map.put("status_member", "1");
+        map.put("status_art", "0");
         calendar = Calendar.getInstance();
         map.put("created_at", fixFormat.format(calendar.getTime()));
         Log.d("testing", map.toString());

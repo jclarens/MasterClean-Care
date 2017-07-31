@@ -184,6 +184,8 @@ public class FragmentPermintaan3 extends Fragment {
             map.put("remark", " ");
         else map.put("remark", offer.getRemark());
         map.put("status", "0");
+        map.put("status_member", "0");
+        map.put("status_art", "0");
         map.put("contact", offer.getContact());
         map.put("created_at", fixFormat.format(calendar.getTime()));
         map.put("offerTaskList", offer.getOffer_task_list());

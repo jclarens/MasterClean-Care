@@ -54,7 +54,7 @@ public class PemesananActiveActivity extends ParentActivity {
     private List<MyTask> myTasks = new ArrayList<>();
     private List<MyTask> defaulttask = new ArrayList<>();
 
-    private EditText mulaitime, mulaidate, selesaitime, selesaidate, total, cttn;
+    private EditText mulaitime, mulaidate, selesaitime, selesaidate, total, cttn, alamat;
     private DateFormat getdateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-d", Locale.ENGLISH);
     private DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
@@ -79,6 +79,7 @@ public class PemesananActiveActivity extends ParentActivity {
         mulaidate = (EditText) findViewById(R.id.pmsa_et_mulaidate);
         selesaitime = (EditText) findViewById(R.id.pmsa_et_selesaitime);
         selesaidate = (EditText) findViewById(R.id.pmsa_et_selesaidate);
+        alamat = (EditText) findViewById(R.id.pmsa_et_alamat);
         cttn = (EditText) findViewById(R.id.pmsa_et_catatan);
         total = (EditText) findViewById(R.id.pmsa_et_total);
         btnextra = (Button) findViewById(R.id.pmsa_btn_extra);
@@ -109,6 +110,7 @@ public class PemesananActiveActivity extends ParentActivity {
         catch (ParseException pe){
 
         }
+        alamat.setText(order.getContact().getAddress());
         cttn.setText(order.getRemark());
         total.setText(setRP(order.getCost()));
 
@@ -178,6 +180,22 @@ public class PemesananActiveActivity extends ParentActivity {
                 }
             }
         });
+
+
+        // sudah di tolak
+        if (order.getStatus() == 4){
+            abuildermessage("Pemesanan ini telah ditolak dan akan segera dihapus","Status pemesanan");
+            abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    initProgressDialog("Menghapus pesanan");
+                    showDialog();
+                    deleteorder(order.getId());
+                }
+            });
+            showalertdialog();
+        }
+
     }
 
     @Override
@@ -199,20 +217,27 @@ public class PemesananActiveActivity extends ParentActivity {
         abuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
+                initProgressDialog("Sedang membatalkan pemesanan");
+                showDialog();
                 Call<Order> caller = APIManager.getRepository(OrderRepo.class).getorderById(id.toString());
                 caller.enqueue(new APICallback<Order>() {
                     @Override
                     public void onSuccess(Call<Order> call, Response<Order> response) {
                         super.onSuccess(call, response);
                         order = response.body();
-                        if (order.getStatus() == 1){
+                        if (order.getStatus() == 0){
                             deleteorder(order.getId());
+                        }
+                        else {
+                            dismissDialog();
+                            Toast.makeText(getApplicationContext(),"Order ini sudah tidak dapat dibatalkan",Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<Order> call, Throwable t) {
                         super.onFailure(call, t);
+                        dismissDialog();
                         Toast.makeText(getApplicationContext(),"Koneksi bermasalah, silahkan coba lagi",Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -232,20 +257,24 @@ public class PemesananActiveActivity extends ParentActivity {
             @Override
             public void onSuccess(Call<OrderResponse> call, Response<OrderResponse> response) {
                 super.onSuccess(call, response);
-                Toast.makeText(getApplicationContext(),"Order Dibatalkan", Toast.LENGTH_SHORT).show();
+                dismissDialog();
+//                Toast.makeText(getApplicationContext(),"Order Dibatalkan", Toast.LENGTH_SHORT).show();
                 finish();
             }
 
             @Override
             public void onFailure(Call<OrderResponse> call, Throwable t) {
                 super.onFailure(call, t);
+                dismissDialog();
                 Toast.makeText(getApplicationContext(),"Gagal membatalkan order, silahkan coba lagi", Toast.LENGTH_SHORT).show();
+                finish();
             }
 
             @Override
             public void onNotFound(Call<OrderResponse> call, Response<OrderResponse> response) {
                 super.onNotFound(call, response);
-                Toast.makeText(getApplicationContext(),"Order Dibatalkan", Toast.LENGTH_SHORT).show();
+                dismissDialog();
+                Toast.makeText(getApplicationContext(),"Order sudah tidak ditemukan", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });

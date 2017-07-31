@@ -36,7 +36,6 @@ public class BacaPesanMasukActivity extends ParentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bacapesan_masuk);
-        SharedPref.save(ConstClass.PAGER_PESAN_POS, "in");
         Intent i = getIntent();
         myMessage = GsonUtils.getObjectFromJson(i.getStringExtra("msg"), MyMessage.class);
 
@@ -104,7 +103,7 @@ public class BacaPesanMasukActivity extends ParentActivity {
         return super.onOptionsItemSelected(item);
     }
     public void hapuspesan(){
-        Call<MyMessageResponse> caller = APIManager.getRepository(MessageRepo.class).deletemessage(myMessage.getId().toString());
+        Call<MyMessageResponse> caller = APIManager.getRepository(MessageRepo.class).patchmessage(myMessage.getId().toString(), 2);
         caller.enqueue(new APICallback<MyMessageResponse>() {
             @Override
             public void onSuccess(Call<MyMessageResponse> call, Response<MyMessageResponse> response) {

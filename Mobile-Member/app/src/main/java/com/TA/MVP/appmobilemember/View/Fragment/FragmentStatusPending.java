@@ -45,7 +45,7 @@ public class FragmentStatusPending extends Fragment{
         recyclerView.setLayoutManager(rec_LayoutManager);
         rec_Adapter = new RecyclerAdapterPemesanan();
         recyclerView.setAdapter(rec_Adapter);
-        rec_Adapter.setOrders(orders, 0);
+        rec_Adapter.setOrders2(orders, 0, 4);
         rec_Adapter.setcontext(getActivity());
 
         Call<List<Order>> caller = APIManager.getRepository(OrderRepo.class).getorderByMember(user.getId().toString());
@@ -53,7 +53,7 @@ public class FragmentStatusPending extends Fragment{
             @Override
             public void onSuccess(Call<List<Order>> call, Response<List<Order>> response) {
                 super.onSuccess(call, response);
-                rec_Adapter.setOrders(response.body(), 0);
+                rec_Adapter.setOrders2(response.body(), 0, 4);
             }
 
             @Override

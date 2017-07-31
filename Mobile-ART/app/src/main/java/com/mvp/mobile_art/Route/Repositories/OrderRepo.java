@@ -2,6 +2,7 @@ package com.mvp.mobile_art.Route.Repositories;
 
 
 import com.mvp.mobile_art.Model.Basic.Order;
+import com.mvp.mobile_art.Model.Responses.OrderResponse;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,22 @@ import retrofit2.http.Path;
 
 public interface OrderRepo {
     @Headers("Accept: application/json")
+    @GET("api/order/{id}")
+    Call<Order> getorderById(@Path("id") String id);
+
+    @Headers("Accept: application/json")
+    @PATCH("api/order/{id}")
+    Call<OrderResponse> patchorderById(@Path("id") String id, @Body HashMap map);
+
+    @Headers("Accept: application/json")
+    @POST("api/order/")
+    Call<OrderResponse> postorder(@Body HashMap map);
+
+    @Headers("Accept: application/json")
+    @DELETE("api/order/{id}")
+    Call<OrderResponse> deleteorderById(@Path("id") String id);
+
+    @Headers("Accept: application/json")
     @GET("api/order/art/{art}")
     Call<List<Order>> getorderByArt(@Path("art") String art);
 
@@ -28,3 +45,5 @@ public interface OrderRepo {
     @GET("api/order/member/{member}")
     Call<List<Order>> getorderByMember(@Path("member") String member);
 }
+
+

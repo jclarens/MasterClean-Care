@@ -39,6 +39,10 @@ public interface OrderRepo {
     Call<List<Order>> getorderByArt(@Path("art") String art);
 
     @Headers("Accept: application/json")
+    @GET("api/order/art/{art}/status/{status}")
+    Call<List<Order>> getordersByArtstatus(@Path("art") Integer art, @Path("status") Integer status);
+
+    @Headers("Accept: application/json")
     @GET("api/order/member/{member}")
     Call<List<Order>> getorderByMember(@Path("member") String member);
 }

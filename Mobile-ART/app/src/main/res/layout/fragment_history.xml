@@ -19,13 +19,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Total Wallet Saat Ini : "
-                android:textColor="@color/colorsolidblack"
+                android:textColor="@color/colorBlack"
                 android:layout_gravity="center_horizontal"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="-"
-                android:textColor="@color/colorsolidblack"
+                android:textColor="@color/colorBlack"
                 android:layout_gravity="center_horizontal"/>
 
         </LinearLayout>

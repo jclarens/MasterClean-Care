@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 
 import com.mvp.mobile_art.Model.Adapter.PagerAdapterJadwal;
 import com.mvp.mobile_art.R;
+import com.mvp.mobile_art.lib.database.SharedPref;
+import com.mvp.mobile_art.lib.utils.ConstClass;
 
 /**
  * Created by Zackzack on 03/07/2017.
@@ -30,6 +32,43 @@ public class FragmentJadwal extends Fragment {
         pagerAdapterjadwal = new PagerAdapterJadwal(getChildFragmentManager(), getContext());
         viewPagerjadwal.setAdapter(pagerAdapterjadwal);
         tabLayoutjadwal.setupWithViewPager(viewPagerjadwal);
+
+        viewPagerjadwal.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                switch (position){
+                    case 0:
+                        SharedPref.save(ConstClass.PAGER_JADWAL_POS, "penawaran");
+                        break;
+                    case 1:
+                        SharedPref.save(ConstClass.PAGER_JADWAL_POS, "masuk");
+                        break;
+                    case 2:
+                        SharedPref.save(ConstClass.PAGER_JADWAL_POS, "diterima");
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        if (SharedPref.getValueString(ConstClass.PAGER_JADWAL_POS).equals("masuk")){
+            viewPagerjadwal.setCurrentItem(1);
+        }
+        else if (SharedPref.getValueString(ConstClass.PAGER_JADWAL_POS).equals("diterima")){
+            viewPagerjadwal.setCurrentItem(2);
+        }
+        else{
+            viewPagerjadwal.setCurrentItem(0);
+        }
 
         return _view;
     }

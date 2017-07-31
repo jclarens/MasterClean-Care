@@ -76,7 +76,9 @@ public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapt
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.itemnama.setText(orders.get(position).getArt().getName());
+        if (orders.get(position).getStatus() == 4){
+            holder.itemnama.setText(orders.get(position).getArt().getName()+" (Menolak)");
+        }else holder.itemnama.setText(orders.get(position).getArt().getName());
         holder.itemprofesi.setText(orders.get(position).getWork_time().getWork_time());
         try{
         holder.itemmulai.setText(costumedateformat(fixFormat.parse(orders.get(position).getStart_date())));
@@ -88,6 +90,17 @@ public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapt
     @Override
     public int getItemCount() {
         return orders.size();
+    }
+
+    public void setOrders2(List<Order> orders, Integer status, Integer status2){
+        List<Order> temp = new ArrayList<>();
+        for (int n=0; n<orders.size();n++){
+            if (orders.get(n).getStatus() == status || orders.get(n).getStatus() == status2 )
+                temp.add(orders.get(n));
+        }
+        this.orders = temp;
+//        this.orders = orders;
+        notifyDataSetChanged();
     }
 
     public void setOrders(List<Order> orders, Integer status){

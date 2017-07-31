@@ -5,13 +5,13 @@ package com.mvp.mobile_art.Model.Basic;
  */
 
 public class MyTask {
-    private Integer Id;
+    private Integer id;
     private Job job_id;
     private String task;
     private Integer point;
 
     public Integer getId() {
-        return Id;
+        return id;
     }
 
     public Job getJob_id() {

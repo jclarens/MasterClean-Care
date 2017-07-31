@@ -20,7 +20,7 @@ public class Offer {
     private Integer status;
     private OfferContact contact;
     private List<OrderTask> offer_task_list;
-    private List<User> arts;
+    private List<User> offer_art;
 
     public Integer getId() {
         return id;
@@ -98,12 +98,12 @@ public class Offer {
         this.status = status;
     }
 
-    public List<User> getArts() {
-        return arts;
+    public List<User> getOffer_art() {
+        return offer_art;
     }
 
-    public void setArts(List<User> arts) {
-        this.arts = arts;
+    public void setOffer_art(List<User> offer_art) {
+        this.offer_art = offer_art;
     }
 
     public OfferContact getContact() {

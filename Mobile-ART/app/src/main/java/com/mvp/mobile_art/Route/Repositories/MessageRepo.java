@@ -40,7 +40,7 @@ public interface MessageRepo {
 
     @Headers("Accept: application/json")
     @PATCH("api/message/{message_id}")
-    Call<MyMessageResponse> patchmessage(@Path("message_id") String message_id, @Query("status") Integer status);
+    Call<MyMessageResponse> patchmessage(@Path("message_id") String message_id, @Query("status_art") Integer status);
 
     @Headers("Accept: application/json")
     @DELETE("api/message/{message_id}")

@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.mvp.mobile_art.Model.Basic.Order;
 import com.mvp.mobile_art.R;
+import com.mvp.mobile_art.View.Activity.PemesananActiveActivity;
 import com.mvp.mobile_art.lib.utils.ConstClass;
 import com.mvp.mobile_art.lib.utils.GsonUtils;
 
@@ -30,16 +31,16 @@ public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapt
             itemnama = (TextView) itemview.findViewById(R.id.card_pms_nama);
             itemprofesi = (TextView) itemview.findViewById(R.id.card_pms_prof);
             itemmulai = (TextView) itemview.findViewById(R.id.card_pms_mulai);
-//            itemview.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    int position = getAdapterPosition();
+            itemview.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
 //                    Toast.makeText(itemview.getContext(),"Clicking card number " + position, Toast.LENGTH_SHORT).show();
-//                    Intent i = new Intent(itemview.getContext(), PemesananActiveActivity.class);
-//                    i.putExtra(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(orders.get(position)));
-//                    itemview.getContext().startActivity(i);
-//                }
-//            });
+                    Intent i = new Intent(itemview.getContext(), PemesananActiveActivity.class);
+                    i.putExtra(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(orders.get(position)));
+                    itemview.getContext().startActivity(i);
+                }
+            });
         }
     }
 
@@ -52,7 +53,7 @@ public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapt
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.itemnama.setText(orders.get(position).getArt().getName());
+        holder.itemnama.setText(orders.get(position).getMember().getName());
         holder.itemprofesi.setText(orders.get(position).getWork_time().getWork_time());
         holder.itemmulai.setText(orders.get(position).getStart_date().toString());
     }

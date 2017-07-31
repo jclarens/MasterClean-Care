@@ -23,6 +23,8 @@ public class Order {
     private String end_date;
     private String remark;
     private Integer status;
+    private Integer status_member;
+    private Integer status_art;
     private OrderContact contact;
     private List<OrderTask> order_task_list;
 
@@ -124,6 +126,22 @@ public class Order {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Integer getStatus_member() {
+        return status_member;
+    }
+
+    public void setStatus_member(Integer status_member) {
+        this.status_member = status_member;
+    }
+
+    public Integer getStatus_art() {
+        return status_art;
+    }
+
+    public void setStatus_art(Integer status_art) {
+        this.status_art = status_art;
     }
 
     public OrderContact getContact() {

@@ -74,6 +74,20 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Alamat Pemesanan :"
+                android:textColor="@android:color/black" />
+            <EditText
+                android:id="@+id/pmsa_et_alamat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:focusable="false"
+                android:textColor="@color/colorBlack"
+                android:gravity="top"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Catatan :"
                 android:textColor="@android:color/black" />
             <EditText

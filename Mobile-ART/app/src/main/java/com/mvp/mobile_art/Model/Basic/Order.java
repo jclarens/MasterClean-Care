@@ -23,6 +23,8 @@ public class Order {
     private String end_date;
     private String remark;
     private Integer status;
+    private Integer status_member;
+    private Integer status_art;
     private OrderContact contact;
     private List<OrderTask> order_task_list;
 

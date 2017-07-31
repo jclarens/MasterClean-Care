@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,6 +37,7 @@ import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Basic.Waktu_Kerja;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.MyTaskRepo;
+import com.TA.MVP.appmobilemember.Route.Repositories.OrderRepo;
 import com.TA.MVP.appmobilemember.View.Activity.PemesananActivity;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
@@ -78,6 +81,7 @@ public class FragmentPemesanan2 extends Fragment {
     private ArrayAdapter arrayAdapterProfesi;
     private List<Waktu_Kerja> defaultWK = new ArrayList<>();
     private List<Job> defaultProf = new ArrayList<>();
+    private TextWatcher textWatcher = null;
 
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
     private int minestimasi = 1;
@@ -298,6 +302,8 @@ public class FragmentPemesanan2 extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                ((PemesananActivity)getActivity()) ///loading pls
+
                 if (validasi()){
                     //save data from this fragment ----------------------------------------------------------------------------------------------------
                     order.setCost(total);
@@ -326,21 +332,50 @@ public class FragmentPemesanan2 extends Fragment {
             }
         });
 
-
-        estimasi.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        textWatcher = new TextWatcher() {
             @Override
-            public void onFocusChange(View view, boolean b) {
-                if (!b) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                estimasi.removeTextChangedListener(textWatcher);
+                if (estimasi.getText().toString().equals(""))
+                    estimasi.setText(String.valueOf(minestimasi));
+                else {
                     tmp = Integer.valueOf(estimasi.getText().toString());
                     if (tmp > maxestimasi)
                         estimasi.setText(String.valueOf(maxestimasi));
                     else if (tmp < minestimasi)
                         estimasi.setText(String.valueOf(minestimasi));
-                    settanggal();
-                    settotal();
                 }
+                settanggal();
+                settotal();
+                estimasi.addTextChangedListener(textWatcher);
             }
-        });
+        };
+        estimasi.addTextChangedListener(textWatcher);
+
+//        estimasi.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View view, boolean b) {
+//                if (!b) {
+//                    tmp = Integer.valueOf(estimasi.getText().toString());
+//                    if (tmp > maxestimasi)
+//                        estimasi.setText(String.valueOf(maxestimasi));
+//                    else if (tmp < minestimasi)
+//                        estimasi.setText(String.valueOf(minestimasi));
+//                    settanggal();
+//                    settotal();
+//                }
+//            }
+//        });
 
 
         return _view;
@@ -401,7 +436,7 @@ public class FragmentPemesanan2 extends Fragment {
                 calendar.add(Calendar.HOUR_OF_DAY, Integer.valueOf(estimasi.getText().toString()));
                 break;
             case "Hari":
-                calendar.add(Calendar.DAY_OF_MONTH, Integer.valueOf(estimasi.getText().toString()));
+                calendar.add(Calendar.DAY_OF_MONTH, Integer.valueOf(estimasi.getText().toString())-1);
                 calendar.add(Calendar.HOUR_OF_DAY, 9);
                 break;
             case "Bulan":
@@ -446,6 +481,7 @@ public class FragmentPemesanan2 extends Fragment {
     public Date getbatasselesai2(){
         getwaktuendtemp();
         calendar.set(Calendar.HOUR_OF_DAY, 17);
+        calendar.set(Calendar.MINUTE, 1);
         Date ddate = calendar.getTime();
         getwaktutemp();
         return ddate;

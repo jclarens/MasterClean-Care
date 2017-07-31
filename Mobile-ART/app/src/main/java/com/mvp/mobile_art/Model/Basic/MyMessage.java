@@ -13,7 +13,8 @@ public class MyMessage {
     private User receiver_id;
     private String subject;
     private String message;
-    private Integer status;
+    private Integer status_member;
+    private Integer status_art;
     private String created_at;
     private String update_at;
 
@@ -69,11 +70,19 @@ public class MyMessage {
         this.message = message;
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getStatus_member() {
+        return status_member;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setStatus_member(Integer status_member) {
+        this.status_member = status_member;
+    }
+
+    public Integer getStatus_art() {
+        return status_art;
+    }
+
+    public void setStatus_art(Integer status_art) {
+        this.status_art = status_art;
     }
 }

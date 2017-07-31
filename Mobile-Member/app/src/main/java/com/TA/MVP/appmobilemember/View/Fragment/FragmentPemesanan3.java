@@ -45,6 +45,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -85,6 +86,13 @@ public class FragmentPemesanan3 extends Fragment {
     private ArrayBulan arrayBulan = new ArrayBulan();
     private List<MyTask> myTasks = new ArrayList<>();
     private List<MyTask> defaulttask = new ArrayList<>();
+    private List<Order> jadwalart = new ArrayList<>();
+    private Calendar calendar = Calendar.getInstance();
+    private Calendar waktumulai = new GregorianCalendar();
+    private Calendar waktuselesai = new GregorianCalendar();
+    private Calendar batasmulai = new GregorianCalendar();
+    private Calendar batasselesai = new GregorianCalendar();
+    private Calendar tempcalendar = new GregorianCalendar();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -168,7 +176,7 @@ public class FragmentPemesanan3 extends Fragment {
             @Override
             public void onClick(View view) {
                 if (ketentuan.isChecked()){
-                    postpemesanan(order);
+                    postpemesanan();
                 }
                 else Toast.makeText(getContext(), "Anda tidak menyetujui ketentuan yang berlaku", Toast.LENGTH_SHORT).show();
             }
@@ -185,39 +193,82 @@ public class FragmentPemesanan3 extends Fragment {
         tempp = tempp + numberFormat.format(number) + ".00";
         return tempp;
     }
-    public void postpemesanan(Order order){
+    public boolean validasijadwal(List<Order> orders){
+        try {
+            waktumulai.setTime(fixFormat.parse(order.getStart_date()));
+            waktuselesai.setTime(fixFormat.parse(order.getEnd_date()));
+        } catch (ParseException e) {
+//            e.printStackTrace();
+        }
+        for (int n=0;n<orders.size();n++){
+            try {
+                batasmulai.setTime(fixFormat.parse(orders.get(n).getStart_date()));
+                batasselesai.setTime(fixFormat.parse(orders.get(n).getEnd_date()));
+                batasmulai.add(Calendar.HOUR_OF_DAY, -1);
+                batasselesai.add(Calendar.HOUR_OF_DAY, 1);
+            } catch (ParseException e) {
+//                e.printStackTrace();
+            }
+            if (waktumulai.after(batasmulai) && waktumulai.before(batasselesai))
+                return false;
+            if (waktuselesai.after(batasmulai) && waktuselesai.before(batasselesai))
+                return false;
+        }
+        return true;
+    }
+    public void postpemesanan(){
         ((PemesananActivity)getActivity()).initProgressDialog("Pemesanan sedang diperoses");
         ((PemesananActivity)getActivity()).showDialog();
-        Calendar calendar = Calendar.getInstance();
-
-
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("member_id", member.getId().toString());
-        map.put("art_id", art.getId().toString());
-        map.put("work_time_id", order.getWork_time_id().toString());
-        map.put("cost", order.getCost().toString());
-        map.put("start_date", order.getStart_date());
-        map.put("end_date", order.getEnd_date());
-        map.put("remark", order.getRemark());
-        map.put("status", "0");
-        map.put("contact", order.getContact());
-        map.put("created_at", fixFormat.format(calendar.getTime()));
-        map.put("orderTaskList", order.getOrder_task_list());
-        Call<OrderResponse> caller = APIManager.getRepository(OrderRepo.class).postorder(map);
-        caller.enqueue(new APICallback<OrderResponse>() {
+        Call<List<Order>> callerjadwal = APIManager.getRepository(OrderRepo.class).getordersByArtstatus(art.getId(), 1);
+        callerjadwal.enqueue(new APICallback<List<Order>>() {
             @Override
-            public void onSuccess(Call<OrderResponse> call, Response<OrderResponse> response) {
+            public void onSuccess(Call<List<Order>> call, Response<List<Order>> response) {
                 super.onSuccess(call, response);
+                //check jadwal bentrok
+                if (validasijadwal(response.body())){
+                    calendar = Calendar.getInstance();
+                    HashMap<String,Object> map = new HashMap<>();
+                    map.put("member_id", member.getId().toString());
+                    map.put("art_id", art.getId().toString());
+                    map.put("work_time_id", order.getWork_time_id().toString());
+                    map.put("cost", order.getCost().toString());
+                    map.put("start_date", order.getStart_date());
+                    map.put("end_date", order.getEnd_date());
+                    map.put("remark", order.getRemark());
+                    map.put("status", "0");
+                    map.put("status_member", "0");
+                    map.put("status_art", "0");
+                    map.put("contact", order.getContact());
+                    map.put("created_at", fixFormat.format(calendar.getTime()));
+                    map.put("orderTaskList", order.getOrder_task_list());
+                    Call<OrderResponse> caller = APIManager.getRepository(OrderRepo.class).postorder(map);
+                    caller.enqueue(new APICallback<OrderResponse>() {
+                        @Override
+                        public void onSuccess(Call<OrderResponse> call, Response<OrderResponse> response) {
+                            super.onSuccess(call, response);
+                            ((PemesananActivity)getActivity()).dismissDialog();
+                            getActivity().finish();
+                        }
+
+                        @Override
+                        public void onFailure(Call<OrderResponse> call, Throwable t) {
+                            super.onFailure(call, t);
+                            ((PemesananActivity)getActivity()).dismissDialog();
+                            Toast.makeText(getContext(), "Koneksi bermasalah silahkan coba lagi", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                else Toast.makeText(getContext(), "Asisten tidak dapat menerima pemesanan pada jam ini. Harap periksa jadwal asisten sebelum melakukan pemesanan.", Toast.LENGTH_SHORT).show();
                 ((PemesananActivity)getActivity()).dismissDialog();
-                getActivity().finish();
             }
 
             @Override
-            public void onFailure(Call<OrderResponse> call, Throwable t) {
+            public void onFailure(Call<List<Order>> call, Throwable t) {
                 super.onFailure(call, t);
                 ((PemesananActivity)getActivity()).dismissDialog();
                 Toast.makeText(getContext(), "Koneksi bermasalah silahkan coba lagi", Toast.LENGTH_SHORT).show();
             }
+
         });
     }
 }

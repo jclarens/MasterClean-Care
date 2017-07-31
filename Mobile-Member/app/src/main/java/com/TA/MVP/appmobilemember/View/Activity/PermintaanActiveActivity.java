@@ -21,6 +21,7 @@ import com.TA.MVP.appmobilemember.Model.Basic.Offer;
 import com.TA.MVP.appmobilemember.Model.Basic.OfferArt;
 import com.TA.MVP.appmobilemember.Model.Basic.Order;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
+import com.TA.MVP.appmobilemember.Model.Responses.OfferResponse;
 import com.TA.MVP.appmobilemember.Model.Responses.OrderResponse;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.OfferRepo;
@@ -152,6 +153,25 @@ public class PermintaanActiveActivity extends ParentActivity {
                 finish();
             }
         });
+        batal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                abuildermessage("Batalkan penawaran ini?", "Konfirmasi pembatalan");
+                abuilder.setPositiveButton("Batalkan", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        batalkanoffer();
+                    }
+                });
+                abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+                showalertdialog();
+            }
+        });
     }
 
     @Override
@@ -192,6 +212,32 @@ public class PermintaanActiveActivity extends ParentActivity {
                 super.onFailure(call, t);
                 Toast.makeText(getApplicationContext(),"Koneksi bermasalah", Toast.LENGTH_SHORT).show();
                 finish();
+            }
+        });
+    }
+    public void batalkanoffer(){
+        initProgressDialog("Sedang membatalkan...");
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("status", "2");
+        Call<OfferResponse> caller = APIManager.getRepository(OfferRepo.class).patchoffer(offer.getId(), map);
+        caller.enqueue(new APICallback<OfferResponse>() {
+            @Override
+            public void onSuccess(Call<OfferResponse> call, Response<OfferResponse> response) {
+                super.onSuccess(call, response);
+                dismissDialog();
+                finish();
+            }
+
+            @Override
+            public void onNotFound(Call<OfferResponse> call, Response<OfferResponse> response) {
+                super.onNotFound(call, response);
+                dismissDialog();
+            }
+
+            @Override
+            public void onFailure(Call<OfferResponse> call, Throwable t) {
+                super.onFailure(call, t);
+                dismissDialog();
             }
         });
     }

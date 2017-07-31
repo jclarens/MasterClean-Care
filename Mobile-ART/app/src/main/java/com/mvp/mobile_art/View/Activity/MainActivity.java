@@ -1,11 +1,14 @@
 package com.mvp.mobile_art.View.Activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -18,6 +21,7 @@ import com.mvp.mobile_art.MasterCleanApplication;
 import com.mvp.mobile_art.Model.Basic.AdditionalInfo;
 import com.mvp.mobile_art.Model.Basic.Job;
 import com.mvp.mobile_art.Model.Basic.Language;
+import com.mvp.mobile_art.Model.Basic.MyTask;
 import com.mvp.mobile_art.Model.Basic.Place;
 import com.mvp.mobile_art.Model.Basic.StaticData;
 import com.mvp.mobile_art.Model.Basic.Waktu_Kerja;
@@ -26,6 +30,7 @@ import com.mvp.mobile_art.R;
 import com.mvp.mobile_art.Route.Repositories.AdditionalInfoRepo;
 import com.mvp.mobile_art.Route.Repositories.JobRepo;
 import com.mvp.mobile_art.Route.Repositories.LanguageRepo;
+import com.mvp.mobile_art.Route.Repositories.MyTaskRepo;
 import com.mvp.mobile_art.Route.Repositories.PlaceRepo;
 import com.mvp.mobile_art.Route.Repositories.WTRepo;
 import com.mvp.mobile_art.Route.Repositories.WalletRepo;
@@ -49,6 +54,7 @@ import retrofit2.Response;
  */
 
 public class MainActivity extends ParentActivity {
+    private static final int PERMS_REQUEST_CODE = 123;
     public final static int REQUEST_LOGIN = 1;
     public final static int REQUEST_PESAN = 2;
     public final static int REQUEST_ORDER = 3;
@@ -131,8 +137,14 @@ public class MainActivity extends ParentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_alarm:
-                Intent intent = new Intent(getApplicationContext(),EmergencyActivity.class);
-                startActivity(intent);
+                if (SharedPref.getValueString(ConstClass.USER) == ""){
+                    Toast.makeText(getApplicationContext(), "Fitur membutuhkan authentikasi",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    ActivityCompat.requestPermissions(this,
+                            new String[]{Manifest.permission.CALL_PHONE},
+                            PERMS_REQUEST_CODE);
+                }
                 break;
             case R.id.action_logout:SharedPref.save(SharedPref.ACCESS_TOKEN, "");
                 abuildermessage("Anda akan melakukan Logout?", "Konfirmasi");
@@ -278,7 +290,7 @@ public class MainActivity extends ParentActivity {
         });
     }
     public  void getstaticData5(){
-        Call < List <AdditionalInfo>> caller5 = APIManager.getRepository(AdditionalInfoRepo.class).getadditional_infos();
+        Call < List < AdditionalInfo >> caller5 = APIManager.getRepository(AdditionalInfoRepo.class).getadditional_infos();
         caller5.enqueue(new APICallback<List<AdditionalInfo>>() {
             @Override
             public void onSuccess(Call<List<AdditionalInfo>> call, Response<List<AdditionalInfo>> response) {
@@ -294,13 +306,29 @@ public class MainActivity extends ParentActivity {
         });
     }
     public  void getstaticData6(){
+        Call<List<MyTask>> caller = APIManager.getRepository(MyTaskRepo.class).gettasks();
+        caller.enqueue(new APICallback<List<MyTask>>() {
+            @Override
+            public void onSuccess(Call<List<MyTask>> call, Response<List<MyTask>> response) {
+                super.onSuccess(call, response);
+                staticData.setMyTasks(response.body());
+                getstaticData7();
+            }
+
+            @Override
+            public void onFailure(Call<List<MyTask>> call, Throwable t) {
+                super.onFailure(call, t);
+            }
+        });
+    }
+    public  void getstaticData7(){
         Call < List < Wallet >> caller6 = APIManager.getRepository(WalletRepo.class).getwallets();
         caller6.enqueue(new APICallback<List<Wallet>>() {
             @Override
             public void onSuccess(Call<List<Wallet>> call, Response<List<Wallet>> response) {
                 super.onSuccess(call, response);
                 staticData.setWallets(response.body());
-                Toast.makeText(getApplicationContext(),"Success", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context,"Success", Toast.LENGTH_SHORT).show();
                 success = true;
                 settampilan();
                 dismissDialog();
@@ -314,5 +342,23 @@ public class MainActivity extends ParentActivity {
 //        if (!success)
 //            getstaticData1();
         ((MasterCleanApplication) getApplication()).setGlobalStaticData(staticData);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMS_REQUEST_CODE: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    SharedPref.save(ConstClass.EMERGENCY_EXTRA, "on");
+                    Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
+                    startActivity(intent);
+
+                } else {
+                    Toast.makeText(getApplicationContext(),"Fitur tidak dapat dijalankan tanpa izin pengguna", Toast.LENGTH_SHORT).show();
+                }
+                return;
+            }
+        }
     }
 }

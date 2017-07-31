@@ -66,7 +66,6 @@ public class FragmentCari extends Fragment  implements OnMapReadyCallback {
     private Location location;
     private List<User> arts = new ArrayList<>();
     private List<Job> defaultjobs = new ArrayList<>();
-    private User user;
     private String[] latlng;
     CameraPosition targetcamera;
     GoogleMap mGoogleMap;

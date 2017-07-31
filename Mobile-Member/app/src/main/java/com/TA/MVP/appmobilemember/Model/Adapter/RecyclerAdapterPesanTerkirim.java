@@ -86,7 +86,7 @@ public class RecyclerAdapterPesanTerkirim extends RecyclerView.Adapter<RecyclerA
 
         }
         holder.itemsubject.setText(myMessages.get(position).getSubject());
-        if (myMessages.get(position).getStatus() == 0){
+        if (myMessages.get(position).getStatus_member() == 0){
             holder.imageView.setImageResource(R.drawable.ic_closed_msg);
         } else holder.imageView.setImageResource(R.drawable.ic_opened_msg);
     }
@@ -98,6 +98,11 @@ public class RecyclerAdapterPesanTerkirim extends RecyclerView.Adapter<RecyclerA
 
     public void setPesan(List<MyMessage> myMessages){
         this.myMessages = myMessages;
+        for (int n=0;n<myMessages.size();n++){
+            if (myMessages.get(n).getStatus_member() == 2){
+                myMessages.remove(myMessages.get(n));
+            }
+        }
         doshorting();
         notifyDataSetChanged();
     }
