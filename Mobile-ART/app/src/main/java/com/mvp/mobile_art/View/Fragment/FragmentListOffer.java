@@ -51,7 +51,7 @@ public class FragmentListOffer extends Fragment {
         recyclerView.setAdapter(rec_Adapter);
         rec_Adapter.setDefaultwk(((MasterCleanApplication)getActivity().getApplication()).globalStaticData.getWaktu_kerjas());
         rec_Adapter.setcontext(getContext());
-        rec_Adapter.setOffers(offers, user.getId());
+//        rec_Adapter.setOffers(offers, user.getId());
 
         Call<List<Offer>> caller = APIManager.getRepository(OfferRepo.class).getoffersbyart(user.getId());
         caller.enqueue(new APICallback<List<Offer>>() {

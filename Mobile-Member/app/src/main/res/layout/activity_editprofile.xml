@@ -24,7 +24,7 @@
                 android:layout_height="200dp"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="false"
-                app:srcCompat="@mipmap/ic_launcher" />
+                app:srcCompat="@drawable/default_profile" />
 
         </RelativeLayout>
 
@@ -41,7 +41,8 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -66,14 +67,6 @@
                     android:gravity="center_vertical"
                     android:text="@string/notelp"
                     android:textColor="@android:color/black" />
-
-                <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/email"
-                    android:textColor="@android:color/black" />
             </LinearLayout>
 
             <LinearLayout
@@ -96,14 +89,6 @@
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:text="@string/notelp" />
-
-                <EditText
-                    android:id="@+id/eprof_et_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="@string/email" />
             </LinearLayout>
         </LinearLayout>
 

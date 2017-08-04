@@ -23,4 +23,8 @@ public interface EmergencycallRepo {
     @Headers("Accept: application/json")
     @POST("api/emergency_call/")
     Call<EmergencyCallResponse> postemergencycall(@Body HashMap map);
+
+    @Headers("Accept: application/json")
+    @PATCH("api/emergency_call/{emergency_call_id}")
+    Call<EmergencyCallResponse> patchemergencycall(@Path("emergency_call_id") Integer emergency_call_id, @Body HashMap map);
 }

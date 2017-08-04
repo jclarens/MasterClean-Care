@@ -23,6 +23,7 @@ import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterListKerjaShow;
 import com.TA.MVP.appmobilemember.Model.Array.ArrayBulan;
 import com.TA.MVP.appmobilemember.Model.Basic.MyTask;
 import com.TA.MVP.appmobilemember.Model.Basic.Offer;
+import com.TA.MVP.appmobilemember.Model.Basic.StaticData;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Basic.Waktu_Kerja;
 import com.TA.MVP.appmobilemember.Model.Responses.OfferResponse;
@@ -63,9 +64,8 @@ public class FragmentPermintaan3 extends Fragment {
     private Bundle b = new Bundle();
     private User member = new User();
     private Offer offer = new Offer();
-    private List<Waktu_Kerja> defaultWK = new ArrayList<>();
     private TextView namaasis, usiaasis, agamaasis, estimasitext;
-    private EditText worktime, estimasi, mulai, selesai, total;
+    private EditText worktime, estimasi, mulai, selesai, total, job;
     private LinearLayout layoutlistpekerjaan;
     private ImageView fotoasis;
     private RatingBar ratingasis;
@@ -79,29 +79,28 @@ public class FragmentPermintaan3 extends Fragment {
     private DateFormat tglFormat = new SimpleDateFormat("d", Locale.ENGLISH);
     private DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
     private ArrayBulan arrayBulan = new ArrayBulan();
-    private List<MyTask> myTasks = new ArrayList<>();
-    private List<MyTask> defaulttask = new ArrayList<>();
+    private StaticData staticData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_permintaan3, container, false);
         member = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
         offer = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.OFFER_EXTRA), Offer.class);
-        defaultWK = ((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getWaktu_kerjas();
-        defaulttask = ((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getMyTasks();
-//        myTasks = (List<MyTask>) GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.MYTASK_EXTRA), new TypeToken<List<MyTask>>(){}.getType());
+        staticData = ((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData();
+
 
         worktime = (EditText) _view.findViewById(R.id.pmr3_et_worktime);
+        job = (EditText) _view.findViewById(R.id.pmr3_et_job);
         linkketentuan = (TextView) _view.findViewById(R.id.pmr3_tv_ketentuan);
         prev = (Button) _view.findViewById(R.id.pmr3_btn_prev);
         pesan = (Button) _view.findViewById(R.id.pmr3_btn_pesan);
-//        estimasitext = (TextView) _view.findViewById(R.id.pmr3_tv_estimasiwaktu);
         mulai = (EditText) _view.findViewById(R.id.pmr3_et_mulai);
         selesai = (EditText) _view.findViewById(R.id.pmr3_et_selesai);
         total = (EditText) _view.findViewById(R.id.pmr3_et_total);
         ketentuan = (CheckBox) _view.findViewById(R.id.pmr3_cb_kttn);
 
-        worktime.setText(defaultWK.get(offer.getWork_time_id()-1).getWork_time());
+        worktime.setText(staticData.getWaktu_kerjas().get(offer.getWork_time_id()-1).getWork_time());
+        job.setText(staticData.getJobs().get(offer.getJob_id()-1).getJob());
 
         //listkerja
         recyclerView = (RecyclerView) _view.findViewById(R.id.pmr3_rec_listkerja);
@@ -109,7 +108,7 @@ public class FragmentPermintaan3 extends Fragment {
         recyclerView.setLayoutManager(rec_LayoutManager);
         rec_Adapter = new RecyclerAdapterListKerjaShow();
         recyclerView.setAdapter(rec_Adapter);
-        rec_Adapter.setDefaulttask(defaulttask);
+        rec_Adapter.setDefaulttask(staticData.getMyTasks());
         rec_Adapter.setList(offer.getOffer_task_list());
         switch (offer.getWork_time_id()){
             case 1:
@@ -177,6 +176,7 @@ public class FragmentPermintaan3 extends Fragment {
         HashMap<String,Object> map = new HashMap<>();
         map.put("member_id", member.getId().toString());
         map.put("work_time_id", offer.getWork_time_id().toString());
+        map.put("job_id", offer.getJob_id().toString());
         map.put("cost", offer.getCost().toString());
         map.put("start_date", offer.getStart_date());
         map.put("end_date", offer.getEnd_date());

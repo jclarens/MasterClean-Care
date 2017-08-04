@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterPemesanan;
+import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterRiwayat;
 import com.TA.MVP.appmobilemember.Model.Basic.Order;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
@@ -32,7 +33,7 @@ import retrofit2.Response;
 public class FragmentStatusRiwayat extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager rec_LayoutManager;
-    private RecyclerAdapterPemesanan rec_Adapter;
+    private RecyclerAdapterRiwayat rec_Adapter;
     private List<Order> orders = new ArrayList<>();
     private User user = new User();
     @Override
@@ -43,9 +44,9 @@ public class FragmentStatusRiwayat extends Fragment {
         recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_order);
         rec_LayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(rec_LayoutManager);
-        rec_Adapter = new RecyclerAdapterPemesanan();
+        rec_Adapter = new RecyclerAdapterRiwayat();
         recyclerView.setAdapter(rec_Adapter);
-        rec_Adapter.setOrders(orders, 3);
+        rec_Adapter.setOrders(orders);
         rec_Adapter.setcontext(getActivity());
 
         Call<List<Order>> caller = APIManager.getRepository(OrderRepo.class).getorderByMember(user.getId().toString());
@@ -53,7 +54,7 @@ public class FragmentStatusRiwayat extends Fragment {
             @Override
             public void onSuccess(Call<List<Order>> call, Response<List<Order>> response) {
                 super.onSuccess(call, response);
-                rec_Adapter.setOrders(response.body(), 3);
+                rec_Adapter.setOrders(response.body());
             }
 
             @Override

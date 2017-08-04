@@ -16,10 +16,12 @@ import android.widget.Toast;
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterListKerjaShow;
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterListOfferArt;
+import com.TA.MVP.appmobilemember.Model.Array.ArrayBulan;
 import com.TA.MVP.appmobilemember.Model.Basic.MyTask;
 import com.TA.MVP.appmobilemember.Model.Basic.Offer;
 import com.TA.MVP.appmobilemember.Model.Basic.OfferArt;
 import com.TA.MVP.appmobilemember.Model.Basic.Order;
+import com.TA.MVP.appmobilemember.Model.Basic.StaticData;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Responses.OfferResponse;
 import com.TA.MVP.appmobilemember.Model.Responses.OrderResponse;
@@ -39,6 +41,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -57,14 +60,18 @@ public class PermintaanActiveActivity extends ParentActivity {
     private RecyclerAdapterListKerjaShow rec_Adapter;
     private RecyclerAdapterListOfferArt rec_Adapter2;
     private List<MyTask> myTasks = new ArrayList<>();
-    private List<MyTask> defaulttask = new ArrayList<>();
     private List<OfferArt> offerArts = new ArrayList<>();
+    private StaticData staticData;
 
-    private EditText mulaitime, mulaidate, selesaitime, selesaidate, total, cttn;
+    private EditText mulaitime, mulaidate, selesaitime, selesaidate, total, cttn, alamat, profesi, worktime;
     private DateFormat getdateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-d", Locale.ENGLISH);
     private DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+    private DateFormat tahunFormat = new SimpleDateFormat("yyyy", Locale.ENGLISH);
+    private DateFormat bulanFormat = new SimpleDateFormat("MM", Locale.ENGLISH);
+    private DateFormat tglFormat = new SimpleDateFormat("d", Locale.ENGLISH);
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
+    private ArrayBulan arrayBulan = new ArrayBulan();
 
     private Offer offer = new Offer();
     private Toolbar toolbar;
@@ -78,12 +85,15 @@ public class PermintaanActiveActivity extends ParentActivity {
         setContentView(R.layout.activity_permintaan_active);
         Intent intent = getIntent();
         offer = GsonUtils.getObjectFromJson(intent.getStringExtra(ConstClass.OFFER_EXTRA), Offer.class);
-        defaulttask = ((MasterCleanApplication)getApplication()).getGlobalStaticData().getMyTasks();
+        staticData = ((MasterCleanApplication)getApplication()).getGlobalStaticData();
 
         mulaitime = (EditText) findViewById(R.id.mulaitime);
         mulaidate = (EditText) findViewById(R.id.mulaidate);
         selesaitime = (EditText) findViewById(R.id.selesaitime);
         selesaidate = (EditText) findViewById(R.id.selesaidate);
+        profesi = (EditText) findViewById(R.id.profesi);
+        worktime = (EditText) findViewById(R.id.worktime);
+        alamat = (EditText) findViewById(R.id.alamat);
         cttn = (EditText) findViewById(R.id.catatan);
         total = (EditText) findViewById(R.id.total);
         batal = (Button) findViewById(R.id.batalkan);
@@ -93,13 +103,17 @@ public class PermintaanActiveActivity extends ParentActivity {
 
         try{
             mulaitime.setText(timeFormat.format(getdateFormat.parse(offer.getStart_date())));
-            mulaidate.setText(dateFormat.format(getdateFormat.parse(offer.getStart_date())));
+            mulaidate.setText(costumedateformat(getdateFormat.parse(offer.getStart_date())));
             selesaitime.setText(timeFormat.format(getdateFormat.parse(offer.getEnd_date())));
-            selesaidate.setText(dateFormat.format(getdateFormat.parse(offer.getEnd_date())));
+            selesaidate.setText(costumedateformat(getdateFormat.parse(offer.getEnd_date())));
         }
         catch (ParseException pe){
 
         }
+
+        profesi.setText(staticData.getJobs().get(offer.getJob_id()-1).getJob());
+        worktime.setText(staticData.getWaktu_kerjas().get(offer.getWork_time_id()-1).getWork_time());
+        alamat.setText(offer.getContact().getAddress());
         cttn.setText(offer.getRemark());
         total.setText(setRP(offer.getCost()));
 
@@ -118,7 +132,7 @@ public class PermintaanActiveActivity extends ParentActivity {
         recyclerView.setLayoutManager(rec_LayoutManager);
         rec_Adapter = new RecyclerAdapterListKerjaShow();
         recyclerView.setAdapter(rec_Adapter);
-        rec_Adapter.setDefaulttask(defaulttask);
+        rec_Adapter.setDefaulttask(staticData.getMyTasks());
         rec_Adapter.setList(offer.getOffer_task_list());
 
 
@@ -240,5 +254,11 @@ public class PermintaanActiveActivity extends ParentActivity {
                 dismissDialog();
             }
         });
+    }
+    public String costumedateformat(Date date){
+//        String hari = arrayHari.getArrayList().get(Integer.parseInt(hariFormat.format(date)));
+        String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date)));
+        // Senin, Januari 30
+        return tglFormat.format(date) + " " + bulan + " " + tahunFormat.format(date);
     }
 }

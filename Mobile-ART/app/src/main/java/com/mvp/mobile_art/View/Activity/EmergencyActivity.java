@@ -104,6 +104,8 @@ public class EmergencyActivity extends ParentActivity {
         startActivity(callIntent);
     }
     public void trypass(){
+        initProgressDialog("Sedang melakukan validasi");
+        showDialog();
         HashMap<String,Object> map = new HashMap<>();
         map.put("grant_type","password");
         map.put("client_id", Settings.getClientID());

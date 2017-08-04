@@ -20,6 +20,8 @@ import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
+import com.TA.MVP.appmobilemember.lib.utils.Settings;
+import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
 
@@ -59,6 +61,8 @@ public class ProfileActivity extends ParentActivity {
         nominal = (TextView) findViewById(R.id.prof_tv_nominal);
         btnlog =(Button) findViewById(R.id.prof_btn_isi);
 
+
+
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(R.string.toolbar_profile);
@@ -85,9 +89,6 @@ public class ProfileActivity extends ParentActivity {
             case R.id.prof_menu_editks:
                 doStartActivity(ProfileActivity.this, EditPassActivity.class);
                 break;
-//            case R.id.prof_menu_editdoc:
-//                doStartActivity(ProfileActivity.this, DokumenTambahanActivity.class);
-//                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -118,6 +119,14 @@ public class ProfileActivity extends ParentActivity {
                 startActivity(i);
             }
         });
+
+        Picasso.with(getApplicationContext())
+                .load(Settings.getRetrofitAPIUrl()+"image/medium/"+user.getAvatar())
+                .placeholder(R.drawable.default_profile)
+                .error(R.drawable.default_profile)
+                .resize(imgfoto.getWidth(), imgfoto.getHeight())
+                .into(imgfoto);
+
         dismissDialog();
     }
 

@@ -1,13 +1,16 @@
 package com.mvp.mobile_art.View.Activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.hardware.input.InputManager;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -18,6 +21,7 @@ import com.mvp.mobile_art.Model.Adapter.RecyclerAdapterListKerjaShow;
 import com.mvp.mobile_art.Model.Basic.MyTask;
 import com.mvp.mobile_art.Model.Basic.Offer;
 import com.mvp.mobile_art.Model.Basic.OfferArt;
+import com.mvp.mobile_art.Model.Basic.StaticData;
 import com.mvp.mobile_art.Model.Basic.User;
 import com.mvp.mobile_art.Model.Responses.OfferResponse;
 import com.mvp.mobile_art.R;
@@ -50,13 +54,10 @@ public class OfferActivity extends ParentActivity {
     private RecyclerView.LayoutManager rec_LayoutManager;
     private RecyclerView.LayoutManager rec_LayoutManager2;
     private RecyclerAdapterListKerjaShow rec_Adapter;
-//    private RecyclerAdapterListOfferArt rec_Adapter2;
-    private List<MyTask> myTasks = new ArrayList<>();
-    private List<MyTask> defaulttask = new ArrayList<>();
-//    private List<OfferArt> offerArts = new ArrayList<>();
     private User user = new User();
+    private StaticData staticData;
 
-    private EditText mulaitime, mulaidate, selesaitime, selesaidate, total, cttn;
+    private EditText mulaitime, mulaidate, selesaitime, selesaidate, total, cttn, alamat, profesi, worktime;
     private DateFormat getdateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-d", Locale.ENGLISH);
     private DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
@@ -67,6 +68,7 @@ public class OfferActivity extends ParentActivity {
 
     private Button bersedia, kembali;
     private TextView estimasitext, tugastext, penerima;
+    private Integer mystatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,17 +77,21 @@ public class OfferActivity extends ParentActivity {
         Intent intent = getIntent();
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
         offer = GsonUtils.getObjectFromJson(intent.getStringExtra(ConstClass.OFFER_EXTRA), Offer.class);
-        defaulttask = ((MasterCleanApplication)getApplication()).getGlobalStaticData().getMyTasks();
+        staticData = ((MasterCleanApplication)getApplication()).getGlobalStaticData();
 
         mulaitime = (EditText) findViewById(R.id.mulaitime);
         mulaidate = (EditText) findViewById(R.id.mulaidate);
         selesaitime = (EditText) findViewById(R.id.selesaitime);
         selesaidate = (EditText) findViewById(R.id.selesaidate);
+        profesi = (EditText) findViewById(R.id.profesi);
+        worktime = (EditText) findViewById(R.id.worktime);
+        alamat = (EditText) findViewById(R.id.alamat);
         cttn = (EditText) findViewById(R.id.catatan);
         total = (EditText) findViewById(R.id.total);
         bersedia = (Button) findViewById(R.id.bersedia);
         kembali = (Button) findViewById(R.id.kembali);
         tugastext = (TextView) findViewById(R.id.tugas);
+
 //        penerima = (TextView) findViewById(R.id.penerima);
 
         try{
@@ -97,18 +103,11 @@ public class OfferActivity extends ParentActivity {
         catch (ParseException pe){
 
         }
+        profesi.setText(staticData.getJobs().get(offer.getJob_id()-1).getJob());
+        worktime.setText(staticData.getWaktu_kerjas().get(offer.getWork_time_id()-1).getWork_time());
+        alamat.setText(offer.getContact().getAddress());
         cttn.setText(offer.getRemark());
         total.setText(setRP(offer.getCost()));
-
-
-        //listart
-//        recyclerViewart = (RecyclerView) findViewById(R.id.listart);
-//        rec_LayoutManager2 = new LinearLayoutManager(getApplicationContext());
-//        recyclerViewart.setLayoutManager(rec_LayoutManager2);
-//        rec_Adapter2 = new RecyclerAdapterListOfferArt(offer, this);
-//        recyclerViewart.setAdapter(rec_Adapter2);
-//        rec_Adapter2.setlistart(offerArts);
-//        getarts();
 
         //listkerja
         recyclerView = (RecyclerView) findViewById(R.id.listkerja);
@@ -116,7 +115,7 @@ public class OfferActivity extends ParentActivity {
         recyclerView.setLayoutManager(rec_LayoutManager);
         rec_Adapter = new RecyclerAdapterListKerjaShow();
         recyclerView.setAdapter(rec_Adapter);
-        rec_Adapter.setDefaulttask(defaulttask);
+        rec_Adapter.setDefaulttask(staticData.getMyTasks());
         rec_Adapter.setList(offer.getOffer_task_list());
 
 
@@ -173,7 +172,11 @@ public class OfferActivity extends ParentActivity {
 
             }
         });
-        checksudahterdaftar();
+        if (offer.getStatus() == 0)
+            checksudahterdaftar("Batalkan");
+        else if (offer.getStatus() == 1){
+            checksudahterdaftar("Hapus");
+        }
     }
 
     @Override
@@ -222,7 +225,7 @@ public class OfferActivity extends ParentActivity {
             }
         });
     }
-    public void checksudahterdaftar(){
+    public void checksudahterdaftar(final String string){
         //returnnya array
         initProgressDialog("Loading");
         showDialog();
@@ -232,11 +235,11 @@ public class OfferActivity extends ParentActivity {
             public void onSuccess(Call<List<OfferArt>> call, Response<List<OfferArt>> response) {
                 super.onSuccess(call, response);
                 if (response.body().size() == 1){
-                    bersedia.setText("Batalkan");
+                    bersedia.setText(string);
                     bersedia.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            abuildermessage("Batalkan?","Konfirmasi");
+                            abuildermessage(string+"?","Konfirmasi");
                             abuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {

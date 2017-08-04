@@ -49,19 +49,34 @@
                 android:text="Waktu dan Pekerjaan"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:layout_marginBottom="5dp"/>
 
-            <Spinner
-                android:id="@+id/pms2_spinner_waktukerja"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp" />
+                android:orientation="vertical"
+                android:background="@drawable/backgroundsoftgray"
+                android:layout_marginBottom="5dp">
+                <Spinner
+                    android:id="@+id/pms2_spinner_waktukerja"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp" />
+            </LinearLayout>
 
-            <Spinner
-                android:id="@+id/pms2_spinner_profesi"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp" />
+                android:orientation="vertical"
+                android:background="@drawable/backgroundsoftgray"
+                android:layout_marginBottom="5dp">
+                <Spinner
+                    android:id="@+id/pms2_spinner_profesi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp" />
+            </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/pms2_rec_listkerja"
@@ -123,6 +138,8 @@
 
                 <EditText
                     android:id="@+id/pms2_et_estimasi"
+                    android:selectAllOnFocus="true"
+                    android:focusableInTouchMode="true"
                     android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:ems="10"

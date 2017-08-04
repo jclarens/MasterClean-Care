@@ -2,22 +2,24 @@ package com.TA.MVP.appmobilemember.Model.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.LayerDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.TA.MVP.appmobilemember.Model.Basic.Order;
+import com.TA.MVP.appmobilemember.Model.Basic.ReviewOrder;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.RoundedTransformation;
 import com.TA.MVP.appmobilemember.View.Activity.AsistenActivity;
-import com.TA.MVP.appmobilemember.View.Activity.PemesananActivity;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
+import com.TA.MVP.appmobilemember.lib.utils.Settings;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -31,63 +33,65 @@ import java.util.List;
  * Created by Zackzack on 08/07/2017.
  */
 
-public class RecyclerAdapterAsisten extends RecyclerView.Adapter<RecyclerAdapterAsisten.ViewHolder> {
-    private int thisYear, artbornyear;
-    private Calendar calendar = Calendar.getInstance();
-    private DateFormat yearformat = new SimpleDateFormat("yyyy");
-    private List<User> users = new ArrayList<>();
+public class RecyclerAdapterReview extends RecyclerView.Adapter<RecyclerAdapterReview.ViewHolder> {
+    private List<Order> orders = new ArrayList<>();
+    private Context context;
+    public RecyclerAdapterReview(Context context){
+        this.context = context;
+    }
     class ViewHolder extends RecyclerView.ViewHolder{
-        public TextView itemnama,itemumur;
-        public RatingBar itemrate;
-
+        public TextView nama,remark;
+        public RatingBar ratingBar;
+        public ImageView imageView;
+        public Integer imgheigh, imgwidth;
+        //
         public ViewHolder(final View itemview){
             super(itemview);
-            itemnama = (TextView) itemview.findViewById(R.id.card_wallet_nominal);
-            itemumur = (TextView) itemview.findViewById(R.id.card_asis_umur);
-            itemrate = (RatingBar) itemview.findViewById(R.id.card_asis_rating);
-            itemview.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = getAdapterPosition();
-//                    Toast.makeText(itemview.getContext(),"Clicking card number " + position, Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(itemview.getContext(), AsistenActivity.class);
-                    i.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(users.get(position)));
-                    itemview.getContext().startActivity(i);
-                }
-            });
+            nama = (TextView) itemview.findViewById(R.id.nama);
+            remark = (TextView) itemview.findViewById(R.id.remark);
+            ratingBar = (RatingBar) itemview.findViewById(R.id.rating);
+            imageView = (ImageView) itemview.findViewById(R.id.img);
+            imgheigh = imageView.getHeight();
+            imgwidth = imageView.getWidth();
         }
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_asisten,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.cardview_review,parent,false);
         ViewHolder viewHolder = new ViewHolder(v);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.itemnama.setText(users.get(position).getName());
-        thisYear = calendar.get(Calendar.YEAR);
-        artbornyear = Integer.valueOf(yearformat.format(users.get(position).getBorn_date()));
-        holder.itemumur.setText(thisYear - artbornyear + " Thn");
-        holder.itemrate.setRating(users.get(position).getRate());
+        holder.nama.setText(orders.get(position).getMember().getName());
+        holder.remark.setText(orders.get(position).getReview_order().getRemark());
+        holder.ratingBar.setRating(orders.get(position).getReview_order().getRate());
+
+        Picasso.with(context)
+                .load(Settings.getRetrofitAPIUrl()+"image/medium/"+orders.get(position).getMember().getAvatar())
+                .placeholder(R.drawable.default_profile)
+                .error(R.drawable.default_profile)
+                .resize(100, 100)
+                .transform(new RoundedTransformation(10, 0))
+                .into(holder.imageView);
     }
 
     @Override
     public int getItemCount() {
-        return users.size();
+        return orders.size();
     }
-    public void setART(List<User> users){
-        this.users = users;
-        doshorting();
+    public void setlist(List<Order> orders){
+        this.orders = orders;
+//        doshorting();
         notifyDataSetChanged();
     }
-    public void doshorting(){
-        Collections.sort(users, new Comparator<User>(){
-            public int compare(User obj1, User obj2) {
-                return Float.toString(obj2.getRate()).compareTo(Float.toString(obj1.getRate()));
-            }
-        });
-    }
+//    public void doshorting(){
+//        Collections.sort(reviewOrders, new Comparator<User>(){
+//            public int compare(User obj1, User obj2) {
+//                return Float.toString(obj2.getRate()).compareTo(Float.toString(obj1.getRate()));
+//            }
+//        });
+//    }
 }

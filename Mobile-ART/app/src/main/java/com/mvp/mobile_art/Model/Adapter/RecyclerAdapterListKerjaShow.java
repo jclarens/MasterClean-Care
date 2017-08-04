@@ -22,6 +22,7 @@ public class RecyclerAdapterListKerjaShow extends RecyclerView.Adapter<RecyclerA
     private List<MyTask> defaulttask = new ArrayList<>();
     private List<OrderTask> orderTasks = new ArrayList<>();
     private int black;
+    private boolean status = false;
     class ViewHolder extends RecyclerView.ViewHolder{
         public CheckBox checkBox;
         public ViewHolder(final View itemview){
@@ -40,7 +41,7 @@ public class RecyclerAdapterListKerjaShow extends RecyclerView.Adapter<RecyclerA
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.checkBox.setEnabled(false);
+        holder.checkBox.setEnabled(status);
         holder.checkBox.setTextColor(black);
         Log.d("Holder tasklistid =", orderTasks.get(position).getTask_list_id().toString());
         holder.checkBox.setText(defaulttask.get(orderTasks.get(position).getTask_list_id()-1).getTask());
@@ -60,5 +61,9 @@ public class RecyclerAdapterListKerjaShow extends RecyclerView.Adapter<RecyclerA
     }
     public void setDefaulttask(List<MyTask> defaulttask){
         this.defaulttask = defaulttask;
+    }
+    public void setStatus(boolean status){
+        this.status = status;
+        notifyDataSetChanged();
     }
 }

@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentLogin;
-import com.TA.MVP.appmobilemember.lib.api.APIManager;
 
 /**
  * Created by Zackzack on 08/06/2017.

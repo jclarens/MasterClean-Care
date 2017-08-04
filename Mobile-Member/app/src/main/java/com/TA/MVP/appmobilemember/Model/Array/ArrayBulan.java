@@ -18,6 +18,7 @@ public class ArrayBulan {
         arrayList.add("Mei");
         arrayList.add("Juni");
         arrayList.add("July");
+        arrayList.add("Agustus");
         arrayList.add("September");
         arrayList.add("Oktober");
         arrayList.add("November");

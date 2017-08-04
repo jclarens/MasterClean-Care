@@ -10,6 +10,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,12 +31,14 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.mvp.mobile_art.MasterCleanApplication;
 import com.mvp.mobile_art.Model.Basic.Offer;
 import com.mvp.mobile_art.Model.Basic.Order;
+import com.mvp.mobile_art.Model.Basic.User;
 import com.mvp.mobile_art.Model.Basic.Waktu_Kerja;
 import com.mvp.mobile_art.R;
 import com.mvp.mobile_art.Route.Repositories.OfferRepo;
 import com.mvp.mobile_art.View.Activity.OfferActivity;
 import com.mvp.mobile_art.lib.api.APICallback;
 import com.mvp.mobile_art.lib.api.APIManager;
+import com.mvp.mobile_art.lib.database.SharedPref;
 import com.mvp.mobile_art.lib.utils.ConstClass;
 import com.mvp.mobile_art.lib.utils.GsonUtils;
 
@@ -61,6 +64,7 @@ public class FragmentPekerjaan extends Fragment implements OnMapReadyCallback {
     private List<Offer> offers = new ArrayList<>();
     private List<Waktu_Kerja> defaultwk = new ArrayList<>();
     private String[] latlng;
+    private User user = new User();
     CameraPosition targetcamera;
     GoogleMap mGoogleMap;
     MapView mMapView;
@@ -74,6 +78,7 @@ public class FragmentPekerjaan extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         _view = inflater.inflate(R.layout.fragment_pekerjaan, container, false);
+        user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
         defaultwk = ((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getWaktu_kerjas();
 
         if (getContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -195,20 +200,27 @@ public class FragmentPekerjaan extends Fragment implements OnMapReadyCallback {
             targetcamera = CameraPosition.builder().target(new LatLng(location.getLatitude(),location.getLongitude())).zoom(14).bearing(0).tilt(45).build();
             mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(targetcamera));
         }
-
-
-        //get offers
         getoffers();
-
-
     }
     public void resetmapview(List<Offer> offers){
+        List<Offer> tempoffer = new ArrayList<>();
+
+        for (int n=0;n<offers.size();n++){
+            for (int m=0;m<user.getUser_job().size();m++){
+                Log.d("Check job id :",offers.get(n).getJob_id()+"=="+user.getUser_job().get(m).getJob_id());
+                if (offers.get(n).getJob_id() == user.getUser_job().get(m).getJob_id()) {
+                    tempoffer.add(offers.get(n));
+                    break;
+                }
+            }
+        }
+
+        offers = tempoffer;
+
         mGoogleMap.clear();
         for (int i = 0; i < offers.size(); i++){
             latlng = offers.get(i).getContact().getLocation().split(",");
             String temp = "Type Waktu : " + defaultwk.get(offers.get(i).getWork_time_id()-1).getWork_time();
-//            if (offers.get(i).getRemark() != null)
-//                temp = temp + "\n"+offers.get(i).getRemark();
             mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(latlng[0]),Double.parseDouble(latlng[1]))).title(offers.get(i).getMember().getName()).snippet(temp)).setTag(offers.get(i));
         }
     }
@@ -231,8 +243,7 @@ public class FragmentPekerjaan extends Fragment implements OnMapReadyCallback {
                 Toast.makeText(getContext(), "Coba kata kunci lain", Toast.LENGTH_SHORT).show();
             }
             catch (NullPointerException e){
-//                Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();
-                //                    focusmap(address);
+
             }
         }
     }
@@ -258,4 +269,3 @@ public class FragmentPekerjaan extends Fragment implements OnMapReadyCallback {
         });
     }
 }
-//  F7:98:EA:14:25:C4:52:C5:F7:9E:61:44:F3:67:6F:C4:C4:97:B6:03

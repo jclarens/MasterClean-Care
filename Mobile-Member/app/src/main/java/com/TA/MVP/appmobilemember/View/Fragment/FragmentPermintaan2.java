@@ -207,7 +207,7 @@ public class FragmentPermintaan2 extends Fragment {
                         estimasi.setEnabled(false);
                         estimasi.setText(String.valueOf(minestimasi));
                         rec_Adapter.setshowtask(1);
-                        offer.setWork_time_id(i+1);
+                        offer.setWork_time_id(1);
                         perjam = true;
                         break;
                     case 2:
@@ -219,7 +219,7 @@ public class FragmentPermintaan2 extends Fragment {
                         maxestimasi = 14;
                         estimasi.setEnabled(true);
                         estimasi.setText(String.valueOf(minestimasi));
-                        offer.setWork_time_id(i+1);
+                        offer.setWork_time_id(2);
                         perjam = false;
                         break;
                     case 3:
@@ -231,7 +231,7 @@ public class FragmentPermintaan2 extends Fragment {
                         maxestimasi = 12;
                         estimasi.setEnabled(true);
                         estimasi.setText(String.valueOf(minestimasi));
-                        offer.setWork_time_id(i+1);
+                        offer.setWork_time_id(3);
                         perjam = false;
                         break;
                 }
@@ -263,18 +263,22 @@ public class FragmentPermintaan2 extends Fragment {
                     case 1:
                         rec_Adapter.setshowtask(1);
                         asistenrt = true;
+                        offer.setJob_id(1);
                         break;
                     case 2:
                         rec_Adapter.setshowtask(2);
                         asistenrt = false;
+                        offer.setJob_id(2);
                         break;
                     case 3:
                         rec_Adapter.setshowtask(3);
                         asistenrt = false;
+                        offer.setJob_id(3);
                         break;
                     case 4:
                         rec_Adapter.setshowtask(4);
                         asistenrt = false;
+                        offer.setJob_id(4);
                         break;
                 }
                 setRecyclerViewvisibility();
@@ -443,11 +447,16 @@ public class FragmentPermintaan2 extends Fragment {
     public Date getbatasselesai2(){
         getwaktuendtemp();
         calendar.set(Calendar.HOUR_OF_DAY, 17);
+        calendar.set(Calendar.MINUTE, 1);
         Date ddate = calendar.getTime();
         getwaktutemp();
         return ddate;
     }
     public boolean validasi(){
+        if (offer.getJob_id().equals(1) && offer.getWork_time_id().equals(1) && rec_Adapter.getselectedtasklist().size() < 1){
+            Toast.makeText(getContext(), "Pilih 1 list kerja atau lebih", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         if (startdate.before(getbatassekarang())){
             Toast.makeText(getContext(), "Harap memesan untuk 2 jam kedepan", Toast.LENGTH_SHORT).show();
             return false;

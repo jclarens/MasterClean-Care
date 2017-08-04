@@ -30,6 +30,10 @@ public interface OrderRepo {
     Call<OrderResponse> patchorderById(@Path("id") String id, @Body HashMap map);
 
     @Headers("Accept: application/json")
+    @PATCH("api/order/{order_id}/order_task_list/{order_task_list_id}")
+    Call<OrderResponse> patchordertasklistbyid(@Path("order_id") Integer id, @Path("order_task_list_id") Integer order_task_list_id, @Body HashMap map);
+
+    @Headers("Accept: application/json")
     @POST("api/order/")
     Call<OrderResponse> postorder(@Body HashMap map);
 
@@ -40,6 +44,10 @@ public interface OrderRepo {
     @Headers("Accept: application/json")
     @GET("api/order/art/{art}")
     Call<List<Order>> getorderByArt(@Path("art") String art);
+
+    @Headers("Accept: application/json")
+    @GET("api/order/art/{art}/status/{status}")
+    Call<List<Order>> getordersByArtstatus(@Path("art") Integer art, @Path("status") Integer status);
 
     @Headers("Accept: application/json")
     @GET("api/order/member/{member}")

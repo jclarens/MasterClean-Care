@@ -1,18 +1,14 @@
-package com.TA.MVP.appmobilemember.Model.Responses;
-
-import com.TA.MVP.appmobilemember.Model.Basic.User;
-import com.TA.MVP.appmobilemember.lib.models.Response;
+package com.TA.MVP.appmobilemember.Model.Basic;
 
 /**
- * Created by Zackzack on 15/07/2017.
+ * Created by jcla123ns on 02/08/17.
  */
 
-public class Token extends Response {
+public class Token {
     private String token_type;
-    private long expires_in;
+    private double expired_in;
     private String access_token;
     private String refresh_token;
-    private User user;
 
     public String getToken_type() {
         return token_type;
@@ -22,12 +18,12 @@ public class Token extends Response {
         this.token_type = token_type;
     }
 
-    public long getExpires_in() {
-        return expires_in;
+    public double getExpired_in() {
+        return expired_in;
     }
 
-    public void setExpires_in(long expires_in) {
-        this.expires_in = expires_in;
+    public void setExpired_in(double expired_in) {
+        this.expired_in = expired_in;
     }
 
     public String getAccess_token() {
@@ -44,13 +40,5 @@ public class Token extends Response {
 
     public void setRefresh_token(String refresh_token) {
         this.refresh_token = refresh_token;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }

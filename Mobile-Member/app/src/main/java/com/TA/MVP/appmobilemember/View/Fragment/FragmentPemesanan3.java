@@ -22,8 +22,10 @@ import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterListKerja;
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterListKerjaShow;
 import com.TA.MVP.appmobilemember.Model.Array.ArrayBulan;
+import com.TA.MVP.appmobilemember.Model.Basic.Job;
 import com.TA.MVP.appmobilemember.Model.Basic.MyTask;
 import com.TA.MVP.appmobilemember.Model.Basic.Order;
+import com.TA.MVP.appmobilemember.Model.Basic.StaticData;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Basic.Waktu_Kerja;
 import com.TA.MVP.appmobilemember.Model.Responses.OrderResponse;
@@ -67,10 +69,9 @@ public class FragmentPemesanan3 extends Fragment {
     private User art = new User();
     private User member = new User();
     private Order order = new Order();
-    private List<Waktu_Kerja> defaultWK = new ArrayList<>();
     private FragmentAsistenmini fragmentAsistenmini;
     private TextView namaasis, usiaasis, agamaasis, estimasitext;
-    private EditText prof, estimasi, mulai, selesai, total;
+    private EditText prof, estimasi, mulai, selesai, total, job;
     private LinearLayout layoutlistpekerjaan;
     private ImageView fotoasis;
     private RatingBar ratingasis;
@@ -85,7 +86,6 @@ public class FragmentPemesanan3 extends Fragment {
     private DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
     private ArrayBulan arrayBulan = new ArrayBulan();
     private List<MyTask> myTasks = new ArrayList<>();
-    private List<MyTask> defaulttask = new ArrayList<>();
     private List<Order> jadwalart = new ArrayList<>();
     private Calendar calendar = Calendar.getInstance();
     private Calendar waktumulai = new GregorianCalendar();
@@ -93,6 +93,7 @@ public class FragmentPemesanan3 extends Fragment {
     private Calendar batasmulai = new GregorianCalendar();
     private Calendar batasselesai = new GregorianCalendar();
     private Calendar tempcalendar = new GregorianCalendar();
+    private StaticData staticData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -100,22 +101,16 @@ public class FragmentPemesanan3 extends Fragment {
         member = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
         art = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.ART_EXTRA), User.class);
         order = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.ORDER_EXTRA), Order.class);
-        defaultWK = ((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getWaktu_kerjas();
-        defaulttask = ((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getMyTasks();
-//        myTasks = (List<MyTask>) GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.MYTASK_EXTRA), new TypeToken<List<MyTask>>(){}.getType());
+        staticData = ((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData();
 
         prof = (EditText) _view.findViewById(R.id.pms3_et_worktime);
+        job = (EditText) _view.findViewById(R.id.pms3_et_job);
         linkketentuan = (TextView) _view.findViewById(R.id.pms3_tv_ketentuan);
         prev = (Button) _view.findViewById(R.id.pms3_btn_prev);
         pesan = (Button) _view.findViewById(R.id.pms3_btn_pesan);
-//        estimasitext = (TextView) _view.findViewById(R.id.pms3_tv_estimasiwaktu);
-//        layoutasisten = (RelativeLayout) _view.findViewById(R.id.layout_asisten);
-//        estimasi = (EditText) _view.findViewById(R.id.pms3_et_estimate);
         mulai = (EditText) _view.findViewById(R.id.pms3_et_mulai);
         selesai = (EditText) _view.findViewById(R.id.pms3_et_selesai);
         total = (EditText) _view.findViewById(R.id.pms3_et_total);
-//        layoutlistpekerjaan = (LinearLayout) _view.findViewById(R.id.pms3_layout_listpekerjaan);
-//        fotoasis = (ImageView) _view.findViewById(R.id.asism_img);
         ketentuan = (CheckBox) _view.findViewById(R.id.pms3_cb_kttn);
 
 
@@ -126,7 +121,8 @@ public class FragmentPemesanan3 extends Fragment {
         fragmentAsistenmini.setArguments(b);
         getFragmentManager().beginTransaction().replace(R.id.layout_asisten, fragmentAsistenmini).commit();
 
-        prof.setText(defaultWK.get(order.getWork_time_id()-1).getWork_time());
+        prof.setText(staticData.getWaktu_kerjas().get(order.getWork_time_id()-1).getWork_time());
+        job.setText(staticData.getJobs().get(order.getJob_id()-1).getJob());
 
         //listkerja
         recyclerView = (RecyclerView) _view.findViewById(R.id.pms3_rec_listkerja);
@@ -134,12 +130,14 @@ public class FragmentPemesanan3 extends Fragment {
         recyclerView.setLayoutManager(rec_LayoutManager);
         rec_Adapter = new RecyclerAdapterListKerjaShow();
         recyclerView.setAdapter(rec_Adapter);
-        rec_Adapter.setDefaulttask(defaulttask);
+        rec_Adapter.setDefaulttask(staticData.getMyTasks());
         rec_Adapter.setList(order.getOrder_task_list());
         switch (order.getWork_time_id()){
             case 1:
 //                estimasitext.setText("Jam");
-                recyclerView.setVisibility(View.VISIBLE);
+                if (order.getJob_id() == 1)
+                    recyclerView.setVisibility(View.VISIBLE);
+                else recyclerView.setVisibility(View.GONE);
                 break;
             case 2:
 //                estimasitext.setText("Hari");
@@ -231,6 +229,7 @@ public class FragmentPemesanan3 extends Fragment {
                     map.put("member_id", member.getId().toString());
                     map.put("art_id", art.getId().toString());
                     map.put("work_time_id", order.getWork_time_id().toString());
+                    map.put("job_id", order.getJob_id().toString());
                     map.put("cost", order.getCost().toString());
                     map.put("start_date", order.getStart_date());
                     map.put("end_date", order.getEnd_date());

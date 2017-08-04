@@ -178,10 +178,7 @@ public class MainActivity extends ParentActivity {
                 getstaticData1();
             }
             else finish();
-        }
-        else if(requestCode == REQUEST_PESAN){
-            refreshfragment();
-        }
+        }else refreshfragment();
     }
     public void refreshfragment(){
         switch (posisiF){
@@ -330,6 +327,7 @@ public class MainActivity extends ParentActivity {
                 staticData.setWallets(response.body());
 //                Toast.makeText(context,"Success", Toast.LENGTH_SHORT).show();
                 success = true;
+                ((MasterCleanApplication) getApplication()).setGlobalStaticData(staticData);
                 settampilan();
                 dismissDialog();
             }
@@ -341,7 +339,6 @@ public class MainActivity extends ParentActivity {
         });
 //        if (!success)
 //            getstaticData1();
-        ((MasterCleanApplication) getApplication()).setGlobalStaticData(staticData);
     }
 
     @Override
@@ -360,5 +357,10 @@ public class MainActivity extends ParentActivity {
                 return;
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

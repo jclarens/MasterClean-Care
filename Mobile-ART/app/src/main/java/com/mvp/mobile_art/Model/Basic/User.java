@@ -16,10 +16,9 @@ public class User {
     private Date born_date;
     private Integer religion;
     private String race;
-    private Integer user_type;
+    private Integer role_id;
     private String description;
-    private String profile_img_name;
-    private String profile_img_path;
+    private String avatar;
     private Integer status;
     private UserContact contact;
     private UserWallet user_wallet;
@@ -90,28 +89,28 @@ public class User {
         this.race = race;
     }
 
-    public Integer getUser_type() {
-        return user_type;
+    public Integer getRole_id() {
+        return role_id;
     }
 
-    public void setUser_type(Integer user_type) {
-        this.user_type = user_type;
+    public void setRole_id(Integer role_id) {
+        this.role_id = role_id;
     }
 
-    public String getProfile_img_name() {
-        return profile_img_name;
+    public String getDescription() {
+        return description;
     }
 
-    public void setProfile_img_name(String profile_img_name) {
-        this.profile_img_name = profile_img_name;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getProfile_img_path() {
-        return profile_img_path;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setProfile_img_path(String profile_img_path) {
-        this.profile_img_path = profile_img_path;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public Integer getStatus() {
@@ -120,6 +119,22 @@ public class User {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public UserContact getContact() {
+        return contact;
+    }
+
+    public void setContact(UserContact contact) {
+        this.contact = contact;
+    }
+
+    public UserWallet getUser_wallet() {
+        return user_wallet;
+    }
+
+    public void setUser_wallet(UserWallet user_wallet) {
+        this.user_wallet = user_wallet;
     }
 
     public List<UserAdditionalInfo> getUser_additional_info() {
@@ -168,29 +183,5 @@ public class User {
 
     public void setRate(float rate) {
         this.rate = rate;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public UserContact getContact() {
-        return contact;
-    }
-
-    public void setContact(UserContact contact) {
-        this.contact = contact;
-    }
-
-    public UserWallet getUser_wallet() {
-        return user_wallet;
-    }
-
-    public void setUser_wallet(UserWallet user_wallet) {
-        this.user_wallet = user_wallet;
     }
 }

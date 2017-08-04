@@ -4,6 +4,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,31 +19,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
+import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterReview;
 import com.TA.MVP.appmobilemember.Model.Array.ArrayAgama;
 import com.TA.MVP.appmobilemember.Model.Array.ListStatus;
+import com.TA.MVP.appmobilemember.Model.Basic.Order;
 import com.TA.MVP.appmobilemember.Model.Basic.StaticData;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
-import com.TA.MVP.appmobilemember.Model.Responses.Token;
-import com.TA.MVP.appmobilemember.Model.Responses.UserResponse;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.Route.Repositories.OrderRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
-import com.google.android.gms.location.places.Place;
 
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -50,6 +48,9 @@ import retrofit2.Response;
  */
 
 public class AsistenActivity extends ParentActivity {
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager rec_LayoutManager;
+    private RecyclerAdapterReview rec_Adapter;
     private Toolbar toolbar;
     private TextView nama,usia,notelp,agama,suku,status,keterangan, txtprofesi, txtbhs, kota;
     private RatingBar ratingBar;
@@ -58,13 +59,13 @@ public class AsistenActivity extends ParentActivity {
     private Button docpndkg, jadwal, pemesanan;
     private int thisYear, artbornyear;
     private Calendar calendar = Calendar.getInstance();
-    private Date date;
     private DateFormat yearformat = new SimpleDateFormat("yyyy");
     private User art;
     private ArrayAgama arrayAgama = new ArrayAgama();
     private ListStatus listStatus = new ListStatus();
     private StaticData staticData;
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
+    private LinearLayout layoutreview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,12 @@ public class AsistenActivity extends ParentActivity {
         Intent intent = getIntent();
         art = GsonUtils.getObjectFromJson(intent.getStringExtra(ConstClass.ART_EXTRA), User.class);
         staticData = ((MasterCleanApplication)getApplication()).getGlobalStaticData();
+
+        recyclerView = (RecyclerView) findViewById(R.id.recycleview_review);
+        rec_LayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(rec_LayoutManager);
+        rec_Adapter = new RecyclerAdapterReview(this);
+        recyclerView.setAdapter(rec_Adapter);
 
         initProgressDialog("Loading...");
         showDialog();
@@ -85,7 +92,6 @@ public class AsistenActivity extends ParentActivity {
         nama = (TextView) findViewById(R.id.asis_tv_nama);
         ratingBar = (RatingBar) findViewById(R.id.asis_ratingBar);
         usia = (TextView) findViewById(R.id.asis_tv_usia);
-//        pengalaman = (TextView) findViewById(R.id.asis_tv_pengalaman);
         notelp = (TextView) findViewById(R.id.asis_tv_notelp);
         agama = (TextView) findViewById(R.id.asis_tv_agama);
         suku = (TextView) findViewById(R.id.asis_tv_suku);
@@ -98,9 +104,9 @@ public class AsistenActivity extends ParentActivity {
         txtprofesi = (TextView) findViewById(R.id.asis_tv_profesi);
         txtbhs = (TextView) findViewById(R.id.asis_tv_bhs);
         tktanjg = (CheckBox) findViewById(R.id.asis_cb_tktanjg);
-//        docpndkg = (Button) findViewById(R.id.asis_btn_docpdkg);
         jadwal = (Button) findViewById(R.id.asis_btn_lhtjdwl);
         pemesanan = (Button) findViewById(R.id.asis_btn_pemesanan);
+        layoutreview = (LinearLayout) findViewById(R.id.layout_review);
 
         setAll();
 
@@ -110,15 +116,19 @@ public class AsistenActivity extends ParentActivity {
     private void setAll(){
         nama.setText(art.getName());
 
+        try{
+            keterangan.setText(art.getDescription());
+        }catch (NullPointerException e){
+
+        }
+
         thisYear = calendar.get(Calendar.YEAR);
         artbornyear = Integer.valueOf(yearformat.format(art.getBorn_date()));
         usia.setText(thisYear - artbornyear + " Thn");
-//        pengalaman.setText("1 Thn");
         notelp.setText(art.getContact().getPhone());
         agama.setText(arrayAgama.getArrayList().get(art.getReligion()-1));
         suku.setText(art.getRace());
         kota.setText(staticData.getPlaces().get(art.getContact().getCity()-1).getName());
-//        keterangan.setText(art.);
         status.setText(listStatus.getStatus().get(art.getStatus()));
         if (art.getStatus() == 1){
             status.setBackground(ContextCompat.getDrawable(getApplicationContext(), R.drawable.backgroundgreen));
@@ -139,7 +149,6 @@ public class AsistenActivity extends ParentActivity {
         }
         txtbhs.setText(temp);
 
-        //rate
         try{
             ratingBar.setRating(art.getRate());
         }
@@ -190,7 +199,6 @@ public class AsistenActivity extends ParentActivity {
                     i.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
                     startActivity(i);
                 }
-
             }
         });
 
@@ -238,7 +246,7 @@ public class AsistenActivity extends ParentActivity {
                 super.onSuccess(call, response);
                 art = response.body();
                 initAllView();
-                dismissDialog();
+                getreviews();
             }
 
             @Override
@@ -259,6 +267,33 @@ public class AsistenActivity extends ParentActivity {
                 });
                 dismissDialog();
                 finish();
+            }
+        });
+    }
+    public void getreviews(){
+        Call<List<Order>> caller = APIManager.getRepository(OrderRepo.class).getorderreviewByArt(art.getId());
+        caller.enqueue(new APICallback<List<Order>>() {
+            @Override
+            public void onSuccess(Call<List<Order>> call, Response<List<Order>> response) {
+                super.onSuccess(call, response);
+                //setrecview
+                if (response.body().size() > 0){
+                    rec_Adapter.setlist(response.body());
+                    layoutreview.setVisibility(View.VISIBLE);
+                }
+                dismissDialog();
+            }
+
+            @Override
+            public void onError(Call<List<Order>> call, Response<List<Order>> response) {
+                super.onError(call, response);
+                dismissDialog();
+            }
+
+            @Override
+            public void onFailure(Call<List<Order>> call, Throwable t) {
+                super.onFailure(call, t);
+                dismissDialog();
             }
         });
     }

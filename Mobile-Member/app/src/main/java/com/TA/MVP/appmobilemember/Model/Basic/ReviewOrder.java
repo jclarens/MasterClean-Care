@@ -6,6 +6,7 @@ package com.TA.MVP.appmobilemember.Model.Basic;
 
 public class ReviewOrder {
     private Integer id;
+    private Integer order_id;
     private Order order;
     private Float rate;
     private String remark;
@@ -13,6 +14,14 @@ public class ReviewOrder {
 
     public Integer getId() {
         return id;
+    }
+
+    public Integer getOrder_id() {
+        return order_id;
+    }
+
+    public void setOrder_id(Integer order_id) {
+        this.order_id = order_id;
     }
 
     public Order getOrder() {

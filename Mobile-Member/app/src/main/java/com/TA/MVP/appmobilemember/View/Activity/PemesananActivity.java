@@ -78,6 +78,7 @@ public class PemesananActivity extends ParentActivity {
                 break;
             case 3:
                 posisifragment =3;
+                fragp3 = new FragmentPemesanan3();
                 getSupportFragmentManager().beginTransaction().replace(R.id.layout_pemesanan, fragp3).commit();
                 break;
         }

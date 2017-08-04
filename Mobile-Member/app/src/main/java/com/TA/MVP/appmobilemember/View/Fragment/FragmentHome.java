@@ -74,7 +74,7 @@ public class FragmentHome extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_asisten);
-        rec_Adapter = new RecyclerAdapterAsisten();
+        rec_Adapter = new RecyclerAdapterAsisten(getContext());
         recyclerView.setAdapter(rec_Adapter);
         //get users
         Call<List<User>> caller = APIManager.getRepository(UserRepo.class).getallart();

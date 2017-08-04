@@ -96,10 +96,10 @@ public class MainActivity extends ParentActivity {
         progressBar = (ProgressBar) findViewById(R.id.splashprogressbar);
         splashscreen = (LinearLayout) findViewById(R.id.splashscreen);
         frameLayout = (FrameLayout) findViewById(R.id.main_container);
-        if (SharedPref.getValueString(ConstClass.EMERGENCY_EXTRA).equals("on")){
-            Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
-            startActivity(intent);
-        }
+//        if (SharedPref.getValueString(ConstClass.EMERGENCY_EXTRA).equals("on")){
+//            Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
+//            startActivity(intent);
+//        }
         getstaticData1();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
@@ -387,7 +387,7 @@ public class MainActivity extends ParentActivity {
             case PERMS_REQUEST_CODE: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    SharedPref.save(ConstClass.EMERGENCY_EXTRA, "on");
+//                    SharedPref.save(ConstClass.EMERGENCY_EXTRA, "on");
                     Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
                     startActivity(intent);
 

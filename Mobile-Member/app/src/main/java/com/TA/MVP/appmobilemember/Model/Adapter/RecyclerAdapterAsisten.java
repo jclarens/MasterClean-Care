@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +19,7 @@ import com.TA.MVP.appmobilemember.View.Activity.AsistenActivity;
 import com.TA.MVP.appmobilemember.View.Activity.PemesananActivity;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -36,12 +38,18 @@ public class RecyclerAdapterAsisten extends RecyclerView.Adapter<RecyclerAdapter
     private Calendar calendar = Calendar.getInstance();
     private DateFormat yearformat = new SimpleDateFormat("yyyy");
     private List<User> users = new ArrayList<>();
+    private Context context;
+    public RecyclerAdapterAsisten(Context context){
+        this.context = context;
+    }
     class ViewHolder extends RecyclerView.ViewHolder{
         public TextView itemnama,itemumur;
         public RatingBar itemrate;
+        public ImageView imageView;
 
         public ViewHolder(final View itemview){
             super(itemview);
+            imageView = (ImageView) itemview.findViewById(R.id.img);
             itemnama = (TextView) itemview.findViewById(R.id.card_wallet_nominal);
             itemumur = (TextView) itemview.findViewById(R.id.card_asis_umur);
             itemrate = (RatingBar) itemview.findViewById(R.id.card_asis_rating);
@@ -67,6 +75,11 @@ public class RecyclerAdapterAsisten extends RecyclerView.Adapter<RecyclerAdapter
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        Picasso.with(context)
+                .load(users.get(position).getAvatar())
+                .placeholder(R.drawable.default_profile)
+                .error(R.drawable.default_profile)
+                .into(holder.imageView);
         holder.itemnama.setText(users.get(position).getName());
         thisYear = calendar.get(Calendar.YEAR);
         artbornyear = Integer.valueOf(yearformat.format(users.get(position).getBorn_date()));

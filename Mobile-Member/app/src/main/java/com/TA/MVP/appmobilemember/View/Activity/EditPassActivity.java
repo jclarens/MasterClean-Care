@@ -9,12 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.Model.Basic.User;
-import com.TA.MVP.appmobilemember.Model.Basic.UserContact;
-import com.TA.MVP.appmobilemember.Model.Responses.Token;
+import com.TA.MVP.appmobilemember.Model.Responses.LoginResponse;
 import com.TA.MVP.appmobilemember.Model.Responses.UserResponse;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
@@ -23,11 +21,8 @@ import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
-import com.TA.MVP.appmobilemember.lib.utils.Settings;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -139,47 +134,40 @@ public class EditPassActivity extends ParentActivity{
         });
     }
     public void checkoldpass(){
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("grant_type","password");
-        map.put("client_id", Settings.getClientID());
-        map.put("client_secret",Settings.getclientSecret());
-        map.put("username",user.getEmail());
-        map.put("password",pass.getText().toString());
-        Call<Token> caller = APIManager.getRepository(UserRepo.class).loginuser(map);
-        caller.enqueue(new APICallback<Token>() {
+        showDialog("Logging in");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("email", user.getEmail());
+        map.put("password", pass.getText().toString());
+        Call<LoginResponse> caller = APIManager.getRepository(UserRepo.class).loginmember(map);
+        caller.enqueue(new APICallback<LoginResponse>() {
             @Override
-            public void onSuccess(Call<Token> call, Response<Token> response) {
+            public void onSuccess(Call<LoginResponse> call, Response<LoginResponse> response) {
                 super.onSuccess(call, response);
+                SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
+                SharedPref.save(SharedPref.ACCESS_TOKEN, response.body().getToken().getAccess_token());
+                dismissDialog();
                 gantipass();
             }
 
             @Override
-            public void onUnauthorized(Call<Token> call, Response<Token> response) {
+            public void onUnauthorized(Call<LoginResponse> call, Response<LoginResponse> response) {
                 super.onUnauthorized(call, response);
                 dismissDialog();
-                Toast.makeText(getApplicationContext(), "Email or Password is wrong", Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(getApplicationContext(), "Password salah", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onNotFound(Call<Token> call, Response<Token> response) {
-                super.onNotFound(call, response);
-                dismissDialog();
-                Toast.makeText(getApplicationContext(), "Link Not Found", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onError(Call<Token> call, Response<Token> response) {
+            public void onError(Call<LoginResponse> call, Response<LoginResponse> response) {
                 super.onError(call, response);
                 dismissDialog();
-                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Terjadi kesalahan pada server", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onFailure(Call<Token> call, Throwable t) {
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
                 super.onFailure(call, t);
                 dismissDialog();
-                Toast.makeText(getApplicationContext(), "Fail to connect", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Koneksi bermasalah silahkan coba lagi", Toast.LENGTH_SHORT).show();
             }
         });
     }

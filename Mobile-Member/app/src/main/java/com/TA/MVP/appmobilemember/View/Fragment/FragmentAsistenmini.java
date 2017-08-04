@@ -17,6 +17,7 @@ import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Activity.AsistenActivity;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -68,6 +69,12 @@ public class FragmentAsistenmini extends Fragment {
                 startActivity(i);
             }
         });
+
+        Picasso.with(getContext())
+                .load(art.getAvatar())
+                .placeholder(R.drawable.default_profile)
+                .error(R.drawable.default_profile)
+                .into(imageView);
 
         return _view;
     }

@@ -23,7 +23,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:contentDescription="@string/foto"
-                app:srcCompat="@drawable/ic_person" />
+                app:srcCompat="@drawable/default_profile" />
 
             <RatingBar
                 android:id="@+id/asism_rating"

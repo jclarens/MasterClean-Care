@@ -11,9 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.TA.MVP.appmobilemember.Model.Basic.User;
-import com.TA.MVP.appmobilemember.Model.Responses.Token;
-import com.TA.MVP.appmobilemember.Model.Responses.UserResponse;
+import com.TA.MVP.appmobilemember.Model.Responses.LoginResponse;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.View.Activity.AuthActivity;
@@ -22,7 +20,6 @@ import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
-import com.TA.MVP.appmobilemember.lib.utils.Settings;
 
 import java.util.HashMap;
 
@@ -47,84 +44,55 @@ public class FragmentLogin extends Fragment {
         btnlogin = (Button) _view.findViewById(R.id.lgn_btn_login);
         tvdaftar = (TextView) _view.findViewById(R.id.lgn_tv_daftar);
 
-        btnlogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((AuthActivity)getActivity()).showDialog("Logging in");
-                HashMap<String,Object> map = new HashMap<>();
-                map.put("grant_type","password");
-                map.put("client_id", Settings.getClientID());
-                map.put("client_secret",Settings.getclientSecret());
-                map.put("username",email.getText().toString());
-                map.put("password",katasandi.getText().toString());
-                Call<Token> caller = APIManager.getRepository(UserRepo.class).loginuser(map);
-                caller.enqueue(new APICallback<Token>() {
-                    @Override
-                    public void onSuccess(Call<Token> call, Response<Token> response) {
-                        super.onSuccess(call, response);
-                        SharedPref.save(SharedPref.ACCESS_TOKEN, response.body().getAccess_token());
-                        getOwnData();
-                    }
-
-                    @Override
-                    public void onUnauthorized(Call<Token> call, Response<Token> response) {
-                        super.onUnauthorized(call, response);
-                        ((AuthActivity)getActivity()).dismissDialog();
-                        Toast.makeText(getContext(), "Email or Password is wrong", Toast.LENGTH_SHORT).show();
-
-                    }
-
-                    @Override
-                    public void onNotFound(Call<Token> call, Response<Token> response) {
-                        super.onNotFound(call, response);
-                        ((AuthActivity)getActivity()).dismissDialog();
-                        Toast.makeText(getContext(), "Link Not Found", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onError(Call<Token> call, Response<Token> response) {
-                        super.onError(call, response);
-                        ((AuthActivity)getActivity()).dismissDialog();
-                        Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFailure(Call<Token> call, Throwable t) {
-                        super.onFailure(call, t);
-                        ((AuthActivity)getActivity()).dismissDialog();
-                        Toast.makeText(getContext(), "Fail to connect", Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
-
         tvdaftar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((AuthActivity)getActivity()).doChangeFragment(new FragmentRegister());
             }
         });
-        return _view;
-    }
-
-    public void getOwnData(){
-        Call<User> caller = APIManager.getRepository(UserRepo.class).getOwnData();
-        caller.enqueue(new APICallback<User>() {
+        btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onSuccess(Call<User> call, Response<User> response) {
-                super.onSuccess(call, response);
-                ((AuthActivity)getActivity()).dismissDialog();
-                Intent i = new Intent();
-                User user = response.body();
-                i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(user));
-                ((AuthActivity)getActivity()).dofinishActivity(i);
-            }
+            public void onClick(View view) {
+                ((AuthActivity) getActivity()).showDialog("Logging in");
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("email", email.getText().toString());
+                map.put("password", katasandi.getText().toString());
+                Call<LoginResponse> caller = APIManager.getRepository(UserRepo.class).loginmember(map);
+                caller.enqueue(new APICallback<LoginResponse>() {
+                    @Override
+                    public void onSuccess(Call<LoginResponse> call, Response<LoginResponse> response) {
+                        super.onSuccess(call, response);
+                        SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
+                        SharedPref.save(SharedPref.ACCESS_TOKEN, response.body().getToken().getAccess_token());
+                        ((AuthActivity) getActivity()).dismissDialog();
+                        Intent i = new Intent();
+                        i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
+                        ((AuthActivity)getActivity()).dofinishActivity(i);
+                    }
 
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                super.onFailure(call, t);
-                ((AuthActivity)getActivity()).dismissDialog();
+                    @Override
+                    public void onUnauthorized(Call<LoginResponse> call, Response<LoginResponse> response) {
+                        super.onUnauthorized(call, response);
+                        ((AuthActivity) getActivity()).dismissDialog();
+                        Toast.makeText(getContext(), "Email or Password is wrong", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(Call<LoginResponse> call, Response<LoginResponse> response) {
+                        super.onError(call, response);
+                        ((AuthActivity) getActivity()).dismissDialog();
+                        Toast.makeText(getContext(), "Terjadi kesalahan pada server", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onFailure(Call<LoginResponse> call, Throwable t) {
+                        super.onFailure(call, t);
+                        ((AuthActivity) getActivity()).dismissDialog();
+                        Toast.makeText(getContext(), "Koneksi bermasalah silahkan coba lagi", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
+        return _view;
     }
 }

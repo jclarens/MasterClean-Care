@@ -45,6 +45,7 @@ public class FragmentPesananMasuk extends Fragment {
         rec_LayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(rec_LayoutManager);
         rec_Adapter = new RecyclerAdapterPemesanan();
+        rec_Adapter.setcontext(getActivity());
         recyclerView.setAdapter(rec_Adapter);
         rec_Adapter.setOrders(orders, 0);
 

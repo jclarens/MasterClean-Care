@@ -31,6 +31,10 @@ public interface OfferRepo {
     Call<OfferResponse> patchoffer(@Path("offer_id") Integer offer_id, @Body HashMap map);
 
     @Headers("Accept: application/json")
+    @PATCH("api/{offer_id}/offer_art/{user_id}")
+    Call<OfferResponse> patchofferart(@Path("offer_id") Integer offer_id, @Path("user_id") Integer user_id, @Body HashMap map);
+
+    @Headers("Accept: application/json")
     @POST("api/offer/")
     Call<OfferResponse> postoffer(@Body HashMap map);
 

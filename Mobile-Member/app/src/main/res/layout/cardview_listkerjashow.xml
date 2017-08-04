@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:id="@+id/card_listkerja">
 
+    <LinearLayout
+        android:id="@+id/card_listkerja_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:background="#eeeeee"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp">
+
+        <TextView
+        android:id="@+id/card_listkerja_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Kerjaan"
+        android:textColor="@color/colorBlack"/>
+    </LinearLayout>
 </android.support.v7.widget.CardView>
+

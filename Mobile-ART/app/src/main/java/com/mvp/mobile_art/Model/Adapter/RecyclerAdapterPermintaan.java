@@ -3,6 +3,7 @@ package com.mvp.mobile_art.Model.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,9 +86,10 @@ public class RecyclerAdapterPermintaan extends RecyclerView.Adapter<RecyclerAdap
 
     public void setOffers(List<Offer> offers, Integer id) {
         this.offers = offers;
-        for (int n=0;n<offers.size();n++){//bug api tidak lengkap return
+        for (int n=0;n<offers.size();n++){
             for (int m=0;m<offers.get(n).getOffer_art().size();m++){
-                if (offers.get(n).getOffer_art().get(m).getId().equals(id)) {
+                Log.d("Debug status ",offers.get(n).getOffer_art().get(m).getArt_id()+" = "+id);
+                if (offers.get(n).getOffer_art().get(m).getArt_id().equals(id)) {
                     mystatus = offers.get(n).getOffer_art().get(m).getStatus();
                     break;
                 }

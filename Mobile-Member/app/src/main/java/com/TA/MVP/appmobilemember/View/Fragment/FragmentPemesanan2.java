@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -145,6 +146,7 @@ public class FragmentPemesanan2 extends Fragment {
                 calendar.set(Calendar.YEAR,i);
                 calendar.set(Calendar.MONTH,i1);
                 calendar.set(Calendar.DAY_OF_MONTH,i2);
+//                Log.d("Pick waktu","Tanggal " + i + " Bulan "+ i1 + " Tahun " + i2);
                 settanggal();
             }
         }, now.year, now.month, now.day);
@@ -194,7 +196,7 @@ public class FragmentPemesanan2 extends Fragment {
                         estimasi.setText(String.valueOf(minestimasi));
                         rec_Adapter.setshowtask(1);
                         artcost = art.getUser_work_time().get(i).getCost();
-                        order.setWork_time_id(art.getUser_work_time().get(i).getWork_time_id());
+                        order.setWork_time_id(1);
                         perjam = true;
                         break;
                     case 2:
@@ -207,7 +209,7 @@ public class FragmentPemesanan2 extends Fragment {
                         estimasi.setEnabled(true);
                         estimasi.setText(String.valueOf(minestimasi));
                         artcost = art.getUser_work_time().get(i).getCost();
-                        order.setWork_time_id(art.getUser_work_time().get(i).getWork_time_id());
+                        order.setWork_time_id(2);
                         perjam = false;
                         break;
                     case 3:
@@ -220,7 +222,7 @@ public class FragmentPemesanan2 extends Fragment {
                         estimasi.setEnabled(true);
                         estimasi.setText(String.valueOf(minestimasi));
                         artcost = art.getUser_work_time().get(i).getCost();
-                        order.setWork_time_id(art.getUser_work_time().get(i).getWork_time_id());
+                        order.setWork_time_id(3);
                         perjam = false;
                         break;
                 }
@@ -259,24 +261,40 @@ public class FragmentPemesanan2 extends Fragment {
 //                        rec_Adapter.setList(orderTasks);
                         rec_Adapter.setshowtask(1);
                         asistenrt = true;
+                        order.setJob_id(1);
                         break;
                     case 2:
                         //Perawat Lansia
 //                        rec_Adapter.setList(orderTasks);
                         rec_Adapter.setshowtask(2);
                         asistenrt = false;
+                        if (estimasiwaktutext.getText().toString().equals("Jam")) {
+                            estimasi.setEnabled(true);
+                            rec_Adapter.addallshown();
+                        }
+                        order.setJob_id(2);
                         break;
                     case 3:
                         //Babysitter
 //                        rec_Adapter.setList(orderTasks);
                         rec_Adapter.setshowtask(3);
                         asistenrt = false;
+                        if (estimasiwaktutext.getText().toString().equals("Jam")){
+                            estimasi.setEnabled(true);
+                            rec_Adapter.addallshown();
+                        }
+                        order.setJob_id(3);
                         break;
                     case 4:
                         //Perawat Balita
 //                        rec_Adapter.setList(orderTasks);
                         rec_Adapter.setshowtask(4);
                         asistenrt = false;
+                        if (estimasiwaktutext.getText().toString().equals("Jam")) {
+                            estimasi.setEnabled(true);
+                            rec_Adapter.addallshown();
+                        }
+                        order.setJob_id(4);
                         break;
                 }
                 setRecyclerViewvisibility();
@@ -349,7 +367,7 @@ public class FragmentPemesanan2 extends Fragment {
                 if (estimasi.getText().toString().equals(""))
                     estimasi.setText(String.valueOf(minestimasi));
                 else {
-                    tmp = Integer.valueOf(estimasi.getText().toString());
+                    tmp = Integer.valueOf(estimasi.getText().toString().replace(".",""));
                     if (tmp > maxestimasi)
                         estimasi.setText(String.valueOf(maxestimasi));
                     else if (tmp < minestimasi)
@@ -431,16 +449,17 @@ public class FragmentPemesanan2 extends Fragment {
         }
         setwaktutemp();
         startdate = calendar.getTime();
+        Integer temp = Integer.valueOf(estimasi.getText().toString().replace(".",""));
         switch (estimasiwaktutext.getText().toString()){
             case "Jam":
-                calendar.add(Calendar.HOUR_OF_DAY, Integer.valueOf(estimasi.getText().toString()));
+                calendar.add(Calendar.HOUR_OF_DAY, temp);
                 break;
             case "Hari":
-                calendar.add(Calendar.DAY_OF_MONTH, Integer.valueOf(estimasi.getText().toString())-1);
+                calendar.add(Calendar.DAY_OF_MONTH, temp-1);
                 calendar.add(Calendar.HOUR_OF_DAY, 9);
                 break;
             case "Bulan":
-                calendar.add(Calendar.MONTH, Integer.valueOf(estimasi.getText().toString()));
+                calendar.add(Calendar.MONTH, temp);
                 calendar.add(Calendar.HOUR_OF_DAY, 9);
                 break;
         }
@@ -487,7 +506,13 @@ public class FragmentPemesanan2 extends Fragment {
         return ddate;
     }
     public boolean validasi(){
+//        if (rec_Adapter.getselectedtasklist().size() < 1 && estimasiwaktutext.getText().toString().equals("Jam")){
+        if (order.getJob_id().equals(1) && order.getWork_time_id().equals(1) && rec_Adapter.getselectedtasklist().size() < 1){
+            Toast.makeText(getContext(), "Pilih 1 list kerja atau lebih", Toast.LENGTH_SHORT).show();
+            return false;
+        }
         if (startdate.before(getbatassekarang())){
+//            Toast.makeText(getContext(), "jam skrg = " + fixFormat.format(getbatassekarang()), Toast.LENGTH_SHORT).show();
             Toast.makeText(getContext(), "Harap memesan untuk 2 jam kedepan", Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -507,7 +532,7 @@ public class FragmentPemesanan2 extends Fragment {
     }
     public String costumedateformat(Date date){
 //        String hari = arrayHari.getArrayList().get(Integer.parseInt(hariFormat.format(date)));
-        String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date)));
+        String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date))-1);
         // Senin, Januari 30
         return tglFormat.format(date) + " " + bulan + " " + tahunFormat.format(date);
     }
@@ -572,11 +597,11 @@ public class FragmentPemesanan2 extends Fragment {
     }
     public void setRecyclerViewvisibility(){
         if (perjam && asistenrt){
+            rec_Adapter.clearselectedlist();
             recyclerView.setVisibility(View.VISIBLE);
         }
         else {
             recyclerView.setVisibility(View.GONE);
-            rec_Adapter.clearselectedlist();
         }
     }
 }

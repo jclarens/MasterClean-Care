@@ -14,10 +14,12 @@ public class Order {
     private Integer member_id;
     private Integer art_id;
     private Integer work_time_id;
+    private Integer job_id;
     private User member;
     private User art;
     private ReviewOrder review_order;
     private Waktu_Kerja work_time;
+    private Job job;
     private Integer cost;
     private String start_date;
     private String end_date;
@@ -158,5 +160,21 @@ public class Order {
 
     public void setOrder_task_list(List<OrderTask> order_task_list) {
         this.order_task_list = order_task_list;
+    }
+
+    public Integer getJob_id() {
+        return job_id;
+    }
+
+    public void setJob_id(Integer job_id) {
+        this.job_id = job_id;
+    }
+
+    public Job getJob() {
+        return job;
+    }
+
+    public void setJob(Job job) {
+        this.job = job;
     }
 }

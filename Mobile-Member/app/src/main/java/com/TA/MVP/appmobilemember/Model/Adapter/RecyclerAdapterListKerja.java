@@ -104,7 +104,10 @@ public class RecyclerAdapterListKerja extends RecyclerView.Adapter<RecyclerAdapt
         return selectedTasks;
     }
     public void clearselectedlist(){
-        selectedTasks = new ArrayList<>();
+        selectedTasks.clear();
+    }
+    public void addallshown(){
+        selectedTasks.add(showTasks.get(0));
     }
 }
 

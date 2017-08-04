@@ -7,12 +7,12 @@ package com.mvp.mobile_art.Model.Basic;
 public class Job {
     private String job;
 
-    public String getText() {
+    public String getJob() {
         return job;
     }
 
-    public void setText(String text) {
-        this.job = text;
+    public void setJob(String job) {
+        this.job = job;
     }
 
     public String toString(){

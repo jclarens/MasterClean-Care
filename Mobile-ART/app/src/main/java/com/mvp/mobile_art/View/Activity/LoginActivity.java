@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.mvp.mobile_art.Model.Basic.User;
+import com.mvp.mobile_art.Model.Responses.LoginResponse;
 import com.mvp.mobile_art.Model.Responses.Token;
 import com.mvp.mobile_art.Model.Responses.UserResponse;
 import com.mvp.mobile_art.R;
@@ -45,76 +46,46 @@ public class LoginActivity extends ParentActivity {
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (email.getText().toString().equals("") || katasandi.getText().toString().equals(""))
+                    Toast.makeText(getApplicationContext(), "Email atau Password salah", Toast.LENGTH_SHORT).show();
                 showDialog("Logging in");
-                HashMap<String,Object> map = new HashMap<>();
-                map.put("grant_type","password");
-                map.put("client_id", Settings.getClientID());
-                map.put("client_secret",Settings.getclientSecret());
-                map.put("username",email.getText().toString());
-                map.put("password",katasandi.getText().toString());
-                Call<Token> caller = APIManager.getRepository(UserRepo.class).loginuser(map);
-                caller.enqueue(new APICallback<Token>() {
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("email", email.getText().toString());
+                map.put("password", katasandi.getText().toString());
+                Call<LoginResponse> caller = APIManager.getRepository(UserRepo.class).loginasisten(map);
+                caller.enqueue(new APICallback<LoginResponse>() {
                     @Override
-                    public void onSuccess(Call<Token> call, Response<Token> response) {
+                    public void onSuccess(Call<LoginResponse> call, Response<LoginResponse> response) {
                         super.onSuccess(call, response);
-                        SharedPref.save(SharedPref.ACCESS_TOKEN, response.body().getAccess_token());
-                        getOwnData();
+                        SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
+                        SharedPref.save(SharedPref.ACCESS_TOKEN, response.body().getToken().getAccess_token());
+                        dismissDialog();
+                        Intent i = new Intent();
+                        i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
+                        dofinishActivity(i);
                     }
 
                     @Override
-                    public void onUnauthorized(Call<Token> call, Response<Token> response) {
+                    public void onUnauthorized(Call<LoginResponse> call, Response<LoginResponse> response) {
                         super.onUnauthorized(call, response);
                         dismissDialog();
-                        Toast.makeText(getApplicationContext(), "Email or Password is wrong", Toast.LENGTH_SHORT).show();
-
+                        Toast.makeText(getApplicationContext(), "Email atau Password salah", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onNotFound(Call<Token> call, Response<Token> response) {
-                        super.onNotFound(call, response);
-                        dismissDialog();
-                        Toast.makeText(getApplicationContext(), "Link Not Found", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onError(Call<Token> call, Response<Token> response) {
+                    public void onError(Call<LoginResponse> call, Response<LoginResponse> response) {
                         super.onError(call, response);
                         dismissDialog();
-                        Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Terjadi kesalahan pada server", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onFailure(Call<Token> call, Throwable t) {
+                    public void onFailure(Call<LoginResponse> call, Throwable t) {
                         super.onFailure(call, t);
                         dismissDialog();
-                        Toast.makeText(getApplicationContext(), "Fail to connect", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), "Koneksi bermasalah silahkan coba lagi", Toast.LENGTH_SHORT).show();
                     }
                 });
-            }
-        });
-    }
-
-    public void getOwnData(){
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("email",email.getText().toString());
-        map.put("password",katasandi.getText().toString());
-        Call<UserResponse> caller = APIManager.getRepository(UserRepo.class).getOwnData(map);
-        caller.enqueue(new APICallback<UserResponse>() {
-            @Override
-            public void onSuccess(Call<UserResponse> call, Response<UserResponse> response) {
-                super.onSuccess(call, response);
-                Intent i = new Intent();
-                User user = response.body().getUser();
-                SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(user));
-                Log.d("temporary","onSuccess:"+ SharedPref.getValueString(ConstClass.USER));
-                dismissDialog();
-                dofinishActivity(i);
-            }
-
-            @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
-                super.onFailure(call, t);
-                dismissDialog();
             }
         });
     }

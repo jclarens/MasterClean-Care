@@ -24,7 +24,7 @@
                 android:layout_height="200dp"
                 android:layout_gravity="center_horizontal"
                 android:contentDescription="@string/foto"
-                app:srcCompat="@mipmap/ic_person_box" />
+                app:srcCompat="@drawable/default_profile" />
 
             <TextView
                 android:id="@+id/asis_tv_nama"
@@ -60,47 +60,81 @@
                         android:id="@+id/textView47"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Usia :"
+                        android:text="Usia"
                         android:textColor="@android:color/black" />
-
-                    <!--<TextView-->
-                        <!--android:id="@+id/textView48"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="Pengalaman :"-->
-                        <!--android:textColor="@android:color/black" />-->
 
                     <TextView
                         android:id="@+id/textView49"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="No. Telp :"
+                        android:text="No. Telp"
                         android:textColor="@android:color/black" />
 
                     <TextView
                         android:id="@+id/textView50"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/filter_agama"
+                        android:text="Agama"
                         android:textColor="@android:color/black" />
 
                     <TextView
                         android:id="@+id/textView51"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/filter_suku"
+                        android:text="Suku"
                         android:textColor="@android:color/black" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Kota :"
+                        android:text="Kota"
                         android:textColor="@android:color/black" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/filter_profesi"
+                        android:text="Profesi"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                        android:textColor="@android:color/black" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                        android:textColor="@android:color/black" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                        android:textColor="@android:color/black" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                        android:textColor="@android:color/black" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=":"
+                        android:textColor="@android:color/black" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text=":"
                         android:textColor="@android:color/black" />
                 </LinearLayout>
 
@@ -305,24 +339,6 @@
                 android:enabled="false"
                 android:textColor="@color/colorBlack"/>
 
-            <!--<Button-->
-                <!--android:id="@+id/asis_btn_docpdkg"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:text="@string/docpndkg"-->
-                <!--android:textAllCaps="false" />-->
-
-            <!--<RelativeLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content">-->
-
-                <!--<TextView-->
-                    <!--android:id="@+id/textView40"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="@string/review" />-->
-            <!--</RelativeLayout>-->
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -345,6 +361,28 @@
                     android:layout_weight="1"
                     android:text="@string/pemesanan"
                     android:textAllCaps="false" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/layout_review"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="10dp"
+                android:visibility="gone">
+                <!--masih invisible-->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Review"
+                    android:textAlignment="center"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorBlack"/>
+
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recycleview_review"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
         </LinearLayout>

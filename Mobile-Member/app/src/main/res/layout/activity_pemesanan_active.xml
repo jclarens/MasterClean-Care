@@ -22,6 +22,40 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/layout_asisten">
             </RelativeLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Bekerja sebagai :"
+                    android:textColor="@color/colorBlack" />
+                <EditText
+                    android:id="@+id/profesi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:textColor="@color/colorBlack"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Type waktu :"
+                    android:textColor="@color/colorBlack" />
+                <EditText
+                    android:id="@+id/worktime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:textColor="@color/colorBlack"/>
+            </LinearLayout>
             <TextView
                 android:id="@+id/pmsa_tv_tugas"
                 android:layout_width="match_parent"

@@ -1,5 +1,6 @@
 package com.mvp.mobile_art.Model.Adapter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import com.mvp.mobile_art.Model.Basic.Order;
 import com.mvp.mobile_art.R;
+import com.mvp.mobile_art.View.Activity.MainActivity;
 import com.mvp.mobile_art.View.Activity.PemesananActiveActivity;
 import com.mvp.mobile_art.lib.utils.ConstClass;
 import com.mvp.mobile_art.lib.utils.GsonUtils;
@@ -23,6 +25,7 @@ import java.util.List;
 
 public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapterPemesanan.ViewHolder> {
     private List<Order> orders = new ArrayList<>();
+    private Context context;
     class ViewHolder extends RecyclerView.ViewHolder{
         public TextView itemnama, itemprofesi, itemmulai;
 
@@ -38,7 +41,7 @@ public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapt
 //                    Toast.makeText(itemview.getContext(),"Clicking card number " + position, Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(itemview.getContext(), PemesananActiveActivity.class);
                     i.putExtra(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(orders.get(position)));
-                    itemview.getContext().startActivity(i);
+                    ((MainActivity)context).startActivityForResult(i, MainActivity.REQUEST_ORDER);
                 }
             });
         }
@@ -56,6 +59,9 @@ public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapt
         holder.itemnama.setText(orders.get(position).getMember().getName());
         holder.itemprofesi.setText(orders.get(position).getWork_time().getWork_time());
         holder.itemmulai.setText(orders.get(position).getStart_date().toString());
+    }
+    public void setcontext(Context context){
+        this.context = context;
     }
 
     @Override

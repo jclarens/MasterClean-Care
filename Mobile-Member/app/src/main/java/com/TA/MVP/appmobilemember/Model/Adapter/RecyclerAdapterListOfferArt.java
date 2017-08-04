@@ -116,7 +116,7 @@ public class RecyclerAdapterListOfferArt extends RecyclerView.Adapter<RecyclerAd
         this.offerArts = offerArts;
         notifyDataSetChanged();
     }
-    public void postpemesanan(Integer artid){
+    public void postpemesanan(final Integer artid){
         ((PermintaanActiveActivity)context).initProgressDialog("Pemesanan sedang diperoses");
         ((PermintaanActiveActivity)context).showDialog();
         Calendar calendar = Calendar.getInstance();
@@ -125,11 +125,14 @@ public class RecyclerAdapterListOfferArt extends RecyclerView.Adapter<RecyclerAd
         map.put("member_id", offer.getMember_id().toString());
         map.put("art_id", artid.toString());
         map.put("work_time_id", offer.getWork_time_id().toString());
+        map.put("job_id", offer.getJob_id().toString());
         map.put("cost", offer.getCost().toString());
         map.put("start_date", offer.getStart_date());
         map.put("end_date", offer.getEnd_date());
         map.put("remark", offer.getRemark());
         map.put("status", "1");
+        map.put("status_member", "0");
+        map.put("status_art", "0");
         map.put("contact", offer.getContact());
         map.put("created_at", fixFormat.format(calendar.getTime()));
         map.put("orderTaskList", offer.getOffer_task_list());
@@ -139,7 +142,7 @@ public class RecyclerAdapterListOfferArt extends RecyclerView.Adapter<RecyclerAd
             public void onSuccess(Call<OrderResponse> call, Response<OrderResponse> response) {
                 super.onSuccess(call, response);
                 gantistatusoffer();
-
+                gantistatusart(artid);
             }
 
             @Override
@@ -172,6 +175,27 @@ public class RecyclerAdapterListOfferArt extends RecyclerView.Adapter<RecyclerAd
             public void onFailure(Call<OfferResponse> call, Throwable t) {
                 super.onFailure(call, t);
                 ((PermintaanActiveActivity)context).dismissDialog();
+            }
+        });
+    }
+    public void gantistatusart(Integer artid){
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("status", "1");
+        Call<OfferResponse> caller = APIManager.getRepository(OfferRepo.class).patchofferart(offer.getId(), artid, map);
+        caller.enqueue(new APICallback<OfferResponse>() {
+            @Override
+            public void onSuccess(Call<OfferResponse> call, Response<OfferResponse> response) {
+                super.onSuccess(call, response);
+            }
+
+            @Override
+            public void onError(Call<OfferResponse> call, Response<OfferResponse> response) {
+                super.onError(call, response);
+            }
+
+            @Override
+            public void onFailure(Call<OfferResponse> call, Throwable t) {
+                super.onFailure(call, t);
             }
         });
     }
