@@ -13,10 +13,34 @@
         android:layout_centerHorizontal="true"
         android:background="@color/colorSecondary"/>
 
-    <android.support.v4.view.ViewPager
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/viewpager_status"
-        android:layout_below="@+id/tablayout_status" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/tablayout_status">
+        <android.support.v4.view.ViewPager
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/viewpager_status" />
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true">
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/btn_topup"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_margin="20dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="Top\nUp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:elevation="16dp"
+                android:textColor="#ffffff"/>
+        </FrameLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

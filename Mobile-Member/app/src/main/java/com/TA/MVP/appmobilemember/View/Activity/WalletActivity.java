@@ -38,7 +38,7 @@ public class WalletActivity extends ParentActivity {
         //toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.toolbar_wallet);
+        getSupportActionBar().setTitle("Top Up");
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

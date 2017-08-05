@@ -12,6 +12,7 @@ public class WalletTransaction {
     private Integer amount;
     private Integer trc_type;
     private String trc_time;
+    private String trc_img;
     private Integer status;
 
     public Integer getId() {

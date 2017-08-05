@@ -3,6 +3,7 @@ package com.TA.MVP.appmobilemember.View.Fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -10,9 +11,12 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.Model.Adapter.PagerAdapterStatus;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.View.Activity.MainActivity;
+import com.TA.MVP.appmobilemember.View.Activity.WalletActivity;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 
@@ -24,6 +28,7 @@ public class FragmentStatus extends Fragment {
     private TabLayout tabLayoutstatus;
     private ViewPager viewPagerstatus;
     private PagerAdapter pagerAdapterstatus;
+    private FloatingActionButton btntopup;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -31,10 +36,18 @@ public class FragmentStatus extends Fragment {
 
         tabLayoutstatus = (TabLayout) _view.findViewById(R.id.tablayout_status);
         viewPagerstatus = (ViewPager) _view.findViewById(R.id.viewpager_status);
+        btntopup = (FloatingActionButton) _view.findViewById(R.id.btn_topup);
 
         pagerAdapterstatus = new PagerAdapterStatus(getChildFragmentManager(), getContext());
         viewPagerstatus.setAdapter(pagerAdapterstatus);
         tabLayoutstatus.setupWithViewPager(viewPagerstatus);
+
+        btntopup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.doStartActivity(getContext(), WalletActivity.class);
+            }
+        });
 
         viewPagerstatus.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

@@ -120,7 +120,7 @@ public class EditProfileActivity extends ParentActivity {
                 .load(Settings.getRetrofitAPIUrl()+"image/medium/"+user.getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
-                .resize(imgfoto.getWidth(), imgfoto.getHeight())
+//                .resize(imgfoto.getWidth(), imgfoto.getHeight())
                 .into(imgfoto);
 
 
@@ -210,7 +210,6 @@ public class EditProfileActivity extends ParentActivity {
             case PERMS_REQUEST_CODE: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    SharedPref.save(ConstClass.EMERGENCY_EXTRA, "on");
                     pickImage();
 
                 } else {

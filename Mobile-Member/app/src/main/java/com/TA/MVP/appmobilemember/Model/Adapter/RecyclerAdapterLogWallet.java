@@ -48,18 +48,26 @@ public class RecyclerAdapterLogWallet extends RecyclerView.Adapter<RecyclerAdapt
 
     @Override
     public void onBindViewHolder(RecyclerAdapterLogWallet.ViewHolder holder, int position) {
-        if (walletTransactions.get(position).getTrc_type() == 0){//bertambah
-            holder.cardwallettransactionlayout.setBackgroundColor(holder.lightgreen);
+        if (walletTransactions.get(position).getTrc_type() == 0){//uang masuk
             holder.status.setText("+ Rp.");
+            if (walletTransactions.get(position).getStatus() == 0){//masuk pending
+                holder.cardwallettransactionlayout.setBackgroundColor(holder.lightyellow);
+            }else if (walletTransactions.get(position).getStatus() == 1){//masuk berhasil
+                holder.cardwallettransactionlayout.setBackgroundColor(holder.lightgreen);
+            }
         }
-        else if (walletTransactions.get(position).getTrc_type() == 1){
-            holder.cardwallettransactionlayout.setBackgroundColor(holder.lightred);
+        else if (walletTransactions.get(position).getTrc_type() == 1){//uang keluar
             holder.status.setText("- Rp.");
+            if (walletTransactions.get(position).getStatus() == 0){//keluar pending
+                holder.cardwallettransactionlayout.setBackgroundColor(holder.lightyellow);
+            }else if (walletTransactions.get(position).getStatus() == 1){//keluar berhasil
+                holder.cardwallettransactionlayout.setBackgroundColor(holder.lightred);
+            }
         }
-        else {
-            holder.cardwallettransactionlayout.setBackgroundColor(holder.lightyellow);
-            holder.status.setText("+ Rp.");
-        }
+//        else {
+//            holder.cardwallettransactionlayout.setBackgroundColor(holder.lightyellow);
+//            holder.status.setText("+ Rp.");
+//        }
         holder.nominal.setText(walletTransactions.get(position).getAmount().toString());
         holder.date.setText(walletTransactions.get(position).getTrc_time());
     }
