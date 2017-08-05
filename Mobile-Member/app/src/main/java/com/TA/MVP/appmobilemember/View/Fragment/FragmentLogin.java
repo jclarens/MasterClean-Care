@@ -1,13 +1,16 @@
 package com.TA.MVP.appmobilemember.View.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,46 +56,68 @@ public class FragmentLogin extends Fragment {
         btnlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((AuthActivity) getActivity()).showDialog("Logging in");
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("email", email.getText().toString());
-                map.put("password", katasandi.getText().toString());
-                Call<LoginResponse> caller = APIManager.getRepository(UserRepo.class).loginmember(map);
-                caller.enqueue(new APICallback<LoginResponse>() {
-                    @Override
-                    public void onSuccess(Call<LoginResponse> call, Response<LoginResponse> response) {
-                        super.onSuccess(call, response);
-                        SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
-                        SharedPref.save(SharedPref.ACCESS_TOKEN, response.body().getToken().getAccess_token());
-                        ((AuthActivity) getActivity()).dismissDialog();
-                        Intent i = new Intent();
-                        i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
-                        ((AuthActivity)getActivity()).dofinishActivity(i);
-                    }
-
-                    @Override
-                    public void onUnauthorized(Call<LoginResponse> call, Response<LoginResponse> response) {
-                        super.onUnauthorized(call, response);
-                        ((AuthActivity) getActivity()).dismissDialog();
-                        Toast.makeText(getContext(), "Email or Password is wrong", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onError(Call<LoginResponse> call, Response<LoginResponse> response) {
-                        super.onError(call, response);
-                        ((AuthActivity) getActivity()).dismissDialog();
-                        Toast.makeText(getContext(), "Terjadi kesalahan pada server", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onFailure(Call<LoginResponse> call, Throwable t) {
-                        super.onFailure(call, t);
-                        ((AuthActivity) getActivity()).dismissDialog();
-                        Toast.makeText(getContext(), "Koneksi bermasalah silahkan coba lagi", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                hidekeyboard();
+                if (email.getText().toString().equals("") || katasandi.getText().toString().equals("")){
+                    Toast.makeText(getContext(),"Email atau katasandi belum diisi", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    dologin();
+                }
             }
         });
         return _view;
+    }
+    public void dologin(){
+        ((AuthActivity) getActivity()).showDialog("Logging in");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("email", email.getText().toString());
+        map.put("password", katasandi.getText().toString());
+        Call<LoginResponse> caller = APIManager.getRepository(UserRepo.class).loginmember(map);
+        caller.enqueue(new APICallback<LoginResponse>() {
+            @Override
+            public void onSuccess(Call<LoginResponse> call, Response<LoginResponse> response) {
+                super.onSuccess(call, response);
+                try{
+                    SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
+                    SharedPref.save(SharedPref.ACCESS_TOKEN, response.body().getToken().getAccess_token());
+                    ((AuthActivity) getActivity()).dismissDialog();
+                    Intent i = new Intent();
+                    i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
+                    ((AuthActivity) getActivity()).dismissDialog();
+                    ((AuthActivity)getActivity()).dofinishActivity(i);
+                }catch (NullPointerException e){
+                    Toast.makeText(getContext(), "Email atau katasandi salah", Toast.LENGTH_SHORT).show();
+                    ((AuthActivity) getActivity()).dismissDialog();
+                }
+            }
+
+            @Override
+            public void onUnauthorized(Call<LoginResponse> call, Response<LoginResponse> response) {
+                super.onUnauthorized(call, response);
+                ((AuthActivity) getActivity()).dismissDialog();
+                Toast.makeText(getContext(), "Email atau katasandi salah", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(Call<LoginResponse> call, Response<LoginResponse> response) {
+                super.onError(call, response);
+                ((AuthActivity) getActivity()).dismissDialog();
+                Toast.makeText(getContext(), "Terjadi kesalahan pada server", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                super.onFailure(call, t);
+                ((AuthActivity) getActivity()).dismissDialog();
+                Toast.makeText(getContext(), "Koneksi bermasalah silahkan coba lagi", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public void hidekeyboard(){
+        View view = getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 }

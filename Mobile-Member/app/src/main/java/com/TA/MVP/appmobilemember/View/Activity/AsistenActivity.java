@@ -65,7 +65,8 @@ public class AsistenActivity extends ParentActivity {
     private ListStatus listStatus = new ListStatus();
     private StaticData staticData;
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
-    private LinearLayout layoutreview;
+    private LinearLayout layoutreview, layoutgaji, layoutstatus;
+    private boolean minidetail = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,8 @@ public class AsistenActivity extends ParentActivity {
         setContentView(R.layout.activity_asisten);
         Intent intent = getIntent();
         art = GsonUtils.getObjectFromJson(intent.getStringExtra(ConstClass.ART_EXTRA), User.class);
+        if (intent.getStringExtra("minidetail") != null)
+            minidetail = true;
         staticData = ((MasterCleanApplication)getApplication()).getGlobalStaticData();
 
         recyclerView = (RecyclerView) findViewById(R.id.recycleview_review);
@@ -107,6 +110,8 @@ public class AsistenActivity extends ParentActivity {
         jadwal = (Button) findViewById(R.id.asis_btn_lhtjdwl);
         pemesanan = (Button) findViewById(R.id.asis_btn_pemesanan);
         layoutreview = (LinearLayout) findViewById(R.id.layout_review);
+        layoutgaji = (LinearLayout) findViewById(R.id.layout_gaji);
+        layoutstatus = (LinearLayout) findViewById(R.id.layout_status);
 
         setAll();
 
@@ -114,6 +119,12 @@ public class AsistenActivity extends ParentActivity {
     }
 
     private void setAll(){
+        if (minidetail){
+            layoutstatus.setVisibility(View.GONE);
+            layoutgaji.setVisibility(View.GONE);
+            layoutreview.setVisibility(View.GONE);
+        }
+
         nama.setText(art.getName());
 
         try{
@@ -252,19 +263,20 @@ public class AsistenActivity extends ParentActivity {
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 super.onFailure(call, t);
-                abuildermessage("Reconnect?","No Connection");
-                abuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        showDialog();
-                    }
-                });
-                abuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
+//                abuildermessage("Reconnect?","No Connection");
+//                abuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        showDialog();
+//                    }
+//                });
+//                abuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                    }
+//                });
+                Toast.makeText(getApplicationContext(),"Koneksi bermasalah", Toast.LENGTH_SHORT).show();
                 dismissDialog();
                 finish();
             }

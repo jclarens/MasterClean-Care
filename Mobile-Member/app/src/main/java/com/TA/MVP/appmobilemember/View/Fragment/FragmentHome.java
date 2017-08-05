@@ -6,14 +6,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterAsisten;
 import com.TA.MVP.appmobilemember.Model.Basic.Language;
@@ -23,6 +26,7 @@ import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.View.Activity.FilterActivity;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
+import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 import com.google.gson.reflect.TypeToken;
 
@@ -35,10 +39,6 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Response;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class FragmentHome extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerAdapterAsisten rec_Adapter;
@@ -47,26 +47,36 @@ public class FragmentHome extends Fragment {
     private List<Language> languages = new ArrayList<>();
     private Calendar calendar = Calendar.getInstance();
     private int thisyear, tempyear;
+    private SwipeRefreshLayout swipeRefreshLayout;
     Integer wkid;
     Integer profesi;
     Integer usiamin;
     Integer usiamax;
     Integer gaji;
+    View _view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View _view = inflater.inflate(R.layout.fragment_cari_list, container, false);
+        _view = inflater.inflate(R.layout.fragment_cari_list, container, false);
         thisyear = calendar.get(Calendar.YEAR);
 
         recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_asisten);
+        swipeRefreshLayout = (SwipeRefreshLayout) _view.findViewById(R.id.swipeRefreshLayout);
         btnfilter = (Button) _view.findViewById(R.id.carilist_btn_filter);
 
         btnfilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                MainActivity.doStartActivity(getContext(), FilterActivity.class);
                 Intent i = new Intent(getContext(),FilterActivity.class);
-                startActivityForResult(i, 1);
+                startActivityForResult(i, 111);
+            }
+        });
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                SharedPref.save("searching", "");
+                getarts();
             }
         });
 
@@ -76,32 +86,22 @@ public class FragmentHome extends Fragment {
         recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_asisten);
         rec_Adapter = new RecyclerAdapterAsisten(getContext());
         recyclerView.setAdapter(rec_Adapter);
-        //get users
-        Call<List<User>> caller = APIManager.getRepository(UserRepo.class).getallart();
-        caller.enqueue(new APICallback<List<User>>() {
-            @Override
-            public void onSuccess(Call<List<User>> call, Response<List<User>> response) {
-                super.onSuccess(call, response);
-                rec_Adapter.setART(response.body());
-            }
 
-            @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
-                super.onFailure(call, t);
-            }
-        });
+        if (SharedPref.getValueString("searching").equals("")) {
+            getarts();
+        }
 
-
+        Log.d("why","ooooooooooooooooooooooooooooooooo");
         return _view;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1){
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 111){
             if (resultCode == Activity.RESULT_OK){
-//                Toast.makeText(getContext(), result, Toast.LENGTH_SHORT).show();
                 Map<String,String> map = new HashMap<>();
-                map.put("user_type","2");
+                map.put("role_id","3");
                 map.put("name", data.getStringExtra("nama"));
                 map.put("race", data.getStringExtra("suku"));
                 if (data.getStringExtra("agama") != null){
@@ -120,18 +120,17 @@ public class FragmentHome extends Fragment {
                 usiamin = Integer.valueOf(data.getStringExtra("usiamin"));
                 usiamax = Integer.valueOf(data.getStringExtra("usiamax"));
                 gaji = data.getIntExtra("gaji", 0);
-//                Toast.makeText(getContext(),gaji +" - "+ data.getIntExtra("gaji", 0), Toast.LENGTH_SHORT).show();
 
-                //get users
+                //search users
                 Call<List<User>> caller = APIManager.getRepository(UserRepo.class).searchuser(map);
                 caller.enqueue(new APICallback<List<User>>() {
                     @Override
                     public void onSuccess(Call<List<User>> call, Response<List<User>> response) {
                         super.onSuccess(call, response);
-                        arts = response.body();
-
-                        rec_Adapter.setART(secondfilter(arts, wkid, profesi, usiamin, usiamax, languages, gaji));
-//                        rec_Adapter.setART(response.body());
+                        Log.d("List[][]",GsonUtils.getJsonFromObject(response.body()));
+                        arts = secondfilter(response.body(), wkid, profesi, usiamin, usiamax, languages, gaji);
+                        updateadapter(arts);
+                        SharedPref.save("searching", "");
                     }
 
                     @Override
@@ -212,14 +211,44 @@ public class FragmentHome extends Fragment {
         //filter status
         users = result;
         result = new ArrayList<>();
-        String temp="";
+//        String temp="";
         for (int n = 0; n<users.size(); n++){
             if (users.get(n).getStatus() == 1){
                 result.add(users.get(n));
-                temp = temp + users.get(n).getStatus();
+//                temp = temp + users.get(n).getStatus();
             }
         }
-
         return result;
+    }
+    public void getarts(){
+        Call<List<User>> caller = APIManager.getRepository(UserRepo.class).getallart();
+        caller.enqueue(new APICallback<List<User>>() {
+            @Override
+            public void onSuccess(Call<List<User>> call, Response<List<User>> response) {
+                super.onSuccess(call, response);
+                Log.d("List[][]",GsonUtils.getJsonFromObject(response.body()));
+                rec_Adapter.setART(removeinactive(response.body()));
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                super.onFailure(call, t);
+                swipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(getContext(),"Koneksi bermasalah", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public List<User> removeinactive(List<User> users){
+        List<User> result = new ArrayList<>();
+        for (int n = 0; n<users.size(); n++){
+            if (users.get(n).getStatus() == 1){
+                result.add(users.get(n));
+            }
+        }
+        return result;
+    }
+    public void updateadapter(List<User> arts){
+        rec_Adapter.setART(arts);
     }
 }

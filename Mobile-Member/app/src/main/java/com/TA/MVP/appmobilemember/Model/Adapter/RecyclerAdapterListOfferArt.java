@@ -62,12 +62,23 @@ public class RecyclerAdapterListOfferArt extends RecyclerView.Adapter<RecyclerAd
 //            tolak = (ImageView) itemview.findViewById(R.id.tolak);
             terima = (ImageView) itemview.findViewById(R.id.terima);
             info = (ImageView) itemview.findViewById(R.id.info);
+            nama.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    Intent intent = new Intent(itemview.getContext(), AsistenActivity.class);
+                    intent.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(offerArts.get(position).getArt()));
+                    intent.putExtra("minidetail", "y");
+                    itemview.getContext().startActivity(intent);
+                }
+            });
             info.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     Intent intent = new Intent(itemview.getContext(), AsistenActivity.class);
                     intent.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(offerArts.get(position).getArt()));
+                    intent.putExtra("minidetail", "y");
                     itemview.getContext().startActivity(intent);
                 }
             });

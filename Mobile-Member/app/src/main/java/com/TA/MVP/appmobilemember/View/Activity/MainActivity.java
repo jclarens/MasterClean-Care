@@ -19,6 +19,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -87,6 +88,7 @@ public class MainActivity extends ParentActivity {
     private LinearLayout splashscreen;
     private FrameLayout frameLayout;
     private ProgressBar progressBar;
+    private FragmentHome fragmentHome = new FragmentHome();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +124,7 @@ public class MainActivity extends ParentActivity {
                 switch (id){
                     case R.id.menu_beranda:
                         posisiF=1;
-                        fragment = new FragmentHome();
+                        fragment = fragmentHome;
                         break;
                     case R.id.menu_cari:
                         posisiF=2;
@@ -201,26 +203,15 @@ public class MainActivity extends ParentActivity {
                 SharedPref.save(ConstClass.USER, data.getStringExtra(ConstClass.USER));
                 final FragmentTransaction transaction2 = fragmentManager.beginTransaction();
                 transaction2.replace(R.id.main_container, fragment).commit();
-//                refreshfragment();
             }
         }
-//        else if(requestCode == REQUEST_PESAN){
-//            refreshfragment();
-//        }
-//        else if (requestCode == REQUEST_OFFER){
-//            refreshfragment();
-//        }
-//        else if (requestCode == REQUEST_ORDER){
-//            refreshfragment();
-//        }
         refreshfragment();
         invalidateOptionsMenu();
-//        refreshfragment();
     }
     public void refreshfragment(){
         switch (posisiF){
             case 1:
-                fragment = new FragmentHome();
+                fragment = fragmentHome;
                 break;
             case 2:
                 fragment = new FragmentCari();

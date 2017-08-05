@@ -118,8 +118,8 @@ public class FragmentCariList extends Fragment {
                 else profesi = null;
                 languages = (List<Language>) GsonUtils.getObjectFromJson(data.getStringExtra("listbahasa"), new TypeToken<List<Language>>(){}.getType());
 
-                usiamin = Integer.valueOf(data.getStringExtra("usiamin"));
-                usiamax = Integer.valueOf(data.getStringExtra("usiamax"));
+                usiamin = Integer.valueOf(data.getStringExtra("usiamin")) - 1;
+                usiamax = Integer.valueOf(data.getStringExtra("usiamax")) + 1;
                 gaji = data.getIntExtra("gaji", 0);
 //                Toast.makeText(getContext(),gaji +" - "+ data.getIntExtra("gaji", 0), Toast.LENGTH_SHORT).show();
 

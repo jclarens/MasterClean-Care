@@ -25,6 +25,7 @@ import com.TA.MVP.appmobilemember.Model.Basic.Language;
 import com.TA.MVP.appmobilemember.Model.Basic.Place;
 import com.TA.MVP.appmobilemember.Model.Basic.Waktu_Kerja;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
 import java.util.ArrayList;
@@ -64,6 +65,7 @@ public class FilterActivity extends ParentActivity{
         btncari.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SharedPref.save("searching", "yes");
                 Intent i = new Intent();
                 i.putExtra("nama", nama.getText().toString());
                 if (spinnerkota.getSelectedItemPosition() != 0)

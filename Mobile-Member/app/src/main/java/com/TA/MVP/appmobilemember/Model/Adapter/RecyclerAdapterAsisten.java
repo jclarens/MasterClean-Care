@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,6 @@ import android.widget.Toast;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Activity.AsistenActivity;
-import com.TA.MVP.appmobilemember.View.Activity.PemesananActivity;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 import com.squareup.picasso.Picasso;
@@ -75,6 +75,7 @@ public class RecyclerAdapterAsisten extends RecyclerView.Adapter<RecyclerAdapter
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        Log.d("Listposition",GsonUtils.getJsonFromObject(users.get(position)));
         Picasso.with(context)
                 .load(users.get(position).getAvatar())
                 .placeholder(R.drawable.default_profile)
@@ -94,7 +95,9 @@ public class RecyclerAdapterAsisten extends RecyclerView.Adapter<RecyclerAdapter
     public void setART(List<User> users){
         this.users = users;
         doshorting();
+        Log.d("List size","" + users.size());
         notifyDataSetChanged();
+        Log.d("List","" + GsonUtils.getJsonFromObject(this.users));
     }
     public void doshorting(){
         Collections.sort(users, new Comparator<User>(){
