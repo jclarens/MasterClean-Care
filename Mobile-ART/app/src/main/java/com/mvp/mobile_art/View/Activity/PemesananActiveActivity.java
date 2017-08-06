@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -76,6 +77,7 @@ public class PemesananActiveActivity extends ParentActivity {
     private Calendar tempcalendar = new GregorianCalendar();
     private ArrayBulan arrayBulan = new ArrayBulan();
     private StaticData staticData;
+    private boolean sdgbrlgsg = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,19 +102,6 @@ public class PemesananActiveActivity extends ParentActivity {
 //        estimasitext = (TextView) findViewById(R.id.pmsa_tv_estimasiwaktu);
         tugastext = (TextView) findViewById(R.id.pmsa_tv_tugas);
 
-        switch (order.getStatus()){
-            case 0:
-                btnextra.setText("Tolak");
-                terima.setVisibility(View.VISIBLE);
-                break;
-            case 1:
-                btnextra.setText("Selesaikan");
-                //selesaikan dari member
-                break;
-            case 3:
-                btnextra.setText("Lihat Review");
-                break;
-        }
 
         try{
             mulaitime.setText(timeFormat.format(getdateFormat.parse(order.getStart_date())));
@@ -171,29 +160,6 @@ public class PemesananActiveActivity extends ParentActivity {
                 finish();
             }
         });
-        btnextra.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                switch (order.getStatus()){
-                    case 0:
-//                        Toast.makeText(getApplicationContext(),"Sedang dalam pengembangan.", Toast.LENGTH_SHORT).show();
-                        tolakorder(order.getId());
-                        break;
-                    case 1:
-//                        Toast.makeText(getApplicationContext(),"Sedang dalam pengembangan.", Toast.LENGTH_SHORT).show();
-                        Intent intent1 = new Intent(getApplicationContext(), TulisPesanActivity.class);
-                        intent1.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(order.getArt()));
-                        startActivity(intent1);
-                        break;
-                    case 3:
-                        Toast.makeText(getApplicationContext(),"Sedang dalam pengembangan.", Toast.LENGTH_SHORT).show();
-//                        Intent intent2 = new Intent(getApplicationContext(), ReviewActivity.class);
-//                        intent2.putExtra(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(order));
-//                        startActivity(intent2);
-                        break;
-                }
-            }
-        });
         terima.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -205,6 +171,62 @@ public class PemesananActiveActivity extends ParentActivity {
             checkselesai();
             checksedangberlangsung();
         }
+
+        switch (order.getStatus()){
+            case 0:
+                btnextra.setText("Tolak");
+                terima.setVisibility(View.VISIBLE);
+                break;
+            case 1:
+                if (sdgbrlgsg)
+                    btnextra.setText("Selesaikan");
+                else btnextra.setText("Kirim Pesan");
+                //selesaikan dari member
+                break;
+            case 3:
+                btnextra.setText("Lihat Review");
+                break;
+        }
+
+        btnextra.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (order.getStatus()){
+                    case 0:
+//                        Toast.makeText(getApplicationContext(),"Sedang dalam pengembangan.", Toast.LENGTH_SHORT).show();
+                        tolakorder(order.getId());
+                        break;
+                    case 1:
+                        if (sdgbrlgsg){
+                            abuildermessage("Anda tidak dapat mengubah list kerja setelah menyimpan","Selesaikan");
+                            abuilder.setPositiveButton("Simpan", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    gantimystatus(1);
+                                }
+                            });
+                            abuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            });
+                            showalertdialog();
+                        }else {
+                            Intent intent1 = new Intent(getApplicationContext(), TulisPesanActivity.class);
+                            intent1.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(order.getArt()));
+                            startActivity(intent1);
+                        }
+                        break;
+                    case 3:
+                        Toast.makeText(getApplicationContext(),"Sedang dalam pengembangan.", Toast.LENGTH_SHORT).show();
+//                        Intent intent2 = new Intent(getApplicationContext(), ReviewActivity.class);
+//                        intent2.putExtra(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(order));
+//                        startActivity(intent2);
+                        break;
+                }
+            }
+        });
     }
 
     @Override
@@ -295,24 +317,6 @@ public class PemesananActiveActivity extends ParentActivity {
         }
         return true;
     }
-    public void checkselesai(){
-        calendar = Calendar.getInstance();
-        try {
-            waktuselesai.setTime(getdateFormat.parse(order.getEnd_date()));
-        } catch (ParseException e) {
-
-        }
-        if (calendar.after(waktuselesai)){
-            abuildermessage("Pemesanan ini sudah selesai.", "Pemberitahuan");
-            abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    gantistatus(3);
-                }
-            });
-            showalertdialog();
-        }
-    }
     public void gantistatus(Integer status){
         initProgressDialog("Sedang memperoses");
         showDialog();
@@ -348,6 +352,25 @@ public class PemesananActiveActivity extends ParentActivity {
         // Senin, Januari 30
         return tglFormat.format(date) + " " + bulan + " " + tahunFormat.format(date);
     }
+    public void checkselesai(){
+        calendar = Calendar.getInstance();
+        try {
+            waktuselesai.setTime(getdateFormat.parse(order.getEnd_date()));
+        } catch (ParseException e) {
+
+        }
+        Log.d("Tanggal",getdateFormat.format(calendar.getTime()) + " - " + getdateFormat.format(waktuselesai.getTime()));
+        if (calendar.after(waktuselesai)){
+            abuildermessage("Pemesanan ini sudah selesai.", "Pemberitahuan");
+            abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    gantistatus(3);
+                }
+            });
+            showalertdialog();
+        }
+    }
     public void checksedangberlangsung(){
         calendar = Calendar.getInstance();
         try {
@@ -356,13 +379,20 @@ public class PemesananActiveActivity extends ParentActivity {
 
         }
         if (calendar.after(waktumulai)){
-            rec_Adapter.setStatus(true);
+            sdgbrlgsg = true;
+            if (order.getStatus_art().equals(1)) {
+                rec_Adapter.setStatus(false);
+                btnextra.setEnabled(false);
+            }
+            else {
+                rec_Adapter.setStatus(true);
+            }
         }
     }
     public void updateliststatus(Integer taskid, Integer status){
         HashMap<String,String> map = new HashMap<>();
         map.put("status", status.toString());
-        Call<OrderResponse> caller = APIManager.getRepository(OrderRepo.class).patchordertasklistbyid(order.getId(), taskid, map);
+        Call<OrderResponse> caller = APIManager.getRepository(OrderRepo.class).patchordertasklistbyid(taskid, map);
         caller.enqueue(new APICallback<OrderResponse>() {
             @Override
             public void onSuccess(Call<OrderResponse> call, Response<OrderResponse> response) {
@@ -377,6 +407,35 @@ public class PemesananActiveActivity extends ParentActivity {
             @Override
             public void onFailure(Call<OrderResponse> call, Throwable t) {
                 super.onFailure(call, t);
+            }
+        });
+    }
+    public void gantimystatus(Integer status){
+        initProgressDialog("Sedang memperoses");
+        showDialog();
+        HashMap<String,String> map = new HashMap<>();
+        map.put("status_art", status.toString());
+        Call<OrderResponse> caller = APIManager.getRepository(OrderRepo.class).patchorderById(order.getId().toString(), map);
+        caller.enqueue(new APICallback<OrderResponse>() {
+            @Override
+            public void onSuccess(Call<OrderResponse> call, Response<OrderResponse> response) {
+                super.onSuccess(call, response);
+                dismissDialog();
+                finish();
+            }
+
+            @Override
+            public void onError(Call<OrderResponse> call, Response<OrderResponse> response) {
+                super.onError(call, response);
+                dismissDialog();
+                Toast.makeText(getApplicationContext(),"Terjadi kesalahan", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<OrderResponse> call, Throwable t) {
+                super.onFailure(call, t);
+                dismissDialog();
+                Toast.makeText(getApplicationContext(),"Koneksi bermasalah", Toast.LENGTH_SHORT).show();
             }
         });
     }

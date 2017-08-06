@@ -32,9 +32,12 @@ import com.mvp.mobile_art.MasterCleanApplication;
 import com.mvp.mobile_art.Model.Basic.Offer;
 import com.mvp.mobile_art.Model.Basic.Order;
 import com.mvp.mobile_art.Model.Basic.User;
+import com.mvp.mobile_art.Model.Basic.UserContact;
 import com.mvp.mobile_art.Model.Basic.Waktu_Kerja;
+import com.mvp.mobile_art.Model.Responses.UserResponse;
 import com.mvp.mobile_art.R;
 import com.mvp.mobile_art.Route.Repositories.OfferRepo;
+import com.mvp.mobile_art.Route.Repositories.UserRepo;
 import com.mvp.mobile_art.View.Activity.OfferActivity;
 import com.mvp.mobile_art.lib.api.APICallback;
 import com.mvp.mobile_art.lib.api.APIManager;
@@ -199,6 +202,7 @@ public class FragmentPekerjaan extends Fragment implements OnMapReadyCallback {
         if (location != null){
             targetcamera = CameraPosition.builder().target(new LatLng(location.getLatitude(),location.getLongitude())).zoom(14).bearing(0).tilt(45).build();
             mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(targetcamera));
+            updatemylocation(location.getLatitude(),location.getLongitude());
         }
         getoffers();
     }
@@ -264,6 +268,29 @@ public class FragmentPekerjaan extends Fragment implements OnMapReadyCallback {
 
             @Override
             public void onFailure(Call<List<Offer>> call, Throwable t) {
+                super.onFailure(call, t);
+            }
+        });
+    }
+    public void updatemylocation(Double lat, Double lng){
+        HashMap<String, Object> map = new HashMap<>();
+        UserContact userContact = user.getContact();
+        userContact.setLocation(lat+", "+lng);
+        map.put("contact", userContact);
+        Call<UserResponse> caller = APIManager.getRepository(UserRepo.class).updateuser(user.getId(), map);
+        caller.enqueue(new APICallback<UserResponse>() {
+            @Override
+            public void onSuccess(Call<UserResponse> call, Response<UserResponse> response) {
+                super.onSuccess(call, response);
+            }
+
+            @Override
+            public void onError(Call<UserResponse> call, Response<UserResponse> response) {
+                super.onError(call, response);
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
                 super.onFailure(call, t);
             }
         });

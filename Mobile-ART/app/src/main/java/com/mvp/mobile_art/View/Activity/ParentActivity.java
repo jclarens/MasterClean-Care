@@ -17,7 +17,7 @@ import android.widget.EditText;
  */
 
 public class ParentActivity extends AppCompatActivity {
-    protected AlertDialog.Builder abuilder;
+    public AlertDialog.Builder abuilder;
     protected ProgressDialog progressDialog;
 
     public void initProgressDialog(String message) {

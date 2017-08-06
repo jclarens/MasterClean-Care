@@ -71,13 +71,11 @@ public class FragmentPemesanan2 extends Fragment {
     private List<MyTask> myTasks = new ArrayList<>();
     private User art = new User();
     private Order order = new Order();
-    private Bundle bundle = new Bundle();
 
     private Spinner prof, waktukrj;
-    private LinearLayout layoutlistkerja;
     private EditText mulaitime, mulaidate, selesaitime, selesaidate, estimasi, cttntmbhn, totalbiaya;
     private TextView estimasiwaktutext;
-    private Button prev,next;
+    private Button prev,next, up, down;
     private ArrayAdapter arrayAdapterWaktu;
     private ArrayAdapter arrayAdapterProfesi;
     private List<Waktu_Kerja> defaultWK = new ArrayList<>();
@@ -86,11 +84,10 @@ public class FragmentPemesanan2 extends Fragment {
 
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
     private int minestimasi = 1;
-    private int maxestimasi = 2;
+    private int maxestimasi = 8;
     private int tmp;
 
     private DateFormat fixFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
-    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-d", Locale.ENGLISH);
     private DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
     private DateFormat tahunFormat = new SimpleDateFormat("yyyy", Locale.ENGLISH);
     private DateFormat bulanFormat = new SimpleDateFormat("MM", Locale.ENGLISH);
@@ -101,15 +98,9 @@ public class FragmentPemesanan2 extends Fragment {
     private OrderTime now = new OrderTime();
     private OrderTime temp = new OrderTime();
     private OrderTime endtemp = new OrderTime();
-    private OrderTime waktumulai = new OrderTime();
-    private OrderTime waktuselesai = new OrderTime();
-    private ArrayHari arrayHari = new ArrayHari();
     private ArrayBulan arrayBulan = new ArrayBulan();
     private Date startdate, enddate;
 
-    private int status = 1;
-    private boolean valid = false;
-    private Date tempdate;
     private String fixstart, fixend;
     private Integer artcost = 0;
     private Integer total = 0;
@@ -137,6 +128,30 @@ public class FragmentPemesanan2 extends Fragment {
         estimasiwaktutext = (TextView) _view.findViewById(R.id.pms2_tv_estimasiwaktu);
         prev = (Button) _view.findViewById(R.id.pms2_btn_prev);
         next = (Button) _view.findViewById(R.id.pms2_btn_next);
+        up = (Button) _view.findViewById(R.id.btn_up);
+        down = (Button) _view.findViewById(R.id.btn_down);
+
+        order.setWork_time_id(art.getUser_work_time().get(0).getWork_time_id());
+        order.setJob_id(art.getUser_job().get(0).getJob_id());
+
+        up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tmp = Integer.valueOf(estimasi.getText().toString());
+                if (tmp < maxestimasi)
+                    estimasi.setText(String.valueOf(tmp + 1));
+                estimasi.clearFocus();
+            }
+        });
+        down.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tmp = Integer.valueOf(estimasi.getText().toString());
+                if (tmp > minestimasi)
+                    estimasi.setText(String.valueOf(tmp - 1));
+                estimasi.clearFocus();
+            }
+        });
 
         setwaktusekarang();
         datePickerDialog1 = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
@@ -187,12 +202,10 @@ public class FragmentPemesanan2 extends Fragment {
                 switch (art.getUser_work_time().get(i).getWork_time_id()){
                     case 1:
                         //jam
-                        status = 1;
                         mulaitime.setEnabled(true);
-                        estimasiwaktutext.setText("Jam");
+                        estimasiwaktutext.setText("(Jam)");
                         minestimasi = 2;
                         maxestimasi = 8;
-                        estimasi.setEnabled(false);
                         estimasi.setText(String.valueOf(minestimasi));
                         rec_Adapter.setshowtask(1);
                         artcost = art.getUser_work_time().get(i).getCost();
@@ -201,12 +214,10 @@ public class FragmentPemesanan2 extends Fragment {
                         break;
                     case 2:
                         //hari
-                        status = 2;
                         mulaitime.setEnabled(false);
-                        estimasiwaktutext.setText("Hari");
+                        estimasiwaktutext.setText("(Hari)");
                         minestimasi = 1;
-                        maxestimasi = 14;
-                        estimasi.setEnabled(true);
+                        maxestimasi = 30;
                         estimasi.setText(String.valueOf(minestimasi));
                         artcost = art.getUser_work_time().get(i).getCost();
                         order.setWork_time_id(2);
@@ -214,12 +225,10 @@ public class FragmentPemesanan2 extends Fragment {
                         break;
                     case 3:
                         //bulan
-                        status = 3;
                         mulaitime.setEnabled(false);
-                        estimasiwaktutext.setText("Bulan");
+                        estimasiwaktutext.setText("(Bulan)");
                         minestimasi = 1;
                         maxestimasi = 12;
-                        estimasi.setEnabled(true);
                         estimasi.setText(String.valueOf(minestimasi));
                         artcost = art.getUser_work_time().get(i).getCost();
                         order.setWork_time_id(3);
@@ -258,29 +267,24 @@ public class FragmentPemesanan2 extends Fragment {
                 switch (art.getUser_job().get(i).getJob_id()){
                     case 1:
                         //Asisten Rumah Tangga
-//                        rec_Adapter.setList(orderTasks);
                         rec_Adapter.setshowtask(1);
                         asistenrt = true;
                         order.setJob_id(1);
                         break;
                     case 2:
                         //Perawat Lansia
-//                        rec_Adapter.setList(orderTasks);
                         rec_Adapter.setshowtask(2);
                         asistenrt = false;
-                        if (estimasiwaktutext.getText().toString().equals("Jam")) {
-                            estimasi.setEnabled(true);
+                        if (order.getWork_time_id().equals(1)) {
                             rec_Adapter.addallshown();
                         }
                         order.setJob_id(2);
                         break;
                     case 3:
                         //Babysitter
-//                        rec_Adapter.setList(orderTasks);
                         rec_Adapter.setshowtask(3);
                         asistenrt = false;
-                        if (estimasiwaktutext.getText().toString().equals("Jam")){
-                            estimasi.setEnabled(true);
+                        if (order.getWork_time_id().equals(1)){
                             rec_Adapter.addallshown();
                         }
                         order.setJob_id(3);
@@ -321,7 +325,6 @@ public class FragmentPemesanan2 extends Fragment {
             @Override
             public void onClick(View view) {
 //                ((PemesananActivity)getActivity()) ///loading pls
-
                 if (validasi()){
                     //save data from this fragment ----------------------------------------------------------------------------------------------------
                     order.setCost(total);
@@ -380,21 +383,6 @@ public class FragmentPemesanan2 extends Fragment {
         };
         estimasi.addTextChangedListener(textWatcher);
 
-//        estimasi.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View view, boolean b) {
-//                if (!b) {
-//                    tmp = Integer.valueOf(estimasi.getText().toString());
-//                    if (tmp > maxestimasi)
-//                        estimasi.setText(String.valueOf(maxestimasi));
-//                    else if (tmp < minestimasi)
-//                        estimasi.setText(String.valueOf(minestimasi));
-//                    settanggal();
-//                    settotal();
-//                }
-//            }
-//        });
-
 
         return _view;
     }
@@ -435,14 +423,14 @@ public class FragmentPemesanan2 extends Fragment {
         calendar.set(Calendar.MINUTE,endtemp.minute);
     }
     public  void settanggal(){
-        switch (estimasiwaktutext.getText().toString()){
-            case "Jam":
+        switch (order.getWork_time_id()){
+            case 1:
                 break;
-            case "Hari":
+            case 2:
                 calendar.set(Calendar.HOUR_OF_DAY,8);
                 calendar.set(Calendar.MINUTE,0);
                 break;
-            case "Bulan":
+            case 3:
                 calendar.set(Calendar.HOUR_OF_DAY,8);
                 calendar.set(Calendar.MINUTE,0);
                 break;
@@ -450,16 +438,17 @@ public class FragmentPemesanan2 extends Fragment {
         setwaktutemp();
         startdate = calendar.getTime();
         Integer temp = Integer.valueOf(estimasi.getText().toString().replace(".",""));
-        switch (estimasiwaktutext.getText().toString()){
-            case "Jam":
+        switch (order.getWork_time_id()){
+            case 1:
                 calendar.add(Calendar.HOUR_OF_DAY, temp);
                 break;
-            case "Hari":
+            case 2:
                 calendar.add(Calendar.DAY_OF_MONTH, temp-1);
                 calendar.add(Calendar.HOUR_OF_DAY, 9);
                 break;
-            case "Bulan":
+            case 3:
                 calendar.add(Calendar.MONTH, temp);
+                calendar.add(Calendar.DAY_OF_MONTH, -1);
                 calendar.add(Calendar.HOUR_OF_DAY, 9);
                 break;
         }
@@ -566,7 +555,6 @@ public class FragmentPemesanan2 extends Fragment {
                 //dosomething here pls
             }
         });
-
     }
     public String setRP(Integer number){
         String tempp = "Rp. ";
@@ -582,14 +570,16 @@ public class FragmentPemesanan2 extends Fragment {
     public void setbobot(){
         List<MyTask> selectedtasks = rec_Adapter.getselectedtasklist();
         Integer tmpbobot = 0;
+        tmp = Integer.valueOf(estimasi.getText().toString());
         for(int n=0; n<selectedtasks.size();n++){
             tmpbobot += selectedtasks.get(n).getPoint();
         }
-//        Toast.makeText(getContext(), "Bobot :" + tmpbobot, Toast.LENGTH_SHORT).show();
         Integer bobot = 0;
         if (tmpbobot > 20) {
             bobot = tmpbobot / 10;
-            estimasi.setText(bobot.toString());
+            minestimasi = bobot;
+            if (tmp < minestimasi)
+                estimasi.setText(String.valueOf(minestimasi));
         } else if (tmpbobot <= 20)
             estimasi.setText(String.valueOf(2));
         settanggal();

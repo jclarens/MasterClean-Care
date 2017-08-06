@@ -3,6 +3,7 @@ package com.TA.MVP.appmobilemember.View.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +22,7 @@ import com.TA.MVP.appmobilemember.Model.Basic.StaticData;
 import com.TA.MVP.appmobilemember.Model.Responses.OrderResponse;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.OrderRepo;
+import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentAsistenmini;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
@@ -71,6 +73,7 @@ public class PemesananActiveActivity extends ParentActivity {
     private Calendar waktutemp = new GregorianCalendar();
     private ArrayBulan arrayBulan = new ArrayBulan();
     private StaticData staticData;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +83,7 @@ public class PemesananActiveActivity extends ParentActivity {
         order = GsonUtils.getObjectFromJson(intent.getStringExtra(ConstClass.ORDER_EXTRA), Order.class);
         staticData = ((MasterCleanApplication)getApplication()).getGlobalStaticData();
 
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         mulaitime = (EditText) findViewById(R.id.pmsa_et_mulaitime);
         mulaidate = (EditText) findViewById(R.id.pmsa_et_mulaidate);
         selesaitime = (EditText) findViewById(R.id.pmsa_et_selesaitime);
@@ -92,7 +96,26 @@ public class PemesananActiveActivity extends ParentActivity {
         btnextra = (Button) findViewById(R.id.pmsa_btn_extra);
         kembali = (Button) findViewById(R.id.pmsa_btn_kembali);
         tugastext = (TextView) findViewById(R.id.pmsa_tv_tugas);
+        recyclerView = (RecyclerView) findViewById(R.id.pmsa_rec_listkerja);
 
+        //toolbar
+        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(R.string.toolbar_pemesanan);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                reload();
+            }
+        });
+
+        loadtampilan();
+    }
+
+    public void loadtampilan(){
         switch (order.getStatus()){
             case 0:
                 btnextra.setText("Batalkan");
@@ -135,7 +158,6 @@ public class PemesananActiveActivity extends ParentActivity {
         getSupportFragmentManager().beginTransaction().replace(R.id.layout_asisten, fragmentAsistenmini).commit();
 
         //listkerja
-        recyclerView = (RecyclerView) findViewById(R.id.pmsa_rec_listkerja);
         rec_LayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(rec_LayoutManager);
         rec_Adapter = new RecyclerAdapterListKerjaShow();
@@ -160,13 +182,6 @@ public class PemesananActiveActivity extends ParentActivity {
                 break;
         }
 
-        //toolbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.toolbar_pemesanan);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         kembali.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -187,7 +202,6 @@ public class PemesananActiveActivity extends ParentActivity {
                         startActivity(intent1);
                         break;
                     case 2:
-//                        Toast.makeText(getApplicationContext(),"Sedang dalam pengembangan.", Toast.LENGTH_SHORT).show();
                         abuildermessage("Hapus riwayat pemesanan ini?","Konfirmasi");
                         abuilder.setPositiveButton("Hapus", new DialogInterface.OnClickListener() {
                             @Override
@@ -204,13 +218,11 @@ public class PemesananActiveActivity extends ParentActivity {
                         showalertdialog();
                         break;
                     case 3:
-//                        Toast.makeText(getApplicationContext(),"Sedang dalam pengembangan.", Toast.LENGTH_SHORT).show();
                         Intent intent2 = new Intent(getApplicationContext(), ReviewActivity.class);
                         intent2.putExtra(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(order));
                         startActivity(intent2);
                         break;
                     case 4:
-//                        Toast.makeText(getApplicationContext(),"Sedang dalam pengembangan.", Toast.LENGTH_SHORT).show();
                         abuildermessage("Hapus riwayat pemesanan ini?","Konfirmasi");
                         abuilder.setPositiveButton("Hapus", new DialogInterface.OnClickListener() {
                             @Override
@@ -347,5 +359,31 @@ public class PemesananActiveActivity extends ParentActivity {
         String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date)));
         // Senin, Januari 30
         return tglFormat.format(date) + " " + bulan + " " + tahunFormat.format(date);
+    }
+    public void reload(){
+        Call<Order> caller = APIManager.getRepository(OrderRepo.class).getorderById(order.getId());
+        caller.enqueue(new APICallback<Order>() {
+            @Override
+            public void onSuccess(Call<Order> call, Response<Order> response) {
+                super.onSuccess(call, response);
+                order = response.body();
+                loadtampilan();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onError(Call<Order> call, Response<Order> response) {
+                super.onError(call, response);
+                swipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(getApplicationContext(),"Terjadi kesalahan", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Order> call, Throwable t) {
+                super.onFailure(call, t);
+                swipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(getApplicationContext(),"Koneksi bermasalah", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

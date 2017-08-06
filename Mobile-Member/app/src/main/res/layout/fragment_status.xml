@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.TA.MVP.appmobilemember.View.Fragment.FragmentStatus">
 
     <android.support.design.widget.TabLayout
@@ -11,7 +12,10 @@
         android:id="@+id/tablayout_status"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:background="@color/colorSecondary"/>
+        android:background="@color/colorSecondary"
+        app:tabTextColor="@color/colorLightGrey"
+        app:tabSelectedTextColor="@color/colorWhite"
+        app:tabIndicatorColor="@color/colorBiruGelap"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

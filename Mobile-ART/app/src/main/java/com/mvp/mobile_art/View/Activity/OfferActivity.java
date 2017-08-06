@@ -153,22 +153,26 @@ public class OfferActivity extends ParentActivity {
         bersedia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //konfirmasi
-                abuildermessage("Bersedia menerima tawaran ini?", "Konfirmasi");
-                abuilder.setPositiveButton("Terima", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        addthisarttooffer();
-                    }
-                });
-                abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                if (user.getStatus() == 0){
+                    Toast.makeText(getApplicationContext(),"Anda sedang tidak aktif", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    //konfirmasi
+                    abuildermessage("Bersedia menerima tawaran ini?", "Konfirmasi");
+                    abuilder.setPositiveButton("Terima", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            addthisarttooffer();
+                        }
+                    });
+                    abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
 
-                    }
-                });
-                showalertdialog();
-//                Toast.makeText(getApplicationContext(),"Sedang dalam pengembangan", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                    showalertdialog();
+                }
 
             }
         });

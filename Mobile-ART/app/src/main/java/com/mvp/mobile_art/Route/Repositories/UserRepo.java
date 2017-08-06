@@ -35,10 +35,6 @@ public interface UserRepo {
     Call<UserResponse> getOwnData(@Body HashMap map);
 
     @Headers("Accept: application/json")
-    @POST("oauth/token")
-    Call<Token> loginuser(@Body HashMap map);
-
-    @Headers("Accept: application/json")
     @POST("api/user/")
     Call<UserResponse> registeruser(@Body HashMap map);
 
@@ -64,7 +60,7 @@ public interface UserRepo {
 
     @Headers("Accept: application/json")
     @PATCH("api/user/{user_id}")
-    Call<UserResponse> updateuser(@Path("user_id") String user_id, @Body HashMap map);
+    Call<UserResponse> updateuser(@Path("user_id") Integer user_id, @Body HashMap map);
 
     @Headers("Accept: application/json")
     @DELETE("api/user/{user_id}")

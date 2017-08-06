@@ -6,13 +6,17 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.mvp.mobile_art.Model.Basic.Emergencycall;
 import com.mvp.mobile_art.Model.Basic.User;
 import com.mvp.mobile_art.Model.Responses.EmergencyCallResponse;
+import com.mvp.mobile_art.Model.Responses.LoginResponse;
 import com.mvp.mobile_art.Model.Responses.Token;
 import com.mvp.mobile_art.R;
 import com.mvp.mobile_art.Route.Repositories.EmergencycallRepo;
@@ -43,28 +47,33 @@ public class EmergencyActivity extends ParentActivity {
     private Button tutup;
     private EditText code;
     private User user = new User();
+    private FrameLayout calllayout;
+    private Emergencycall EC;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emergency);
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
-
-        addtoemergencylist();
-
-        if (getApplicationContext().checkSelfPermission(Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+        Intent intent = getIntent();
+        if (intent.getStringExtra("item") != null){
+            EC = GsonUtils.getObjectFromJson(intent.getStringExtra("item"), Emergencycall.class);
+        }
+        if (SharedPref.getValueString(ConstClass.EMERGENCY_EXTRA).equals("")) {
+            addtoemergencylist();
+            SharedPref.save(ConstClass.EMERGENCY_EXTRA, "on");
             calladmin();
         }
-        else{
-            String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
-            requestPermissions(permissions, PERMS_REQUEST_CODE);
-        }
 
-//        Intent callIntent = new Intent(Intent.ACTION_CALL);
-//        callIntent.setData(Uri.parse("tel:087868528695"));
-//        startActivity(callIntent);
-
+        calllayout = (FrameLayout) findViewById(R.id.layout_call);
         code = (EditText) findViewById(R.id.sos_et_code);
         tutup = (Button) findViewById(R.id.sos_btn_tutup);
+
+        calllayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                calladmin();
+            }
+        });
 
         tutup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,65 +107,58 @@ public class EmergencyActivity extends ParentActivity {
         }
     }
     public void calladmin(){
-        getApplicationContext().checkSelfPermission(Manifest.permission.CALL_PHONE);
+        ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE);
         Intent callIntent = new Intent(Intent.ACTION_CALL);
         callIntent.setData(Uri.parse("tel:082168360303"));
         startActivity(callIntent);
     }
     public void trypass(){
-        initProgressDialog("Sedang melakukan validasi");
-        showDialog();
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("grant_type","password");
-        map.put("client_id", Settings.getClientID());
-        map.put("client_secret",Settings.getclientSecret());
-        map.put("username",user.getEmail());
-        map.put("password",code.getText().toString());
-        Call<Token> caller = APIManager.getRepository(UserRepo.class).loginuser(map);
-        caller.enqueue(new APICallback<Token>() {
+        showDialog("Sedang melakukan validasi");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("email", user.getEmail());
+        map.put("password", code.getText().toString());
+        Call<LoginResponse> caller = APIManager.getRepository(UserRepo.class).loginasisten(map);
+        caller.enqueue(new APICallback<LoginResponse>() {
             @Override
-            public void onSuccess(Call<Token> call, Response<Token> response) {
+            public void onSuccess(Call<LoginResponse> call, Response<LoginResponse> response) {
                 super.onSuccess(call, response);
-                SharedPref.save(SharedPref.ACCESS_TOKEN, response.body().getAccess_token());
-                dismissDialog();
-                SharedPref.save(ConstClass.EMERGENCY_EXTRA, "");
-                doChangeActivity(EmergencyActivity.this, MainActivity.class);
+                if (response.body().status.equals("200")){
+                    SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
+                    SharedPref.save(SharedPref.ACCESS_TOKEN, response.body().getToken().getAccess_token());
+                    SharedPref.save(ConstClass.EMERGENCY_EXTRA, "");
+                    changestatus();
+                } else {
+                    dismissDialog();
+                    Toast.makeText(getApplicationContext(), "Password tidak valid", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
-            public void onUnauthorized(Call<Token> call, Response<Token> response) {
+            public void onUnauthorized(Call<LoginResponse> call, Response<LoginResponse> response) {
                 super.onUnauthorized(call, response);
                 dismissDialog();
-                Toast.makeText(getApplicationContext(), "Password Salah", Toast.LENGTH_SHORT).show();
-
+                Toast.makeText(getApplicationContext(), "Password salah", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onNotFound(Call<Token> call, Response<Token> response) {
-                super.onNotFound(call, response);
-                dismissDialog();
-                Toast.makeText(getApplicationContext(), "Link Not Found", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onError(Call<Token> call, Response<Token> response) {
+            public void onError(Call<LoginResponse> call, Response<LoginResponse> response) {
                 super.onError(call, response);
                 dismissDialog();
-                Toast.makeText(getApplicationContext(), "Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Terjadi kesalahan pada server", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onFailure(Call<Token> call, Throwable t) {
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
                 super.onFailure(call, t);
                 dismissDialog();
-                Toast.makeText(getApplicationContext(), "Fail to connect", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Koneksi bermasalah silahkan coba lagi", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     @Override
     public void onBackPressed() {
-        Toast.makeText(getApplicationContext(), "Harus melalui tombol tutup", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Harap gunakan tombol tutup", Toast.LENGTH_SHORT).show();
     }
     public void addtoemergencylist(){
         Calendar calendar = Calendar.getInstance();
@@ -169,11 +171,37 @@ public class EmergencyActivity extends ParentActivity {
             @Override
             public void onSuccess(Call<EmergencyCallResponse> call, Response<EmergencyCallResponse> response) {
                 super.onSuccess(call, response);
+                EC = response.body().getEmergencycall();
             }
 
             @Override
             public void onFailure(Call<EmergencyCallResponse> call, Throwable t) {
                 super.onFailure(call, t);
+            }
+        });
+    }
+    public void changestatus(){
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("status", 0);
+        Call<EmergencyCallResponse> caller = APIManager.getRepository(EmergencycallRepo.class).patchemergencycall(EC.getId(),map);
+        caller.enqueue(new APICallback<EmergencyCallResponse>() {
+            @Override
+            public void onSuccess(Call<EmergencyCallResponse> call, Response<EmergencyCallResponse> response) {
+                super.onSuccess(call, response);
+                dismissDialog();
+                doChangeActivity(EmergencyActivity.this, MainActivity.class);
+            }
+
+            @Override
+            public void onError(Call<EmergencyCallResponse> call, Response<EmergencyCallResponse> response) {
+                super.onError(call, response);
+                dismissDialog();
+            }
+
+            @Override
+            public void onFailure(Call<EmergencyCallResponse> call, Throwable t) {
+                super.onFailure(call, t);
+                dismissDialog();
             }
         });
     }

@@ -3,6 +3,7 @@ package com.TA.MVP.appmobilemember.View.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -40,11 +41,14 @@ public class FragmentStatusPermintaan extends Fragment {
     private RecyclerAdapterPermintaan rec_Adapter;
     private Button btn_add;
     private User user;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_status_permintaan, container, false);
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
 
+        swipeRefreshLayout = (SwipeRefreshLayout) _view.findViewById(R.id.swipeRefreshLayout);
         btn_add = (Button) _view.findViewById(R.id.btn_addpermintaan);
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,6 +66,14 @@ public class FragmentStatusPermintaan extends Fragment {
         rec_Adapter = new RecyclerAdapterPermintaan();
         recyclerView.setAdapter(rec_Adapter);
         rec_Adapter.setcontext(getActivity());
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadoffers();
+            }
+        });
+
         loadoffers();
         return _view;
     }
@@ -72,18 +84,21 @@ public class FragmentStatusPermintaan extends Fragment {
             public void onSuccess(Call<List<Offer>> call, Response<List<Offer>> response) {
                 super.onSuccess(call, response);
                 rec_Adapter.setOffers(response.body(), 0);
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onError(Call<List<Offer>> call, Response<List<Offer>> response) {
                 super.onError(call, response);
                 Toast.makeText(getContext(), "Terjadi kesalahan ", Toast.LENGTH_SHORT).show();
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onFailure(Call<List<Offer>> call, Throwable t) {
                 super.onFailure(call, t);
                 Toast.makeText(getContext(), "Koneksi bermasalah", Toast.LENGTH_SHORT).show();
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }

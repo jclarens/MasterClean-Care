@@ -24,7 +24,7 @@ import retrofit2.http.Path;
 public interface OrderRepo {
     @Headers("Accept: application/json")
     @GET("api/order/{id}")
-    Call<Order> getorderById(@Path("id") String id);
+    Call<Order> getorderById(@Path("id") Integer id);
 
     @Headers("Accept: application/json")
     @PATCH("api/order/{id}")

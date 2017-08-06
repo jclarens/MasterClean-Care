@@ -90,7 +90,7 @@ public class FragmentPemesanan1 extends Fragment{
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!(place == null)){
+                if (place != null && address.getText().toString() != ""){
                     OrderContact orderContact = new OrderContact();
                     orderContact.setAddress(address.getText().toString());
                     orderContact.setLocation(place.getLatLng().latitude + "," +place.getLatLng().longitude);

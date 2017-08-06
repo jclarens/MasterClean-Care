@@ -24,7 +24,7 @@ import retrofit2.http.Path;
 public interface OfferRepo {
     @Headers("Accept: application/json")
     @GET("api/offer/{id}")
-    Call<Offer> getofferById(@Path("id") String id);
+    Call<Offer> getofferById(@Path("id") Integer id);
 
     @Headers("Accept: application/json")
     @PATCH("api/offer/{offer_id}")

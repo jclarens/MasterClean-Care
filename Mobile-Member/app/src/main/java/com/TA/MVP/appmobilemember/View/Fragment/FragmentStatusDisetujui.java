@@ -2,6 +2,7 @@ package com.TA.MVP.appmobilemember.View.Fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -36,11 +37,14 @@ public class FragmentStatusDisetujui extends Fragment {
     private RecyclerAdapterPemesanan rec_Adapter;
     private List<Order> orders = new ArrayList<>();
     private User user = new User();
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_status_disetujui, container, false);
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
 
+        swipeRefreshLayout = (SwipeRefreshLayout) _view.findViewById(R.id.swipeRefreshLayout);
         recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_order);
         rec_LayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(rec_LayoutManager);
@@ -49,6 +53,17 @@ public class FragmentStatusDisetujui extends Fragment {
         rec_Adapter.setOrders(orders, 1);
         rec_Adapter.setcontext(getActivity());
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadorder();
+            }
+        });
+        loadorder();
+
+        return _view;
+    }
+    public void loadorder(){
         Call<List<Order>> caller = APIManager.getRepository(OrderRepo.class).getorderByMember(user.getId().toString());
         caller.enqueue(new APICallback<List<Order>>() {
             @Override
@@ -56,15 +71,15 @@ public class FragmentStatusDisetujui extends Fragment {
                 super.onSuccess(call, response);
                 orders = response.body();
                 rec_Adapter.setOrders(orders, 1);
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onFailure(Call<List<Order>> call, Throwable t) {
                 super.onFailure(call, t);
-                Toast.makeText(getContext(),"Fail", Toast.LENGTH_SHORT).show();
+                swipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(getContext(), "Koneksi bermasalah", Toast.LENGTH_SHORT).show();
             }
         });
-
-        return _view;
     }
 }

@@ -11,8 +11,11 @@ import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.TA.MVP.appmobilemember.Model.Basic.Emergencycall;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Responses.EmergencyCallResponse;
 import com.TA.MVP.appmobilemember.Model.Responses.LoginResponse;
@@ -47,24 +50,33 @@ public class EmergencyActivity extends ParentActivity {
     private Button tutup;
     private EditText code;
     private User user = new User();
+    private FrameLayout calllayout;
+    private Emergencycall EC;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_emergency);
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
-
-//        addtoemergencylist();
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+        Intent intent = getIntent();
+        if (intent.getStringExtra("item") != null){
+            EC = GsonUtils.getObjectFromJson(intent.getStringExtra("item"), Emergencycall.class);
+        }
+        if (SharedPref.getValueString(ConstClass.EMERGENCY_EXTRA).equals("")) {
+            addtoemergencylist();
+            SharedPref.save(ConstClass.EMERGENCY_EXTRA, "on");
             calladmin();
         }
-        else{
-            String[] permissions = new String[]{Manifest.permission.CALL_PHONE};
-            ActivityCompat.requestPermissions(this, permissions, PERMS_REQUEST_CODE);
-        }
 
+        calllayout = (FrameLayout) findViewById(R.id.layout_call);
         code = (EditText) findViewById(R.id.sos_et_code);
         tutup = (Button) findViewById(R.id.sos_btn_tutup);
+
+        calllayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                calladmin();
+            }
+        });
 
         tutup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,12 +125,11 @@ public class EmergencyActivity extends ParentActivity {
             @Override
             public void onSuccess(Call<LoginResponse> call, Response<LoginResponse> response) {
                 super.onSuccess(call, response);
-                if (response.body().status == "200"){
+                if (response.body().status.equals("200")){
                     SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
                     SharedPref.save(SharedPref.ACCESS_TOKEN, response.body().getToken().getAccess_token());
                     SharedPref.save(ConstClass.EMERGENCY_EXTRA, "");
-                    dismissDialog();
-                    doChangeActivity(EmergencyActivity.this, MainActivity.class);
+                    changestatus();
                 } else {
                     dismissDialog();
                     Toast.makeText(getApplicationContext(), "Password tidak valid", Toast.LENGTH_SHORT).show();
@@ -157,12 +168,13 @@ public class EmergencyActivity extends ParentActivity {
         HashMap<String,Object> map = new HashMap<>();
         map.put("user_id", user.getId().toString());
         map.put("init_time", fixFormat.format(calendar.getTime()));
-        map.put("status", 0);
+        map.put("status", 1);
         Call<EmergencyCallResponse> caller = APIManager.getRepository(EmergencycallRepo.class).postemergencycall(map);
         caller.enqueue(new APICallback<EmergencyCallResponse>() {
             @Override
             public void onSuccess(Call<EmergencyCallResponse> call, Response<EmergencyCallResponse> response) {
                 super.onSuccess(call, response);
+                EC = response.body().getEmergencycall();
             }
 
             @Override
@@ -173,23 +185,26 @@ public class EmergencyActivity extends ParentActivity {
     }
     public void changestatus(){
         HashMap<String,Object> map = new HashMap<>();
-        map.put("status", 1);
-        //not ready yet
-        Call<EmergencyCallResponse> caller = APIManager.getRepository(EmergencycallRepo.class).patchemergencycall(0,map);
+        map.put("status", 0);
+        Call<EmergencyCallResponse> caller = APIManager.getRepository(EmergencycallRepo.class).patchemergencycall(EC.getId(),map);
         caller.enqueue(new APICallback<EmergencyCallResponse>() {
             @Override
             public void onSuccess(Call<EmergencyCallResponse> call, Response<EmergencyCallResponse> response) {
                 super.onSuccess(call, response);
+                dismissDialog();
+                doChangeActivity(EmergencyActivity.this, MainActivity.class);
             }
 
             @Override
             public void onError(Call<EmergencyCallResponse> call, Response<EmergencyCallResponse> response) {
                 super.onError(call, response);
+                dismissDialog();
             }
 
             @Override
             public void onFailure(Call<EmergencyCallResponse> call, Throwable t) {
                 super.onFailure(call, t);
+                dismissDialog();
             }
         });
     }

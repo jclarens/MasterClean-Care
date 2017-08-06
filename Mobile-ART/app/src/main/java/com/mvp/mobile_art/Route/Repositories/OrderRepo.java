@@ -30,8 +30,8 @@ public interface OrderRepo {
     Call<OrderResponse> patchorderById(@Path("id") String id, @Body HashMap map);
 
     @Headers("Accept: application/json")
-    @PATCH("api/order/{order_id}/order_task_list/{order_task_list_id}")
-    Call<OrderResponse> patchordertasklistbyid(@Path("order_id") Integer id, @Path("order_task_list_id") Integer order_task_list_id, @Body HashMap map);
+    @PATCH("api/order/order_task_list/{order_task_list_id}")
+    Call<OrderResponse> patchordertasklistbyid(@Path("order_task_list_id") Integer order_task_list_id, @Body HashMap map);
 
     @Headers("Accept: application/json")
     @POST("api/order/")

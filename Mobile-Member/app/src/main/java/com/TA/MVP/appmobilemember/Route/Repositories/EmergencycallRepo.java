@@ -21,6 +21,10 @@ import retrofit2.http.Path;
 
 public interface EmergencycallRepo {
     @Headers("Accept: application/json")
+    @GET("api/emergency_call/get/{callerId}/{status}")
+    Call<Emergencycall> getemergencycall(@Path("callerId") Integer callerid, @Path("status") Integer status);
+
+    @Headers("Accept: application/json")
     @POST("api/emergency_call/")
     Call<EmergencyCallResponse> postemergencycall(@Body HashMap map);
 

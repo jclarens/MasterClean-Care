@@ -22,30 +22,14 @@ import retrofit2.http.Path;
 
 public interface EmergencycallRepo {
     @Headers("Accept: application/json")
-    @GET("api/emergency_call/")
-    Call<List<Emergencycall>> getemergencycalls();
-
-    @Headers("Accept: application/json")
     @POST("api/emergency_call/")
     Call<EmergencyCallResponse> postemergencycall(@Body HashMap map);
 
     @Headers("Accept: application/json")
-    @GET("api/emergency_call/{emergency_call_id}")
-    Call<EmergencyCallResponse> getemergencycall(@Path("emergency_call_id") Integer emergency_call_id);
+    @GET("api/emergency_call/get/{callerId}/{status}")
+    Call<Emergencycall> getemergencycall(@Path("callerId") Integer callerid, @Path("status") Integer status);
 
     @Headers("Accept: application/json")
     @PATCH("api/emergency_call/{emergency_call_id}")
-    Call<EmergencyCallResponse> patchemergencycall(@Path("emergency_call_id") Integer emergency_call_id);
-
-    @Headers("Accept: application/json")
-    @DELETE("api/emergency_call/{emergency_call_id}")
-    Call<EmergencyCallResponse> deleteemergencycall(@Path("emergency_call_id") Integer emergency_call_id);
-
-    @Headers("Accept: application/json")
-    @GET("api/emergency_call/search/{param}/{operator}/{text}")
-    Call<List<Emergencycall>> getemergencycallsearchbyparam1(@Path("param") Integer param, @Path("operator") Integer operator, @Path("text") Integer text);
-
-    @Headers("Accept: application/json")
-    @GET("api/emergency_call/search/{param}/{text}")
-    Call<List<Emergencycall>> getemergencycallsearchbyparam2(@Path("param") Integer param, @Path("text") Integer text);
+    Call<EmergencyCallResponse> patchemergencycall(@Path("emergency_call_id") Integer emergency_call_id, @Body HashMap map);
 }

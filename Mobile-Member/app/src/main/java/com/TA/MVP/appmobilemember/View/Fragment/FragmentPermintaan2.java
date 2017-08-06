@@ -65,13 +65,11 @@ public class FragmentPermintaan2 extends Fragment {
     private RecyclerAdapterListKerja2 rec_Adapter;
     private List<MyTask> myTasks = new ArrayList<>();
     private Offer offer = new Offer();
-    private Bundle bundle = new Bundle();
 
     private Spinner prof, waktukrj;
-    private LinearLayout layoutlistkerja;
     private EditText mulaitime, mulaidate, selesaitime, selesaidate, estimasi, cttntmbhn, totalbiaya;
     private TextView estimasiwaktutext;
-    private Button prev,next;
+    private Button prev,next, up, down;
     private ArrayAdapter arrayAdapterWaktu;
     private ArrayAdapter arrayAdapterProfesi;
     private List<Waktu_Kerja> defaultWK = new ArrayList<>();
@@ -84,7 +82,6 @@ public class FragmentPermintaan2 extends Fragment {
     private int tmp;
 
     private DateFormat fixFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
-    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-d", Locale.ENGLISH);
     private DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
     private DateFormat tahunFormat = new SimpleDateFormat("yyyy", Locale.ENGLISH);
     private DateFormat bulanFormat = new SimpleDateFormat("MM", Locale.ENGLISH);
@@ -95,17 +92,10 @@ public class FragmentPermintaan2 extends Fragment {
     private OrderTime now = new OrderTime();
     private OrderTime temp = new OrderTime();
     private OrderTime endtemp = new OrderTime();
-    private OrderTime waktumulai = new OrderTime();
-    private OrderTime waktuselesai = new OrderTime();
-    private ArrayHari arrayHari = new ArrayHari();
     private ArrayBulan arrayBulan = new ArrayBulan();
     private Date startdate, enddate;
 
-    private int status = 1;
-    private boolean valid = false;
-    private Date tempdate;
     private String fixstart, fixend;
-    private Integer artcost = 0;
     private Integer total = 0;
     private boolean asistenrt = false;
     private boolean perjam = false;
@@ -130,6 +120,28 @@ public class FragmentPermintaan2 extends Fragment {
         estimasiwaktutext = (TextView) _view.findViewById(R.id.pmr2_tv_estimasiwaktu);
         prev = (Button) _view.findViewById(R.id.pmr2_btn_prev);
         next = (Button) _view.findViewById(R.id.pmr2_btn_next);
+        up = (Button) _view.findViewById(R.id.btn_up);
+        down = (Button) _view.findViewById(R.id.btn_down);
+
+        offer.setWork_time_id(1);
+        offer.setJob_id(1);
+
+        up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tmp = Integer.valueOf(estimasi.getText().toString());
+                if (tmp < maxestimasi)
+                    estimasi.setText(String.valueOf(tmp + 1));
+            }
+        });
+        down.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tmp = Integer.valueOf(estimasi.getText().toString());
+                if (tmp > minestimasi)
+                    estimasi.setText(String.valueOf(tmp - 1));
+            }
+        });
 
         setwaktusekarang();
         datePickerDialog1 = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
@@ -188,6 +200,7 @@ public class FragmentPermintaan2 extends Fragment {
                 totalbiaya.addTextChangedListener(textWatcher);
             }
         };
+        totalbiaya.setText(setRP(0));
         totalbiaya.addTextChangedListener(textWatcher);
 
         //spinner WK
@@ -199,12 +212,10 @@ public class FragmentPermintaan2 extends Fragment {
                 switch (i+1){
                     case 1:
                         //jam
-                        status = 1;
                         mulaitime.setEnabled(true);
                         estimasiwaktutext.setText("Jam");
                         minestimasi = 2;
                         maxestimasi = 8;
-                        estimasi.setEnabled(false);
                         estimasi.setText(String.valueOf(minestimasi));
                         rec_Adapter.setshowtask(1);
                         offer.setWork_time_id(1);
@@ -212,24 +223,20 @@ public class FragmentPermintaan2 extends Fragment {
                         break;
                     case 2:
                         //hari
-                        status = 2;
                         mulaitime.setEnabled(false);
                         estimasiwaktutext.setText("Hari");
                         minestimasi = 1;
-                        maxestimasi = 14;
-                        estimasi.setEnabled(true);
+                        maxestimasi = 30;
                         estimasi.setText(String.valueOf(minestimasi));
                         offer.setWork_time_id(2);
                         perjam = false;
                         break;
                     case 3:
                         //bulan
-                        status = 3;
                         mulaitime.setEnabled(false);
                         estimasiwaktutext.setText("Bulan");
                         minestimasi = 1;
                         maxestimasi = 12;
-                        estimasi.setEnabled(true);
                         estimasi.setText(String.valueOf(minestimasi));
                         offer.setWork_time_id(3);
                         perjam = false;
@@ -397,16 +404,18 @@ public class FragmentPermintaan2 extends Fragment {
         }
         setwaktutemp();
         startdate = calendar.getTime();
+        Integer temp = Integer.valueOf(estimasi.getText().toString().replace(".",""));
         switch (estimasiwaktutext.getText().toString()){
             case "Jam":
-                calendar.add(Calendar.HOUR_OF_DAY, Integer.valueOf(estimasi.getText().toString()));
+                calendar.add(Calendar.HOUR_OF_DAY, temp);
                 break;
             case "Hari":
-                calendar.add(Calendar.DAY_OF_MONTH, Integer.valueOf(estimasi.getText().toString())-1);
+                calendar.add(Calendar.DAY_OF_MONTH, temp-1);
                 calendar.add(Calendar.HOUR_OF_DAY, 9);
                 break;
             case "Bulan":
-                calendar.add(Calendar.MONTH, Integer.valueOf(estimasi.getText().toString()));
+                calendar.add(Calendar.MONTH, temp);
+                calendar.add(Calendar.DAY_OF_MONTH, -1);
                 calendar.add(Calendar.HOUR_OF_DAY, 9);
                 break;
         }
@@ -481,7 +490,7 @@ public class FragmentPermintaan2 extends Fragment {
     }
     public String costumedateformat(Date date){
 //        String hari = arrayHari.getArrayList().get(Integer.parseInt(hariFormat.format(date)));
-        String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date)));
+        String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date))-1);
         // Senin, Januari 30
         return tglFormat.format(date) + " " + bulan + " " + tahunFormat.format(date);
     }
@@ -527,20 +536,21 @@ public class FragmentPermintaan2 extends Fragment {
                 //dosomething here pls
             }
         });
-
     }
 
     public void setbobot(){
         List<MyTask> selectedtasks = rec_Adapter.getselectedtasklist();
         Integer tmpbobot = 0;
+        tmp = Integer.valueOf(estimasi.getText().toString());
         for(int n=0; n<selectedtasks.size();n++){
             tmpbobot += selectedtasks.get(n).getPoint();
         }
-//        Toast.makeText(getContext(), "Bobot :" + tmpbobot, Toast.LENGTH_SHORT).show();
         Integer bobot = 0;
         if (tmpbobot > 20) {
             bobot = tmpbobot / 10;
-            estimasi.setText(bobot.toString());
+            minestimasi = bobot;
+            if (tmp < minestimasi)
+                estimasi.setText(String.valueOf(minestimasi));
         } else if (tmpbobot <= 20)
             estimasi.setText(String.valueOf(2));
         settanggal();

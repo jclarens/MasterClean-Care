@@ -45,6 +45,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.google.android.gms:play-services:11.0.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.getbase:floatingactionbutton:1.10.1'
     compile files('src/main/java/com/TA/MVP/appmobilemember/libs/apache-mime4j-benchmark-0.7.2.jar')
     compile files('src/main/java/com/TA/MVP/appmobilemember/libs/apache-mime4j-core-0.7.2.jar')
     compile files('src/main/java/com/TA/MVP/appmobilemember/libs/apache-mime4j-dom-0.7.2.jar')

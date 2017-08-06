@@ -16,7 +16,7 @@
             android:layout_height="150dp"
             android:layout_marginBottom="10dp"
             android:layout_gravity="center_horizontal"
-            app:srcCompat="@drawable/ic_profile" />
+            app:srcCompat="@drawable/default_profile" />
 
         <RatingBar
             android:id="@+id/prof_rate"
@@ -50,12 +50,55 @@
                     android:textColor="@android:color/black" />
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:text="No. Telp"
+                    android:textColor="@android:color/black" />
+
+                <TextView
                     android:id="@+id/textView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:text="Usia"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:text="Agama"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:text="Suku"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:text="Kota"
+                    android:textColor="@android:color/black" />
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
                     android:text="Profesi"
                     android:textColor="@android:color/black" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:text="Bahasa"
+                    android:textColor="@android:color/black" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -70,9 +113,51 @@
                     android:layout_row="2"
                     android:text=" : "
                     android:textColor="@android:color/black" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_row="3"
+                    android:text=" : "
+                    android:textColor="@android:color/black" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_row="4"
+                    android:text=" : "
+                    android:textColor="@android:color/black" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_row="5"
+                    android:text=" : "
+                    android:textColor="@android:color/black" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_row="6"
+                    android:text=" : "
+                    android:textColor="@android:color/black" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_row="7"
+                    android:text=" : "
+                    android:textColor="@android:color/black" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_row="8"
+                    android:text=" : "
+                    android:textColor="@android:color/black" />
 
                 <TextView
-                    android:id="@+id/prof_tv_name"
+                    android:id="@+id/nama"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="2"
@@ -81,16 +166,69 @@
                     android:textColor="@android:color/black" />
 
                 <TextView
-                    android:id="@+id/prof_tv_prof"
+                    android:id="@+id/telp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_column="2"
                     android:layout_row="2"
+                    android:text=" - "
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/usia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:layout_row="3"
+                    android:text=" - "
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/agama"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:layout_row="4"
+                    android:text=" - "
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/suku"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:layout_row="5"
+                    android:text=" - "
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/kota"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:layout_row="6"
+                    android:text=" - "
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/prof"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:layout_row="7"
+                    android:text=" - "
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/bahasa"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_column="2"
+                    android:layout_row="8"
                     android:text=" - "
                     android:textColor="@android:color/black" />
 
             </GridLayout>
-
         </LinearLayout>
 
         <Switch
@@ -113,8 +251,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textColor="@color/colorBlack"
+            android:background="@drawable/backgroundlightgray"
             android:enabled="false"
             android:padding="5dp"
+            android:gravity="top"
             android:ems="10"/>
     </LinearLayout>
 

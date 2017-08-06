@@ -57,9 +57,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_marginBottom="10dp"
-                android:background="#eeeeee"
+                android:background="@drawable/backgroundreclist"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
                 android:orientation="vertical"
-                android:padding="10dp"
                 android:scrollbars="vertical">
 
             </android.support.v7.widget.RecyclerView>
@@ -79,11 +82,14 @@
                 <EditText
                     android:id="@+id/pmr2_et_mulaidate"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/backgroundedittext"
                     android:ems="10"
                     android:focusable="false"
                     android:inputType="date"
+                    android:textColor="@color/colorBlack"
                     android:hint="Date"/>
 
                 <EditText
@@ -91,9 +97,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
+                    android:background="@drawable/backgroundedittext"
                     android:ems="10"
                     android:focusable="false"
                     android:inputType="time"
+                    android:textAlignment="center"
                     android:textColor="@color/colorBlack"
                     android:hint="time"/>
             </LinearLayout>
@@ -101,32 +109,53 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginBottom="5dp">
 
                 <TextView
-                    android:id="@+id/textView34"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:text="@string/estimasi"
                     android:textColor="@android:color/black" />
-
-                <EditText
-                    android:id="@+id/pmr2_et_estimasi"
-                    android:layout_width="70dp"
-                    android:layout_height="wrap_content"
-                    android:ems="10"
-                    android:maxLength="2"
-                    android:inputType="numberDecimal"
-                    android:textColor="@color/colorBlack"
-                    android:textAlignment="center"/>
 
                 <TextView
                     android:id="@+id/pmr2_tv_estimasiwaktu"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
                     android:text="Jam"
                     android:textColor="@android:color/black" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/btn_down"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/arrow_down" />
+                    <EditText
+                        android:id="@+id/pmr2_et_estimasi"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:maxLength="3"
+                        android:inputType="numberDecimal"
+                        android:textColor="@color/colorBlack"
+                        android:background="@drawable/backgroundestimasi"
+                        android:textAlignment="center"/>
+                    <Button
+                        android:id="@+id/btn_up"
+                        android:layout_width="50dp"
+                        android:layout_height="wrap_content"
+                        android:text="@string/arrow_up" />
+                </LinearLayout>
             </LinearLayout>
+
 
             <TextView
                 android:id="@+id/textView32"
@@ -139,7 +168,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
-
                 <EditText
                     android:id="@+id/pmr2_et_selesaidate"
                     android:layout_width="match_parent"
@@ -149,9 +177,10 @@
                     android:focusable="false"
                     android:enabled="false"
                     android:inputType="date"
-                    android:textColor="@color/colorBlack"
+                    android:textColor="@color/colorLightBlack"
+                    android:layout_marginEnd="5dp"
+                    android:background="@drawable/backgroundedittext"
                     android:hint="Date"/>
-
                 <EditText
                     android:id="@+id/pmr2_et_selesaitime"
                     android:layout_width="match_parent"
@@ -161,7 +190,9 @@
                     android:focusable="false"
                     android:enabled="false"
                     android:inputType="time"
-                    android:textColor="@color/colorBlack"
+                    android:textColor="@color/colorLightBlack"
+                    android:textAlignment="center"
+                    android:background="@drawable/backgroundedittext"
                     android:hint="Time"/>
             </LinearLayout>
 
@@ -178,6 +209,7 @@
                 android:layout_height="150dp"
                 android:paddingStart="5dp"
                 android:paddingEnd="5dp"
+                android:layout_marginBottom="5dp"
                 android:ems="10"
                 android:inputType="textMultiLine"
                 android:background="@drawable/backgroundlightgray"
@@ -197,6 +229,7 @@
                 android:ems="10"
                 android:inputType="number"
                 android:textColor="@color/colorBlack"
+                android:background="@drawable/backgroundedittext"
                 android:textAlignment="center"/>
 
             <LinearLayout

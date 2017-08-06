@@ -7,13 +7,13 @@ import com.TA.MVP.appmobilemember.Model.Basic.Emergencycall;
  */
 
 public class EmergencyCallResponse {
-    private Emergencycall emergencycall;
+    private Emergencycall data;
 
     public Emergencycall getEmergencycall() {
-        return emergencycall;
+        return data;
     }
 
     public void setEmergencycall(Emergencycall emergencycall) {
-        this.emergencycall = emergencycall;
+        this.data = emergencycall;
     }
 }

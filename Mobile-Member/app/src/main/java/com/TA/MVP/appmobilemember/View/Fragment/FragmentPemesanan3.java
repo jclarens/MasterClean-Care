@@ -65,19 +65,13 @@ public class FragmentPemesanan3 extends Fragment {
     private RecyclerView.LayoutManager rec_LayoutManager;
     private RecyclerAdapterListKerjaShow rec_Adapter;
     private TextView linkketentuan;
-    private Bundle b = new Bundle();
     private User art = new User();
     private User member = new User();
     private Order order = new Order();
     private FragmentAsistenmini fragmentAsistenmini;
-    private TextView namaasis, usiaasis, agamaasis, estimasitext;
     private EditText prof, estimasi, mulai, selesai, total, job;
-    private LinearLayout layoutlistpekerjaan;
-    private ImageView fotoasis;
-    private RatingBar ratingasis;
     private CheckBox ketentuan;
-    private Button prev, pesan, selengkapnya;
-    private RelativeLayout layoutasisten;
+    private Button prev, pesan;
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
     private DateFormat fixFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
     private DateFormat tahunFormat = new SimpleDateFormat("yyyy", Locale.ENGLISH);
@@ -85,14 +79,11 @@ public class FragmentPemesanan3 extends Fragment {
     private DateFormat tglFormat = new SimpleDateFormat("d", Locale.ENGLISH);
     private DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
     private ArrayBulan arrayBulan = new ArrayBulan();
-    private List<MyTask> myTasks = new ArrayList<>();
-    private List<Order> jadwalart = new ArrayList<>();
     private Calendar calendar = Calendar.getInstance();
     private Calendar waktumulai = new GregorianCalendar();
     private Calendar waktuselesai = new GregorianCalendar();
     private Calendar batasmulai = new GregorianCalendar();
     private Calendar batasselesai = new GregorianCalendar();
-    private Calendar tempcalendar = new GregorianCalendar();
     private StaticData staticData;
 
     @Override

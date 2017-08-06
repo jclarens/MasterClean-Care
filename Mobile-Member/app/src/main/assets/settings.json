@@ -5,7 +5,7 @@
     "usingSharedPreference": true,
     "sharedPreferenceName": "masterclean-admin",
     "usingRetrofitAPI": true,
-    "retrofitAPIUrl": "http://192.168.43.10:8000/",
+    "retrofitAPIUrl": "http://10.11.2.111:8000/",
     "clientID":2,
     "clientSecret":"NgxC9CjeNJhWf2rtyoiU4GfHTuL3SIVceW9csMmf"
 }

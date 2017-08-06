@@ -19,15 +19,18 @@ import android.widget.Toast;
 
 import com.mvp.mobile_art.MasterCleanApplication;
 import com.mvp.mobile_art.Model.Basic.AdditionalInfo;
+import com.mvp.mobile_art.Model.Basic.Emergencycall;
 import com.mvp.mobile_art.Model.Basic.Job;
 import com.mvp.mobile_art.Model.Basic.Language;
 import com.mvp.mobile_art.Model.Basic.MyTask;
 import com.mvp.mobile_art.Model.Basic.Place;
 import com.mvp.mobile_art.Model.Basic.StaticData;
+import com.mvp.mobile_art.Model.Basic.User;
 import com.mvp.mobile_art.Model.Basic.Waktu_Kerja;
 import com.mvp.mobile_art.Model.Basic.Wallet;
 import com.mvp.mobile_art.R;
 import com.mvp.mobile_art.Route.Repositories.AdditionalInfoRepo;
+import com.mvp.mobile_art.Route.Repositories.EmergencycallRepo;
 import com.mvp.mobile_art.Route.Repositories.JobRepo;
 import com.mvp.mobile_art.Route.Repositories.LanguageRepo;
 import com.mvp.mobile_art.Route.Repositories.MyTaskRepo;
@@ -43,6 +46,7 @@ import com.mvp.mobile_art.lib.api.APICallback;
 import com.mvp.mobile_art.lib.api.APIManager;
 import com.mvp.mobile_art.lib.database.SharedPref;
 import com.mvp.mobile_art.lib.utils.ConstClass;
+import com.mvp.mobile_art.lib.utils.GsonUtils;
 
 import java.util.List;
 
@@ -64,6 +68,7 @@ public class MainActivity extends ParentActivity {
     private Fragment fragment;
     private FragmentManager fragmentManager;
     private Toolbar toolbar;
+    private User user;
     public StaticData staticData = new StaticData();
     private Context context;
     private boolean success;
@@ -325,11 +330,10 @@ public class MainActivity extends ParentActivity {
             public void onSuccess(Call<List<Wallet>> call, Response<List<Wallet>> response) {
                 super.onSuccess(call, response);
                 staticData.setWallets(response.body());
-//                Toast.makeText(context,"Success", Toast.LENGTH_SHORT).show();
                 success = true;
                 ((MasterCleanApplication) getApplication()).setGlobalStaticData(staticData);
                 settampilan();
-                dismissDialog();
+                getemergencystatus();
             }
 
             @Override
@@ -337,8 +341,6 @@ public class MainActivity extends ParentActivity {
                 super.onFailure(call, t);
             }
         });
-//        if (!success)
-//            getstaticData1();
     }
 
     @Override
@@ -357,6 +359,44 @@ public class MainActivity extends ParentActivity {
                 return;
             }
         }
+    }
+    public void getemergencystatus(){
+        user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
+        Call<Emergencycall> caller = APIManager.getRepository(EmergencycallRepo.class).getemergencycall(user.getId(), 1);
+        caller.enqueue(new APICallback<Emergencycall>() {
+            @Override
+            public void onSuccess(Call<Emergencycall> call, Response<Emergencycall> response) {
+                super.onSuccess(call, response);
+                dismissDialog();
+                try{
+                    if (response.body().getStatus() == 1){
+                        Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
+                        intent.putExtra("item", GsonUtils.getJsonFromObject(response.body()));
+                        startActivity(intent);
+                    }
+                }catch (NullPointerException e){
+
+                }
+            }
+
+            @Override
+            public void onNotFound(Call<Emergencycall> call, Response<Emergencycall> response) {
+                super.onNotFound(call, response);
+                dismissDialog();
+            }
+
+            @Override
+            public void onError(Call<Emergencycall> call, Response<Emergencycall> response) {
+                super.onError(call, response);
+                dismissDialog();
+            }
+
+            @Override
+            public void onFailure(Call<Emergencycall> call, Throwable t) {
+                super.onFailure(call, t);
+                dismissDialog();
+            }
+        });
     }
 
     @Override

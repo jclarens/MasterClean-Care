@@ -7,9 +7,14 @@ import java.util.Date;
  */
 
 public class Emergencycall {
+    private Integer id;
     private User user;
-    private Date init_time;
+    private String init_time;
     private Integer status;
+
+    public Integer getId() {
+        return id;
+    }
 
     public User getUser() {
         return user;
@@ -19,11 +24,11 @@ public class Emergencycall {
         this.user = user;
     }
 
-    public Date getInit_time() {
+    public String getInit_time() {
         return init_time;
     }
 
-    public void setInit_time(Date init_time) {
+    public void setInit_time(String init_time) {
         this.init_time = init_time;
     }
 

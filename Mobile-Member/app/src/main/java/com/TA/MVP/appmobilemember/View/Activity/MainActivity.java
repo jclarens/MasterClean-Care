@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Basic.AdditionalInfo;
+import com.TA.MVP.appmobilemember.Model.Basic.Emergencycall;
 import com.TA.MVP.appmobilemember.Model.Basic.Job;
 import com.TA.MVP.appmobilemember.Model.Basic.Language;
 import com.TA.MVP.appmobilemember.Model.Basic.MyTask;
@@ -39,8 +40,10 @@ import com.TA.MVP.appmobilemember.Model.Basic.StaticData;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Basic.Waktu_Kerja;
 import com.TA.MVP.appmobilemember.Model.Basic.Wallet;
+import com.TA.MVP.appmobilemember.Model.Responses.EmergencyCallResponse;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.AdditionalInfoRepo;
+import com.TA.MVP.appmobilemember.Route.Repositories.EmergencycallRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.JobRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.LanguageRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.MyTaskRepo;
@@ -106,10 +109,12 @@ public class MainActivity extends ParentActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));//warna text toolbar
 
         bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        if (SharedPref.getValueString(SharedPref.ACCESS_TOKEN) == "")
+        if (SharedPref.getValueString(SharedPref.ACCESS_TOKEN) == "") {
             bottomNavigation.inflateMenu(R.menu.navigation2);
+        }
         else
             bottomNavigation.inflateMenu(R.menu.navigation);
         fragmentManager = getSupportFragmentManager();
@@ -362,6 +367,8 @@ public class MainActivity extends ParentActivity {
 //                Toast.makeText(context,"Success", Toast.LENGTH_SHORT).show();
                 success = true;
                 splashout();
+                if (SharedPref.getValueString(SharedPref.ACCESS_TOKEN) != "")
+                    getemergencystatus();
             }
 
             @Override
@@ -378,7 +385,6 @@ public class MainActivity extends ParentActivity {
             case PERMS_REQUEST_CODE: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    SharedPref.save(ConstClass.EMERGENCY_EXTRA, "on");
                     Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
                     startActivity(intent);
 
@@ -399,5 +405,38 @@ public class MainActivity extends ParentActivity {
         bottomNavigation.setVisibility(View.VISIBLE);
         fragmentManager.beginTransaction().replace(R.id.main_container, new FragmentHome()).commit();
     }
+    public void getemergencystatus(){
+        user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
+        Call<Emergencycall> caller = APIManager.getRepository(EmergencycallRepo.class).getemergencycall(user.getId(), 1);
+        caller.enqueue(new APICallback<Emergencycall>() {
+            @Override
+            public void onSuccess(Call<Emergencycall> call, Response<Emergencycall> response) {
+                super.onSuccess(call, response);
+                try{
+                    if (response.body().getStatus() == 1){
+                        Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
+                        intent.putExtra("item",GsonUtils.getJsonFromObject(response.body()));
+                        startActivity(intent);
+                    }
+                }catch (NullPointerException e){
 
+                }
+            }
+
+            @Override
+            public void onNotFound(Call<Emergencycall> call, Response<Emergencycall> response) {
+                super.onNotFound(call, response);
+            }
+
+            @Override
+            public void onError(Call<Emergencycall> call, Response<Emergencycall> response) {
+                super.onError(call, response);
+            }
+
+            @Override
+            public void onFailure(Call<Emergencycall> call, Throwable t) {
+                super.onFailure(call, t);
+            }
+        });
+    }
 }

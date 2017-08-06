@@ -31,13 +31,13 @@ public class RecyclerAdapterListKerja2 extends RecyclerView.Adapter<RecyclerAdap
     }
 
     class ViewHolder extends RecyclerView.ViewHolder{
-        public int lightgreen, lightgrey;
+        public int darkergrey, lightgrey;
         public CheckBox checkBox;
         public LinearLayout linearLayout;
 
         public ViewHolder(View itemview){
             super(itemview);
-            lightgreen = itemview.getResources().getColor(R.color.colorLightGreen);
+            darkergrey = itemview.getResources().getColor(R.color.colorDarkerGrey);
             lightgrey = itemview.getResources().getColor(R.color.colorunselected);
             linearLayout = (LinearLayout) itemview.findViewById(R.id.card_listkerja_layout);
             checkBox = (CheckBox) itemview.findViewById(R.id.card_listkerja_item);
@@ -47,7 +47,7 @@ public class RecyclerAdapterListKerja2 extends RecyclerView.Adapter<RecyclerAdap
                     int position = getAdapterPosition();
                     if (checkBox.isChecked()){
                         selectedTasks.add(showTasks.get(position));
-                        linearLayout.setBackgroundColor(lightgreen);
+                        linearLayout.setBackgroundColor(darkergrey);
                     }
                     else {
                         selectedTasks.remove(showTasks.get(position));

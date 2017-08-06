@@ -3,6 +3,7 @@ package com.TA.MVP.appmobilemember.View.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -78,6 +79,7 @@ public class PermintaanActiveActivity extends ParentActivity {
 
     private Button batal, kembali;
     private TextView estimasitext, tugastext, penerima;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +89,7 @@ public class PermintaanActiveActivity extends ParentActivity {
         offer = GsonUtils.getObjectFromJson(intent.getStringExtra(ConstClass.OFFER_EXTRA), Offer.class);
         staticData = ((MasterCleanApplication)getApplication()).getGlobalStaticData();
 
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         mulaitime = (EditText) findViewById(R.id.mulaitime);
         mulaidate = (EditText) findViewById(R.id.mulaidate);
         selesaitime = (EditText) findViewById(R.id.selesaitime);
@@ -101,6 +104,23 @@ public class PermintaanActiveActivity extends ParentActivity {
         tugastext = (TextView) findViewById(R.id.tugas);
         penerima = (TextView) findViewById(R.id.penerima);
 
+        //toolbar
+        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Permintaan");
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                reload();
+            }
+        });
+
+        loadtampilan();
+    }
+    public void loadtampilan(){
         try{
             mulaitime.setText(timeFormat.format(getdateFormat.parse(offer.getStart_date())));
             mulaidate.setText(costumedateformat(getdateFormat.parse(offer.getStart_date())));
@@ -153,13 +173,6 @@ public class PermintaanActiveActivity extends ParentActivity {
                 tugastext.setVisibility(View.GONE);
                 break;
         }
-
-        //toolbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Permintaan");
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         kembali.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -260,5 +273,31 @@ public class PermintaanActiveActivity extends ParentActivity {
         String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date)));
         // Senin, Januari 30
         return tglFormat.format(date) + " " + bulan + " " + tahunFormat.format(date);
+    }
+    public void reload(){
+        Call<Offer> caller = APIManager.getRepository(OfferRepo.class).getofferById(offer.getId());
+        caller.enqueue(new APICallback<Offer>() {
+            @Override
+            public void onSuccess(Call<Offer> call, Response<Offer> response) {
+                super.onSuccess(call, response);
+                offer = response.body();
+                loadtampilan();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onError(Call<Offer> call, Response<Offer> response) {
+                super.onError(call, response);
+                swipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(getApplicationContext(),"Terjadi kesalahan", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Offer> call, Throwable t) {
+                super.onFailure(call, t);
+                swipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(getApplicationContext(),"Koneksi bermasalah", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }
