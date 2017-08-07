@@ -46,9 +46,15 @@ import com.mvp.mobile_art.lib.utils.ConstClass;
 import com.mvp.mobile_art.lib.utils.GsonUtils;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -68,6 +74,8 @@ public class FragmentPekerjaan extends Fragment implements OnMapReadyCallback {
     private List<Waktu_Kerja> defaultwk = new ArrayList<>();
     private String[] latlng;
     private User user = new User();
+    private DateFormat getdateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
+    private Calendar waktumulai = new GregorianCalendar();
     CameraPosition targetcamera;
     GoogleMap mGoogleMap;
     MapView mMapView;
@@ -228,6 +236,22 @@ public class FragmentPekerjaan extends Fragment implements OnMapReadyCallback {
             mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(latlng[0]),Double.parseDouble(latlng[1]))).title(offers.get(i).getMember().getName()).snippet(temp)).setTag(offers.get(i));
         }
     }
+
+    public List<Offer> filterexpired(List<Offer> offerz){
+        Calendar calendar = Calendar.getInstance();
+        for (int n=0; n<offerz.size(); n++){
+            try {
+                waktumulai.setTime(getdateFormat.parse(offerz.get(n).getStart_date()));
+            } catch (ParseException e) {
+
+            }
+            if (calendar.after(waktumulai)){
+                offerz.remove(offerz.get(n));
+            }
+        }
+        return offerz;
+    }
+
     public void focusmap(){
         String stringlocation = namalokasi.getText().toString();
         List<Address> addresses = null;
@@ -258,7 +282,8 @@ public class FragmentPekerjaan extends Fragment implements OnMapReadyCallback {
             public void onSuccess(Call<List<Offer>> call, Response<List<Offer>> response) {
                 super.onSuccess(call, response);
                 offers = response.body();
-                resetmapview(offers);
+//                resetmapview(offers);
+                resetmapview(filterexpired(offers));
             }
 
             @Override

@@ -65,16 +65,20 @@ public interface UserRepo {
     Call<List<User>> getusers();
 
     @Headers("Accept: application/json")
-    @GET("api/user/search?role_id=3")
-    Call<List<User>> getallart();
-
-    @Headers("Accept: application/json")
     @GET("api/user/{user_id}")
     Call<User> getuser(@Path("user_id") String user_id);
 
     @Headers("Accept: application/json")
+    @GET("api/user/1")
+    Call<User> getadmin();
+
+    @Headers("Accept: application/json")
     @PATCH("api/user/{user_id}")
     Call<UserResponse> updateuser(@Path("user_id") String user_id, @Body HashMap map);
+
+    @Headers("Accept: application/json")
+    @GET("api/user/search?role_id=3")
+    Call<List<User>> getallart();
 
     @Headers("Accept: application/json")
     @GET("api/user/search")

@@ -466,10 +466,6 @@ public class FragmentPermintaan2 extends Fragment {
             Toast.makeText(getContext(), "Pilih 1 list kerja atau lebih", Toast.LENGTH_SHORT).show();
             return false;
         }
-        if (startdate.before(getbatassekarang())){
-            Toast.makeText(getContext(), "Harap memesan untuk 2 jam kedepan", Toast.LENGTH_SHORT).show();
-            return false;
-        }
         if (startdate.before(getbatasmulai())){
             Toast.makeText(getContext(), "Tidak dapat menerima pesanan sebelum jam 8 Pagi", Toast.LENGTH_SHORT).show();
             return false;
@@ -480,6 +476,10 @@ public class FragmentPermintaan2 extends Fragment {
         }
         if (enddate.after(getbatasselesai2())){
             Toast.makeText(getContext(), "Tidak dapat menerima pesanan setelah jam 5 Sore", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (startdate.before(getbatassekarang())){
+            Toast.makeText(getContext(), "Harap memesan untuk 2 jam kedepan", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (total < 10000){

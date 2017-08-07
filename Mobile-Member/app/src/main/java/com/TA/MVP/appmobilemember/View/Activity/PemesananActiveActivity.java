@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,6 +66,7 @@ public class PemesananActiveActivity extends ParentActivity {
     private FragmentAsistenmini fragmentAsistenmini;
 
     private Button btnextra, kembali;
+    private ImageButton btnlocation;
     private TextView tugastext;
 
     private Calendar calendar = Calendar.getInstance();
@@ -95,6 +97,7 @@ public class PemesananActiveActivity extends ParentActivity {
         total = (EditText) findViewById(R.id.pmsa_et_total);
         btnextra = (Button) findViewById(R.id.pmsa_btn_extra);
         kembali = (Button) findViewById(R.id.pmsa_btn_kembali);
+        btnlocation = (ImageButton) findViewById(R.id.btnlocation);
         tugastext = (TextView) findViewById(R.id.pmsa_tv_tugas);
         recyclerView = (RecyclerView) findViewById(R.id.pmsa_rec_listkerja);
 
@@ -241,9 +244,21 @@ public class PemesananActiveActivity extends ParentActivity {
                 }
             }
         });
+        btnlocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ViewLocationActivity.class);
+                intent.putExtra("location", order.getContact().getLocation());
+                intent.putExtra("alamat", order.getContact().getAddress());
+                startActivity(intent);
+            }
+        });
         if (order.getStatus() == 1){
             checkselesai();
 //            checksedangberlangsung();
+        }
+        else if (order.getStatus() == 0){
+            checkexpired();
         }
     }
 
@@ -309,10 +324,9 @@ public class PemesananActiveActivity extends ParentActivity {
     public void checkselesai(){
         calendar = Calendar.getInstance();
         try {
-//            waktumulai.setTime(getdateFormat.parse(order.getStart_date()));
             waktuselesai.setTime(getdateFormat.parse(order.getEnd_date()));
         } catch (ParseException e) {
-//            e.printStackTrace();
+
         }
         if (calendar.after(waktuselesai)){
             abuildermessage("Pemesanan ini sudah selesai. anda dapat melakukan review pada tab Riwayat", "Pemberitahuan");
@@ -320,6 +334,24 @@ public class PemesananActiveActivity extends ParentActivity {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     gantistatus(3);
+                }
+            });
+            showalertdialog();
+        }
+    }
+    public void checkexpired(){
+        calendar = Calendar.getInstance();
+        try {
+            waktumulai.setTime(getdateFormat.parse(order.getStart_date()));
+        } catch (ParseException e) {
+
+        }
+        if (calendar.after(waktumulai)){
+            abuildermessage("Pemesanan ini sudah tidak dapat diterima. Pemesanan ini dibatalkan.", "Pemberitahuan");
+            abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    gantistatus(2);
                 }
             });
             showalertdialog();

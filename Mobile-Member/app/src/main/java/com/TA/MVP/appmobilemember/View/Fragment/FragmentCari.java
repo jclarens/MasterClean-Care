@@ -209,7 +209,8 @@ public class FragmentCari extends Fragment  implements OnMapReadyCallback {
 
         //get users
         Map<String,String> map = new HashMap<>();
-        map.put("user_type","2");
+        map.put("role_id","3");
+        map.put("status","1");
         Call<List<User>> caller = APIManager.getRepository(UserRepo.class).searchuser(map);
         caller.enqueue(new APICallback<List<User>>() {
             @Override

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.hardware.input.InputManager;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -13,11 +14,13 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mvp.mobile_art.MasterCleanApplication;
 import com.mvp.mobile_art.Model.Adapter.RecyclerAdapterListKerjaShow;
+import com.mvp.mobile_art.Model.Array.ArrayBulan;
 import com.mvp.mobile_art.Model.Basic.MyTask;
 import com.mvp.mobile_art.Model.Basic.Offer;
 import com.mvp.mobile_art.Model.Basic.OfferArt;
@@ -38,6 +41,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -61,14 +66,22 @@ public class OfferActivity extends ParentActivity {
     private DateFormat getdateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-d", Locale.ENGLISH);
     private DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+    private DateFormat tahunFormat = new SimpleDateFormat("yyyy", Locale.ENGLISH);
+    private DateFormat bulanFormat = new SimpleDateFormat("MM", Locale.ENGLISH);
+    private DateFormat tglFormat = new SimpleDateFormat("d", Locale.ENGLISH);
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
+    private ArrayBulan arrayBulan = new ArrayBulan();
+    private Calendar calendar = Calendar.getInstance();
+    private Calendar waktumulai = new GregorianCalendar();
 
     private Offer offer = new Offer();
     private Toolbar toolbar;
 
     private Button bersedia, kembali;
+    private ImageButton btnlocation;
     private TextView estimasitext, tugastext, penerima;
     private Integer mystatus;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +92,7 @@ public class OfferActivity extends ParentActivity {
         offer = GsonUtils.getObjectFromJson(intent.getStringExtra(ConstClass.OFFER_EXTRA), Offer.class);
         staticData = ((MasterCleanApplication)getApplication()).getGlobalStaticData();
 
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         mulaitime = (EditText) findViewById(R.id.mulaitime);
         mulaidate = (EditText) findViewById(R.id.mulaidate);
         selesaitime = (EditText) findViewById(R.id.selesaitime);
@@ -90,15 +104,32 @@ public class OfferActivity extends ParentActivity {
         total = (EditText) findViewById(R.id.total);
         bersedia = (Button) findViewById(R.id.bersedia);
         kembali = (Button) findViewById(R.id.kembali);
+        btnlocation = (ImageButton) findViewById(R.id.btnlocation);
         tugastext = (TextView) findViewById(R.id.tugas);
+        recyclerView = (RecyclerView) findViewById(R.id.listkerja);
 
-//        penerima = (TextView) findViewById(R.id.penerima);
+        //toolbar
+        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("Permintaan");
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                reload();
+            }
+        });
+
+        loadtampilan();
+    }
+    public void loadtampilan(){
         try{
             mulaitime.setText(timeFormat.format(getdateFormat.parse(offer.getStart_date())));
-            mulaidate.setText(dateFormat.format(getdateFormat.parse(offer.getStart_date())));
+            mulaidate.setText(costumedateformat(getdateFormat.parse(offer.getStart_date())));
             selesaitime.setText(timeFormat.format(getdateFormat.parse(offer.getEnd_date())));
-            selesaidate.setText(dateFormat.format(getdateFormat.parse(offer.getEnd_date())));
+            selesaidate.setText(costumedateformat(getdateFormat.parse(offer.getEnd_date())));
         }
         catch (ParseException pe){
 
@@ -110,14 +141,12 @@ public class OfferActivity extends ParentActivity {
         total.setText(setRP(offer.getCost()));
 
         //listkerja
-        recyclerView = (RecyclerView) findViewById(R.id.listkerja);
         rec_LayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(rec_LayoutManager);
         rec_Adapter = new RecyclerAdapterListKerjaShow();
         recyclerView.setAdapter(rec_Adapter);
         rec_Adapter.setDefaulttask(staticData.getMyTasks());
         rec_Adapter.setList(offer.getOffer_task_list());
-
 
         switch (offer.getWork_time_id()){
             case 1:
@@ -136,13 +165,6 @@ public class OfferActivity extends ParentActivity {
                 tugastext.setVisibility(View.GONE);
                 break;
         }
-
-        //toolbar
-        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Permintaan");
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         kembali.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -176,11 +198,28 @@ public class OfferActivity extends ParentActivity {
 
             }
         });
-        if (offer.getStatus() == 0)
+        btnlocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ViewLocationActivity.class);
+                intent.putExtra("location", offer.getContact().getLocation());
+                intent.putExtra("alamat", offer.getContact().getAddress());
+                startActivity(intent);
+            }
+        });
+        if (offer.getStatus() == 0){
             checksudahterdaftar("Batalkan");
+            checkexpired();
+        }
         else if (offer.getStatus() == 1){
             checksudahterdaftar("Hapus");
         }
+    }
+    public String costumedateformat(Date date){
+//        String hari = arrayHari.getArrayList().get(Integer.parseInt(hariFormat.format(date)));
+        String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date))-1);
+        // Senin, Januari 30
+        return tglFormat.format(date) + " " + bulan + " " + tahunFormat.format(date);
     }
 
     @Override
@@ -276,6 +315,25 @@ public class OfferActivity extends ParentActivity {
             }
         });
     }
+    public void checkexpired(){
+        calendar = Calendar.getInstance();
+        try {
+            waktumulai.setTime(getdateFormat.parse(offer.getStart_date()));
+        } catch (ParseException e) {
+
+        }
+        if (calendar.after(waktumulai)){
+            abuildermessage("Pemesanan ini sudah tidak dapat diterima. Pemesanan ini dibatalkan.", "Pemberitahuan");
+            abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    removeartfromoffer();
+                    finish();
+                }
+            });
+            showalertdialog();
+        }
+    }
     public void removeartfromoffer(){
         initProgressDialog("Loading");
         showDialog();
@@ -323,6 +381,30 @@ public class OfferActivity extends ParentActivity {
             public void onFailure(Call<OfferArt> call, Throwable t) {
                 super.onFailure(call, t);
                 dismissDialog();
+            }
+        });
+    }
+    public void reload(){
+        Call<Offer> caller = APIManager.getRepository(OfferRepo.class).getofferById(offer.getId());
+        caller.enqueue(new APICallback<Offer>() {
+            @Override
+            public void onSuccess(Call<Offer> call, Response<Offer> response) {
+                super.onSuccess(call, response);
+                offer = response.body();
+                loadtampilan();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onError(Call<Offer> call, Response<Offer> response) {
+                super.onError(call, response);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure(Call<Offer> call, Throwable t) {
+                super.onFailure(call, t);
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
     }

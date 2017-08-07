@@ -76,6 +76,8 @@
             android:screenOrientation="sensorPortrait"/>
         <activity android:name="com.TA.MVP.appmobilemember.View.Activity.PermintaanActiveActivity"
             android:screenOrientation="sensorPortrait"/>
+        <activity android:name="com.TA.MVP.appmobilemember.View.Activity.ViewLocationActivity"
+            android:screenOrientation="sensorPortrait"/>
         <activity
             android:name="com.TA.MVP.appmobilemember.View.Activity.MainActivity"
             android:windowSoftInputMode="stateHidden"

@@ -495,14 +495,8 @@ public class FragmentPemesanan2 extends Fragment {
         return ddate;
     }
     public boolean validasi(){
-//        if (rec_Adapter.getselectedtasklist().size() < 1 && estimasiwaktutext.getText().toString().equals("Jam")){
         if (order.getJob_id().equals(1) && order.getWork_time_id().equals(1) && rec_Adapter.getselectedtasklist().size() < 1){
             Toast.makeText(getContext(), "Pilih 1 list kerja atau lebih", Toast.LENGTH_SHORT).show();
-            return false;
-        }
-        if (startdate.before(getbatassekarang())){
-//            Toast.makeText(getContext(), "jam skrg = " + fixFormat.format(getbatassekarang()), Toast.LENGTH_SHORT).show();
-            Toast.makeText(getContext(), "Harap memesan untuk 2 jam kedepan", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (startdate.before(getbatasmulai())){
@@ -515,6 +509,10 @@ public class FragmentPemesanan2 extends Fragment {
         }
         if (enddate.after(getbatasselesai2())){
             Toast.makeText(getContext(), "Tidak dapat menerima pesanan setelah jam 5 Sore", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (startdate.before(getbatassekarang())){
+            Toast.makeText(getContext(), "Harap memesan untuk 2 jam kedepan", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.TA.MVP.appmobilemember.Model.Array.ArrayBulan;
 import com.TA.MVP.appmobilemember.Model.Basic.MyMessage;
 import com.TA.MVP.appmobilemember.Model.Responses.MyMessageResponse;
 import com.TA.MVP.appmobilemember.R;
@@ -27,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -41,6 +43,10 @@ public class RecyclerAdapterPesanMasuk extends RecyclerView.Adapter<RecyclerAdap
     private DateFormat getdateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-d", Locale.ENGLISH);
     private DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+    private DateFormat tahunFormat = new SimpleDateFormat("yyyy", Locale.ENGLISH);
+    private DateFormat bulanFormat = new SimpleDateFormat("MM", Locale.ENGLISH);
+    private DateFormat tglFormat = new SimpleDateFormat("d", Locale.ENGLISH);
+    private ArrayBulan arrayBulan = new ArrayBulan();
     private List<MyMessage> myMessages = new ArrayList<>();
 
     private Context context;
@@ -80,7 +86,7 @@ public class RecyclerAdapterPesanMasuk extends RecyclerView.Adapter<RecyclerAdap
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.itemnama.setText(myMessages.get(position).getSender_id().getName());
         try{
-            holder.itemtanggal.setText(dateFormat.format(getdateFormat.parse(myMessages.get(position).getCreated_at())));
+            holder.itemtanggal.setText(costumedateformat(getdateFormat.parse(myMessages.get(position).getCreated_at())));
             holder.itemjam.setText(timeFormat.format(getdateFormat.parse(myMessages.get(position).getCreated_at())));
         }
         catch (ParseException pe){
@@ -134,6 +140,10 @@ public class RecyclerAdapterPesanMasuk extends RecyclerView.Adapter<RecyclerAdap
                 Toast.makeText(context,"Gagal membuka pesan", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    public String costumedateformat(Date date){
+        String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date)));
+        return tglFormat.format(date) + " " + bulan + " " + tahunFormat.format(date);
     }
 }
 //Collections.sort(myList, new Comparator<EmployeeClass>(){

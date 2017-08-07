@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -43,6 +45,7 @@ public class FragmentHome extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerAdapterAsisten rec_Adapter;
     private Button btnfilter;
+    private FloatingActionButton filter;
     private List<User> arts = new ArrayList<>();
     private List<Language> languages = new ArrayList<>();
     private Calendar calendar = Calendar.getInstance();
@@ -62,9 +65,10 @@ public class FragmentHome extends Fragment {
 
         recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_asisten);
         swipeRefreshLayout = (SwipeRefreshLayout) _view.findViewById(R.id.swipeRefreshLayout);
-        btnfilter = (Button) _view.findViewById(R.id.carilist_btn_filter);
+//        btnfilter = (Button) _view.findViewById(R.id.carilist_btn_filter);
+        filter = (FloatingActionButton) _view.findViewById(R.id.carilist_btn_filter);
 
-        btnfilter.setOnClickListener(new View.OnClickListener() {
+        filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getContext(),FilterActivity.class);

@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -73,11 +75,14 @@ public class PermintaanActiveActivity extends ParentActivity {
     private DateFormat tglFormat = new SimpleDateFormat("d", Locale.ENGLISH);
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
     private ArrayBulan arrayBulan = new ArrayBulan();
+    private Calendar calendar = Calendar.getInstance();
+    private Calendar waktumulai = new GregorianCalendar();
 
     private Offer offer = new Offer();
     private Toolbar toolbar;
 
     private Button batal, kembali;
+    private ImageButton btnlocation;
     private TextView estimasitext, tugastext, penerima;
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -101,6 +106,7 @@ public class PermintaanActiveActivity extends ParentActivity {
         total = (EditText) findViewById(R.id.total);
         batal = (Button) findViewById(R.id.batalkan);
         kembali = (Button) findViewById(R.id.kembali);
+        btnlocation = (ImageButton) findViewById(R.id.btnlocation);
         tugastext = (TextView) findViewById(R.id.tugas);
         penerima = (TextView) findViewById(R.id.penerima);
 
@@ -199,6 +205,36 @@ public class PermintaanActiveActivity extends ParentActivity {
                 showalertdialog();
             }
         });
+        btnlocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ViewLocationActivity.class);
+                intent.putExtra("location", offer.getContact().getLocation());
+                intent.putExtra("alamat", offer.getContact().getAddress());
+                startActivity(intent);
+            }
+        });
+
+        if (offer.getStatus() == 0)
+            checkexpired();
+    }
+    public void checkexpired(){
+        calendar = Calendar.getInstance();
+        try {
+            waktumulai.setTime(getdateFormat.parse(offer.getStart_date()));
+        } catch (ParseException e) {
+
+        }
+        if (calendar.after(waktumulai)){
+            abuildermessage("Pemesanan ini sudah tidak dapat diterima. Pemesanan ini dibatalkan.", "Pemberitahuan");
+            abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    batalkanoffer();
+                }
+            });
+            showalertdialog();
+        }
     }
 
     @Override

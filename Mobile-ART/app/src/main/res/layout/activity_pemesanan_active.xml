@@ -7,235 +7,236 @@
     <include
         android:id="@+id/toolbar_main"
         layout="@layout/toolbar_main"/>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="15dp">
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/layout_asisten">
-            </RelativeLayout>
-
-
+            android:layout_height="match_parent">
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Bekerja sebagai :"
-                    android:textColor="@color/colorBlack" />
-                <EditText
-                    android:id="@+id/profesi"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:focusable="false"
-                    android:textColor="@color/colorBlack"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Type waktu :"
-                    android:textColor="@color/colorBlack" />
-                <EditText
-                    android:id="@+id/worktime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:focusable="false"
-                    android:textColor="@color/colorBlack"/>
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/pmsa_tv_tugas"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Tugas :"
-                android:textColor="@color/colorBlack"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/pmsa_rec_listkerja"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:scrollbars="vertical"
-                android:padding="10dp"
-                android:background="#eeeeee">
-
-            </android.support.v7.widget.RecyclerView>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Alamat Pemesanan :"
-                android:textColor="@android:color/black" />
-            <EditText
-                android:id="@+id/pmsa_et_alamat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:focusable="false"
-                android:textColor="@color/colorBlack"
-                android:gravity="top"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Catatan :"
-                android:textColor="@android:color/black" />
-            <EditText
-                android:id="@+id/pmsa_et_catatan"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:enabled="false"
-                android:focusable="false"
-                android:textColor="@color/colorBlack"
-                android:gravity="top"/>
-
-            <TextView
-                android:id="@+id/textView37"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/mulai"
-                android:textColor="@android:color/black" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/pmsa_et_mulaidate"
+                android:padding="15dp">
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:enabled="false"
-                    android:focusable="false"
-                    android:inputType="date"
+                    android:id="@+id/layout_asisten">
+                </RelativeLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Bekerja sebagai :"
+                        android:textColor="@color/colorBlack" />
+                    <EditText
+                        android:id="@+id/profesi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:focusable="false"
+                        android:textColor="@color/colorBlack"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Type waktu :"
+                        android:textColor="@color/colorBlack" />
+                    <EditText
+                        android:id="@+id/worktime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:focusable="false"
+                        android:textColor="@color/colorBlack"/>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/pmsa_tv_tugas"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Tugas :"
                     android:textColor="@color/colorBlack"/>
-
-                <EditText
-                    android:id="@+id/pmsa_et_mulaitime"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/pmsa_rec_listkerja"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:enabled="false"
-                    android:focusable="false"
-                    android:inputType="time"
-                    android:textColor="@color/colorBlack" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView38"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/selesai"
-                android:textColor="@android:color/black" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/pmsa_et_selesaidate"
+                    android:orientation="vertical"
+                    android:scrollbars="vertical"
+                    android:padding="10dp"
+                    android:background="#eeeeee">
+                </android.support.v7.widget.RecyclerView>
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:enabled="false"
-                    android:focusable="false"
-                    android:inputType="date"
-                    android:textColor="@color/colorBlack" />
-
-                <EditText
-                    android:id="@+id/pmsa_et_selesaitime"
+                    android:text="Alamat Pemesanan :"
+                    android:textColor="@android:color/black" />
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:layout_weight="1">
+                        <EditText
+                            android:id="@+id/pmsa_et_alamat"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:enabled="false"
+                            android:focusable="false"
+                            android:textColor="@color/colorBlack"
+                            android:gravity="top"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <ImageButton
+                            android:id="@+id/btnlocation"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:src="@drawable/ic_marker"/>
+                    </LinearLayout>
+                </LinearLayout>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Catatan :"
+                    android:textColor="@android:color/black" />
+                <EditText
+                    android:id="@+id/pmsa_et_catatan"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:enabled="false"
                     android:focusable="false"
-                    android:inputType="time"
+                    android:textColor="@color/colorBlack"
+                    android:gravity="top"/>
+                <TextView
+                    android:id="@+id/textView37"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mulai"
+                    android:textColor="@android:color/black" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/pmsa_et_mulaidate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:enabled="false"
+                        android:focusable="false"
+                        android:inputType="date"
+                        android:textColor="@color/colorBlack"/>
+                    <EditText
+                        android:id="@+id/pmsa_et_mulaitime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:enabled="false"
+                        android:focusable="false"
+                        android:inputType="time"
+                        android:textColor="@color/colorBlack" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/textView38"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/selesai"
+                    android:textColor="@android:color/black" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <EditText
+                        android:id="@+id/pmsa_et_selesaidate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:enabled="false"
+                        android:focusable="false"
+                        android:inputType="date"
+                        android:textColor="@color/colorBlack" />
+                    <EditText
+                        android:id="@+id/pmsa_et_selesaitime"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ems="10"
+                        android:enabled="false"
+                        android:focusable="false"
+                        android:inputType="time"
+                        android:textColor="@color/colorBlack" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/textView46"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/total"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black" />
+                <EditText
+                    android:id="@+id/pmsa_et_total"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:textAlignment="center"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:inputType="textPersonName"
                     android:textColor="@color/colorBlack" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/pmsa_btn_extra"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/btn_btlkn"
+                        android:textAllCaps="false"
+                        tools:ignore="ButtonStyle" />
+                    <Button
+                        android:id="@+id/pmsa_btn_terima"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Terima"
+                        android:textAllCaps="false"
+                        tools:ignore="ButtonStyle"
+                        android:visibility="gone"/>
+                    <Button
+                        android:id="@+id/pmsa_btn_kembali"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/btn_kmbl"
+                        android:textAllCaps="false"
+                        tools:ignore="ButtonStyle" />
+                </LinearLayout>
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView46"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/total"
-                android:textAlignment="center"
-                android:textColor="@android:color/black" />
-
-            <EditText
-                android:id="@+id/pmsa_et_total"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:textAlignment="center"
-                android:enabled="false"
-                android:focusable="false"
-                android:inputType="textPersonName"
-                android:textColor="@color/colorBlack" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:layout_weight="1">
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/pmsa_btn_extra"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/btn_btlkn"
-                    android:textAllCaps="false"
-                    tools:ignore="ButtonStyle" />
-
-                <Button
-                    android:id="@+id/pmsa_btn_terima"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Terima"
-                    android:textAllCaps="false"
-                    tools:ignore="ButtonStyle"
-                    android:visibility="gone"/>
-
-                <Button
-                    android:id="@+id/pmsa_btn_kembali"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/btn_kmbl"
-                    android:textAllCaps="false"
-                    tools:ignore="ButtonStyle" />
-            </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
-
+        </ScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

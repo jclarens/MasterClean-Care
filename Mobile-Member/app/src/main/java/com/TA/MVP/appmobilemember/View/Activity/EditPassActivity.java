@@ -57,7 +57,7 @@ public class EditPassActivity extends ParentActivity{
                 //validasi
                 valid = true;
 
-                if (newpass.getText().toString() == "")
+                if (pass.getText().toString() == "" || newpass.getText().toString() == "" || knewpass.getText().toString() == "")
                     valid = false;
                 if (newpass.getText().toString() != knewpass.getText().toString()) {
                     valid = false;
@@ -67,7 +67,7 @@ public class EditPassActivity extends ParentActivity{
                     abuilder.setPositiveButton("Simpan", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-
+                            checkoldpass();
                         }
                     });
                     abuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
@@ -115,7 +115,7 @@ public class EditPassActivity extends ParentActivity{
                 Intent i = new Intent();
                 setResult(ProfileActivity.RESULT_SUCCESS, i);
                 dismissDialog();
-                Toast.makeText(getApplicationContext(), "Password telah diperbaharui", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Kata sandi telah diperbaharui", Toast.LENGTH_SHORT).show();
                 finish();
             }
 
@@ -145,7 +145,6 @@ public class EditPassActivity extends ParentActivity{
                 super.onSuccess(call, response);
                 SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
                 SharedPref.save(SharedPref.ACCESS_TOKEN, response.body().getToken().getAccess_token());
-                dismissDialog();
                 gantipass();
             }
 
@@ -153,7 +152,7 @@ public class EditPassActivity extends ParentActivity{
             public void onUnauthorized(Call<LoginResponse> call, Response<LoginResponse> response) {
                 super.onUnauthorized(call, response);
                 dismissDialog();
-                Toast.makeText(getApplicationContext(), "Password salah", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Kata sandi salah", Toast.LENGTH_SHORT).show();
             }
 
             @Override
