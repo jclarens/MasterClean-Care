@@ -95,21 +95,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/btn_hps" />
+                android:text="@string/btn_hps"
+                android:textColor="#000000"
+                android:textSize="14dp"
+                android:background="@drawable/buttonshape"
+                />
 
             <Button
                 android:id="@+id/bp_btn_balas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/btn_bls" />
+                android:text="@string/btn_bls"
+                android:textColor="#000000"
+                android:textSize="14dp"
+                android:background="@drawable/buttonshape"
+                />
 
-            <Button
-                android:id="@+id/bp_btn_kembali"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/btn_kmbl" />
+            <!--<Button-->
+                <!--android:id="@+id/bp_btn_kembali"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:text="@string/btn_kmbl"-->
+                <!--android:textColor="#000000"-->
+                <!--android:textSize="14dp"-->
+                <!--android:background="@drawable/buttonshape"-->
+                <!--/>-->
         </LinearLayout>
     </LinearLayout>
 

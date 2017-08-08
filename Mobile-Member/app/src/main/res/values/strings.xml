@@ -131,8 +131,8 @@
     <string name="step3">STEP 3/3</string>
 
     <string name="btn_selengkapnya">Selengkapnya</string>
-    <string name="btn_next">Next</string>
-    <string name="btn_prev">Prev</string>
+    <string name="btn_next">Selanjutnya</string>
+    <string name="btn_prev">Kembali</string>
     <string name="btn_pesan">Pesan</string>
     <string name="btn_konf">Konfirmasi</string>
     <string name="btn_btl">Batal</string>

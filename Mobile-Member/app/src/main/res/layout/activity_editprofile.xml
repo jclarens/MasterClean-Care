@@ -92,13 +92,23 @@
             </LinearLayout>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
         <Button
             android:id="@+id/eprof_btn_simpan"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/simpan"
-            android:textAllCaps="false" />
+            android:layout_weight="1"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="14dp"
+            android:background="@drawable/buttonshape"
+            android:layout_marginBottom="5dp"
+            />
 
         <Button
             android:id="@+id/eprof_btn_batal"
@@ -106,7 +116,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="@string/batal"
-            android:textAllCaps="false" />
+            android:layout_weight="1"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="14dp"
+            android:background="@drawable/buttonshape"
+            />
+            </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
