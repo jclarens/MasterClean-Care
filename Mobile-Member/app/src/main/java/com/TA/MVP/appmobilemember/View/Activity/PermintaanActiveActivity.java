@@ -306,7 +306,7 @@ public class PermintaanActiveActivity extends ParentActivity {
     }
     public String costumedateformat(Date date){
 //        String hari = arrayHari.getArrayList().get(Integer.parseInt(hariFormat.format(date)));
-        String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date)));
+        String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date)) - 1);
         // Senin, Januari 30
         return tglFormat.format(date) + " " + bulan + " " + tahunFormat.format(date);
     }

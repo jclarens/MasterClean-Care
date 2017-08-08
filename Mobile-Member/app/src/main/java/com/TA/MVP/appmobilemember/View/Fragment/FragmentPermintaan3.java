@@ -159,7 +159,7 @@ public class FragmentPermintaan3 extends Fragment {
         return _view;
     }
     public String costumedateformat(Date date){
-        String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date)));
+        String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date)) - 1);
         return tglFormat.format(date) + " " + bulan + " " + tahunFormat.format(date) + " " + timeFormat.format(date);
     }
     public String setRP(Integer number){

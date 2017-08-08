@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Adapter.SpinnerAdapter;
 import com.TA.MVP.appmobilemember.Model.Array.ArrayAgama;
+import com.TA.MVP.appmobilemember.Model.Array.ArrayBulan;
 import com.TA.MVP.appmobilemember.Model.Basic.OrderTime;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Basic.UserContact;
@@ -35,6 +36,7 @@ import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -58,6 +60,10 @@ public class FragmentRegister extends Fragment {
     private OrderTime now = new OrderTime();
     private Calendar calendar = Calendar.getInstance();
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-d", Locale.ENGLISH);
+    private DateFormat tahunFormat = new SimpleDateFormat("yyyy", Locale.ENGLISH);
+    private DateFormat bulanFormat = new SimpleDateFormat("MM", Locale.ENGLISH);
+    private DateFormat tglFormat = new SimpleDateFormat("d", Locale.ENGLISH);
+    private ArrayBulan arrayBulan = new ArrayBulan();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -81,10 +87,11 @@ public class FragmentRegister extends Fragment {
         datePickerDialog1 = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
-                tgl.setText(i2 + " - " + i1 + " - " + i);
+//                tgl.setText(i2 + " - " + i1 + " - " + i);
                 calendar.set(Calendar.YEAR,i);
                 calendar.set(Calendar.MONTH,i1);
                 calendar.set(Calendar.DAY_OF_MONTH,i2);
+                tgl.setText(costumedateformat(calendar.getTime()));
             }
         }, now.year, now.month, now.day);
         tgl.setOnClickListener(new View.OnClickListener() {
@@ -222,5 +229,9 @@ public class FragmentRegister extends Fragment {
             return false;
         }
         return true;
+    }
+    public String costumedateformat(Date date){
+        String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date))-1);
+        return tglFormat.format(date) + " " + bulan + " " + tahunFormat.format(date);
     }
 }

@@ -387,9 +387,7 @@ public class PemesananActiveActivity extends ParentActivity {
         });
     }
     public String costumedateformat(Date date){
-//        String hari = arrayHari.getArrayList().get(Integer.parseInt(hariFormat.format(date)));
-        String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date)));
-        // Senin, Januari 30
+        String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date)) - 1);
         return tglFormat.format(date) + " " + bulan + " " + tahunFormat.format(date);
     }
     public void reload(){

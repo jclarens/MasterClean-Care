@@ -313,7 +313,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:maxLength="9"
+                android:maxLength="14"
                 android:inputType="number"
                 android:nextFocusUp="@id/filter_et_gaji"
                 android:nextFocusLeft="@id/filter_et_gaji"

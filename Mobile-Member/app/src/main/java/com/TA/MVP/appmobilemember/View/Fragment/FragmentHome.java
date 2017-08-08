@@ -18,10 +18,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterAsisten;
+import com.TA.MVP.appmobilemember.Model.Array.ArrayAgama;
 import com.TA.MVP.appmobilemember.Model.Basic.Language;
+import com.TA.MVP.appmobilemember.Model.Basic.StaticData;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
@@ -32,6 +38,7 @@ import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 import com.google.gson.reflect.TypeToken;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -51,22 +58,49 @@ public class FragmentHome extends Fragment {
     private Calendar calendar = Calendar.getInstance();
     private int thisyear, tempyear;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private LinearLayout layoutnolist, layouttags;
+    private RelativeLayout layoutshow;
+    private TextView tags, clear;
+    private String stringtags;
+    private Intent filterresult;
+    private StaticData staticData;
+    private ArrayAgama arrayAgama = new ArrayAgama();
+    private NumberFormat numberFormat = NumberFormat.getNumberInstance();
     Integer wkid;
     Integer profesi;
     Integer usiamin;
     Integer usiamax;
     Integer gaji;
+    Integer kota;
     View _view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         _view = inflater.inflate(R.layout.fragment_cari_list, container, false);
         thisyear = calendar.get(Calendar.YEAR);
+        staticData = ((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData();
 
         recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_asisten);
         swipeRefreshLayout = (SwipeRefreshLayout) _view.findViewById(R.id.swipeRefreshLayout);
 //        btnfilter = (Button) _view.findViewById(R.id.carilist_btn_filter);
         filter = (FloatingActionButton) _view.findViewById(R.id.carilist_btn_filter);
+        layoutnolist = (LinearLayout) _view.findViewById(R.id.layout_nolist);
+        layoutshow = (RelativeLayout) _view.findViewById(R.id.layout_showlist);
+        layouttags = (LinearLayout) _view.findViewById(R.id.layout_tagfilter);
+        tags = (TextView) _view.findViewById(R.id.filtertags);
+        clear = (TextView) _view.findViewById(R.id.clear);
+
+        tags.setHorizontallyScrolling(false);
+
+        clear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                layouttags.setVisibility(View.GONE);
+                swipeRefreshLayout.setRefreshing(true);
+                SharedPref.save("searching", "");
+                getarts();
+            }
+        });
 
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,8 +113,18 @@ public class FragmentHome extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                SharedPref.save("searching", "");
-                getarts();
+                if (filterresult == null){
+                    SharedPref.save("searching", "");
+                    getarts();
+                }
+                else {
+                    if (SharedPref.getValueString("searching").equals("yes")){
+                        searchuser();
+                    } else {
+                        SharedPref.save("searching", "");
+                        getarts();
+                    }
+                }
             }
         });
 
@@ -104,52 +148,100 @@ public class FragmentHome extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 111){
             if (resultCode == Activity.RESULT_OK){
-                Map<String,String> map = new HashMap<>();
-                map.put("role_id","3");
-                map.put("name", data.getStringExtra("nama"));
-                map.put("race", data.getStringExtra("suku"));
-                if (data.getStringExtra("agama") != null){
-                    map.put("religion", data.getStringExtra("agama"));
-                }
-                if (data.getStringExtra("WT") != null){
-                    wkid = Integer.valueOf(data.getStringExtra("WT"));
-                }
-                else wkid = null;
-                if (data.getStringExtra("profesi") != null){
-                    profesi = Integer.valueOf(data.getStringExtra("profesi"));
-                }
-                else profesi = null;
-                languages = (List<Language>) GsonUtils.getObjectFromJson(data.getStringExtra("listbahasa"), new TypeToken<List<Language>>(){}.getType());
-
-                usiamin = Integer.valueOf(data.getStringExtra("usiamin"));
-                usiamax = Integer.valueOf(data.getStringExtra("usiamax"));
-                gaji = data.getIntExtra("gaji", 0);
-
+                filterresult = data;
                 //search users
-                Call<List<User>> caller = APIManager.getRepository(UserRepo.class).searchuser(map);
-                caller.enqueue(new APICallback<List<User>>() {
-                    @Override
-                    public void onSuccess(Call<List<User>> call, Response<List<User>> response) {
-                        super.onSuccess(call, response);
-                        Log.d("List[][]",GsonUtils.getJsonFromObject(response.body()));
-                        arts = secondfilter(response.body(), wkid, profesi, usiamin, usiamax, languages, gaji);
-                        updateadapter(arts);
-                        SharedPref.save("searching", "");
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<User>> call, Throwable t) {
-                        super.onFailure(call, t);
-                    }
-                });
+                searchuser();
             }
             if (resultCode == Activity.RESULT_CANCELED){
 
             }
         }
     }
-    public List<User> secondfilter(List<User> users , @Nullable Integer wt_id, @Nullable Integer prof_id, Integer usiamin, Integer usimax, List<Language> languagess, @Nullable Integer gajii){
+    public void searchuser(){
+        stringtags = "";
+
+        Map<String,String> map = new HashMap<>();
+        map.put("role_id","3");
+        map.put("name", filterresult.getStringExtra("nama"));
+        if (!filterresult.getStringExtra("nama").equals(""))
+            addtag("Nama:" + filterresult.getStringExtra("nama"));
+
+        map.put("race", filterresult.getStringExtra("suku"));
+        if (!filterresult.getStringExtra("suku").equals(""))
+            addtag("Suku:" + filterresult.getStringExtra("suku"));
+
+        if (filterresult.getStringExtra("kota") != null){
+            kota = Integer.valueOf(filterresult.getStringExtra("kota"));
+            addtag(staticData.getPlaces().get(kota-1).getName());
+        }
+
+        if (filterresult.getStringExtra("agama") != null){
+            map.put("religion", filterresult.getStringExtra("agama"));
+            addtag(arrayAgama.getArrayList().get(Integer.valueOf(filterresult.getStringExtra("agama"))-1));
+        }
+
+        if (filterresult.getStringExtra("WT") != null){
+            wkid = Integer.valueOf(filterresult.getStringExtra("WT"));
+            addtag(staticData.getWaktu_kerjas().get(wkid-1).getWork_time());
+        }
+
+        else wkid = null;
+        if (filterresult.getStringExtra("profesi") != null){
+            profesi = Integer.valueOf(filterresult.getStringExtra("profesi"));
+            addtag(staticData.getJobs().get(profesi-1).getJob());
+        }
+        else profesi = null;
+        languages = (List<Language>) GsonUtils.getObjectFromJson(filterresult.getStringExtra("listbahasa"), new TypeToken<List<Language>>(){}.getType());
+
+        usiamin = Integer.valueOf(filterresult.getStringExtra("usiamin"));
+        usiamax = Integer.valueOf(filterresult.getStringExtra("usiamax"));
+        if (usiamin != 20 && usiamax!=70)
+            addtag("Usia:" + usiamin + "-" + usiamax);
+
+        gaji = filterresult.getIntExtra("gaji", 0);
+        if (gaji > 0){
+            addtag("Gaji:" + setRP(gaji));
+        }
+
+        swipeRefreshLayout.setRefreshing(true);
+        Call<List<User>> caller = APIManager.getRepository(UserRepo.class).searchuser(map);
+        caller.enqueue(new APICallback<List<User>>() {
+            @Override
+            public void onSuccess(Call<List<User>> call, Response<List<User>> response) {
+                super.onSuccess(call, response);
+                Log.d("List[][]",GsonUtils.getJsonFromObject(response.body()));
+                arts = secondfilter(response.body(), wkid, profesi, usiamin, usiamax, languages, gaji, kota);
+                updateadapter(arts);
+                if (arts.size() > 0){
+                    showlist();
+                } else nolist();
+                swipeRefreshLayout.setRefreshing(false);
+
+                //tags
+                tags.setText(stringtags);
+                layouttags.setVisibility(View.VISIBLE);
+//                        SharedPref.save("searching", "");
+            }
+
+            @Override
+            public void onFailure(Call<List<User>> call, Throwable t) {
+                super.onFailure(call, t);
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+    public List<User> secondfilter(List<User> users , @Nullable Integer wt_id, @Nullable Integer prof_id, Integer usiamin, Integer usimax, List<Language> languagess, @Nullable Integer gajii, @Nullable Integer kota){
         List<User> result = users;
+
+        //filter status
+        users = result;
+        result = new ArrayList<>();
+        for (int n = 0; n<users.size(); n++){
+            if (users.get(n).getStatus() == 1){
+                result.add(users.get(n));
+            }
+        }
 
         //filter work time
         if (wt_id != null){
@@ -158,18 +250,6 @@ public class FragmentHome extends Fragment {
             for (int n=0; n<users.size();n++){
                 for (int m=0; m<users.get(n).getUser_work_time().size();m++){
                     if (users.get(n).getUser_work_time().get(m).getWork_time_id() == wt_id)
-                        result.add(users.get(n));
-                }
-            }
-        }
-
-        //filter gaji
-        if (gajii != 0 && wt_id !=null){
-            users = result;
-            result = new ArrayList<>();
-            for (int n=0; n<users.size();n++){
-                for (int m=0; m<users.get(n).getUser_work_time().size();m++){
-                    if (users.get(n).getUser_work_time().get(m).getWork_time_id() == wt_id  && users.get(n).getUser_work_time().get(m).getCost() <= gajii)
                         result.add(users.get(n));
                 }
             }
@@ -187,39 +267,50 @@ public class FragmentHome extends Fragment {
             }
         }
 
-
         //filter usia
         users = result;
         result = new ArrayList<>();
         for (int n=0; n<users.size();n++) {
             calendar.setTime(users.get(n).getBorn_date());
             tempyear = calendar.get(Calendar.YEAR);
-            if (thisyear - tempyear > usiamin && thisyear - tempyear <usimax){
+            if (thisyear - tempyear >= usiamin && thisyear - tempyear <= usimax){
                 result.add(users.get(n));
             }
         }
 
         //filter bahasa
-        boolean ada=false;
         for (int n = 0; n<languagess.size(); n++){
             users = result;
             result = new ArrayList<>();
             for (int m = 0; m<users.size();m++){
                 for (int o=0;o<users.get(m).getUser_language().size() ;o++){
+//                    Log.d("Bahasa =============",languagess.get(n).getId()+" - "+users.get(m).getId() + " - " + users.get(m).getUser_language().get(o).getLanguage_id());
                     if (languagess.get(n).getId() == users.get(m).getUser_language().get(o).getLanguage_id())
                         result.add(users.get(m));
                 }
             }
         }
 
-        //filter status
-        users = result;
-        result = new ArrayList<>();
-//        String temp="";
-        for (int n = 0; n<users.size(); n++){
-            if (users.get(n).getStatus() == 1){
-                result.add(users.get(n));
-//                temp = temp + users.get(n).getStatus();
+        //filter kota
+        if (kota != null){
+            users = result;
+            result = new ArrayList<>();
+            for (int n=0;n< users.size();n++){
+                if (users.get(n).getContact().getCity().equals(kota)){
+                    result.add(users.get(n));
+                }
+            }
+        }
+
+        //filter gaji
+        if (gajii != 0 && wt_id !=null){
+            users = result;
+            result = new ArrayList<>();
+            for (int n=0; n<users.size();n++){
+                for (int m=0; m<users.get(n).getUser_work_time().size();m++){
+                    if (users.get(n).getUser_work_time().get(m).getWork_time_id() == wt_id  && users.get(n).getUser_work_time().get(m).getCost() <= gajii)
+                        result.add(users.get(n));
+                }
             }
         }
         return result;
@@ -231,8 +322,12 @@ public class FragmentHome extends Fragment {
             public void onSuccess(Call<List<User>> call, Response<List<User>> response) {
                 super.onSuccess(call, response);
                 Log.d("List[][]",GsonUtils.getJsonFromObject(response.body()));
-                rec_Adapter.setART(removeinactive(response.body()));
+                arts = removeinactive(response.body());
+                rec_Adapter.setART(arts);
                 swipeRefreshLayout.setRefreshing(false);
+                if (arts.size() > 0){
+                    showlist();
+                } else nolist();
             }
 
             @Override
@@ -254,5 +349,25 @@ public class FragmentHome extends Fragment {
     }
     public void updateadapter(List<User> arts){
         rec_Adapter.setART(arts);
+    }
+
+    public void nolist(){
+        layoutnolist.setVisibility(View.VISIBLE);
+        layoutshow.setVisibility(View.GONE);
+    }
+    public void showlist(){
+        layoutnolist.setVisibility(View.GONE);
+        layoutshow.setVisibility(View.VISIBLE);
+    }
+
+    public void addtag(String string){
+        if (!stringtags.equals("")){
+            stringtags = stringtags + ", " + string;
+        } else stringtags = string;
+    }
+    public String setRP(Integer number){
+        String tempp = "Rp. ";
+        tempp = tempp + numberFormat.format(number);
+        return tempp;
     }
 }
