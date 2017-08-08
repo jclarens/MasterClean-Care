@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,6 +30,7 @@ import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,14 +46,15 @@ public class FilterActivity extends ParentActivity{
     private RecyclerView recviewbahasa;
     private EditText nama, gaji, usiamin, usiamax, pk, suku;
     private Spinner spinnerkota, spinneragama, spinnersuku, spinnerprofesi, spinnerwaktukrj;
-    private CheckBox inggris, mandarin, melayu;
-    private Button btncari, btnbatal, btnuminup, btnumindown, btnumaxup, btnumaxdown, btnpkup, btnpkdown;
+    private Button btncari, btnbatal, btnuminup, btnumindown, btnumaxup, btnumaxdown;
     private TextView textgaji;
-    private SpinnerAdapter spinnerAdapterkota, spinnerAdapteragama, spinnerAdapterprofesi, spinnerAdaptersuku, spinnerAdapterwktkrj;
+    private SpinnerAdapter spinnerAdapterkota, spinnerAdapteragama;
     private FilterArrays filterArrays;
     private Integer tmp;
     private ArrayAdapter arrayAdapterJob, arrayAdapterWaktu, arrayAdapterKota;
     private List<Language> defaultlistbahasa = new ArrayList<>();
+    private NumberFormat numberFormat = NumberFormat.getNumberInstance();
+    private TextWatcher textWatcher = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +64,6 @@ public class FilterActivity extends ParentActivity{
         initAllView();
         setbtnlistener(btnuminup, usiamin, btnumindown, 20, 70);
         setbtnlistener(btnumaxup, usiamax, btnumaxdown, 20, 70);
-//        setbtnlistener(btnpkup, pk, btnpkdown, 0, 50);
 
         btncari.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +80,7 @@ public class FilterActivity extends ParentActivity{
                     i.putExtra("profesi", String.valueOf(spinnerprofesi.getSelectedItemPosition()));
                 if (spinnerwaktukrj.getSelectedItemPosition() != 0)
                     i.putExtra("WT", String.valueOf(spinnerwaktukrj.getSelectedItemPosition()));
-                i.putExtra("gaji", Integer.valueOf( gaji.getText().toString() ));
+                i.putExtra("gaji", Integer.valueOf(gaji.getText().toString().replace("Rp. ","").replace(",","")));
                 i.putExtra("usiamin", usiamin.getText().toString());
                 i.putExtra("usiamax", usiamax.getText().toString());
                 i.putExtra("listbahasa", GsonUtils.getJsonFromObject(rec_Adapter.getselectedlist()));
@@ -93,6 +96,31 @@ public class FilterActivity extends ParentActivity{
                 finish();
             }
         });
+
+        textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                gaji.removeTextChangedListener(textWatcher);
+                Integer total = getinttotal(gaji.getText().toString());
+                if (total == null)
+                    gaji.setText(setRP(0));
+                else gaji.setText(setRP(total));
+                gaji.setSelection(gaji.getText().length());
+                gaji.addTextChangedListener(textWatcher);
+            }
+        };
+        gaji.setText(setRP(0));
+        gaji.addTextChangedListener(textWatcher);
 
         //set leave focus from parent function
         setupleavefocus(findViewById(R.id.filter_inner_layout), this);
@@ -130,8 +158,6 @@ public class FilterActivity extends ParentActivity{
         btnumindown = (Button) findViewById(R.id.filter_btn_umindown);
         btnumaxup = (Button) findViewById(R.id.filter_btn_umaxup);
         btnumaxdown = (Button) findViewById(R.id.filter_btn_umaxdown);
-//        btnpkup = (Button) findViewById(R.id.filter_btn_pkup);
-//        btnpkdown = (Button) findViewById(R.id.filter_btn_pkdown);
 
         setAll();
     }
@@ -261,6 +287,25 @@ public class FilterActivity extends ParentActivity{
             tmp.add(places.get(n));
         }
         return tmp;
+    }
+    public String setRP(Integer number){
+        String tempp = "Rp. ";
+        tempp = tempp + numberFormat.format(number);
+        return tempp;
+    }
+    public Integer getinttotal(String string){
+        string = string.replace("R", "");
+        string = string.replace("p", "");
+        string = string.replace(".", "");
+        string = string.replace(" ", "");
+        string = string.replace(",", "");
+        Integer result = 0;
+        try{
+            result = Integer.valueOf(string);
+        }catch (NumberFormatException e){
+            return 0;
+        }
+        return result;
     }
 
 }

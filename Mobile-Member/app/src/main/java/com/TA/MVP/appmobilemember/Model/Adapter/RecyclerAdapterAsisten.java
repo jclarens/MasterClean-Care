@@ -19,6 +19,7 @@ import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Activity.AsistenActivity;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
+import com.TA.MVP.appmobilemember.lib.utils.Settings;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
@@ -77,7 +78,7 @@ public class RecyclerAdapterAsisten extends RecyclerView.Adapter<RecyclerAdapter
     public void onBindViewHolder(ViewHolder holder, int position) {
         Log.d("Listposition",GsonUtils.getJsonFromObject(users.get(position)));
         Picasso.with(context)
-                .load(users.get(position).getAvatar())
+                .load(Settings.getRetrofitAPIUrl()+"image/"+users.get(position).getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
                 .into(holder.imageView);

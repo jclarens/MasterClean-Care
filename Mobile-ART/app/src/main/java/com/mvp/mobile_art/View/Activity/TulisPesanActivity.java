@@ -112,8 +112,9 @@ public class TulisPesanActivity extends ParentActivity {
         map.put("message", msg.getText().toString());
         map.put("status_member", "0");
         map.put("status_art", "1");
-        calendar = Calendar.getInstance();
-        map.put("created_at", fixFormat.format(calendar.getTime()));
+//        calendar = Calendar.getInstance();
+//        calendar.add(Calendar.HOUR_OF_DAY, -5); // beda waktu
+//        map.put("created_at", fixFormat.format(calendar.getTime()));
         Log.d("testing", map.toString());
         Call<MyMessageResponse> caller = APIManager.getRepository(MessageRepo.class).postmessage(map);
         caller.enqueue(new APICallback<MyMessageResponse>() {

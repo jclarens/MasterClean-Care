@@ -121,7 +121,7 @@ public class ProfileActivity extends ParentActivity {
         });
 
         Picasso.with(getApplicationContext())
-                .load(Settings.getRetrofitAPIUrl()+"image/medium/"+user.getAvatar())
+                .load(Settings.getRetrofitAPIUrl()+"image/"+user.getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
                 .resize(imgfoto.getWidth(), imgfoto.getHeight())

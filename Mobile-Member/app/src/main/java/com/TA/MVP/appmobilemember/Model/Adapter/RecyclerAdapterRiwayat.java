@@ -107,7 +107,7 @@ public class RecyclerAdapterRiwayat extends RecyclerView.Adapter<RecyclerAdapter
         notifyDataSetChanged();
     }
     public String costumedateformat(Date date){
-        String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date)));
+        String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date))-1);
         return tglFormat.format(date) + " " + bulan + " " + tahunFormat.format(date) + " " + timeFormat.format(date);
     }
     public void setcontext(Context context){

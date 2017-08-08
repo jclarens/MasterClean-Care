@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -33,6 +34,8 @@ import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
+import com.TA.MVP.appmobilemember.lib.utils.Settings;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.NumberFormat;
@@ -66,6 +69,7 @@ public class AsistenActivity extends ParentActivity {
     private StaticData staticData;
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
     private LinearLayout layoutreview, layoutgaji, layoutstatus;
+    private ImageView imageView;
     private boolean minidetail = false;
 
     @Override
@@ -92,6 +96,7 @@ public class AsistenActivity extends ParentActivity {
 
     private void initAllView(){
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        imageView = (ImageView) findViewById(R.id.imageView);
         nama = (TextView) findViewById(R.id.asis_tv_nama);
         ratingBar = (RatingBar) findViewById(R.id.asis_ratingBar);
         usia = (TextView) findViewById(R.id.asis_tv_usia);
@@ -212,6 +217,12 @@ public class AsistenActivity extends ParentActivity {
                 }
             }
         });
+
+        Picasso.with(getApplicationContext())
+                .load(Settings.getRetrofitAPIUrl()+"image/"+art.getAvatar())
+                .placeholder(R.drawable.default_profile)
+                .error(R.drawable.default_profile)
+                .into(imageView);
 
         //toolbar
         setSupportActionBar(toolbar);
