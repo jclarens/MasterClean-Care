@@ -1,5 +1,6 @@
 package com.TA.MVP.appmobilemember.View.Fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -33,6 +34,7 @@ import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.OrderRepo;
 import com.TA.MVP.appmobilemember.View.Activity.KetentuanActivity;
 import com.TA.MVP.appmobilemember.View.Activity.PemesananActivity;
+import com.TA.MVP.appmobilemember.View.Activity.PermintaanActivity;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
@@ -69,7 +71,7 @@ public class FragmentPemesanan3 extends Fragment {
     private User member = new User();
     private Order order = new Order();
     private FragmentAsistenmini fragmentAsistenmini;
-    private EditText prof, estimasi, mulai, selesai, total, job;
+    private EditText prof, estimasi, mulai, selesai, total, job, alamat;
     private CheckBox ketentuan;
     private Button prev, pesan;
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
@@ -102,6 +104,7 @@ public class FragmentPemesanan3 extends Fragment {
         mulai = (EditText) _view.findViewById(R.id.pms3_et_mulai);
         selesai = (EditText) _view.findViewById(R.id.pms3_et_selesai);
         total = (EditText) _view.findViewById(R.id.pms3_et_total);
+        alamat = (EditText) _view.findViewById(R.id.alamat);
         ketentuan = (CheckBox) _view.findViewById(R.id.pms3_cb_kttn);
 
 
@@ -114,6 +117,7 @@ public class FragmentPemesanan3 extends Fragment {
 
         prof.setText(staticData.getWaktu_kerjas().get(order.getWork_time_id()-1).getWork_time());
         job.setText(staticData.getJobs().get(order.getJob_id()-1).getJob());
+        alamat.setText(order.getContact().getAddress());
 
         //listkerja
         recyclerView = (RecyclerView) _view.findViewById(R.id.pms3_rec_listkerja);
@@ -237,6 +241,14 @@ public class FragmentPemesanan3 extends Fragment {
                         public void onSuccess(Call<OrderResponse> call, Response<OrderResponse> response) {
                             super.onSuccess(call, response);
                             ((PemesananActivity)getActivity()).dismissDialog();
+                            ((PemesananActivity)getActivity()).abuildermessage("Penawaran anda berhasil dibuat. Silahkan buka tab Transaksi>Pemesanan untuk info lebih lanjut.","Pemberitahuan");
+                            ((PemesananActivity)getActivity()).abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    getActivity().finish();
+                                }
+                            });
+                            ((PemesananActivity)getActivity()).showalertdialog();
                             getActivity().finish();
                         }
 

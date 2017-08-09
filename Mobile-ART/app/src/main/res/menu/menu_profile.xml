@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/prof_menu_edit"
+        android:title="@string/menu_editprofile"
+        />
+    <item
+        android:id="@+id/prof_menu_editks"
+        android:title="@string/menu_editks"
+        />
+    <!--<item-->
+    <!--android:id="@+id/prof_menu_editdoc"-->
+    <!--android:title="@string/menu_editdoc"-->
+    <!--/>-->
+
+</menu>

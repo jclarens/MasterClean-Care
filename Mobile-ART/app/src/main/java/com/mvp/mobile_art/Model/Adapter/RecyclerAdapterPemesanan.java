@@ -17,6 +17,8 @@ import com.mvp.mobile_art.lib.utils.ConstClass;
 import com.mvp.mobile_art.lib.utils.GsonUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -76,7 +78,15 @@ public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapt
                 temp.add(orders.get(n));
         }
         this.orders = temp;
+        doshorting();
 //        this.orders = orders;
         notifyDataSetChanged();
+    }
+    public void doshorting(){
+        Collections.sort(orders, new Comparator<Order>(){
+            public int compare(Order obj1, Order obj2) {
+                return obj2.getStart_date().compareToIgnoreCase(obj1.getStart_date());
+            }
+        });
     }
 }

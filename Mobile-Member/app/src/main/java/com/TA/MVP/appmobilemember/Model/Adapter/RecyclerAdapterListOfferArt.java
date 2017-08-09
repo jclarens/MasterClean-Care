@@ -191,6 +191,7 @@ public class RecyclerAdapterListOfferArt extends RecyclerView.Adapter<RecyclerAd
     }
     public void gantistatusart(Integer artid){
         HashMap<String,Object> map = new HashMap<>();
+//        map.put("offer_id", offer.getId().toString());
         map.put("status", "1");
         Call<OfferResponse> caller = APIManager.getRepository(OfferRepo.class).patchofferart(offer.getId(), artid, map);
         caller.enqueue(new APICallback<OfferResponse>() {

@@ -17,6 +17,7 @@ import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Activity.AsistenActivity;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
+import com.TA.MVP.appmobilemember.lib.utils.Settings;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
@@ -71,7 +72,7 @@ public class FragmentAsistenmini extends Fragment {
         });
 
         Picasso.with(getContext())
-                .load(art.getAvatar())
+                .load(Settings.getRetrofitAPIUrl()+"image/"+art.getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
                 .into(imageView);

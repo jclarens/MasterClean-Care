@@ -97,7 +97,7 @@ public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapt
                 temp.add(orders.get(n));
         }
         this.orders = temp;
-//        this.orders = orders;
+        doshorting();
         notifyDataSetChanged();
     }
     public String costumedateformat(Date date){
@@ -106,6 +106,13 @@ public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapt
     }
     public void setcontext(Context context){
         this.context = context;
+    }
+    public void doshorting(){
+        Collections.sort(orders, new Comparator<Order>(){
+            public int compare(Order obj1, Order obj2) {
+                return obj2.getStart_date().compareToIgnoreCase(obj1.getStart_date());
+            }
+        });
     }
 }
 

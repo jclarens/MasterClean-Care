@@ -222,6 +222,7 @@ public class PermintaanActiveActivity extends ParentActivity {
         calendar = Calendar.getInstance();
         try {
             waktumulai.setTime(getdateFormat.parse(offer.getStart_date()));
+            waktumulai.add(Calendar.HOUR_OF_DAY, -1);
         } catch (ParseException e) {
 
         }

@@ -120,7 +120,6 @@ public class EditProfileActivity extends ParentActivity {
                 .load(Settings.getRetrofitAPIUrl()+"image/"+user.getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
-//                .resize(imgfoto.getWidth(), imgfoto.getHeight())
                 .into(imgfoto);
 
 

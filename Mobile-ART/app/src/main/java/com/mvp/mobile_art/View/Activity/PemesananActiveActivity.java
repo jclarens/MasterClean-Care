@@ -379,16 +379,32 @@ public class PemesananActiveActivity extends ParentActivity {
         } catch (ParseException e) {
 
         }
-        Log.d("Tanggal",getdateFormat.format(calendar.getTime()) + " - " + getdateFormat.format(waktuselesai.getTime()));
         if (calendar.after(waktuselesai)){
-            abuildermessage("Pemesanan ini sudah selesai.", "Pemberitahuan");
-            abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    gantistatus(3);
+            if (order.getStatus_member() == 1 && order.getStatus_art() == 1) {
+                abuildermessage("Pemesanan ini sudah selesai. ", "Pemberitahuan");
+                abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        gantistatus(3);
+                    }
+                });
+                showalertdialog();
+            } else {
+                waktuselesai.add(Calendar.HOUR_OF_DAY, 1);
+                if (calendar.after(waktuselesai)){
+                    if (order.getStatus_member() == 0 || order.getStatus_art() == 0) {
+                        abuildermessage("Pemesanan ini tidak dikonfirmasi oleh salah satu pihak member atau asisten, silahkan laporkan masalah ini pada tab Riwayat>Pemesanan>Report.", "Pemberitahuan");
+                        abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                gantistatus(5);
+                            }
+                        });
+                        showalertdialog();
+                    }
                 }
-            });
-            showalertdialog();
+                //else jika 1 jam setelah selesai, sebelum expired selesai
+            }
         }
     }
     public void checkexpired(){
@@ -413,6 +429,7 @@ public class PemesananActiveActivity extends ParentActivity {
         calendar = Calendar.getInstance();
         try {
             waktumulai.setTime(getdateFormat.parse(order.getStart_date()));
+//            waktumulai.add(Calendar.MINUTE, -10); // bisa mulai kerja 10 sebelum waktunya
         } catch (ParseException e) {
 
         }

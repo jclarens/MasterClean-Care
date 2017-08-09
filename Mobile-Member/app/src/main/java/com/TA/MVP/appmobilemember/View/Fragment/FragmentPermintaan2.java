@@ -504,7 +504,6 @@ public class FragmentPermintaan2 extends Fragment {
         string = string.replace("p", "");
         string = string.replace(".", "");
         string = string.replace(" ", "");
-//        string = string.replace(".00", "");
         string = string.replace(",", "");
         Integer result = 0;
         try{

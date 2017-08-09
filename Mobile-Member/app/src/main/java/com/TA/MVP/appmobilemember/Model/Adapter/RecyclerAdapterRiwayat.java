@@ -21,6 +21,8 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -81,6 +83,9 @@ public class RecyclerAdapterRiwayat extends RecyclerView.Adapter<RecyclerAdapter
             case 4:
                 holder.itemstatus.setText("Ditolak");
                 break;
+            case 5:
+                holder.itemstatus.setText("Bermasalah");
+                break;
         }
         holder.itemnama.setText(orders.get(position).getArt().getName());
         holder.itemprofesi.setText(orders.get(position).getWork_time().getWork_time());
@@ -99,11 +104,12 @@ public class RecyclerAdapterRiwayat extends RecyclerView.Adapter<RecyclerAdapter
     public void setOrders(List<Order> orders){
         List<Order> temp = new ArrayList<>();
         for (int n=0; n<orders.size();n++){
-            if (orders.get(n).getStatus() == 2 || orders.get(n).getStatus() == 3 || orders.get(n).getStatus() == 4)
+            if (orders.get(n).getStatus() == 2 || orders.get(n).getStatus() == 3 || orders.get(n).getStatus() == 4 || orders.get(n).getStatus() == 5)
                 temp.add(orders.get(n));
         }
         this.orders = temp;
 //        this.orders = orders;
+        doshorting();
         notifyDataSetChanged();
     }
     public String costumedateformat(Date date){
@@ -112,6 +118,13 @@ public class RecyclerAdapterRiwayat extends RecyclerView.Adapter<RecyclerAdapter
     }
     public void setcontext(Context context){
         this.context = context;
+    }
+    public void doshorting(){
+        Collections.sort(orders, new Comparator<Order>(){
+            public int compare(Order obj1, Order obj2) {
+                return obj2.getStart_date().compareToIgnoreCase(obj1.getStart_date());
+            }
+        });
     }
 }
 

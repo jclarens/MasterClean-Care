@@ -39,6 +39,7 @@ import com.mvp.mobile_art.Route.Repositories.WTRepo;
 import com.mvp.mobile_art.Route.Repositories.WalletRepo;
 import com.mvp.mobile_art.View.Fragment.FragmentJadwal;
 import com.mvp.mobile_art.View.Fragment.FragmentHistory;
+import com.mvp.mobile_art.View.Fragment.FragmentLainnya;
 import com.mvp.mobile_art.View.Fragment.FragmentPekerjaan;
 import com.mvp.mobile_art.View.Fragment.FragmentPesan;
 import com.mvp.mobile_art.View.Fragment.FragmentProfile;
@@ -122,7 +123,7 @@ public class MainActivity extends ParentActivity {
                         break;
                     case R.id.menu_lainnya:
                         posisiF = 5;
-                        fragment = new FragmentHistory();
+                        fragment = new FragmentLainnya();
                         break;
                 }
                 final FragmentTransaction transaction = fragmentManager.beginTransaction();
@@ -201,7 +202,7 @@ public class MainActivity extends ParentActivity {
                 break;
             case 5:
                 posisiF=5;
-                fragment = new FragmentHistory();
+                fragment = new FragmentLainnya();
                 break;
         }
         final FragmentTransaction transaction = fragmentManager.beginTransaction();

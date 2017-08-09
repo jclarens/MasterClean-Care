@@ -18,6 +18,8 @@ import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -76,10 +78,18 @@ public class RecyclerAdapterPermintaan extends RecyclerView.Adapter<RecyclerAdap
                 temp.add(offers.get(n));
         }
         this.offers = temp;
+        doshorting();
         notifyDataSetChanged();
     }
 
     public void setcontext(Context context) {
         this.context = context;
+    }
+    public void doshorting(){
+        Collections.sort(offers, new Comparator<Offer>(){
+            public int compare(Offer obj1, Offer obj2) {
+                return obj2.getStart_date().compareToIgnoreCase(obj1.getStart_date());
+            }
+        });
     }
 }

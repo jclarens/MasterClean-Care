@@ -19,6 +19,8 @@ import com.mvp.mobile_art.lib.utils.ConstClass;
 import com.mvp.mobile_art.lib.utils.GsonUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -29,7 +31,8 @@ public class RecyclerAdapterPermintaan extends RecyclerView.Adapter<RecyclerAdap
     private List<Offer> offers = new ArrayList<>();
     private Context context;
     private String[] status = {"Pending", "Diterima", "Ditolak", "Dibatalkan"};
-    private Integer mystatus;
+    private ArrayList<Integer> myliststatus = new ArrayList<>();
+//    private Integer mystatus;
     private List<Waktu_Kerja> defaultwk;
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -65,13 +68,10 @@ public class RecyclerAdapterPermintaan extends RecyclerView.Adapter<RecyclerAdap
     public void onBindViewHolder(RecyclerAdapterPermintaan.ViewHolder holder, int position) {
         if (offers.get(position).getStatus() == 0){
             holder.itemstatus.setText(status[0]);
-        } else if (offers.get(position).getStatus() == 1){
-            if (mystatus == 0){
-                holder.itemstatus.setText(status[2]);
-            }
-            else if (mystatus == 1){
-                holder.itemstatus.setText(status[1]);
-            }
+        } else if (offers.get(position).getStatus() == 1 && myliststatus.get(position) == 1){
+            holder.itemstatus.setText(status[1]);
+        } else if (offers.get(position).getStatus() == 1 && myliststatus.get(position) == 0){
+            holder.itemstatus.setText(status[2]);
         } else if (offers.get(position).getStatus() == 2){
             holder.itemstatus.setText(status[3]);
         }
@@ -86,11 +86,13 @@ public class RecyclerAdapterPermintaan extends RecyclerView.Adapter<RecyclerAdap
 
     public void setOffers(List<Offer> offers, Integer id) {
         this.offers = offers;
+        doshorting();
+        myliststatus.clear();
         for (int n=0;n<offers.size();n++){
             for (int m=0;m<offers.get(n).getOffer_art().size();m++){
                 Log.d("Debug status ",offers.get(n).getOffer_art().get(m).getArt_id()+" = "+id);
                 if (offers.get(n).getOffer_art().get(m).getArt_id().equals(id)) {
-                    mystatus = offers.get(n).getOffer_art().get(m).getStatus();
+                    myliststatus.add(offers.get(n).getOffer_art().get(m).getStatus());
                     break;
                 }
             }
@@ -103,5 +105,12 @@ public class RecyclerAdapterPermintaan extends RecyclerView.Adapter<RecyclerAdap
     }
     public void setDefaultwk(List<Waktu_Kerja> defaultwk){
         this.defaultwk = defaultwk;
+    }
+    public void doshorting(){
+        Collections.sort(offers, new Comparator<Offer>(){
+            public int compare(Offer obj1, Offer obj2) {
+                return obj2.getStart_date().compareToIgnoreCase(obj1.getStart_date());
+            }
+        });
     }
 }

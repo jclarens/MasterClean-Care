@@ -50,6 +50,8 @@ public class FragmentPesan extends Fragment{
                         SharedPref.save(ConstClass.PAGER_PESAN_POS, "out");
                         break;
                 }
+                pagerAdapterpesan.notifyDataSetChanged();
+                viewPagerpesan.setCurrentItem(position);
             }
 
             @Override

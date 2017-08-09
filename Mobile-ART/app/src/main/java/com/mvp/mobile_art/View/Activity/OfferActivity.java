@@ -246,7 +246,7 @@ public class OfferActivity extends ParentActivity {
             @Override
             public void onSuccess(Call<OfferResponse> call, Response<OfferResponse> response) {
                 super.onSuccess(call, response);
-                abuildermessage("Pendaftaran berhasil.", "Sukses");
+                abuildermessage("Pendaftaran berhasil. Lihat status pada tab Jadwal>Penawaran untuk info lebih lanjut.", "Sukses");
                 abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -342,6 +342,7 @@ public class OfferActivity extends ParentActivity {
             @Override
             public void onSuccess(Call<OfferArt> call, Response<OfferArt> response) {
                 super.onSuccess(call, response);
+//                Toast.makeText(getApplicationContext(),"Pengajuan anda sudah dibatalkan", Toast.LENGTH_SHORT).show();
                 bersedia.setText("Bersedia");
                 bersedia.setOnClickListener(new View.OnClickListener() {
                     @Override

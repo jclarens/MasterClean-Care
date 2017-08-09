@@ -4,10 +4,10 @@
     android:id="@+id/card_pemesanan"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
+    android:layout_margin="1dp"
     android:clickable="true"
     app:cardBackgroundColor="#eeeeee"
-    app:cardCornerRadius="12dp"
+    app:cardCornerRadius="3dp"
     app:cardElevation="3dp"
     app:contentPadding="4dp">
 

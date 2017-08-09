@@ -1,5 +1,6 @@
 package com.TA.MVP.appmobilemember.View.Fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -65,7 +66,7 @@ public class FragmentPermintaan3 extends Fragment {
     private User member = new User();
     private Offer offer = new Offer();
     private TextView namaasis, usiaasis, agamaasis, estimasitext;
-    private EditText worktime, estimasi, mulai, selesai, total, job;
+    private EditText worktime, estimasi, mulai, selesai, total, job, alamat;
     private LinearLayout layoutlistpekerjaan;
     private ImageView fotoasis;
     private RatingBar ratingasis;
@@ -97,10 +98,12 @@ public class FragmentPermintaan3 extends Fragment {
         mulai = (EditText) _view.findViewById(R.id.pmr3_et_mulai);
         selesai = (EditText) _view.findViewById(R.id.pmr3_et_selesai);
         total = (EditText) _view.findViewById(R.id.pmr3_et_total);
+        alamat = (EditText) _view.findViewById(R.id.alamat);
         ketentuan = (CheckBox) _view.findViewById(R.id.pmr3_cb_kttn);
 
         worktime.setText(staticData.getWaktu_kerjas().get(offer.getWork_time_id()-1).getWork_time());
         job.setText(staticData.getJobs().get(offer.getJob_id()-1).getJob());
+        alamat.setText(offer.getContact().getAddress());
 
         //listkerja
         recyclerView = (RecyclerView) _view.findViewById(R.id.pmr3_rec_listkerja);
@@ -196,7 +199,14 @@ public class FragmentPermintaan3 extends Fragment {
                 super.onSuccess(call, response);
                 ((PermintaanActivity)getActivity()).dismissDialog();
 //                getActivity().setResult(MainActivity.RESULT_SUCCESS);
-                getActivity().finish();
+                ((PermintaanActivity)getActivity()).abuildermessage("Penawaran anda berhasil dibuat. Silahkan buka tab Transaksi>Penawaran untuk info lebih lanjut.","Pemberitahuan");
+                ((PermintaanActivity)getActivity()).abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        getActivity().finish();
+                    }
+                });
+                ((PermintaanActivity)getActivity()).showalertdialog();
             }
 
             @Override

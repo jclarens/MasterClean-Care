@@ -29,6 +29,8 @@ import com.mvp.mobile_art.lib.api.APIManager;
 import com.mvp.mobile_art.lib.database.SharedPref;
 import com.mvp.mobile_art.lib.utils.ConstClass;
 import com.mvp.mobile_art.lib.utils.GsonUtils;
+import com.mvp.mobile_art.lib.utils.Settings;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -79,6 +81,13 @@ public class FragmentProfile extends Fragment{
         return _view;
     }
     public void settampilan(){
+        Picasso.with(getContext())
+                .load(Settings.getRetrofitAPIUrl()+"image/"+user.getAvatar())
+                .placeholder(R.drawable.default_profile)
+                .error(R.drawable.default_profile)
+                .resize(image.getWidth(), image.getHeight())
+                .into(image);
+
         ratingBar.setRating(user.getRate());
         nama.setText(user.getName());
         telp.setText(user.getContact().getPhone());

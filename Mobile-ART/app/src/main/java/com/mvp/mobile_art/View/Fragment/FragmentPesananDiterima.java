@@ -76,7 +76,7 @@ public class FragmentPesananDiterima extends Fragment {
             @Override
             public void onFailure(Call<List<Order>> call, Throwable t) {
                 super.onFailure(call, t);
-                Toast.makeText(getContext(),"Fail", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),"Koneksi bermasalah", Toast.LENGTH_SHORT).show();
                 swipeRefreshLayout.setRefreshing(false);
             }
         });

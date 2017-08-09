@@ -9,6 +9,7 @@ import com.mvp.mobile_art.R;
 import com.mvp.mobile_art.View.Fragment.FragmentListOffer;
 import com.mvp.mobile_art.View.Fragment.FragmentPesananDiterima;
 import com.mvp.mobile_art.View.Fragment.FragmentPesananMasuk;
+import com.mvp.mobile_art.View.Fragment.FragmentPesananRiwayat;
 
 /**
  * Created by jcla123ns on 22/07/17.
@@ -23,7 +24,7 @@ public class PagerAdapterJadwal extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
 
     @Override
@@ -35,6 +36,8 @@ public class PagerAdapterJadwal extends FragmentPagerAdapter {
                 return new FragmentPesananMasuk();
             case 2:
                 return new FragmentPesananDiterima();
+            case 3:
+                return new FragmentPesananRiwayat();
             default:
                 return null;
         }
@@ -49,8 +52,15 @@ public class PagerAdapterJadwal extends FragmentPagerAdapter {
                 return thiscontext.getResources().getString(R.string.pager_pesanan_masuk);
             case 2:
                 return thiscontext.getResources().getString(R.string.pager_pesanan_diterima);
+            case 3:
+                return thiscontext.getResources().getString(R.string.pager_pesanan_riwayat);
             default:
                 return null;
         }
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 }

@@ -41,15 +41,15 @@ public class FragmentHistory extends Fragment {
     private List<Order> orders = new ArrayList<>();
     private User user = new User();
     private SwipeRefreshLayout swipeRefreshLayout;
-    private TextView wallet;
-    private NumberFormat numberFormat = NumberFormat.getNumberInstance();
+//    private TextView wallet;
+//    private NumberFormat numberFormat = NumberFormat.getNumberInstance();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_history, container, false);
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
 
         swipeRefreshLayout = (SwipeRefreshLayout) _view.findViewById(R.id.swipeRefreshLayout);
-        wallet = (TextView) _view.findViewById(R.id.wallet);
+//        wallet = (TextView) _view.findViewById(R.id.wallet);
 
         recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_order);
         rec_LayoutManager = new LinearLayoutManager(getContext());
@@ -69,7 +69,7 @@ public class FragmentHistory extends Fragment {
         return _view;
     }
     public  void loadtampilan(){
-        wallet.setText(setRP(user.getUser_wallet().getAmt()));
+//        wallet.setText(setRP(user.getUser_wallet().getAmt()));
         Call<List<Order>> caller = APIManager.getRepository(OrderRepo.class).getorderByArt(user.getId().toString());
         caller.enqueue(new APICallback<List<Order>>() {
             @Override
@@ -89,11 +89,11 @@ public class FragmentHistory extends Fragment {
             }
         });
     }
-    public String setRP(Integer number){
-        String tempp = "Rp. ";
-        tempp = tempp + numberFormat.format(number) + ".00";
-        return tempp;
-    }
+//    public String setRP(Integer number){
+//        String tempp = "Rp. ";
+//        tempp = tempp + numberFormat.format(number) + ".00";
+//        return tempp;
+//    }
     public void loaduser(){
         Call<User> caller = APIManager.getRepository(UserRepo.class).getuser(user.getId().toString());
         caller.enqueue(new APICallback<User>() {

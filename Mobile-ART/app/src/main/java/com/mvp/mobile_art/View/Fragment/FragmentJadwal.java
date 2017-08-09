@@ -51,7 +51,12 @@ public class FragmentJadwal extends Fragment {
                     case 2:
                         SharedPref.save(ConstClass.PAGER_JADWAL_POS, "diterima");
                         break;
+                    case 3:
+                        SharedPref.save(ConstClass.PAGER_JADWAL_POS, "riwayat");
+                        break;
                 }
+                pagerAdapterjadwal.notifyDataSetChanged();
+                viewPagerjadwal.setCurrentItem(position);
             }
 
             @Override
@@ -60,11 +65,17 @@ public class FragmentJadwal extends Fragment {
             }
         });
 
-        if (SharedPref.getValueString(ConstClass.PAGER_JADWAL_POS).equals("masuk")){
+        if (SharedPref.getValueString(ConstClass.PAGER_JADWAL_POS).equals("penawaran")){
+            viewPagerjadwal.setCurrentItem(0);
+        }
+        else if (SharedPref.getValueString(ConstClass.PAGER_JADWAL_POS).equals("masuk")){
             viewPagerjadwal.setCurrentItem(1);
         }
         else if (SharedPref.getValueString(ConstClass.PAGER_JADWAL_POS).equals("diterima")){
             viewPagerjadwal.setCurrentItem(2);
+        }
+        else if (SharedPref.getValueString(ConstClass.PAGER_JADWAL_POS).equals("riwayat")){
+            viewPagerjadwal.setCurrentItem(3);
         }
         else{
             viewPagerjadwal.setCurrentItem(0);
