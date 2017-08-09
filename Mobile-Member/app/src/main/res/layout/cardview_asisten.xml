@@ -4,9 +4,9 @@
     android:id="@+id/card_asisten"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="1dp"
+    android:layout_margin="5dp"
     android:clickable="true"
-    app:cardBackgroundColor="#ffffff"
+    app:cardBackgroundColor="#e1f5fe"
     app:contentPadding="4dp">
 
     <LinearLayout

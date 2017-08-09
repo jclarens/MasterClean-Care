@@ -125,7 +125,8 @@
                             android:id="@+id/btnlocation"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:src="@drawable/ic_marker"/>
+                            android:src="@drawable/ic_marker"
+                            android:background="@drawable/backgroundlightgray"/>
                     </LinearLayout>
                 </LinearLayout>
                 <TextView
@@ -242,16 +243,24 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/btn_btlkn"
+                        tools:ignore="ButtonStyle"
                         android:textAllCaps="false"
-                        tools:ignore="ButtonStyle" />
+                        android:textColor="#000000"
+                        android:textSize="14dp"
+                        android:background="@drawable/buttonshape"
+                        />
                     <Button
                         android:id="@+id/kembali"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/btn_kmbl"
+                        tools:ignore="ButtonStyle"
                         android:textAllCaps="false"
-                        tools:ignore="ButtonStyle" />
+                        android:textColor="#000000"
+                        android:textSize="14dp"
+                        android:background="@drawable/buttonshape"
+                        />
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

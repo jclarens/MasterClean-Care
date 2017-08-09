@@ -73,6 +73,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:text="@string/arrow_up"
+                            android:background="@drawable/backgroundlightgray"
                             />
 
                         <EditText
@@ -91,7 +92,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/arrow_down" />
+                            android:text="@string/arrow_down"
+                            android:background="@drawable/backgroundlightgray"
+                            />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -123,7 +126,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/arrow_up" />
+                            android:text="@string/arrow_up"
+                            android:background="@drawable/backgroundlightgray"/>
 
                         <EditText
                             android:id="@+id/filter_et_umax"
@@ -141,7 +145,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/arrow_down" />
+                            android:text="@string/arrow_down"
+                            android:background="@drawable/backgroundlightgray"/>
                     </LinearLayout>
 
                 </LinearLayout>

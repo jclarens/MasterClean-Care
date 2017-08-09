@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:id="@+id/card_view_pesan"
     android:layout_margin="5dp"
-    app:cardBackgroundColor="#eeeeee"
+    app:cardBackgroundColor="#e3f2fd"
     app:cardCornerRadius="12dp"
     app:cardElevation="3dp"
     app:contentPadding="4dp"
