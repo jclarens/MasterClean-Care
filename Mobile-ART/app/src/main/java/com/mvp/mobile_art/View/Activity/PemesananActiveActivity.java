@@ -22,10 +22,12 @@ import com.mvp.mobile_art.Model.Adapter.RecyclerAdapterListKerjaShow;
 import com.mvp.mobile_art.Model.Array.ArrayBulan;
 import com.mvp.mobile_art.Model.Basic.MyTask;
 import com.mvp.mobile_art.Model.Basic.Order;
+import com.mvp.mobile_art.Model.Basic.ReviewOrder;
 import com.mvp.mobile_art.Model.Basic.StaticData;
 import com.mvp.mobile_art.Model.Responses.OrderResponse;
 import com.mvp.mobile_art.R;
 import com.mvp.mobile_art.Route.Repositories.OrderRepo;
+import com.mvp.mobile_art.Route.Repositories.ReviewOrderRepo;
 import com.mvp.mobile_art.lib.api.APICallback;
 import com.mvp.mobile_art.lib.api.APIManager;
 import com.mvp.mobile_art.lib.utils.ConstClass;
@@ -121,8 +123,7 @@ public class PemesananActiveActivity extends ParentActivity {
                 reload();
             }
         });
-
-        loadtampilan();
+        reload();
     }
     public void loadtampilan(){
         try{
@@ -188,8 +189,20 @@ public class PemesananActiveActivity extends ParentActivity {
                 else btnextra.setText("Kirim Pesan");
                 //selesaikan dari member
                 break;
+            case 2:
+//                btnextra.setText("Hapus");
+                btnextra.setVisibility(View.GONE);
+                break;
             case 3:
                 btnextra.setText("Lihat Review");
+                break;
+            case 4:
+//                btnextra.setText("Hapus");
+                btnextra.setVisibility(View.GONE);
+                break;
+            case 5:
+                btnextra.setText("Report");
+//                btnextra.setVisibility(View.GONE);
                 break;
         }
         btnextra.setOnClickListener(new View.OnClickListener() {
@@ -222,11 +235,49 @@ public class PemesananActiveActivity extends ParentActivity {
                             startActivity(intent1);
                         }
                         break;
+                    case 2:
+//                        abuildermessage("Hapus riwayat pemesanan ini?","Konfirmasi");
+//                        abuilder.setPositiveButton("Hapus", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                deleteorder();
+//                            }
+//                        });
+//                        abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                            }
+//                        });
+//                        showalertdialog();
+                        break;
                     case 3:
-                        Toast.makeText(getApplicationContext(),"Sedang dalam pengembangan.", Toast.LENGTH_SHORT).show();
+                        getreview();
+//                        Toast.makeText(getApplicationContext(),"Sedang dalam pengembangan.", Toast.LENGTH_SHORT).show();
 //                        Intent intent2 = new Intent(getApplicationContext(), ReviewActivity.class);
 //                        intent2.putExtra(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(order));
 //                        startActivity(intent2);
+                        break;
+                    case 4:
+//                        abuildermessage("Hapus riwayat pemesanan ini?","Konfirmasi");
+//                        abuilder.setPositiveButton("Hapus", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//                                deleteorder();
+//                            }
+//                        });
+//                        abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                            }
+//                        });
+//                        showalertdialog();
+                        break;
+                    case 5:
+                        Intent intent = new Intent(getApplicationContext(), ReportActivity.class);
+                        intent.putExtra("target", GsonUtils.getJsonFromObject(order.getArt()));
+                        startActivity(intent);
                         break;
                 }
             }
@@ -495,6 +546,7 @@ public class PemesananActiveActivity extends ParentActivity {
         });
     }
     public void reload(){
+        swipeRefreshLayout.setRefreshing(true);
         Call<Order> caller = APIManager.getRepository(OrderRepo.class).getorderById(order.getId());
         caller.enqueue(new APICallback<Order>() {
             @Override
@@ -515,6 +567,45 @@ public class PemesananActiveActivity extends ParentActivity {
             public void onFailure(Call<Order> call, Throwable t) {
                 super.onFailure(call, t);
                 swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+    public void getreview(){
+        initProgressDialog("Sedang memperoses...");
+        showDialog();
+        Call<ReviewOrder> caller = APIManager.getRepository(ReviewOrderRepo.class).getriview(order.getId());
+        caller.enqueue(new APICallback<ReviewOrder>() {
+            @Override
+            public void onSuccess(Call<ReviewOrder> call, Response<ReviewOrder> response) {
+                super.onSuccess(call, response);
+                dismissDialog();
+                Intent intent2 = new Intent(getApplicationContext(), ReviewActivity.class);
+                intent2.putExtra(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(order));
+                startActivity(intent2);
+                //goto review activity
+            }
+
+            @Override
+            public void onNotFound(Call<ReviewOrder> call, Response<ReviewOrder> response) {
+                super.onNotFound(call, response);
+                dismissDialog();
+
+            }
+
+            @Override
+            public void onError(Call<ReviewOrder> call, Response<ReviewOrder> response) {
+                super.onError(call, response);
+                dismissDialog();
+                Toast.makeText(getApplicationContext(),"Terjadi kesalahan pada server", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<ReviewOrder> call, Throwable t) {
+                super.onFailure(call, t);
+                Toast.makeText(getApplicationContext(),"Belum ada review",Toast.LENGTH_SHORT).show();
+                dismissDialog();
+//                Toast.makeText(getApplicationContext(),"Koneksi bermasalah, silahkan coba lagi", Toast.LENGTH_SHORT).show();
             }
         });
     }

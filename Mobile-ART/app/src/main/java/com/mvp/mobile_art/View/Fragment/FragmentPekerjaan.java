@@ -76,6 +76,7 @@ public class FragmentPekerjaan extends Fragment implements OnMapReadyCallback {
     private User user = new User();
     private DateFormat getdateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
     private Calendar waktumulai = new GregorianCalendar();
+    private Calendar calendar = Calendar.getInstance();
     CameraPosition targetcamera;
     GoogleMap mGoogleMap;
     MapView mMapView;
@@ -237,21 +238,6 @@ public class FragmentPekerjaan extends Fragment implements OnMapReadyCallback {
         }
     }
 
-    public List<Offer> filterexpired(List<Offer> offerz){
-        Calendar calendar = Calendar.getInstance();
-        for (int n=0; n<offerz.size(); n++){
-            try {
-                waktumulai.setTime(getdateFormat.parse(offerz.get(n).getStart_date()));
-            } catch (ParseException e) {
-
-            }
-            if (calendar.after(waktumulai)){
-                offerz.remove(offerz.get(n));
-            }
-        }
-        return offerz;
-    }
-
     public void focusmap(){
         String stringlocation = namalokasi.getText().toString();
         List<Address> addresses = null;
@@ -282,8 +268,7 @@ public class FragmentPekerjaan extends Fragment implements OnMapReadyCallback {
             public void onSuccess(Call<List<Offer>> call, Response<List<Offer>> response) {
                 super.onSuccess(call, response);
                 offers = response.body();
-//                resetmapview(offers);
-                resetmapview(filterexpired(offers));
+                resetmapview(removeexpired(offers));
             }
 
             @Override
@@ -319,5 +304,20 @@ public class FragmentPekerjaan extends Fragment implements OnMapReadyCallback {
                 super.onFailure(call, t);
             }
         });
+    }
+    public List<Offer> removeexpired(List<Offer> offers){
+        List<Offer> temp = new ArrayList<>();
+        calendar = Calendar.getInstance();
+        for (int n=0; n< offers.size();n++){
+            try {
+                waktumulai.setTime(getdateFormat.parse(offers.get(n).getStart_date()));
+            } catch (ParseException e) {
+
+            }
+            if (!calendar.after(waktumulai)){
+                temp.add(offers.get(n));
+            }
+        }
+        return temp;
     }
 }

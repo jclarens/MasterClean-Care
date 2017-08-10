@@ -27,5 +27,6 @@ public class ConstClass {
     //pager
     public static String PAGER_PESAN_POS = "pesanpos";
     public static String PAGER_JADWAL_POS = "jadwalpos";
+    public static String PAGER_PENAWARAN_POS = "penawaranpos";
 
 }

@@ -90,7 +90,7 @@ public class RecyclerAdapterListOfferArt extends RecyclerView.Adapter<RecyclerAd
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             int position = getAdapterPosition();
-                            postpemesanan(offerArts.get(position).getArt_id());
+                            postpemesanan(offerArts.get(position).getId(),offerArts.get(position).getArt_id());
                         }
                     });
                     ((PermintaanActiveActivity)context).abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
@@ -127,7 +127,7 @@ public class RecyclerAdapterListOfferArt extends RecyclerView.Adapter<RecyclerAd
         this.offerArts = offerArts;
         notifyDataSetChanged();
     }
-    public void postpemesanan(final Integer artid){
+    public void postpemesanan(final Integer offerartid, Integer artid){
         ((PermintaanActiveActivity)context).initProgressDialog("Pemesanan sedang diperoses");
         ((PermintaanActiveActivity)context).showDialog();
         Calendar calendar = Calendar.getInstance();
@@ -153,7 +153,7 @@ public class RecyclerAdapterListOfferArt extends RecyclerView.Adapter<RecyclerAd
             public void onSuccess(Call<OrderResponse> call, Response<OrderResponse> response) {
                 super.onSuccess(call, response);
                 gantistatusoffer();
-                gantistatusart(artid);
+                gantistatusart(offerartid);
             }
 
             @Override
@@ -189,11 +189,11 @@ public class RecyclerAdapterListOfferArt extends RecyclerView.Adapter<RecyclerAd
             }
         });
     }
-    public void gantistatusart(Integer artid){
+    public void gantistatusart(Integer offerartid){
         HashMap<String,Object> map = new HashMap<>();
 //        map.put("offer_id", offer.getId().toString());
         map.put("status", "1");
-        Call<OfferResponse> caller = APIManager.getRepository(OfferRepo.class).patchofferart(offer.getId(), artid, map);
+        Call<OfferResponse> caller = APIManager.getRepository(OfferRepo.class).patchofferart(offerartid, map);
         caller.enqueue(new APICallback<OfferResponse>() {
             @Override
             public void onSuccess(Call<OfferResponse> call, Response<OfferResponse> response) {

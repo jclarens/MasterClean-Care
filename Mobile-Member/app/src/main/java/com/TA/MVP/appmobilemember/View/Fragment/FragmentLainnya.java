@@ -68,7 +68,11 @@ public class FragmentLainnya extends Fragment {
         contactus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getadmin();
+                if (SharedPref.getValueString(SharedPref.ACCESS_TOKEN) == ""){
+                    Toast.makeText(context,"Silahkan login terlebih dahulu.", Toast.LENGTH_SHORT).show();
+                }
+                else
+                    getadmin();
             }
         });
 

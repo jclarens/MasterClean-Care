@@ -24,19 +24,17 @@ public class PagerAdapterJadwal extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 4;
+        return 3;
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position){
             case 0:
-                return new FragmentListOffer();
-            case 1:
                 return new FragmentPesananMasuk();
-            case 2:
+            case 1:
                 return new FragmentPesananDiterima();
-            case 3:
+            case 2:
                 return new FragmentPesananRiwayat();
             default:
                 return null;
@@ -47,12 +45,10 @@ public class PagerAdapterJadwal extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position){
             case 0:
-                return thiscontext.getResources().getString(R.string.pager_penawaran);
-            case 1:
                 return thiscontext.getResources().getString(R.string.pager_pesanan_masuk);
-            case 2:
+            case 1:
                 return thiscontext.getResources().getString(R.string.pager_pesanan_diterima);
-            case 3:
+            case 2:
                 return thiscontext.getResources().getString(R.string.pager_pesanan_riwayat);
             default:
                 return null;

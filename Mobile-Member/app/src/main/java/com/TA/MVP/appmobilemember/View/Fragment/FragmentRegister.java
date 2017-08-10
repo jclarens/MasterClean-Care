@@ -122,8 +122,9 @@ public class FragmentRegister extends Fragment {
                         map.put("born_place", bplace.getText().toString());
                         map.put("born_date", tgl.getText());
                         map.put("religion", String.valueOf(spinneragama.getSelectedItemPosition() + 1));
-                        map.put("user_type", String.valueOf(1));//cek lg
-                        map.put("status", String.valueOf(1));//register 0
+                        map.put("role_id", String.valueOf(2));
+                        map.put("status", String.valueOf(1));
+                        map.put("activation", String.valueOf(1));
                         UserContact userContact = new UserContact();
                         userContact.setAddress(alamat.getText().toString());
                         userContact.setCity((spinnerkota.getSelectedItemPosition() + 1));

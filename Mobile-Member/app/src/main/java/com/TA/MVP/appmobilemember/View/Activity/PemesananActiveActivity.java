@@ -140,6 +140,10 @@ public class PemesananActiveActivity extends ParentActivity {
 //                btnextra.setText("Hapus");
                 btnextra.setVisibility(View.GONE);
                 break;
+            case 5:
+                btnextra.setText("Report");
+//                btnextra.setVisibility(View.GONE);
+                break;
         }
 
         try{
@@ -260,6 +264,11 @@ public class PemesananActiveActivity extends ParentActivity {
 //                            }
 //                        });
 //                        showalertdialog();
+                        break;
+                    case 5:
+                        Intent intent = new Intent(getApplicationContext(), ReportActivity.class);
+                        intent.putExtra("target", GsonUtils.getJsonFromObject(order.getArt()));
+                        startActivity(intent);
                         break;
                 }
             }

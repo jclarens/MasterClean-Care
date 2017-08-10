@@ -4,10 +4,10 @@
     android:id="@+id/card_pemesanan"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
+    android:layout_margin="1dp"
     android:clickable="true"
-    app:cardBackgroundColor="#eeeeee"
-    app:cardCornerRadius="12dp"
+    app:cardBackgroundColor="#e3f2fd"
+    app:cardCornerRadius="1dp"
     app:cardElevation="3dp"
     app:contentPadding="4dp">
 
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="15dp"
                 android:layout_marginRight="15dp"
-                android:text="Type pemesanan"
+                android:text="Tipe pemesanan"
                 android:textAlignment="textEnd" />
 
             <TextView

@@ -31,7 +31,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Ambil Gambar"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="14dp"
+            android:background="@drawable/buttonshape"
+            />
 
         <Button
             android:id="@+id/take_konf"
@@ -39,7 +43,11 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Konfirmasi"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="14dp"
+            android:background="@drawable/buttonshape"
+            />
     </LinearLayout>
 
 </LinearLayout>

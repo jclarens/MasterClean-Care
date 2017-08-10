@@ -71,15 +71,9 @@ public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapt
         return orders.size();
     }
 
-    public void setOrders(List<Order> orders, Integer status){
-        List<Order> temp = new ArrayList<>();
-        for (int n=0; n<orders.size();n++){
-            if (orders.get(n).getStatus() == status)
-                temp.add(orders.get(n));
-        }
-        this.orders = temp;
+    public void setOrders(List<Order> orders){
+        this.orders = orders;
         doshorting();
-//        this.orders = orders;
         notifyDataSetChanged();
     }
     public void doshorting(){

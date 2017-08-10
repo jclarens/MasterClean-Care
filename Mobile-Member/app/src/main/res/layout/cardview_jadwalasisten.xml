@@ -37,7 +37,9 @@
             android:paddingEnd="15dp"
             android:paddingTop="3dp"
             android:paddingBottom="3dp"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:layout_gravity="center_vertical"
+            />
         <TextView
             android:id="@+id/card_jadwalasisten_tv2"
             android:layout_width="match_parent"

@@ -72,7 +72,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/arrow_up" />
+                            android:text="@string/arrow_up"
+                            android:background="@drawable/backgroundlightgray"
+                            />
 
                         <EditText
                             android:id="@+id/filter_et_umin"
@@ -90,7 +92,9 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/arrow_down" />
+                            android:text="@string/arrow_down"
+                            android:background="@drawable/backgroundlightgray"
+                            />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -122,7 +126,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/arrow_up" />
+                            android:text="@string/arrow_up"
+                            android:background="@drawable/backgroundlightgray"/>
 
                         <EditText
                             android:id="@+id/filter_et_umax"
@@ -140,7 +145,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/arrow_down" />
+                            android:text="@string/arrow_down"
+                            android:background="@drawable/backgroundlightgray"/>
                     </LinearLayout>
 
                 </LinearLayout>
@@ -259,7 +265,8 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/filter_recview_bahasa"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/backgroundlightgray">
 
             </android.support.v7.widget.RecyclerView>
 
@@ -319,17 +326,35 @@
                 android:nextFocusLeft="@id/filter_et_gaji"
                 android:textColor="@android:color/black" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
             <Button
                 android:id="@+id/filter_btn_cari"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/filter_cari" />
+                android:text="@string/filter_cari"
+                android:layout_weight="1"
+                android:textColor="#000000"
+                android:textAllCaps="false"
+                android:textSize="16dp"
+                android:background="@drawable/buttonshape"
+                />
 
             <Button
                 android:id="@+id/filter_btn_batal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/filter_batal" />
+                android:text="@string/filter_batal"
+                android:textAllCaps="false"
+                android:textColor="#000000"
+                android:textSize="16dp"
+                android:background="@drawable/buttonshape"
+                android:layout_weight="1"
+                />
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 

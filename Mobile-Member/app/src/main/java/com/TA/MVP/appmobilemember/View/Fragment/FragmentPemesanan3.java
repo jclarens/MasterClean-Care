@@ -249,7 +249,6 @@ public class FragmentPemesanan3 extends Fragment {
                                 }
                             });
                             ((PemesananActivity)getActivity()).showalertdialog();
-                            getActivity().finish();
                         }
 
                         @Override

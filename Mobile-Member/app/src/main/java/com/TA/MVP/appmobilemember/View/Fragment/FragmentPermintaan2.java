@@ -2,6 +2,8 @@ package com.TA.MVP.appmobilemember.View.Fragment;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,7 +38,10 @@ import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Basic.Waktu_Kerja;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.MyTaskRepo;
+import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
+import com.TA.MVP.appmobilemember.View.Activity.PemesananActivity;
 import com.TA.MVP.appmobilemember.View.Activity.PermintaanActivity;
+import com.TA.MVP.appmobilemember.View.Activity.WalletActivity;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
@@ -94,6 +99,7 @@ public class FragmentPermintaan2 extends Fragment {
     private OrderTime endtemp = new OrderTime();
     private ArrayBulan arrayBulan = new ArrayBulan();
     private Date startdate, enddate;
+    private User user = new User();
 
     private String fixstart, fixend;
     private Integer total = 0;
@@ -103,6 +109,7 @@ public class FragmentPermintaan2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_permintaan2, container, false);
+        user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
         offer = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.OFFER_EXTRA), Offer.class);
         defaultWK = ((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getWaktu_kerjas();
         defaultProf = ((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getJobs();
@@ -309,30 +316,7 @@ public class FragmentPermintaan2 extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (validasi()){
-                    //save data from this fragment ----------------------------------------------------------------------------------------------------
-                    offer.setCost(total);
-                    offer.setStart_date(fixstart);
-                    offer.setEnd_date(fixend);
-                    try {
-                        offer.setRemark(cttntmbhn.getText().toString());
-                    }catch (NullPointerException e){
-                        offer.setRemark("");
-                    }
-                    offer.setStatus(0);
-                    List<MyTask> templist = rec_Adapter.getselectedtasklist();
-                    List<OrderTask> newlist = new ArrayList<>();
-                    for (int n=0; n < templist.size(); n++){
-                        OrderTask orderTask = new OrderTask();
-                        orderTask.setTask_list_id(templist.get(n).getId());
-                        Log.d("ADD list",orderTask.getTask_list_id() + " and "+ templist.get(n).getId());
-                        newlist.add(orderTask);
-                        orderTask.setStatus(0);
-                    }
-                    offer.setOffer_task_list(newlist);
-                    SharedPref.save(ConstClass.OFFER_EXTRA, GsonUtils.getJsonFromObject(offer));
-                    ((PermintaanActivity)getActivity()).doChangeFragment(3);
-                }
+                loaduser();
             }
         });
 
@@ -561,6 +545,75 @@ public class FragmentPermintaan2 extends Fragment {
         else {
             recyclerView.setVisibility(View.GONE);
             rec_Adapter.clearselectedlist();
+        }
+    }
+    public void loaduser(){
+        ((PermintaanActivity) getActivity()).initProgressDialog("Loading");
+        ((PermintaanActivity) getActivity()).showDialog();
+        Call<User> caller = APIManager.getRepository(UserRepo.class).getuser(user.getId().toString());
+        caller.enqueue(new APICallback<User>() {
+            @Override
+            public void onSuccess(Call<User> call, Response<User> response) {
+                super.onSuccess(call, response);
+                user = response.body();
+                ((PermintaanActivity) getActivity()).dismissDialog();
+                gonext();
+            }
+
+            @Override
+            public void onError(Call<User> call, Response<User> response) {
+                super.onError(call, response);
+                ((PermintaanActivity) getActivity()).dismissDialog();
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                super.onFailure(call, t);
+                ((PermintaanActivity) getActivity()).dismissDialog();
+            }
+        });
+    }
+    public void gonext() {
+        offer.setCost(total);
+//              ///loading pls
+        if (offer.getCost() > user.getUser_wallet().getAmt()) {
+            ((PemesananActivity) getActivity()).abuildermessage("Wallet anda tidak mencukupi untuk melakukan pemesanan\nWallet anda:" + setRP(user.getUser_wallet().getAmt()), "Pemberitahuan");
+            ((PemesananActivity) getActivity()).abuilder.setPositiveButton("Top up", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent = new Intent(getContext(), WalletActivity.class);
+                    startActivity(intent);
+                }
+            });
+            ((PemesananActivity) getActivity()).abuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+            ((PemesananActivity) getActivity()).showalertdialog();
+        } else if (validasi()) {
+            //save data from this fragment ----------------------------------------------------------------------------------------------------
+            offer.setStart_date(fixstart);
+            offer.setEnd_date(fixend);
+            try {
+                offer.setRemark(cttntmbhn.getText().toString());
+            } catch (NullPointerException e) {
+                offer.setRemark("");
+            }
+            offer.setStatus(0);
+            List<MyTask> templist = rec_Adapter.getselectedtasklist();
+            List<OrderTask> newlist = new ArrayList<>();
+            for (int n = 0; n < templist.size(); n++) {
+                OrderTask orderTask = new OrderTask();
+                orderTask.setTask_list_id(templist.get(n).getId());
+                Log.d("ADD list", orderTask.getTask_list_id() + " and " + templist.get(n).getId());
+                newlist.add(orderTask);
+                orderTask.setStatus(0);
+            }
+            offer.setOffer_task_list(newlist);
+            SharedPref.save(ConstClass.OFFER_EXTRA, GsonUtils.getJsonFromObject(offer));
+            ((PermintaanActivity) getActivity()).doChangeFragment(3);
         }
     }
 }

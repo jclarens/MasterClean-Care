@@ -198,7 +198,7 @@ public class ProfileActivity extends ParentActivity {
 
         Log.d("Image path ", Settings.getRetrofitAPIUrl()+"image/"+user.getAvatar());
         Picasso.with(getApplicationContext())
-                .load(Settings.getRetrofitAPIUrl()+"image/"+user.getAvatar())
+                .load(Settings.getRetrofitAPIUrl()+"image/small/"+user.getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
                 .into(image);

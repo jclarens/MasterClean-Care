@@ -38,11 +38,10 @@ import com.mvp.mobile_art.Route.Repositories.PlaceRepo;
 import com.mvp.mobile_art.Route.Repositories.WTRepo;
 import com.mvp.mobile_art.Route.Repositories.WalletRepo;
 import com.mvp.mobile_art.View.Fragment.FragmentJadwal;
-import com.mvp.mobile_art.View.Fragment.FragmentHistory;
 import com.mvp.mobile_art.View.Fragment.FragmentLainnya;
 import com.mvp.mobile_art.View.Fragment.FragmentPekerjaan;
+import com.mvp.mobile_art.View.Fragment.FragmentPenawaran;
 import com.mvp.mobile_art.View.Fragment.FragmentPesan;
-import com.mvp.mobile_art.View.Fragment.FragmentProfile;
 import com.mvp.mobile_art.lib.api.APICallback;
 import com.mvp.mobile_art.lib.api.APIManager;
 import com.mvp.mobile_art.lib.database.SharedPref;
@@ -99,15 +98,15 @@ public class MainActivity extends ParentActivity {
         }
     }
     public void settampilan(){
-        fragmentManager.beginTransaction().replace(R.id.content, new FragmentProfile()).commit();
+        fragmentManager.beginTransaction().replace(R.id.content, new FragmentPenawaran()).commit();
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
                 switch (id){
-                    case R.id.menu_profile:
+                    case R.id.menu_penawaran:
                         posisiF = 1;
-                        fragment = new FragmentProfile();
+                        fragment = new FragmentPenawaran();
                         break;
                     case R.id.menu_pekerjaan:
                         posisiF = 2;
@@ -143,14 +142,9 @@ public class MainActivity extends ParentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_alarm:
-                if (SharedPref.getValueString(ConstClass.USER) == ""){
-                    Toast.makeText(getApplicationContext(), "Fitur membutuhkan authentikasi",Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    ActivityCompat.requestPermissions(this,
-                            new String[]{Manifest.permission.CALL_PHONE},
-                            PERMS_REQUEST_CODE);
-                }
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.CALL_PHONE},
+                        PERMS_REQUEST_CODE);
                 break;
             case R.id.action_logout:SharedPref.save(SharedPref.ACCESS_TOKEN, "");
                 abuildermessage("Anda akan melakukan Logout?", "Konfirmasi");
@@ -189,7 +183,7 @@ public class MainActivity extends ParentActivity {
     public void refreshfragment(){
         switch (posisiF){
             case 1:
-                fragment = new FragmentProfile();
+                fragment = new FragmentPenawaran();
                 break;
             case 2:
                 fragment = new FragmentPekerjaan();
@@ -359,6 +353,18 @@ public class MainActivity extends ParentActivity {
                 }
                 return;
             }
+            case 111: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    SharedPref.save(ConstClass.EMERGENCY_EXTRA, "on");
+                    Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
+                    startActivity(intent);
+
+                } else {
+                    finish();
+                }
+                return;
+            }
         }
     }
     public void getemergencystatus(){
@@ -371,9 +377,10 @@ public class MainActivity extends ParentActivity {
                 dismissDialog();
                 try{
                     if (response.body().getStatus() == 1){
-                        Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
-                        intent.putExtra("item", GsonUtils.getJsonFromObject(response.body()));
-                        startActivity(intent);
+                        getpermission();
+//                        Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
+//                        intent.putExtra("item", GsonUtils.getJsonFromObject(response.body()));
+//                        startActivity(intent);
                     }
                 }catch (NullPointerException e){
 
@@ -403,5 +410,10 @@ public class MainActivity extends ParentActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+    public void getpermission(){
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.CALL_PHONE},
+                111);
     }
 }

@@ -13,6 +13,8 @@ import com.mvp.mobile_art.Route.Repositories.MyTaskRepo;
 import com.mvp.mobile_art.Route.Repositories.OfferRepo;
 import com.mvp.mobile_art.Route.Repositories.OrderRepo;
 import com.mvp.mobile_art.Route.Repositories.PlaceRepo;
+import com.mvp.mobile_art.Route.Repositories.ReportRepo;
+import com.mvp.mobile_art.Route.Repositories.ReviewOrderRepo;
 import com.mvp.mobile_art.Route.Repositories.UserRepo;
 import com.mvp.mobile_art.Route.Repositories.WTRepo;
 import com.mvp.mobile_art.Route.Repositories.WalletRepo;
@@ -69,6 +71,8 @@ public class MasterCleanApplication extends Application {
         APIManager.registerRepository(LanguageRepo.class);
         APIManager.registerRepository(JobRepo.class);
         APIManager.registerRepository(WTRepo.class);
+        APIManager.registerRepository(ReportRepo.class);
+        APIManager.registerRepository(ReviewOrderRepo.class);
         APIManager.registerRepository(AdditionalInfoRepo.class);
         APIManager.registerRepository(EmergencycallRepo.class);
     }

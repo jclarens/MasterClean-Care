@@ -2,6 +2,7 @@ package com.TA.MVP.appmobilemember.View.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -39,18 +40,20 @@ public class FragmentStatusPermintaan extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager rec_LayoutManager;
     private RecyclerAdapterPermintaan rec_Adapter;
-    private Button btn_add;
+//    private Button btn_add;
     private User user;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private FloatingActionButton btnadd;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_status_permintaan, container, false);
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
 
+        btnadd = (FloatingActionButton) _view.findViewById(R.id.btn_addpermintaan);
         swipeRefreshLayout = (SwipeRefreshLayout) _view.findViewById(R.id.swipeRefreshLayout);
-        btn_add = (Button) _view.findViewById(R.id.btn_addpermintaan);
-        btn_add.setOnClickListener(new View.OnClickListener() {
+//        btn_add = (Button) _view.findViewById(R.id.btn_addpermintaan);
+        btnadd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                if (SharedPref.getValueString(ConstClass.USER).equals(""))

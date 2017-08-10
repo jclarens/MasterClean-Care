@@ -29,7 +29,7 @@ public class FragmentStatus extends Fragment {
     private TabLayout tabLayoutstatus;
     private ViewPager viewPagerstatus;
     private PagerAdapter pagerAdapterstatus;
-    private FloatingActionButton btntopup;
+//    private FloatingActionButton btntopup;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,18 +37,18 @@ public class FragmentStatus extends Fragment {
 
         tabLayoutstatus = (TabLayout) _view.findViewById(R.id.tablayout_status);
         viewPagerstatus = (ViewPager) _view.findViewById(R.id.viewpager_status);
-        btntopup = (FloatingActionButton) _view.findViewById(R.id.btn_topup);
+//        btntopup = (FloatingActionButton) _view.findViewById(R.id.btn_topup);
 
         pagerAdapterstatus = new PagerAdapterStatus(getChildFragmentManager(), getContext());
         viewPagerstatus.setAdapter(pagerAdapterstatus);
         tabLayoutstatus.setupWithViewPager(viewPagerstatus);
 
-        btntopup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                MainActivity.doStartActivity(getContext(), WalletActivity.class);
-            }
-        });
+//        btntopup.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                MainActivity.doStartActivity(getContext(), WalletActivity.class);
+//            }
+//        });
 
         viewPagerstatus.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

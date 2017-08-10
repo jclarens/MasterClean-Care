@@ -7,14 +7,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tablayout_pesan"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
         android:background="@color/colorPrimaryDark"/>
 
     <android.support.v4.view.ViewPager
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/viewpager_pesan"
-        android:layout_below="@+id/tablayout_jadwal" />
+        android:id="@+id/viewpager_pesan" />
 
 </LinearLayout>

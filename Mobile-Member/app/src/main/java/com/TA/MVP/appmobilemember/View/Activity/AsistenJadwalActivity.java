@@ -2,10 +2,13 @@ package com.TA.MVP.appmobilemember.View.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterJadwal;
@@ -35,12 +38,17 @@ public class AsistenJadwalActivity extends ParentActivity {
     private List<Order> orders = new ArrayList<>();
     private Toolbar toolbar;
     private User art;
+    private SwipeRefreshLayout swipeRefreshLayout;
+    private LinearLayout layoutnolist;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jadwalart);
         Intent intent = getIntent();
         art = GsonUtils.getObjectFromJson(intent.getStringExtra(ConstClass.ART_EXTRA), User.class);
+
+        layoutnolist = (LinearLayout) findViewById(R.id.layout_nolist);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 
         //toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
@@ -57,12 +65,24 @@ public class AsistenJadwalActivity extends ParentActivity {
         rec_Adapter.setOrders(orders);
         recyclerView.setAdapter(rec_Adapter);
 
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadjadwal();
+            }
+        });
+        loadjadwal();
+    }
+    public void loadjadwal(){
         Call<List<Order>> caller = APIManager.getRepository(OrderRepo.class).getordersByArtstatus(art.getId(), 1);
         caller.enqueue(new APICallback<List<Order>>() {
             @Override
             public void onSuccess(Call<List<Order>> call, Response<List<Order>> response) {
                 super.onSuccess(call, response);
                 rec_Adapter.setOrders(response.body());
+                if (response.body().size() > 0){
+                    showlist();
+                } else hidelist();
             }
 
             @Override
@@ -70,6 +90,14 @@ public class AsistenJadwalActivity extends ParentActivity {
                 super.onFailure(call, t);
             }
         });
+    }
+    public void showlist(){
+        recyclerView.setVisibility(View.VISIBLE);
+        layoutnolist.setVisibility(View.GONE);
+    }
+    public void hidelist(){
+        recyclerView.setVisibility(View.GONE);
+        layoutnolist.setVisibility(View.VISIBLE);
     }
 
     @Override

@@ -28,6 +28,7 @@
             android:layout_weight="5"
             android:nextFocusUp="@id/carimap_icon_cari"
             android:nextFocusLeft="@id/carimap_icon_cari"
+            android:background="@drawable/backgroundlightgray"
 
             android:contentDescription="@string/carilokasi"
             app:srcCompat="@drawable/icon_search"/>

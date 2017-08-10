@@ -334,7 +334,15 @@
                 android:text="Dapat Berbahasa : "
                 android:textColor="@android:color/black" />
 
-            <CheckBox
+            <!--<CheckBox-->
+                <!--android:id="@+id/asis_cb_tktanjg"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text="@string/tktanjg"-->
+                <!--android:enabled="false"-->
+                <!--android:textColor="@color/colorBlack"/>-->
+
+            <TextView
                 android:id="@+id/asis_cb_tktanjg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -347,7 +355,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:orientation="horizontal"
-                tools:ignore="ButtonStyle">
+                tools:ignore="ButtonStyle"
+                android:layout_marginTop="10dp">
 
                 <Button
                     android:id="@+id/asis_btn_lhtjdwl"
@@ -355,7 +364,11 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/lhtjdwl"
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="14dp"
+                    android:background="@drawable/buttonshape"
+                    />
 
                 <Button
                     android:id="@+id/asis_btn_pemesanan"
@@ -363,8 +376,13 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="@string/pemesanan"
-                    android:textAllCaps="false" />
+                    android:textAllCaps="false"
+                    android:textColor="#000000"
+                    android:textSize="14dp"
+                    android:background="@drawable/buttonshape"
+                    />
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/layout_review"
                 android:layout_width="match_parent"

@@ -2,6 +2,7 @@ package com.TA.MVP.appmobilemember.View.Fragment;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -39,7 +40,9 @@ import com.TA.MVP.appmobilemember.Model.Basic.Waktu_Kerja;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.MyTaskRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.OrderRepo;
+import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.View.Activity.PemesananActivity;
+import com.TA.MVP.appmobilemember.View.Activity.WalletActivity;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.database.SharedPref;
@@ -100,6 +103,7 @@ public class FragmentPemesanan2 extends Fragment {
     private OrderTime endtemp = new OrderTime();
     private ArrayBulan arrayBulan = new ArrayBulan();
     private Date startdate, enddate;
+    private User user = new User();
 
     private String fixstart, fixend;
     private Integer artcost = 0;
@@ -110,6 +114,7 @@ public class FragmentPemesanan2 extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_pemesanan2, container, false);
+        user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
         art = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.ART_EXTRA), User.class);
         order = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.ORDER_EXTRA), Order.class);
         defaultWK = ((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getWaktu_kerjas();
@@ -324,32 +329,7 @@ public class FragmentPemesanan2 extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                ((PemesananActivity)getActivity()) ///loading pls
-                if (validasi()){
-                    //save data from this fragment ----------------------------------------------------------------------------------------------------
-                    order.setCost(total);
-                    order.setStart_date(fixstart);
-                    order.setEnd_date(fixend);
-                    try {
-                        order.setRemark(cttntmbhn.getText().toString());
-                    }catch (NullPointerException e){
-                        order.setRemark("");
-                    }
-                    order.setStatus(0);
-                    List<MyTask> templist = rec_Adapter.getselectedtasklist();
-                    List<OrderTask> newlist = new ArrayList<>();
-                    for (int n=0;n<templist.size();n++){
-                        OrderTask orderTask = new OrderTask();
-                        orderTask.setTask_list_id(templist.get(n).getId());
-                        orderTask.setStatus(0);
-                        newlist.add(orderTask);
-                    }
-                    order.setOrder_task_list(newlist);
-
-                    SharedPref.save(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
-                    SharedPref.save(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(order));
-                    ((PemesananActivity)getActivity()).doChangeFragment(3);
-                }
+                loaduser();
             }
         });
 
@@ -588,6 +568,76 @@ public class FragmentPemesanan2 extends Fragment {
         }
         else {
             recyclerView.setVisibility(View.GONE);
+        }
+    }
+    public void loaduser(){
+        ((PemesananActivity) getActivity()).initProgressDialog("Loading");
+        ((PemesananActivity) getActivity()).showDialog();
+        Call<User> caller = APIManager.getRepository(UserRepo.class).getuser(user.getId().toString());
+        caller.enqueue(new APICallback<User>() {
+            @Override
+            public void onSuccess(Call<User> call, Response<User> response) {
+                super.onSuccess(call, response);
+                user = response.body();
+                ((PemesananActivity) getActivity()).dismissDialog();
+                gonext();
+            }
+
+            @Override
+            public void onError(Call<User> call, Response<User> response) {
+                super.onError(call, response);
+                ((PemesananActivity) getActivity()).dismissDialog();
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                super.onFailure(call, t);
+                ((PemesananActivity) getActivity()).dismissDialog();
+            }
+        });
+    }
+    public void gonext(){
+        order.setCost(total);
+//              ///loading pls
+        if (order.getCost() > user.getUser_wallet().getAmt()){
+            ((PemesananActivity)getActivity()).abuildermessage("Wallet anda tidak mencukupi untuk melakukan pemesanan\nWallet anda:" + setRP(user.getUser_wallet().getAmt()),"Pemberitahuan");
+            ((PemesananActivity)getActivity()).abuilder.setPositiveButton("Top up", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent = new Intent(getContext(), WalletActivity.class);
+                    startActivity(intent);
+                }
+            });
+            ((PemesananActivity)getActivity()).abuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            });
+            ((PemesananActivity)getActivity()).showalertdialog();
+        } else if (validasi()) {
+            //save data from this fragment ----------------------------------------------------------------------------------------------------
+            order.setStart_date(fixstart);
+            order.setEnd_date(fixend);
+            try {
+                order.setRemark(cttntmbhn.getText().toString());
+            } catch (NullPointerException e) {
+                order.setRemark("");
+            }
+            order.setStatus(0);
+            List<MyTask> templist = rec_Adapter.getselectedtasklist();
+            List<OrderTask> newlist = new ArrayList<>();
+            for (int n = 0; n < templist.size(); n++) {
+                OrderTask orderTask = new OrderTask();
+                orderTask.setTask_list_id(templist.get(n).getId());
+                orderTask.setStatus(0);
+                newlist.add(orderTask);
+            }
+            order.setOrder_task_list(newlist);
+
+            SharedPref.save(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
+            SharedPref.save(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(order));
+            ((PemesananActivity) getActivity()).doChangeFragment(3);
         }
     }
 }

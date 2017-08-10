@@ -4,10 +4,10 @@
     android:id="@+id/card_wallet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
+    android:layout_margin="2dp"
     android:clickable="true"
-    app:cardBackgroundColor="#eeeeee"
-    app:cardCornerRadius="12dp"
+    app:cardBackgroundColor="#e3f2fd"
+    app:cardCornerRadius="1dp"
     app:cardElevation="3dp"
     app:contentPadding="4dp">
 
@@ -23,7 +23,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="15dp"
             android:contentDescription="@string/foto"
-            app:srcCompat="@android:drawable/ic_menu_gallery" />
+            app:srcCompat="@drawable/change" />
 
         <TextView
             android:id="@+id/card_wallet_nominal"
@@ -35,17 +35,6 @@
             android:textStyle="bold"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/card_wallet_img" />
-
-        <!--<TextView-->
-            <!--android:id="@+id/card_wallet_price"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignLeft="@+id/card_wallet_nominal"-->
-            <!--android:layout_alignStart="@+id/card_wallet_nominal"-->
-            <!--android:layout_below="@+id/card_wallet_nominal"-->
-            <!--android:text="@string/nominal"-->
-            <!--android:textColor="@android:color/black"-->
-            <!--android:textSize="24sp" />-->
     </RelativeLayout>
 
 </android.support.v7.widget.CardView>

@@ -106,6 +106,9 @@
     <string name="pager_pesan_masuk">Pesan Masuk</string>
     <string name="pager_pesan_terkirim">Pesan Terkirim</string>
     <string name="pager_penawaran">Penawaran</string>
+    <string name="pager_penawaran_all">Penawaran</string>
+    <string name="pager_penawaran_accepted">Diajukan</string>
+    <string name="pager_penawaran_history">Riwayat</string>
 
     <string name="filter_nama">Nama:</string>
     <string name="filter_usiamin">Usia (min):</string>

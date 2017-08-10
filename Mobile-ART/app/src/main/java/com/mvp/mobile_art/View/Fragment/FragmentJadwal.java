@@ -43,15 +43,12 @@ public class FragmentJadwal extends Fragment {
             public void onPageSelected(int position) {
                 switch (position){
                     case 0:
-                        SharedPref.save(ConstClass.PAGER_JADWAL_POS, "penawaran");
-                        break;
-                    case 1:
                         SharedPref.save(ConstClass.PAGER_JADWAL_POS, "masuk");
                         break;
-                    case 2:
+                    case 1:
                         SharedPref.save(ConstClass.PAGER_JADWAL_POS, "diterima");
                         break;
-                    case 3:
+                    case 2:
                         SharedPref.save(ConstClass.PAGER_JADWAL_POS, "riwayat");
                         break;
                 }
@@ -65,17 +62,14 @@ public class FragmentJadwal extends Fragment {
             }
         });
 
-        if (SharedPref.getValueString(ConstClass.PAGER_JADWAL_POS).equals("penawaran")){
+        if (SharedPref.getValueString(ConstClass.PAGER_JADWAL_POS).equals("masuk")){
             viewPagerjadwal.setCurrentItem(0);
         }
-        else if (SharedPref.getValueString(ConstClass.PAGER_JADWAL_POS).equals("masuk")){
+        else if (SharedPref.getValueString(ConstClass.PAGER_JADWAL_POS).equals("diterima")){
             viewPagerjadwal.setCurrentItem(1);
         }
-        else if (SharedPref.getValueString(ConstClass.PAGER_JADWAL_POS).equals("diterima")){
-            viewPagerjadwal.setCurrentItem(2);
-        }
         else if (SharedPref.getValueString(ConstClass.PAGER_JADWAL_POS).equals("riwayat")){
-            viewPagerjadwal.setCurrentItem(3);
+            viewPagerjadwal.setCurrentItem(2);
         }
         else{
             viewPagerjadwal.setCurrentItem(0);

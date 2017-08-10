@@ -51,6 +51,10 @@
             android:screenOrientation="sensorPortrait" />
         <activity android:name="com.mvp.mobile_art.View.Activity.ProfileActivity"
             android:screenOrientation="sensorPortrait" />
+        <activity android:name="com.mvp.mobile_art.View.Activity.ReportActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity android:name="com.mvp.mobile_art.View.Activity.ReviewActivity"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name="com.mvp.mobile_art.View.Activity.MainActivity"
             android:label="@string/app_name"

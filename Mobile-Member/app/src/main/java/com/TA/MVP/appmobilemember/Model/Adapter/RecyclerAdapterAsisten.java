@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.RoundedTransformation;
 import com.TA.MVP.appmobilemember.View.Activity.AsistenActivity;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
@@ -77,11 +78,15 @@ public class RecyclerAdapterAsisten extends RecyclerView.Adapter<RecyclerAdapter
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Log.d("Listposition",GsonUtils.getJsonFromObject(users.get(position)));
+        Log.d("photo path",Settings.getRetrofitAPIUrl()+"image/medium/"+users.get(position).getAvatar());
         Picasso.with(context)
-                .load(Settings.getRetrofitAPIUrl()+"image/"+users.get(position).getAvatar())
+                .load(Settings.getRetrofitAPIUrl()+"image/small/"+users.get(position).getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
+                .resize(100, 100)
+                .transform(new RoundedTransformation(10, 0))
                 .into(holder.imageView);
+
         holder.itemnama.setText(users.get(position).getName());
         thisYear = calendar.get(Calendar.YEAR);
         artbornyear = Integer.valueOf(yearformat.format(users.get(position).getBorn_date()));

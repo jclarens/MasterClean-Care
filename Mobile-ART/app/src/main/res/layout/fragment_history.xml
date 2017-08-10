@@ -4,38 +4,30 @@
     android:layout_height="match_parent">
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <!--<LinearLayout-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:orientation="horizontal"-->
-                <!--android:layout_gravity="center_horizontal">-->
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="Total Wallet Saat Ini : "-->
-                    <!--android:textColor="@color/colorBlack"-->
-                    <!--android:layout_gravity="center_horizontal"/>-->
-                <!--<TextView-->
-                    <!--android:id="@+id/wallet"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:text="-"-->
-                    <!--android:textColor="@color/colorBlack"-->
-                    <!--android:layout_gravity="center_horizontal"/>-->
-
-            <!--</LinearLayout>-->
+            <LinearLayout
+                android:id="@+id/layout_nolist"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Anda tidak memiliki riwayat pemesanan."
+                    android:textColor="@color/colorBlack"
+                    android:gravity="center"
+                    android:textSize="20sp"/>
+            </LinearLayout>
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycleview_order"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-            </android.support.v7.widget.RecyclerView>
+                android:layout_height="match_parent" />
         </LinearLayout>
     </android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>

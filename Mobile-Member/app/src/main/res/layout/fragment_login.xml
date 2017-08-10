@@ -79,9 +79,13 @@
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="@string/login"
-        android:textAllCaps="false"
         android:layout_below="@id/lgn_et_katasandi"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:textColor="#000000"
+        android:textAllCaps="false"
+        android:textSize="16dp"
+        android:background="@drawable/buttonshape"
+        />
 
     <TextView
         android:id="@+id/lgn_tv_daftar"
@@ -90,5 +94,7 @@
         android:layout_below="@id/lgn_btn_login"
         android:layout_centerHorizontal="true"
         android:text="@string/daftar"
+        android:textSize="12dp"
+        android:layout_marginTop="10dp"
         android:textColor="@android:color/holo_blue_dark" />
 </RelativeLayout>

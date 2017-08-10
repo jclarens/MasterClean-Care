@@ -4,21 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/card_view_pesan"
-    android:layout_margin="5dp"
-    app:cardBackgroundColor="#eeeeee"
-    app:cardCornerRadius="12dp"
+    android:layout_margin="1dp"
+    app:cardBackgroundColor="#e3f2fd"
+    app:cardCornerRadius="1dp"
     app:cardElevation="3dp"
     app:contentPadding="4dp"
     android:clickable="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="86dp"
+        android:layout_height="wrap_content"
         android:padding="5dp">
         <ImageView
             android:id="@+id/card_pesan_img"
             android:layout_width="80dp"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:layout_centerVertical="true"
             android:layout_marginEnd="5dp"
             android:layout_marginLeft="5dp"

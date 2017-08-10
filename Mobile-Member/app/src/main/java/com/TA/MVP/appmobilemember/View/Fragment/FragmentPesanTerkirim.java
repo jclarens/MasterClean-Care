@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterPesanTerkirim;
 import com.TA.MVP.appmobilemember.Model.Basic.MyMessage;
@@ -36,18 +37,19 @@ public class FragmentPesanTerkirim extends Fragment {
     private RecyclerAdapterPesanTerkirim rec_Adapter;
     private List<MyMessage> myMessages = new ArrayList<>();
     private SwipeRefreshLayout swipeRefreshLayout;
+    private LinearLayout layoutnolist;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_pesan_terkirim, container, false);
 
+        layoutnolist = (LinearLayout) _view.findViewById(R.id.layout_nolist);
         swipeRefreshLayout = (SwipeRefreshLayout) _view.findViewById(R.id.swipeRefreshLayout);
         recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_pesan);
         rec_LayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(rec_LayoutManager);
         rec_Adapter = new RecyclerAdapterPesanTerkirim();
         recyclerView.setAdapter(rec_Adapter);
-        rec_Adapter.setPesan(myMessages);
         rec_Adapter.setcontext(getActivity());
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -67,7 +69,13 @@ public class FragmentPesanTerkirim extends Fragment {
             @Override
             public void onSuccess(Call<List<MyMessage>> call, Response<List<MyMessage>> response) {
                 super.onSuccess(call, response);
-                rec_Adapter.setPesan(response.body());
+                myMessages = response.body();
+                if (myMessages.size() < 1){
+                    hidelist();
+                }else{
+                    showlist();
+                    rec_Adapter.setPesan(myMessages);
+                }
                 swipeRefreshLayout.setRefreshing(false);
             }
 
@@ -83,5 +91,13 @@ public class FragmentPesanTerkirim extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+    }
+    public void hidelist(){
+        recyclerView.setVisibility(View.GONE);
+        layoutnolist.setVisibility(View.VISIBLE);
+    }
+    public void showlist(){
+        recyclerView.setVisibility(View.VISIBLE);
+        layoutnolist.setVisibility(View.GONE);
     }
 }

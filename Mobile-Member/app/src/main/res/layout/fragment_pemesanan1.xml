@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="8dp"
             android:layout_weight="1"
-            android:background="@color/colorLightGreen">
+            android:background="@color/colorBiruGelap">
 
         </LinearLayout>
         <LinearLayout
@@ -57,7 +57,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Pilih"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="14dp"
+            android:background="@drawable/buttonshape"
+            />
         <EditText
             android:id="@+id/pms1_et_address"
             android:layout_width="match_parent"
@@ -76,6 +80,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_next"
-            android:textAllCaps="false" />
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textSize="16dp"
+            android:background="@drawable/buttonshape"
+            />
     </LinearLayout>
 </LinearLayout>

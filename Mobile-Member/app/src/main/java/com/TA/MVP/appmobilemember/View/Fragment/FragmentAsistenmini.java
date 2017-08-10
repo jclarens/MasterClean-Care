@@ -72,7 +72,7 @@ public class FragmentAsistenmini extends Fragment {
         });
 
         Picasso.with(getContext())
-                .load(Settings.getRetrofitAPIUrl()+"image/"+art.getAvatar())
+                .load(Settings.getRetrofitAPIUrl()+"image/small/"+art.getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
                 .into(imageView);

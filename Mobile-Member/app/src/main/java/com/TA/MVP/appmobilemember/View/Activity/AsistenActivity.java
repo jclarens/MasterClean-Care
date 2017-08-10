@@ -57,8 +57,7 @@ public class AsistenActivity extends ParentActivity {
     private Toolbar toolbar;
     private TextView nama,usia,notelp,agama,suku,status,keterangan, txtprofesi, txtbhs, kota;
     private RatingBar ratingBar;
-    private TextView gajijam, gajihari, gajibulan;
-    private CheckBox tktanjg;
+    private TextView gajijam, gajihari, gajibulan, tktanjg;
     private Button docpndkg, jadwal, pemesanan;
     private int thisYear, artbornyear;
     private Calendar calendar = Calendar.getInstance();
@@ -111,7 +110,7 @@ public class AsistenActivity extends ParentActivity {
         gajibulan = (TextView) findViewById(R.id.asis_tv_gajibulan);
         txtprofesi = (TextView) findViewById(R.id.asis_tv_profesi);
         txtbhs = (TextView) findViewById(R.id.asis_tv_bhs);
-        tktanjg = (CheckBox) findViewById(R.id.asis_cb_tktanjg);
+        tktanjg = (TextView) findViewById(R.id.asis_cb_tktanjg);
         jadwal = (Button) findViewById(R.id.asis_btn_lhtjdwl);
         pemesanan = (Button) findViewById(R.id.asis_btn_pemesanan);
         layoutreview = (LinearLayout) findViewById(R.id.layout_review);
@@ -186,11 +185,13 @@ public class AsistenActivity extends ParentActivity {
                     break;
             }
         }
-        tktanjg.setChecked(false);
+//        tktanjg.setChecked(false);
+        tktanjg.setVisibility(View.GONE);
         if (art.getUser_additional_info().size() > 0) {
             switch (art.getUser_additional_info().get(0).getInfo_id()){
                 case 1:
-                    tktanjg.setChecked(true);
+//                    tktanjg.setChecked(true);
+                    tktanjg.setVisibility(View.VISIBLE);
                     break;
             }
         }
@@ -219,7 +220,7 @@ public class AsistenActivity extends ParentActivity {
         });
 
         Picasso.with(getApplicationContext())
-                .load(Settings.getRetrofitAPIUrl()+"image/"+art.getAvatar())
+                .load(Settings.getRetrofitAPIUrl()+"image/small/"+art.getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
                 .into(imageView);

@@ -70,7 +70,7 @@ public class RecyclerAdapterReview extends RecyclerView.Adapter<RecyclerAdapterR
         holder.ratingBar.setRating(orders.get(position).getReview_order().getRate());
 
         Picasso.with(context)
-                .load(Settings.getRetrofitAPIUrl()+"image/medium/"+orders.get(position).getMember().getAvatar())
+                .load(Settings.getRetrofitAPIUrl()+"image/small/"+orders.get(position).getMember().getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
                 .resize(100, 100)

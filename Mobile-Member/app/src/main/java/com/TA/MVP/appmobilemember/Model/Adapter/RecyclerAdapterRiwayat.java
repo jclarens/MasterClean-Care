@@ -84,7 +84,7 @@ public class RecyclerAdapterRiwayat extends RecyclerView.Adapter<RecyclerAdapter
                 holder.itemstatus.setText("Ditolak");
                 break;
             case 5:
-                holder.itemstatus.setText("Bermasalah");
+                holder.itemstatus.setText("Belum Selesai");
                 break;
         }
         holder.itemnama.setText(orders.get(position).getArt().getName());
@@ -102,13 +102,7 @@ public class RecyclerAdapterRiwayat extends RecyclerView.Adapter<RecyclerAdapter
     }
 
     public void setOrders(List<Order> orders){
-        List<Order> temp = new ArrayList<>();
-        for (int n=0; n<orders.size();n++){
-            if (orders.get(n).getStatus() == 2 || orders.get(n).getStatus() == 3 || orders.get(n).getStatus() == 4 || orders.get(n).getStatus() == 5)
-                temp.add(orders.get(n));
-        }
-        this.orders = temp;
-//        this.orders = orders;
+        this.orders = orders;
         doshorting();
         notifyDataSetChanged();
     }

@@ -28,6 +28,7 @@ public class User {
     private List<UserJob> user_job;
     private List<UserWorkTime> user_work_time;
     private float rate;
+    private Integer activation;
 
     public Integer getId() {
         return id;
@@ -35,6 +36,14 @@ public class User {
 
     public String getName() {
         return name;
+    }
+
+    public Integer getActivation() {
+        return activation;
+    }
+
+    public void setActivation(Integer activation) {
+        this.activation = activation;
     }
 
     public void setName(String name) {
