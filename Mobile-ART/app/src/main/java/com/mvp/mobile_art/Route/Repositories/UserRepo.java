@@ -27,7 +27,7 @@ import retrofit2.http.QueryMap;
 
 public interface UserRepo {
     @Headers("Accept: application/json")
-    @POST("api/check_login_art")
+    @POST("api/check_login/3")
     Call<LoginResponse> loginasisten(@Body HashMap map);
 
     @Headers("Accept: application/json")

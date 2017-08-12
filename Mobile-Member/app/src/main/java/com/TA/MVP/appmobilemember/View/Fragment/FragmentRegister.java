@@ -49,7 +49,7 @@ import retrofit2.Response;
  */
 
 public class FragmentRegister extends Fragment {
-    private EditText nama, email, katasandi, konfkatasandi, notelp, alamat, bplace, bdate, tgl;
+    private EditText nama, email, katasandi, konfkatasandi, notelp, alamat, bdate, tgl;
     private Spinner spinnergender, spinnerkota, spinneragama;
     private Button btndaftar;
     private TextView tvlogin;
@@ -75,7 +75,6 @@ public class FragmentRegister extends Fragment {
         email = (EditText) _view.findViewById(R.id.reg_et_email);
         katasandi = (EditText) _view.findViewById(R.id.reg_et_katasandi);
         konfkatasandi = (EditText) _view.findViewById(R.id.reg_et_konfkatasandi);
-        bplace = (EditText) _view.findViewById(R.id.reg_et_bornplace);
         tgl = (EditText) _view.findViewById(R.id.reg_et_tgl);
         spinnergender = (Spinner) _view.findViewById(R.id.reg_spinner_gender);
         spinneragama = (Spinner) _view.findViewById(R.id.reg_spinner_agama);
@@ -121,7 +120,7 @@ public class FragmentRegister extends Fragment {
                     map.put("email", email.getText().toString());
                     map.put("password", katasandi.getText().toString());
                     map.put("gender", String.valueOf(spinnergender.getSelectedItemPosition() + 1));
-                    map.put("born_place", bplace.getText().toString());
+                    map.put("born_place", "");
                     map.put("born_date", dateFormat.format(calendar.getTime()));
                     map.put("religion", String.valueOf(spinneragama.getSelectedItemPosition() + 1));
                     map.put("role_id", String.valueOf(2));
@@ -225,7 +224,7 @@ public class FragmentRegister extends Fragment {
         now.minute = calendar.get(Calendar.MINUTE);
     }
     public boolean valid(){
-        if (nama.getText().toString().equals("") || email.getText().toString().equals("") || bplace.getText().toString().equals("") || notelp.getText().toString().equals("") || alamat.getText().toString().equals("")) {
+        if (nama.getText().toString().equals("") || email.getText().toString().equals("") || notelp.getText().toString().equals("") || alamat.getText().toString().equals("")) {
             Toast.makeText(getContext(), "Data tidak lengkap.", Toast.LENGTH_SHORT).show();
             return false;
         }

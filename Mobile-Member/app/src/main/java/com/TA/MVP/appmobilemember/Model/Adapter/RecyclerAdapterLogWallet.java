@@ -36,7 +36,7 @@ public class RecyclerAdapterLogWallet extends RecyclerView.Adapter<RecyclerAdapt
     private ArrayBulan arrayBulan = new ArrayBulan();
     private List<WalletTransaction> walletTransactions = new ArrayList<>();
     class ViewHolder extends RecyclerView.ViewHolder {
-        public int lightgreen, lightred, lightyellow;
+        public int lightgreen, lightred, lightyellow, lightgrey;
         public TextView status, nominal, date;
         public LinearLayout cardwallettransactionlayout;
         public ViewHolder(final View itemview) {
@@ -44,6 +44,7 @@ public class RecyclerAdapterLogWallet extends RecyclerView.Adapter<RecyclerAdapt
             lightgreen = itemview.getResources().getColor(R.color.colorLightGreen);
             lightred = itemview.getResources().getColor(R.color.colorLightRed);
             lightyellow = itemview.getResources().getColor(R.color.colorLightYellow);
+            lightgrey = itemview.getResources().getColor(R.color.colorLightGrey);
             status = (TextView) itemview.findViewById(R.id.card_wallettransaction_status);
             nominal = (TextView) itemview.findViewById(R.id.card_wallettransaction_nominal);
             date = (TextView) itemview.findViewById(R.id.card_wallettransaction_date);
@@ -65,8 +66,11 @@ public class RecyclerAdapterLogWallet extends RecyclerView.Adapter<RecyclerAdapt
             holder.status.setText("+ ");
             if (walletTransactions.get(position).getStatus() == 0){//masuk pending
                 holder.cardwallettransactionlayout.setBackgroundColor(holder.lightyellow);
+                //tambah text
             }else if (walletTransactions.get(position).getStatus() == 1){//masuk berhasil
                 holder.cardwallettransactionlayout.setBackgroundColor(holder.lightgreen);
+            }else if(walletTransactions.get(position).getStatus() == 2){
+                holder.cardwallettransactionlayout.setBackgroundColor(holder.lightgrey);
             }
         }
         else if (walletTransactions.get(position).getTrc_type() == 1){//uang keluar
@@ -75,6 +79,8 @@ public class RecyclerAdapterLogWallet extends RecyclerView.Adapter<RecyclerAdapt
                 holder.cardwallettransactionlayout.setBackgroundColor(holder.lightyellow);
             }else if (walletTransactions.get(position).getStatus() == 1){//keluar berhasil
                 holder.cardwallettransactionlayout.setBackgroundColor(holder.lightred);
+            }else if(walletTransactions.get(position).getStatus() == 2){
+                holder.cardwallettransactionlayout.setBackgroundColor(holder.lightgrey);
             }
         }
         holder.nominal.setText(setRP(walletTransactions.get(position).getAmount()));

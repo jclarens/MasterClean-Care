@@ -50,7 +50,7 @@
 
             <TextView
                 android:id="@+id/tv_profile"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/profile"
@@ -60,7 +60,7 @@
 
             <TextView
                 android:id="@+id/tv_wallet"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Top up"
@@ -107,7 +107,7 @@
 
             <TextView
             android:id="@+id/tv_bantuan"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Hubungi Kami"
@@ -117,7 +117,7 @@
 
             <TextView
                 android:id="@+id/tv_ketentuan"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/ketentuan"

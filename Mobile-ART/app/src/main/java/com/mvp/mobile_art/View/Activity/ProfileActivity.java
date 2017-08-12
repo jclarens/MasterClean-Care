@@ -106,13 +106,13 @@ public class ProfileActivity extends ParentActivity {
                 finish();
                 break;
             case R.id.prof_menu_edit:
-                Toast.makeText(getApplicationContext(),"Sedang dalam pengembangan", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(getApplicationContext(), EditProfileActivity.class);
-//                ProfileActivity.this.startActivityForResult(intent, REQUEST_EDIT);
+//                Toast.makeText(getApplicationContext(),"Sedang dalam pengembangan", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), EditProfileActivity.class);
+                ProfileActivity.this.startActivityForResult(intent, REQUEST_EDIT);
                 break;
             case R.id.prof_menu_editks:
-                Toast.makeText(getApplicationContext(),"Sedang dalam pengembangan", Toast.LENGTH_SHORT).show();
-//                doStartActivity(ProfileActivity.this, EditPassActivity.class);
+//                Toast.makeText(getApplicationContext(),"Sedang dalam pengembangan", Toast.LENGTH_SHORT).show();
+                doStartActivity(ProfileActivity.this, EditPassActivity.class);
                 break;
         }
         return super.onOptionsItemSelected(item);

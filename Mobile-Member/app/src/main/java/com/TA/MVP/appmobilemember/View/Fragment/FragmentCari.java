@@ -20,13 +20,11 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
-import com.TA.MVP.appmobilemember.Model.Adapter.PagerAdapterCari;
 import com.TA.MVP.appmobilemember.Model.Basic.Job;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
@@ -175,56 +173,60 @@ public class FragmentCari extends Fragment  implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        MapsInitializer.initialize(getContext());
-
-        mGoogleMap = googleMap;
-        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        if (ActivityCompat.checkSelfPermission(getActivity(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            mGoogleMap.setMyLocationEnabled(true);
-            mGoogleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+        try{
+            MapsInitializer.initialize(getContext());
+            mGoogleMap = googleMap;
+            mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+            if (ActivityCompat.checkSelfPermission(getActivity(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                mGoogleMap.setMyLocationEnabled(true);
+                mGoogleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+                    @Override
+                    public boolean onMyLocationButtonClick() {
+                        return false;
+                    }
+                });
+            }
+            else{
+                String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
+                requestPermissions(permissions, PERMS_REQUEST_CODE);
+            }
+            mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                 @Override
-                public boolean onMyLocationButtonClick() {
-                    return false;
+                public void onInfoWindowClick(Marker marker) {
+                    Intent intent = new Intent(getContext(), AsistenActivity.class);
+                    intent.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(marker.getTag()));
+                    startActivity(intent);
                 }
             });
-        }
-        else{
-            String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
-            requestPermissions(permissions, PERMS_REQUEST_CODE);
-        }
-        mGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                Intent intent = new Intent(getContext(), AsistenActivity.class);
-                intent.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(marker.getTag()));
-                startActivity(intent);
-            }
-        });
 
-        if (location != null){
-            targetcamera = CameraPosition.builder().target(new LatLng(location.getLatitude(),location.getLongitude())).zoom(14).bearing(0).tilt(45).build();
-            mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(targetcamera));
-        }
-
-
-        //get users
-        Map<String,String> map = new HashMap<>();
-        map.put("role_id","3");
-        map.put("status","1");
-        Call<List<User>> caller = APIManager.getRepository(UserRepo.class).searchuser(map);
-        caller.enqueue(new APICallback<List<User>>() {
-            @Override
-            public void onSuccess(Call<List<User>> call, Response<List<User>> response) {
-                super.onSuccess(call, response);
-                arts = response.body();
-                resetmapview(arts);
+            if (location != null){
+                targetcamera = CameraPosition.builder().target(new LatLng(location.getLatitude(),location.getLongitude())).zoom(14).bearing(0).tilt(45).build();
+                mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(targetcamera));
             }
 
-            @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
-                super.onFailure(call, t);
-            }
-        });
+
+            //get users
+            Map<String,String> map = new HashMap<>();
+            map.put("role_id","3");
+            map.put("status","1");
+            Call<List<User>> caller = APIManager.getRepository(UserRepo.class).searchuser(map);
+            caller.enqueue(new APICallback<List<User>>() {
+                @Override
+                public void onSuccess(Call<List<User>> call, Response<List<User>> response) {
+                    super.onSuccess(call, response);
+                    arts = response.body();
+                    resetmapview(arts);
+                }
+
+                @Override
+                public void onFailure(Call<List<User>> call, Throwable t) {
+                    super.onFailure(call, t);
+                }
+            });
+        }catch (NullPointerException e){
+            Toast.makeText(getContext(),"Terjadi masalah harap muat ulang", Toast.LENGTH_SHORT).show();
+        }
+
     }
     public void resetmapview(List<User> arts){
         mGoogleMap.clear();

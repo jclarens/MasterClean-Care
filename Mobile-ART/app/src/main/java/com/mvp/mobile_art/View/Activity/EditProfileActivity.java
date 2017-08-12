@@ -3,10 +3,13 @@ package com.mvp.mobile_art.View.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.mvp.mobile_art.MasterCleanApplication;
 import com.mvp.mobile_art.Model.Basic.User;
 import com.mvp.mobile_art.Model.Basic.UserContact;
 import com.mvp.mobile_art.Model.Responses.UserResponse;
@@ -31,6 +34,8 @@ public class EditProfileActivity extends ParentActivity {
     private EditText nama, notelp, notelp2, cttn;
     private Button simpan;
     private User user = new User();
+    private Spinner spinnerkota;
+    private ArrayAdapter arrayAdapterkota;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +46,11 @@ public class EditProfileActivity extends ParentActivity {
         notelp = (EditText) findViewById(R.id.notelp);
         notelp2 = (EditText) findViewById(R.id.notelp2);
         simpan = (Button) findViewById(R.id.simpan);
+        cttn = (EditText) findViewById(R.id.keterangan);
+        spinnerkota = (Spinner) findViewById(R.id.spinnerkota);
+
+        arrayAdapterkota = new ArrayAdapter(getApplicationContext(), R.layout.spinner_item, ((MasterCleanApplication)getApplication()).getGlobalStaticData().getPlaces());
+        spinnerkota.setAdapter(arrayAdapterkota);
 
         nama.setText(user.getName());
         notelp.setText(user.getContact().getPhone());
@@ -58,10 +68,14 @@ public class EditProfileActivity extends ParentActivity {
         });
     }
     public void updateprofile(){
+        initProgressDialog("Menyimpan");
+        showDialog();
         HashMap<String, Object> map = new HashMap<>();
         map.put("name", nama.getText().toString());
+        map.put("description", cttn.getText().toString());
         UserContact userContact = user.getContact();
         userContact.setAddress(user.getContact().getAddress());
+        userContact.setCity((spinnerkota.getSelectedItemPosition() + 1));
         userContact.setPhone(notelp.getText().toString());
         userContact.setPhone(notelp.getText().toString());
         map.put("contact", userContact);
@@ -70,8 +84,6 @@ public class EditProfileActivity extends ParentActivity {
         user.getContact().setPhone(notelp.getText().toString());
         user.getContact().setEmergency_numb(notelp2.getText().toString());
         SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(user));
-
-
         Call<UserResponse> caller = APIManager.getRepository(UserRepo.class).updateuser(user.getId(),map);
         caller.enqueue(new APICallback<UserResponse>() {
             @Override
@@ -81,6 +93,7 @@ public class EditProfileActivity extends ParentActivity {
                 Intent i = new Intent();
                 setResult(ProfileActivity.RESULT_SUCCESS, i);
                 Toast.makeText(getApplicationContext(),"Edit profile berhasil.",Toast.LENGTH_SHORT).show();
+                dismissDialog();
                 finish();
             }
 

@@ -262,6 +262,13 @@ public class EditProfileActivity extends ParentActivity {
             }
 
             @Override
+            public void onError(Call<UserResponse> call, Response<UserResponse> response) {
+                super.onError(call, response);
+                Toast.makeText(getApplicationContext(),"Terjadi kesalahan.", Toast.LENGTH_SHORT).show();
+                dismissDialog();
+            }
+
+            @Override
             public void onUnprocessableEntity(Call<UserResponse> call, Response<UserResponse> response) {
                 super.onUnprocessableEntity(call, response);
                 dismissDialog();
@@ -270,12 +277,14 @@ public class EditProfileActivity extends ParentActivity {
             @Override
             public void onFailure(Call<UserResponse> call, Throwable t) {
                 super.onFailure(call, t);
+                Toast.makeText(getApplicationContext(),"Koneksi bermasalah.", Toast.LENGTH_SHORT).show();
                 dismissDialog();
             }
 
             @Override
             public void onUnauthorized(Call<UserResponse> call, Response<UserResponse> response) {
                 super.onUnauthorized(call, response);
+                Toast.makeText(getApplicationContext(),"Gagal menyimpan data", Toast.LENGTH_SHORT).show();
                 dismissDialog();
             }
         });

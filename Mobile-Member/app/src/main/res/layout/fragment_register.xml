@@ -77,18 +77,6 @@
                 android:hint="@string/konfkatasandi"
                 android:inputType="textPassword" />
 
-            <EditText
-                android:id="@+id/reg_et_bornplace"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginStart="15dp"
-                android:ems="10"
-                android:hint="Tempat Lahir"
-                android:inputType="textPersonName" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

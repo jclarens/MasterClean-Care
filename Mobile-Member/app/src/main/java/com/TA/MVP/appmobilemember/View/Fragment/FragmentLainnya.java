@@ -3,6 +3,7 @@ package com.TA.MVP.appmobilemember.View.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -42,14 +43,12 @@ public class FragmentLainnya extends Fragment {
     private ImageView imageprofile, imagewallet, imagebantuan, imageketentuan, imagelogout, contactus;
     private TextView txtprofile, txtwallet, txtbantuan, txtketentuan, txtlogout;
     private Context context;
-    private User admin;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_lainnya, container, false);
         imageprofile = (ImageView) _view.findViewById(R.id.iv_profile);
         imagewallet = (ImageView) _view.findViewById(R.id.iv_wallet);
-//        imagebantuan = (ImageView) _view.findViewById(R.id.iv_bantuan);
         imageketentuan = (ImageView) _view.findViewById(R.id.iv_ketentuan);
         contactus = (ImageView) _view.findViewById(R.id.iv_contactus);
         imagelogout = (ImageView) _view.findViewById(R.id.iv_logout);
@@ -102,16 +101,14 @@ public class FragmentLainnya extends Fragment {
                 }
             }
         });
-//        imagebantuan.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                MainActivity.doStartActivity(getContext(), BantuanActivity.class);
-//            }
-//        });
         imageketentuan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.doStartActivity(getContext(), KetentuanActivity.class);
+//                MainActivity.doStartActivity(getContext(), KetentuanActivity.class);
+                Uri uri = Uri.parse("http://masterclean-care.tk/term-mobile");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+
             }
         });
         imagelogout.setOnClickListener(new View.OnClickListener() {

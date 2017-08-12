@@ -29,6 +29,7 @@ import com.TA.MVP.appmobilemember.Model.Array.ArrayAgama;
 import com.TA.MVP.appmobilemember.Model.Basic.Language;
 import com.TA.MVP.appmobilemember.Model.Basic.StaticData;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
+import com.TA.MVP.appmobilemember.Model.Responses.GetArtsResponse;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.View.Activity.FilterActivity;
@@ -66,6 +67,8 @@ public class FragmentHome extends Fragment {
     private StaticData staticData;
     private ArrayAgama arrayAgama = new ArrayAgama();
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
+    private Integer currentpage = 1;
+    private Integer lastpage = 1;
     Integer wkid;
     Integer profesi;
     Integer usiamin;
@@ -82,7 +85,6 @@ public class FragmentHome extends Fragment {
 
         recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_asisten);
         swipeRefreshLayout = (SwipeRefreshLayout) _view.findViewById(R.id.swipeRefreshLayout);
-//        btnfilter = (Button) _view.findViewById(R.id.carilist_btn_filter);
         filter = (FloatingActionButton) _view.findViewById(R.id.carilist_btn_filter);
         layoutnolist = (LinearLayout) _view.findViewById(R.id.layout_nolist);
         layoutshow = (RelativeLayout) _view.findViewById(R.id.layout_showlist);
@@ -132,7 +134,7 @@ public class FragmentHome extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_asisten);
-        rec_Adapter = new RecyclerAdapterAsisten(getContext());
+        rec_Adapter = new RecyclerAdapterAsisten(getContext(), this);
         recyclerView.setAdapter(rec_Adapter);
 
         if (filterresult == null)
@@ -162,94 +164,243 @@ public class FragmentHome extends Fragment {
     }
     public void searchuser(){
         stringtags = "";
-
         Map<String,String> map = new HashMap<>();
-        map.put("role_id","3");
-        map.put("name", filterresult.getStringExtra("nama"));
-        if (!filterresult.getStringExtra("nama").equals(""))
+        if (!filterresult.getStringExtra("nama").equals("")) {
+            map.put("name", filterresult.getStringExtra("nama"));
             addtag("Nama:" + filterresult.getStringExtra("nama"));
-
-        map.put("race", filterresult.getStringExtra("suku"));
-        if (!filterresult.getStringExtra("suku").equals(""))
-            addtag("Suku:" + filterresult.getStringExtra("suku"));
-
-        if (filterresult.getStringExtra("kota") != null){
-            kota = Integer.valueOf(filterresult.getStringExtra("kota"));
-            addtag(staticData.getPlaces().get(kota-1).getName());
         }
-
+        if (!filterresult.getStringExtra("suku").equals("")) {
+            map.put("race", filterresult.getStringExtra("suku"));
+            addtag("Suku:" + filterresult.getStringExtra("suku"));
+        }
+        if (filterresult.getStringExtra("kota") != null){
+            map.put("city", filterresult.getStringExtra("kota"));
+            addtag("Kota:" + staticData.getPlaces().get(Integer.valueOf(filterresult.getStringExtra("kota"))-1).getName());
+        }
         if (filterresult.getStringExtra("agama") != null){
             map.put("religion", filterresult.getStringExtra("agama"));
-            addtag(arrayAgama.getArrayList().get(Integer.valueOf(filterresult.getStringExtra("agama"))-1));
+            addtag("Agama:" + arrayAgama.getArrayList().get(Integer.valueOf(filterresult.getStringExtra("agama"))-1));
         }
-
         if (filterresult.getStringExtra("WT") != null){
-            wkid = Integer.valueOf(filterresult.getStringExtra("WT"));
-            addtag(staticData.getWaktu_kerjas().get(wkid-1).getWork_time());
-        }
-
-        else wkid = null;
+            map.put("work_time", filterresult.getStringExtra("WT"));
+            addtag("Waktu Kerja" + staticData.getWaktu_kerjas().get(Integer.valueOf(filterresult.getStringExtra("WT"))-1).getWork_time());
+        }else wkid = null;
         if (filterresult.getStringExtra("profesi") != null){
-            profesi = Integer.valueOf(filterresult.getStringExtra("profesi"));
-            addtag(staticData.getJobs().get(profesi-1).getJob());
+            map.put("job", filterresult.getStringExtra("profesi"));
+            addtag("Profesi:" + staticData.getJobs().get(Integer.valueOf(filterresult.getStringExtra("profesi"))-1).getJob());
         }
         else profesi = null;
-
         languages = (List<Language>) GsonUtils.getObjectFromJson(filterresult.getStringExtra("listbahasa"), new TypeToken<List<Language>>(){}.getType());
-
         if (languages.size() > 0){
             String temp = "";
-            for (int n=0; n < languages.size(); n++){
-                if (n != 0){
+            String temp2 = "";
+            for (int n=0 ; n<languages.size();n++){
+                if (n != 0) {
                     temp = temp + ",";
+                    temp2 = temp2 + ",";
                 }
-                temp = temp + languages.get(n).getLanguage();
+                temp = temp + languages.get(n).getId();
+                temp2 = temp2 + languages.get(n).getLanguage();
             }
-            addtag("Bahasa:(" + temp +")");
+            map.put("language", temp);
+            addtag("Bahasa:(" + temp2 +")");
         }
-
         usiamin = Integer.valueOf(filterresult.getStringExtra("usiamin"));
+        map.put("minAge",filterresult.getStringExtra("usiamin"));
         usiamax = Integer.valueOf(filterresult.getStringExtra("usiamax"));
-        if (usiamin != 20 || usiamax!=70)
-            addtag("Usia:" + usiamin + "-" + usiamax);
-
+        map.put("maxAge",filterresult.getStringExtra("usiamax"));
+        addtag("Usia:" + usiamin + "-" + usiamax);
         gaji = filterresult.getIntExtra("gaji", 0);
         if (gaji > 0){
             addtag("Gaji:" + setRP(gaji));
+            map.put("maxCost",String.valueOf(gaji));
         }
-
         swipeRefreshLayout.setRefreshing(true);
-        Call<List<User>> caller = APIManager.getRepository(UserRepo.class).searchuser(map);
-        caller.enqueue(new APICallback<List<User>>() {
+//        map.put("page", String.valueOf(1));
+        Call<GetArtsResponse> caller = APIManager.getRepository(UserRepo.class).searcharts(map);
+        caller.enqueue(new APICallback<GetArtsResponse>() {
             @Override
-            public void onSuccess(Call<List<User>> call, Response<List<User>> response) {
+            public void onSuccess(Call<GetArtsResponse> call, Response<GetArtsResponse> response) {
                 super.onSuccess(call, response);
-                Log.d("List[][]",GsonUtils.getJsonFromObject(response.body()));
-                arts = secondfilter(response.body(), wkid, profesi, usiamin, usiamax, languages, gaji, kota);
-                updateadapter(arts);
-                if (arts.size() > 0){
+                currentpage = response.body().getCurrent_page();
+                lastpage = response.body().getLast_page();
+                if (response.body().getData().size() > 0){
+                    rec_Adapter.setART(response.body().getData());
                     showlist();
                 } else nolist();
                 swipeRefreshLayout.setRefreshing(false);
 
                 //tags
                 tags.setText(stringtags);
-                layouttags.setVisibility(View.VISIBLE);
-//                        SharedPref.save("searching", "");
+                if(!stringtags.equals(""))
+                    layouttags.setVisibility(View.VISIBLE);
             }
-
             @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
+            public void onFailure(Call<GetArtsResponse> call, Throwable t) {
                 super.onFailure(call, t);
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
+    public void getarts(){
+        Map<String, String> map = new HashMap<>();
+        map.put("page","1");
+        Call<GetArtsResponse> caller = APIManager.getRepository(UserRepo.class).getarts(map);
+        caller.enqueue(new APICallback<GetArtsResponse>() {
+            @Override
+            public void onSuccess(Call<GetArtsResponse> call, Response<GetArtsResponse> response) {
+                super.onSuccess(call, response);
+//                arts = removeinactive(response.body().getData());
+                currentpage = response.body().getCurrent_page();
+                lastpage = response.body().getLast_page();
+                rec_Adapter.setART(response.body().getData());
+                swipeRefreshLayout.setRefreshing(false);
+                if (response.body().getData().size() > 0){
+                    showlist();
+                } else nolist();
+            }
 
-    public List<User> secondfilter(List<User> users , @Nullable Integer wt_id, @Nullable Integer prof_id, Integer usiamin, Integer usimax, List<Language> languagess, @Nullable Integer gajii, @Nullable Integer kota){
+            @Override
+            public void onFailure(Call<GetArtsResponse> call, Throwable t) {
+                super.onFailure(call, t);
+                swipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(getContext(),"Koneksi bermasalah", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+    public List<User> removeinactive(List<User> users){
+        List<User> result = new ArrayList<>();
+        for (int n = 0; n<users.size(); n++){
+            if (users.get(n).getStatus() == 1){
+                result.add(users.get(n));
+            }
+        }
+        return result;
+    }
+
+    public void nolist(){
+        layoutnolist.setVisibility(View.VISIBLE);
+        layoutshow.setVisibility(View.GONE);
+    }
+    public void showlist(){
+        layoutnolist.setVisibility(View.GONE);
+        layoutshow.setVisibility(View.VISIBLE);
+    }
+
+    public void addtag(String string){
+        if (!stringtags.equals("")){
+            stringtags = stringtags + ", " + string;
+        } else stringtags = string;
+    }
+    public String setRP(Integer number){
+        String tempp = "Rp. ";
+        tempp = tempp + numberFormat.format(number);
+        return tempp;
+    }
+    public void loadmore(){
+        if (currentpage < lastpage){
+            if (SharedPref.getValueString("searching").equals("")) {
+                Map<String, String> map = new HashMap<>();
+                map.put("page", String.valueOf(currentpage+1));
+                Call<GetArtsResponse> caller = APIManager.getRepository(UserRepo.class).getarts(map);
+                caller.enqueue(new APICallback<GetArtsResponse>() {
+                    @Override
+                    public void onSuccess(Call<GetArtsResponse> call, Response<GetArtsResponse> response) {
+                        super.onSuccess(call, response);
+                        rec_Adapter.addmore(response.body().getData());
+                        currentpage = response.body().getCurrent_page();
+                        lastpage = response.body().getLast_page();
+                    }
+
+                    @Override
+                    public void onFailure(Call<GetArtsResponse> call, Throwable t) {
+                        super.onFailure(call, t);
+                        swipeRefreshLayout.setRefreshing(false);
+                        Toast.makeText(getContext(), "Koneksi bermasalah", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }else {
+                stringtags = "";
+                Map<String,String> map = new HashMap<>();
+                if (!filterresult.getStringExtra("nama").equals("")) {
+                    map.put("name", filterresult.getStringExtra("nama"));
+                    addtag("Nama:" + filterresult.getStringExtra("nama"));
+                }
+                if (!filterresult.getStringExtra("suku").equals("")) {
+                    map.put("race", filterresult.getStringExtra("suku"));
+                    addtag("Suku:" + filterresult.getStringExtra("suku"));
+                }
+                if (filterresult.getStringExtra("kota") != null){
+                    map.put("city", filterresult.getStringExtra("kota"));
+                    addtag(staticData.getPlaces().get(kota-1).getName());
+                }
+                if (filterresult.getStringExtra("agama") != null){
+                    map.put("religion", filterresult.getStringExtra("agama"));
+                    addtag(arrayAgama.getArrayList().get(Integer.valueOf(filterresult.getStringExtra("agama"))-1));
+                }
+                if (filterresult.getStringExtra("WT") != null){
+                    map.put("work_time", filterresult.getStringExtra("WT"));
+                    addtag(staticData.getWaktu_kerjas().get(wkid-1).getWork_time());
+                }else wkid = null;
+                if (filterresult.getStringExtra("profesi") != null){
+                    map.put("job", filterresult.getStringExtra("profesi"));
+                    addtag(staticData.getJobs().get(profesi-1).getJob());
+                }else profesi = null;
+                languages = (List<Language>) GsonUtils.getObjectFromJson(filterresult.getStringExtra("listbahasa"), new TypeToken<List<Language>>(){}.getType());
+                if (languages.size() > 0){
+                    String temp = "";
+                    String temp2 = "";
+                    for (int n=0 ; n<languages.size();n++){
+                        if (n != 0) {
+                            temp = temp + ",";
+                            temp2 = temp2 + ",";
+                        }
+                        temp = temp + languages.get(n).getId();
+                        temp2 = temp2 + languages.get(n).getLanguage();
+                    }
+                    map.put("language", temp);
+                    addtag("Bahasa:(" + temp2 +")");
+                }
+                usiamin = Integer.valueOf(filterresult.getStringExtra("usiamin"));
+                map.put("minAge",filterresult.getStringExtra("usiamin"));
+                usiamax = Integer.valueOf(filterresult.getStringExtra("usiamax"));
+                map.put("maxAge",filterresult.getStringExtra("usiamax"));
+                addtag("Usia:" + usiamin + "-" + usiamax);
+                gaji = filterresult.getIntExtra("gaji", 0);
+                if (gaji > 0){
+                    addtag("Gaji:" + setRP(gaji));
+                    map.put("maxCost",String.valueOf(gaji));
+                }
+                swipeRefreshLayout.setRefreshing(true);
+//                map.put("page", String.valueOf(currentpage+1));
+                Call<GetArtsResponse> caller = APIManager.getRepository(UserRepo.class).searcharts(map);
+                caller.enqueue(new APICallback<GetArtsResponse>() {
+                    @Override
+                    public void onSuccess(Call<GetArtsResponse> call, Response<GetArtsResponse> response) {
+                        super.onSuccess(call, response);
+                        rec_Adapter.addmore(response.body().getData());
+                        currentpage = response.body().getCurrent_page();
+                        lastpage = response.body().getLast_page();
+                        swipeRefreshLayout.setRefreshing(false);
+
+                        //tags
+                        tags.setText(stringtags);
+                        if(!stringtags.equals(""))
+                            layouttags.setVisibility(View.VISIBLE);
+                    }
+                    @Override
+                    public void onFailure(Call<GetArtsResponse> call, Throwable t) {
+                        super.onFailure(call, t);
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
+            }
+        }
+    }
+
+    //    public List<User> secondfilter(List<User> users , @Nullable Integer wt_id, @Nullable Integer prof_id, Integer usiamin, Integer usimax, List<Language> languagess, @Nullable Integer gajii, @Nullable Integer kota){
+    public List<User> secondfilter(List<User> users , Integer usiamin, Integer usimax, List<Language> languagess, @Nullable Integer gajii){
         List<User> result = users;
-
-        Log.d("Filtersecond"," " + wt_id + prof_id + " "+usiamin + usimax +" "+ languages.size() + gaji + kota);
 
         //filter status
         users = result;
@@ -261,28 +412,28 @@ public class FragmentHome extends Fragment {
         }
 
         //filter work time
-        if (wt_id != null){
-            users = result;
-            result = new ArrayList<>();
-            for (int n=0; n<users.size();n++){
-                for (int m=0; m<users.get(n).getUser_work_time().size();m++){
-                    if (users.get(n).getUser_work_time().get(m).getWork_time_id() == wt_id)
-                        result.add(users.get(n));
-                }
-            }
-        }
+//        if (wt_id != null){
+//            users = result;
+//            result = new ArrayList<>();
+//            for (int n=0; n<users.size();n++){
+//                for (int m=0; m<users.get(n).getUser_work_time().size();m++){
+//                    if (users.get(n).getUser_work_time().get(m).getWork_time_id() == wt_id)
+//                        result.add(users.get(n));
+//                }
+//            }
+//        }
 
         //filter profesi
-        if (prof_id != null){
-            users = result;
-            result = new ArrayList<>();
-            for (int n=0; n<users.size();n++) {
-                for (int m = 0; m < users.get(n).getUser_job().size(); m++) {
-                    if (users.get(n).getUser_job().get(m).getJob_id() == prof_id)
-                        result.add(users.get(n));
-                }
-            }
-        }
+//        if (prof_id != null){
+//            users = result;
+//            result = new ArrayList<>();
+//            for (int n=0; n<users.size();n++) {
+//                for (int m = 0; m < users.get(n).getUser_job().size(); m++) {
+//                    if (users.get(n).getUser_job().get(m).getJob_id() == prof_id)
+//                        result.add(users.get(n));
+//                }
+//            }
+//        }
 
         //filter usia
         users = result;
@@ -309,82 +460,27 @@ public class FragmentHome extends Fragment {
         }
 
         //filter kota
-        if (kota != null){
-            users = result;
-            result = new ArrayList<>();
-            for (int n=0;n< users.size();n++){
-                if (users.get(n).getContact().getCity().equals(kota)){
-                    result.add(users.get(n));
-                }
-            }
-        }
+//        if (kota != null){
+//            users = result;
+//            result = new ArrayList<>();
+//            for (int n=0;n< users.size();n++){
+//                if (users.get(n).getContact().getCity().equals(kota)){
+//                    result.add(users.get(n));
+//                }
+//            }
+//        }
 
         //filter gaji
-        if (gajii != 0 && wt_id !=null){
-            users = result;
-            result = new ArrayList<>();
-            for (int n=0; n<users.size();n++){
-                for (int m=0; m<users.get(n).getUser_work_time().size();m++){
-                    if (users.get(n).getUser_work_time().get(m).getWork_time_id() == wt_id  && users.get(n).getUser_work_time().get(m).getCost() <= gajii)
-                        result.add(users.get(n));
-                }
-            }
-        }
+//        if (gajii != 0 && wt_id !=null){
+//            users = result;
+//            result = new ArrayList<>();
+//            for (int n=0; n<users.size();n++){
+//                for (int m=0; m<users.get(n).getUser_work_time().size();m++){
+//                    if (users.get(n).getUser_work_time().get(m).getWork_time_id() == wt_id  && users.get(n).getUser_work_time().get(m).getCost() <= gajii)
+//                        result.add(users.get(n));
+//                }
+//            }
+//        }
         return result;
-    }
-    public void getarts(){
-        Call<List<User>> caller = APIManager.getRepository(UserRepo.class).getallart();
-        caller.enqueue(new APICallback<List<User>>() {
-            @Override
-            public void onSuccess(Call<List<User>> call, Response<List<User>> response) {
-                super.onSuccess(call, response);
-                Log.d("List[][]",GsonUtils.getJsonFromObject(response.body()));
-                arts = removeinactive(response.body());
-                rec_Adapter.setART(arts);
-                swipeRefreshLayout.setRefreshing(false);
-                if (arts.size() > 0){
-                    showlist();
-                } else nolist();
-            }
-
-            @Override
-            public void onFailure(Call<List<User>> call, Throwable t) {
-                super.onFailure(call, t);
-                swipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(getContext(),"Koneksi bermasalah", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-    public List<User> removeinactive(List<User> users){
-        List<User> result = new ArrayList<>();
-        for (int n = 0; n<users.size(); n++){
-            if (users.get(n).getStatus() == 1){
-                result.add(users.get(n));
-            }
-        }
-        return result;
-    }
-    public void updateadapter(List<User> arts){
-        rec_Adapter.setART(arts);
-    }
-
-    public void nolist(){
-        layoutnolist.setVisibility(View.VISIBLE);
-        layoutshow.setVisibility(View.GONE);
-    }
-    public void showlist(){
-        layoutnolist.setVisibility(View.GONE);
-        layoutshow.setVisibility(View.VISIBLE);
-    }
-
-    public void addtag(String string){
-        if (!stringtags.equals("")){
-            stringtags = stringtags + ", " + string;
-        } else stringtags = string;
-    }
-    public String setRP(Integer number){
-        String tempp = "Rp. ";
-        tempp = tempp + numberFormat.format(number);
-        return tempp;
     }
 }

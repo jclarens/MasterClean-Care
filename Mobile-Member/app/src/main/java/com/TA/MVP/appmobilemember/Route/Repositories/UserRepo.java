@@ -2,6 +2,7 @@ package com.TA.MVP.appmobilemember.Route.Repositories;
 
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Basic.WalletTransaction;
+import com.TA.MVP.appmobilemember.Model.Responses.GetArtsResponse;
 import com.TA.MVP.appmobilemember.Model.Responses.LoginResponse;
 import com.TA.MVP.appmobilemember.Model.Responses.UploadResponse;
 import com.TA.MVP.appmobilemember.Model.Responses.UserResponse;
@@ -33,7 +34,7 @@ import retrofit2.http.QueryMap;
 
 public interface UserRepo {
     @Headers("Accept: application/json")
-    @POST("api/check_login_member")
+    @POST("api/check_login/2")
     Call<LoginResponse> loginmember(@Body HashMap map);
 
     @Multipart
@@ -79,6 +80,14 @@ public interface UserRepo {
     @Headers("Accept: application/json")
     @GET("api/user/search?role_id=3")
     Call<List<User>> getallart();
+
+    @Headers("Accept: application/json")
+    @GET("api/user/art")
+    Call<GetArtsResponse> getarts(@QueryMap Map<String,String>option);
+
+    @Headers("Accept: application/json")
+    @GET("api/user/art/search/")
+    Call<GetArtsResponse> searcharts(@QueryMap Map<String,String>option);
 
     @Headers("Accept: application/json")
     @GET("api/user/search")

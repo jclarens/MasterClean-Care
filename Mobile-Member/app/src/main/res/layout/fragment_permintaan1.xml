@@ -28,6 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Pilih"
+            android:background="@drawable/buttonshape"
             android:textAllCaps="false" />
         <EditText
             android:id="@+id/prm1_et_address"

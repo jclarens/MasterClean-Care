@@ -18,6 +18,7 @@ import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.RoundedTransformation;
 import com.TA.MVP.appmobilemember.View.Activity.AsistenActivity;
+import com.TA.MVP.appmobilemember.View.Fragment.FragmentHome;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 import com.TA.MVP.appmobilemember.lib.utils.Settings;
@@ -41,8 +42,10 @@ public class RecyclerAdapterAsisten extends RecyclerView.Adapter<RecyclerAdapter
     private DateFormat yearformat = new SimpleDateFormat("yyyy");
     private List<User> users = new ArrayList<>();
     private Context context;
-    public RecyclerAdapterAsisten(Context context){
+    private FragmentHome fragmentHome;
+    public RecyclerAdapterAsisten(Context context, FragmentHome fragmentHome){
         this.context = context;
+        this.fragmentHome = fragmentHome;
     }
     class ViewHolder extends RecyclerView.ViewHolder{
         public TextView itemnama,itemumur;
@@ -77,6 +80,9 @@ public class RecyclerAdapterAsisten extends RecyclerView.Adapter<RecyclerAdapter
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+        if (position == users.size()-1){
+            fragmentHome.loadmore();
+        }
         Log.d("Listposition",GsonUtils.getJsonFromObject(users.get(position)));
         Log.d("photo path",Settings.getRetrofitAPIUrl()+"image/medium/"+users.get(position).getAvatar());
         Picasso.with(context)
@@ -111,5 +117,10 @@ public class RecyclerAdapterAsisten extends RecyclerView.Adapter<RecyclerAdapter
                 return Float.toString(obj2.getRate()).compareTo(Float.toString(obj1.getRate()));
             }
         });
+    }
+    public void addmore(List<User> arts){
+        Integer start = users.size();
+        users.addAll(arts);
+        notifyItemRangeInserted(start,arts.size());
     }
 }
