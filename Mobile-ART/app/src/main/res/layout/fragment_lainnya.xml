@@ -33,7 +33,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/ic_account_circle_black_24dp"
+                app:srcCompat="@drawable/ic_account_circle_black_48dp"
                 android:contentDescription="@string/profile"/>
 
             <ImageView
@@ -45,7 +45,7 @@
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
                 android:contentDescription="@string/ketentuan"
-                app:srcCompat="@drawable/ic_info_black_24dp" />
+                app:srcCompat="@drawable/ic_info_black_48dp" />
 
         </LinearLayout>
 
@@ -71,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/ketentuan"
+                android:text="Ketentuan"
                 android:textAlignment="center"
                 android:textColor="@color/colorBlack"
                 android:textSize="20dp"/>
@@ -91,7 +91,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/ic_dashboard_black_24dp"
+                app:srcCompat="@drawable/ic_rate_review_black_48dp"
                 android:contentDescription="Hubungi Kami"/>
 
             <ImageView
@@ -102,7 +102,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/ic_exit_to_app_black_24dp"
+                app:srcCompat="@drawable/ic_exit_to_app_black_48dp"
                 android:contentDescription="@string/logout"/>
 
         </LinearLayout>

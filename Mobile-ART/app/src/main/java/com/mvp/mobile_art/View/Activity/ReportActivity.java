@@ -17,6 +17,8 @@ import com.mvp.mobile_art.R;
 import com.mvp.mobile_art.Route.Repositories.ReportRepo;
 import com.mvp.mobile_art.lib.api.APICallback;
 import com.mvp.mobile_art.lib.api.APIManager;
+import com.mvp.mobile_art.lib.database.SharedPref;
+import com.mvp.mobile_art.lib.utils.ConstClass;
 import com.mvp.mobile_art.lib.utils.GsonUtils;
 
 import java.util.HashMap;
@@ -32,12 +34,14 @@ public class ReportActivity extends ParentActivity {
     private EditText remark;
     private Button kirim;
     private TextView nama;
-    private Toolbar toolbar;
+//    private Toolbar toolbar;
     private User target;
+    private User user= new User();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report);
+        user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
         Intent intent = getIntent();
         target = GsonUtils.getObjectFromJson(intent.getStringExtra("target"), User.class);
 
@@ -69,11 +73,11 @@ public class ReportActivity extends ParentActivity {
             }
         });
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Report");
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setTitle("Report");
+//        getSupportActionBar().setHomeButtonEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -88,14 +92,23 @@ public class ReportActivity extends ParentActivity {
     public void lapor(){
         HashMap<String,String> map = new HashMap<>();
         map.put("user_id", target.getId().toString());
+        map.put("reporter_id", user.getId().toString());
         map.put("remark", remark.getText().toString());
         Call<ReportResponse> caller = APIManager.getRepository(ReportRepo.class).postreport(map);
         caller.enqueue(new APICallback<ReportResponse>() {
             @Override
             public void onSuccess(Call<ReportResponse> call, Response<ReportResponse> response) {
                 super.onSuccess(call, response);
-                Toast.makeText(getApplicationContext(),"Reported", Toast.LENGTH_SHORT).show();
-                finish();
+                abuildermessage("Laporan anda sudah terkirim. Kami akan segera menangani masalah yang ada.", "Pemberitahuan");
+                abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+                showalertdialog();
+//                Toast.makeText(getApplicationContext(),"Reported", Toast.LENGTH_SHORT).show();
+//                finish();
             }
 
             @Override

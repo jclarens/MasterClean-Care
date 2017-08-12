@@ -37,8 +37,10 @@
                         android:id="@+id/profesi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
                         android:enabled="false"
                         android:focusable="false"
+                        android:background="@drawable/backgroundedittext"
                         android:textColor="@color/colorBlack"/>
                 </LinearLayout>
                 <LinearLayout
@@ -54,8 +56,10 @@
                         android:id="@+id/worktime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="5dp"
                         android:enabled="false"
                         android:focusable="false"
+                        android:background="@drawable/backgroundedittext"
                         android:textColor="@color/colorBlack"/>
                 </LinearLayout>
                 <TextView
@@ -81,7 +85,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="5dp">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -91,8 +96,10 @@
                             android:id="@+id/pmsa_et_alamat"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_marginEnd="5dp"
                             android:enabled="false"
                             android:focusable="false"
+                            android:background="@drawable/backgroundedittext"
                             android:textColor="@color/colorBlack"
                             android:gravity="top"/>
                     </LinearLayout>
@@ -104,7 +111,8 @@
                             android:id="@+id/btnlocation"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:src="@drawable/ic_marker"/>
+                            android:src="@drawable/ic_marker"
+                            android:background="@drawable/backgroundsoftgray"/>
                     </LinearLayout>
                 </LinearLayout>
                 <TextView
@@ -116,9 +124,11 @@
                     android:id="@+id/pmsa_et_catatan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
                     android:enabled="false"
                     android:focusable="false"
                     android:textColor="@color/colorBlack"
+                    android:background="@drawable/backgroundedittext"
                     android:gravity="top"/>
                 <TextView
                     android:id="@+id/textView37"
@@ -129,26 +139,30 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="5dp">
                     <EditText
                         android:id="@+id/pmsa_et_mulaidate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
                         android:layout_weight="1"
                         android:ems="10"
                         android:enabled="false"
                         android:focusable="false"
                         android:inputType="date"
+                        android:background="@drawable/backgroundedittext"
                         android:textColor="@color/colorBlack"/>
                     <EditText
                         android:id="@+id/pmsa_et_mulaitime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:ems="10"
                         android:enabled="false"
                         android:focusable="false"
                         android:inputType="time"
+                        android:background="@drawable/backgroundedittext"
                         android:textColor="@color/colorBlack" />
                 </LinearLayout>
                 <TextView
@@ -160,26 +174,30 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="5dp">
                     <EditText
                         android:id="@+id/pmsa_et_selesaidate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
                         android:layout_weight="1"
                         android:ems="10"
                         android:enabled="false"
                         android:focusable="false"
                         android:inputType="date"
+                        android:background="@drawable/backgroundedittext"
                         android:textColor="@color/colorBlack" />
                     <EditText
                         android:id="@+id/pmsa_et_selesaitime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:ems="10"
                         android:enabled="false"
                         android:focusable="false"
                         android:inputType="time"
+                        android:background="@drawable/backgroundedittext"
                         android:textColor="@color/colorBlack" />
                 </LinearLayout>
                 <TextView
@@ -198,6 +216,7 @@
                     android:enabled="false"
                     android:focusable="false"
                     android:inputType="textPersonName"
+                    android:background="@drawable/backgroundedittext"
                     android:textColor="@color/colorBlack" />
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -215,8 +234,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@string/btn_btlkn"
                         android:textAllCaps="false"
+                        android:background="@drawable/buttonshape"
                         tools:ignore="ButtonStyle" />
                     <Button
                         android:id="@+id/pmsa_btn_terima"
@@ -234,7 +253,8 @@
                         android:layout_weight="1"
                         android:text="@string/btn_kmbl"
                         android:textAllCaps="false"
-                        tools:ignore="ButtonStyle" />
+                        tools:ignore="ButtonStyle"
+                        android:background="@drawable/buttonshape"/>
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

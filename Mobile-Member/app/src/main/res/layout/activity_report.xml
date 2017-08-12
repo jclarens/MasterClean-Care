@@ -3,9 +3,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <include
-        android:id="@+id/toolbar_main"
-        layout="@layout/toolbar_main"/>
+    <!--<include-->
+    <!--android:id="@+id/toolbar_main"-->
+    <!--layout="@layout/toolbar_main"/>-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,10 +16,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="Reporting"
+            android:text="Melaporkan"
             android:textStyle="bold"
             android:textAlignment="center"
-            android:textColor="@color/colorBlack"
+            android:textColor="#ff0000"
             android:textSize="25dp"/>
         <TextView
             android:id="@+id/nama"
@@ -38,14 +38,15 @@
             android:gravity="top"
             android:layout_weight="1"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/backgroundlightgray"
+            android:background="@drawable/backgroundsoftgray"
             />
         <Button
             android:id="@+id/btn_kirim"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:background="@drawable/buttonshape"
-            android:text="Kirim"/>
+            android:textAllCaps="false"
+            android:text="Kirim"
+            android:background="@drawable/buttonshape"/>
     </LinearLayout>
 </LinearLayout>

@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterPemesanan;
@@ -27,6 +28,7 @@ import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -40,16 +42,18 @@ public class FragmentStatusPermintaan extends Fragment {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager rec_LayoutManager;
     private RecyclerAdapterPermintaan rec_Adapter;
-//    private Button btn_add;
+    private List<Offer> offers = new ArrayList<>();
     private User user;
     private SwipeRefreshLayout swipeRefreshLayout;
     private FloatingActionButton btnadd;
+    private LinearLayout layoutnolist;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_status_permintaan, container, false);
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
 
+        layoutnolist = (LinearLayout) _view.findViewById(R.id.layout_nolist);
         btnadd = (FloatingActionButton) _view.findViewById(R.id.btn_addpermintaan);
         swipeRefreshLayout = (SwipeRefreshLayout) _view.findViewById(R.id.swipeRefreshLayout);
 //        btn_add = (Button) _view.findViewById(R.id.btn_addpermintaan);
@@ -86,7 +90,13 @@ public class FragmentStatusPermintaan extends Fragment {
             @Override
             public void onSuccess(Call<List<Offer>> call, Response<List<Offer>> response) {
                 super.onSuccess(call, response);
-                rec_Adapter.setOffers(response.body(), 0);
+                offers = filter(response.body());
+                if (offers.size() < 1)
+                    hidelist();
+                else {
+                    showlist();
+                    rec_Adapter.setOffers(offers);
+                }
                 swipeRefreshLayout.setRefreshing(false);
             }
 
@@ -104,5 +114,21 @@ public class FragmentStatusPermintaan extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+    }
+    public void hidelist(){
+        recyclerView.setVisibility(View.GONE);
+        layoutnolist.setVisibility(View.VISIBLE);
+    }
+    public void showlist(){
+        recyclerView.setVisibility(View.VISIBLE);
+        layoutnolist.setVisibility(View.GONE);
+    }
+    public List<Offer> filter(List<Offer> offers){
+        List<Offer> result = new ArrayList<>();
+        for (int n = 0; n < offers.size(); n++) {
+            if (offers.get(n).getStatus() == 0)
+                result.add(offers.get(n));
+        }
+        return result;
     }
 }

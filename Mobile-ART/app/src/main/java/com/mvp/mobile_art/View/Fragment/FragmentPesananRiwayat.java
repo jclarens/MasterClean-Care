@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mvp.mobile_art.Model.Adapter.RecyclerAdapterPemesanan;
+import com.mvp.mobile_art.Model.Adapter.RecyclerAdapterRiwayat;
 import com.mvp.mobile_art.Model.Basic.Order;
 import com.mvp.mobile_art.Model.Basic.User;
 import com.mvp.mobile_art.R;
@@ -38,7 +39,7 @@ import retrofit2.Response;
 public class FragmentPesananRiwayat extends Fragment{
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager rec_LayoutManager;
-    private RecyclerAdapterPemesanan rec_Adapter;
+    private RecyclerAdapterRiwayat rec_Adapter;
     private List<Order> orders = new ArrayList<>();
     private User user = new User();
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -53,7 +54,7 @@ public class FragmentPesananRiwayat extends Fragment{
         recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_order);
         rec_LayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(rec_LayoutManager);
-        rec_Adapter = new RecyclerAdapterPemesanan();
+        rec_Adapter = new RecyclerAdapterRiwayat();
         rec_Adapter.setcontext(getActivity());
         recyclerView.setAdapter(rec_Adapter);
 
@@ -72,7 +73,7 @@ public class FragmentPesananRiwayat extends Fragment{
             @Override
             public void onSuccess(Call<List<Order>> call, Response<List<Order>> response) {
                 super.onSuccess(call, response);
-                orders = filter(response.body(), 3);
+                orders = filter(response.body());
                 if (orders.size() < 1){
                     hidelist();
                 }else {
@@ -90,10 +91,10 @@ public class FragmentPesananRiwayat extends Fragment{
             }
         });
     }
-    public List<Order> filter (List<Order> orders, Integer status){
+    public List<Order> filter (List<Order> orders){
         List<Order> temp = new ArrayList<>();
         for (int n=0; n<orders.size();n++){
-            if (orders.get(n).getStatus() == status)
+            if (!(orders.get(n).getStatus() == 0 || orders.get(n).getStatus() == 1))
                 temp.add(orders.get(n));
         }
         return temp;

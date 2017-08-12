@@ -49,6 +49,7 @@ public class EmergencyActivity extends ParentActivity {
     private User user = new User();
     private FrameLayout calllayout;
     private Emergencycall EC;
+    private EditText reason;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,12 +62,12 @@ public class EmergencyActivity extends ParentActivity {
         if (SharedPref.getValueString(ConstClass.EMERGENCY_EXTRA).equals("")) {
             addtoemergencylist();
             SharedPref.save(ConstClass.EMERGENCY_EXTRA, "on");
-            calladmin();
         }
 
         calllayout = (FrameLayout) findViewById(R.id.layout_call);
         code = (EditText) findViewById(R.id.sos_et_code);
         tutup = (Button) findViewById(R.id.sos_btn_tutup);
+        reason = (EditText) findViewById(R.id.reason);
 
         calllayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +110,8 @@ public class EmergencyActivity extends ParentActivity {
     public void calladmin(){
         ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE);
         Intent callIntent = new Intent(Intent.ACTION_CALL);
-        callIntent.setData(Uri.parse("tel:082168360303"));
+//        callIntent.setData(Uri.parse("tel:082168360303"));
+        callIntent.setData(Uri.parse("tel:"+user.getContact().getEmergency_numb()));
         startActivity(callIntent);
     }
     public void trypass(){
@@ -161,28 +163,36 @@ public class EmergencyActivity extends ParentActivity {
         Toast.makeText(getApplicationContext(), "Harap gunakan tombol tutup", Toast.LENGTH_SHORT).show();
     }
     public void addtoemergencylist(){
+        initProgressDialog("Sedang memperoses");
+        showDialog();
         Calendar calendar = Calendar.getInstance();
         HashMap<String,Object> map = new HashMap<>();
         map.put("user_id", user.getId().toString());
         map.put("init_time", fixFormat.format(calendar.getTime()));
         map.put("status", 1);
+        map.put("close_reason", "");
         Call<EmergencyCallResponse> caller = APIManager.getRepository(EmergencycallRepo.class).postemergencycall(map);
         caller.enqueue(new APICallback<EmergencyCallResponse>() {
             @Override
             public void onSuccess(Call<EmergencyCallResponse> call, Response<EmergencyCallResponse> response) {
                 super.onSuccess(call, response);
+                dismissDialog();
                 EC = response.body().getEmergencycall();
+                calladmin();
             }
 
             @Override
             public void onFailure(Call<EmergencyCallResponse> call, Throwable t) {
                 super.onFailure(call, t);
+                dismissDialog();
             }
         });
     }
     public void changestatus(){
         HashMap<String,Object> map = new HashMap<>();
         map.put("status", 0);
+        if (reason.getText() != null)
+            map.put("close_reason", reason.getText().toString());
         Call<EmergencyCallResponse> caller = APIManager.getRepository(EmergencycallRepo.class).patchemergencycall(EC.getId(),map);
         caller.enqueue(new APICallback<EmergencyCallResponse>() {
             @Override

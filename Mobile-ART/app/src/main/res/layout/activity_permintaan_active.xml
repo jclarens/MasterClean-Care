@@ -22,6 +22,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="match_parent"
@@ -34,11 +35,13 @@
                         android:layout_height="wrap_content"
                         android:enabled="false"
                         android:focusable="false"
+                        android:background="@drawable/backgroundedittext"
                         android:textColor="@color/colorBlack"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
                     android:orientation="vertical">
                     <TextView
                         android:layout_width="match_parent"
@@ -51,6 +54,7 @@
                         android:layout_height="wrap_content"
                         android:enabled="false"
                         android:focusable="false"
+                        android:background="@drawable/backgroundedittext"
                         android:textColor="@color/colorBlack"/>
                 </LinearLayout>
                 <TextView
@@ -76,6 +80,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -86,9 +91,11 @@
                             android:id="@+id/alamat"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_marginEnd="5dp"
                             android:enabled="false"
                             android:focusable="false"
                             android:textColor="@color/colorBlack"
+                            android:background="@drawable/backgroundedittext"
                             android:gravity="top"/>
                     </LinearLayout>
                     <LinearLayout
@@ -111,9 +118,11 @@
                     android:id="@+id/catatan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
                     android:enabled="false"
                     android:focusable="false"
                     android:textColor="@color/colorBlack"
+                    android:background="@drawable/backgroundedittext"
                     android:gravity="top"/>
                 <TextView
                     android:id="@+id/textView37"
@@ -124,26 +133,30 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
                     <EditText
                         android:id="@+id/mulaidate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
                         android:layout_weight="1"
                         android:ems="10"
                         android:enabled="false"
                         android:focusable="false"
                         android:inputType="date"
+                        android:background="@drawable/backgroundedittext"
                         android:textColor="@color/colorBlack"/>
                     <EditText
                         android:id="@+id/mulaitime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:ems="10"
                         android:enabled="false"
                         android:focusable="false"
                         android:inputType="time"
+                        android:background="@drawable/backgroundedittext"
                         android:textColor="@color/colorBlack" />
                 </LinearLayout>
                 <TextView
@@ -155,26 +168,30 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
                     android:orientation="horizontal">
                     <EditText
                         android:id="@+id/selesaidate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="5dp"
                         android:layout_weight="1"
                         android:ems="10"
                         android:enabled="false"
                         android:focusable="false"
                         android:inputType="date"
+                        android:background="@drawable/backgroundedittext"
                         android:textColor="@color/colorBlack" />
                     <EditText
                         android:id="@+id/selesaitime"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:ems="10"
                         android:enabled="false"
                         android:focusable="false"
                         android:inputType="time"
+                        android:background="@drawable/backgroundedittext"
                         android:textColor="@color/colorBlack" />
                 </LinearLayout>
                 <TextView
@@ -193,6 +210,7 @@
                     android:enabled="false"
                     android:focusable="false"
                     android:inputType="textPersonName"
+                    android:background="@drawable/backgroundedittext"
                     android:textColor="@color/colorBlack" />
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -206,6 +224,7 @@
                         android:layout_weight="1"
                         android:text="Bersedia"
                         android:textAllCaps="false"
+                        android:background="@drawable/buttonshape"
                         tools:ignore="ButtonStyle" />
                     <Button
                         android:id="@+id/kembali"
@@ -214,6 +233,7 @@
                         android:layout_weight="1"
                         android:text="@string/btn_kmbl"
                         android:textAllCaps="false"
+                        android:background="@drawable/buttonshape"
                         tools:ignore="ButtonStyle" />
                 </LinearLayout>
             </LinearLayout>

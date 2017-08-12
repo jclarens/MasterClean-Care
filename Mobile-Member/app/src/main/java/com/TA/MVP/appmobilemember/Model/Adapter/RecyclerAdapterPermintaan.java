@@ -71,13 +71,8 @@ public class RecyclerAdapterPermintaan extends RecyclerView.Adapter<RecyclerAdap
         return offers.size();
     }
 
-    public void setOffers(List<Offer> offers, Integer status) {
-        List<Offer> temp = new ArrayList<>();
-        for (int n = 0; n < offers.size(); n++) {
-            if (offers.get(n).getStatus() == status)
-                temp.add(offers.get(n));
-        }
-        this.offers = temp;
+    public void setOffers(List<Offer> offers) {
+        this.offers = offers;
         doshorting();
         notifyDataSetChanged();
     }

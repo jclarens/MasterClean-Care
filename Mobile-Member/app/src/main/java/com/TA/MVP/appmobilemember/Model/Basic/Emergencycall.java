@@ -11,6 +11,7 @@ public class Emergencycall {
     private User user;
     private String init_time;
     private Integer status;
+    private String close_reason;
 
     public Integer getId() {
         return id;
@@ -38,5 +39,13 @@ public class Emergencycall {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getClose_reason() {
+        return close_reason;
+    }
+
+    public void setClose_reason(String close_reason) {
+        this.close_reason = close_reason;
     }
 }

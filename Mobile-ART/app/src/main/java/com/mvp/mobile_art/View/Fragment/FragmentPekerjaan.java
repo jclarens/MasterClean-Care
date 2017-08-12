@@ -37,7 +37,9 @@ import com.mvp.mobile_art.Model.Basic.Waktu_Kerja;
 import com.mvp.mobile_art.Model.Responses.UserResponse;
 import com.mvp.mobile_art.R;
 import com.mvp.mobile_art.Route.Repositories.OfferRepo;
+import com.mvp.mobile_art.Route.Repositories.OrderRepo;
 import com.mvp.mobile_art.Route.Repositories.UserRepo;
+import com.mvp.mobile_art.View.Activity.MainActivity;
 import com.mvp.mobile_art.View.Activity.OfferActivity;
 import com.mvp.mobile_art.lib.api.APICallback;
 import com.mvp.mobile_art.lib.api.APIManager;
@@ -75,8 +77,11 @@ public class FragmentPekerjaan extends Fragment implements OnMapReadyCallback {
     private String[] latlng;
     private User user = new User();
     private DateFormat getdateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
-    private Calendar waktumulai = new GregorianCalendar();
     private Calendar calendar = Calendar.getInstance();
+    private Calendar waktumulai = new GregorianCalendar();
+    private Calendar waktuselesai = new GregorianCalendar();
+    private Calendar batasmulai = new GregorianCalendar();
+    private Calendar batasselesai = new GregorianCalendar();
     CameraPosition targetcamera;
     GoogleMap mGoogleMap;
     MapView mMapView;
@@ -268,7 +273,7 @@ public class FragmentPekerjaan extends Fragment implements OnMapReadyCallback {
             public void onSuccess(Call<List<Offer>> call, Response<List<Offer>> response) {
                 super.onSuccess(call, response);
                 offers = response.body();
-                resetmapview(removeexpired(offers));
+                getjadwal(removeexpired(offers));
             }
 
             @Override
@@ -319,5 +324,59 @@ public class FragmentPekerjaan extends Fragment implements OnMapReadyCallback {
             }
         }
         return temp;
+    }
+    public List<Offer> validasijadwal(List<Order> orders, List<Offer> offers){
+        List<Offer> result = new ArrayList<>();
+        boolean bentrok = false;
+        for (int m=0;m<offers.size();m++){
+            bentrok = false;
+            try {
+                waktumulai.setTime(getdateFormat.parse(offers.get(m).getStart_date()));
+                waktuselesai.setTime(getdateFormat.parse(offers.get(m).getEnd_date()));
+            } catch (ParseException e) {
+//            e.printStackTrace();
+            }
+            for (int n=0;n<orders.size();n++){
+
+                try {
+                    batasmulai.setTime(getdateFormat.parse(orders.get(n).getStart_date()));
+                    batasselesai.setTime(getdateFormat.parse(orders.get(n).getEnd_date()));
+                    batasmulai.add(Calendar.HOUR_OF_DAY, -1);
+                    batasselesai.add(Calendar.HOUR_OF_DAY, 1);
+                } catch (ParseException e) {
+//                e.printStackTrace();
+                }
+                if (waktumulai.after(batasmulai) && waktumulai.before(batasselesai) || waktuselesai.after(batasmulai) && waktuselesai.before(batasselesai))
+                    bentrok = true;
+            }
+            if (!bentrok){
+                result.add(offers.get(m));
+            }
+        }
+        return result;
+    }
+    public void getjadwal(final List<Offer> offers){
+        try{
+            ((MainActivity)getActivity()).initProgressDialog("Memuat pekerjaan");
+            ((MainActivity)getActivity()).showDialog();
+            Call<List<Order>> callerjadwal = APIManager.getRepository(OrderRepo.class).getordersByArtstatus(user.getId(), 1);
+            callerjadwal.enqueue(new APICallback<List<Order>>() {
+                @Override
+                public void onSuccess(Call<List<Order>> call, Response<List<Order>> response) {
+                    super.onSuccess(call, response);
+                    resetmapview(validasijadwal(response.body(), offers));
+                    ((MainActivity)getActivity()).dismissDialog();
+                }
+
+                @Override
+                public void onFailure(Call<List<Order>> call, Throwable t) {
+                    super.onFailure(call, t);
+                    ((MainActivity)getActivity()).dismissDialog();
+                    Toast.makeText(getContext(), "Koneksi bermasalah silahkan coba lagi", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }catch (NullPointerException e){
+            Toast.makeText(getContext(), "Terjadi kesalahan. Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

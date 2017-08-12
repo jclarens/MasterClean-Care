@@ -4,7 +4,7 @@
     <item
         android:id="@+id/menu_penawaran"
         android:icon="@drawable/ic_jobs"
-        android:title="List Pekerjaan"/>
+        android:title="Pesanan"/>
     <item
         android:id="@+id/menu_pekerjaan"
         android:icon="@drawable/icon_cari"
@@ -12,7 +12,7 @@
     <item
         android:id="@+id/menu_jadwal"
         android:icon="@drawable/icon_status"
-        android:title="@string/menu_jadwal"/>
+        android:title="Penawaran"/>
     <item
         android:id="@+id/menu_pesan"
         android:icon="@drawable/icon_pesan"

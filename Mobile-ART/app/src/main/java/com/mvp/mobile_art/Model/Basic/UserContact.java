@@ -12,9 +12,18 @@ public class UserContact {
     private String location;
     private Integer province;
     private Integer city;
+    private String emergency_numb;
 
     public Integer getId() {
         return id;
+    }
+
+    public String getEmergency_numb() {
+        return emergency_numb;
+    }
+
+    public void setEmergency_numb(String emergency_numb) {
+        this.emergency_numb = emergency_numb;
     }
 
     public User getUser_id() {

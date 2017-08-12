@@ -73,6 +73,7 @@ public class MainActivity extends ParentActivity {
     private Context context;
     private boolean success;
     private Integer posisiF = 1;
+    private Emergencycall EC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +99,7 @@ public class MainActivity extends ParentActivity {
         }
     }
     public void settampilan(){
-        fragmentManager.beginTransaction().replace(R.id.content, new FragmentPenawaran()).commit();
+        fragmentManager.beginTransaction().replace(R.id.content, new FragmentJadwal()).commit();
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -106,7 +107,7 @@ public class MainActivity extends ParentActivity {
                 switch (id){
                     case R.id.menu_penawaran:
                         posisiF = 1;
-                        fragment = new FragmentPenawaran();
+                        fragment = new FragmentJadwal();
                         break;
                     case R.id.menu_pekerjaan:
                         posisiF = 2;
@@ -114,7 +115,7 @@ public class MainActivity extends ParentActivity {
                         break;
                     case R.id.menu_jadwal:
                         posisiF = 3;
-                        fragment = new FragmentJadwal();
+                        fragment = new FragmentPenawaran();
                         break;
                     case R.id.menu_pesan:
                         posisiF = 4;
@@ -146,24 +147,24 @@ public class MainActivity extends ParentActivity {
                         new String[]{Manifest.permission.CALL_PHONE},
                         PERMS_REQUEST_CODE);
                 break;
-            case R.id.action_logout:SharedPref.save(SharedPref.ACCESS_TOKEN, "");
-                abuildermessage("Anda akan melakukan Logout?", "Konfirmasi");
-                abuilder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        SharedPref.save(ConstClass.USER, "");
-                        Intent intent1 = new Intent(getApplicationContext(), LoginActivity.class);
-                        startActivityForResult(intent1, MainActivity.REQUEST_LOGIN);
-                    }
-                });
-                abuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
-                });
-                showalertdialog();
-                break;
+//            case R.id.action_logout:SharedPref.save(SharedPref.ACCESS_TOKEN, "");
+//                abuildermessage("Anda akan melakukan Logout?", "Konfirmasi");
+//                abuilder.setPositiveButton("Logout", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        SharedPref.save(ConstClass.USER, "");
+//                        Intent intent1 = new Intent(getApplicationContext(), LoginActivity.class);
+//                        startActivityForResult(intent1, MainActivity.REQUEST_LOGIN);
+//                    }
+//                });
+//                abuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//
+//                    }
+//                });
+//                showalertdialog();
+//                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -183,13 +184,13 @@ public class MainActivity extends ParentActivity {
     public void refreshfragment(){
         switch (posisiF){
             case 1:
-                fragment = new FragmentPenawaran();
+                fragment = new FragmentJadwal();
                 break;
             case 2:
                 fragment = new FragmentPekerjaan();
                 break;
             case 3:
-                fragment = new FragmentJadwal();
+                fragment = new FragmentPenawaran();
                 break;
             case 4:
                 fragment = new FragmentPesan();
@@ -344,7 +345,6 @@ public class MainActivity extends ParentActivity {
             case PERMS_REQUEST_CODE: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    SharedPref.save(ConstClass.EMERGENCY_EXTRA, "on");
                     Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
                     startActivity(intent);
 
@@ -357,8 +357,7 @@ public class MainActivity extends ParentActivity {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     SharedPref.save(ConstClass.EMERGENCY_EXTRA, "on");
-                    Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
-                    startActivity(intent);
+                    openec();
 
                 } else {
                     finish();
@@ -375,12 +374,10 @@ public class MainActivity extends ParentActivity {
             public void onSuccess(Call<Emergencycall> call, Response<Emergencycall> response) {
                 super.onSuccess(call, response);
                 dismissDialog();
+                EC = response.body();
                 try{
-                    if (response.body().getStatus() == 1){
+                    if (EC.getStatus() == 1){
                         getpermission();
-//                        Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
-//                        intent.putExtra("item", GsonUtils.getJsonFromObject(response.body()));
-//                        startActivity(intent);
                     }
                 }catch (NullPointerException e){
 
@@ -415,5 +412,10 @@ public class MainActivity extends ParentActivity {
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.CALL_PHONE},
                 111);
+    }
+    public void openec(){
+        Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
+        intent.putExtra("item", GsonUtils.getJsonFromObject(EC));
+        startActivity(intent);
     }
 }

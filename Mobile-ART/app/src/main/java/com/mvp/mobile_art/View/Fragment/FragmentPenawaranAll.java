@@ -10,14 +10,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.mvp.mobile_art.MasterCleanApplication;
 import com.mvp.mobile_art.Model.Adapter.RecyclerAdapterPenawaranAll;
 import com.mvp.mobile_art.Model.Adapter.RecyclerAdapterPermintaan;
 import com.mvp.mobile_art.Model.Basic.Offer;
+import com.mvp.mobile_art.Model.Basic.Order;
 import com.mvp.mobile_art.Model.Basic.User;
 import com.mvp.mobile_art.R;
 import com.mvp.mobile_art.Route.Repositories.OfferRepo;
+import com.mvp.mobile_art.Route.Repositories.OrderRepo;
+import com.mvp.mobile_art.View.Activity.MainActivity;
 import com.mvp.mobile_art.lib.api.APICallback;
 import com.mvp.mobile_art.lib.api.APIManager;
 import com.mvp.mobile_art.lib.database.SharedPref;
@@ -48,9 +52,12 @@ public class FragmentPenawaranAll extends Fragment {
     private List<Offer> offers = new ArrayList<>();
     private User user = new User();
     private SwipeRefreshLayout swipeRefreshLayout;
+    private LinearLayout layoutnolist;
     private Calendar calendar = Calendar.getInstance();
     private Calendar waktumulai = new GregorianCalendar();
-    private LinearLayout layoutnolist;
+    private Calendar waktuselesai = new GregorianCalendar();
+    private Calendar batasmulai = new GregorianCalendar();
+    private Calendar batasselesai = new GregorianCalendar();
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_penawaran_all, container, false);
@@ -83,13 +90,7 @@ public class FragmentPenawaranAll extends Fragment {
             public void onSuccess(Call<List<Offer>> call, Response<List<Offer>> response) {
                 super.onSuccess(call, response);
                 offers = removeexpired(response.body());
-                if (offers.size() < 1)
-                    hidelist();
-                else {
-                    showlist();
-                    rec_Adapter.setOffers(offers);
-                }
-                swipeRefreshLayout.setRefreshing(false);
+                getjadwal(offers);
             }
 
             @Override
@@ -127,5 +128,60 @@ public class FragmentPenawaranAll extends Fragment {
     public void showlist(){
         recyclerView.setVisibility(View.VISIBLE);
         layoutnolist.setVisibility(View.GONE);
+    }
+    public List<Offer> validasijadwal(List<Order> orders, List<Offer> offers){
+        List<Offer> result = new ArrayList<>();
+        boolean bentrok = false;
+        for (int m=0;m<offers.size();m++){
+            bentrok = false;
+            try {
+                waktumulai.setTime(getdateFormat.parse(offers.get(m).getStart_date()));
+                waktuselesai.setTime(getdateFormat.parse(offers.get(m).getEnd_date()));
+            } catch (ParseException e) {
+//            e.printStackTrace();
+            }
+            for (int n=0;n<orders.size();n++){
+
+                try {
+                    batasmulai.setTime(getdateFormat.parse(orders.get(n).getStart_date()));
+                    batasselesai.setTime(getdateFormat.parse(orders.get(n).getEnd_date()));
+                    batasmulai.add(Calendar.HOUR_OF_DAY, -1);
+                    batasselesai.add(Calendar.HOUR_OF_DAY, 1);
+                } catch (ParseException e) {
+//                e.printStackTrace();
+                }
+                if (waktumulai.after(batasmulai) && waktumulai.before(batasselesai) || waktuselesai.after(batasmulai) && waktuselesai.before(batasselesai))
+                    bentrok = true;
+            }
+            if (!bentrok){
+                result.add(offers.get(m));
+            }
+        }
+        return result;
+    }
+    public void getjadwal(final List<Offer> offers){
+        Call<List<Order>> callerjadwal = APIManager.getRepository(OrderRepo.class).getordersByArtstatus(user.getId(), 1);
+        callerjadwal.enqueue(new APICallback<List<Order>>() {
+            @Override
+            public void onSuccess(Call<List<Order>> call, Response<List<Order>> response) {
+                super.onSuccess(call, response);
+                List<Offer> offerz = validasijadwal(response.body(), offers);
+                if (offerz.size() < 1)
+                    hidelist();
+                else {
+                    showlist();
+                    rec_Adapter.setOffers(offerz);
+                }
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure(Call<List<Order>> call, Throwable t) {
+                super.onFailure(call, t);
+                Toast.makeText(getContext(), "Koneksi bermasalah silahkan coba lagi", Toast.LENGTH_SHORT).show();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+
+        });
     }
 }

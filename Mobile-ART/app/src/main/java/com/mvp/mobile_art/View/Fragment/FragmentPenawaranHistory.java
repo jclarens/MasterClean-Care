@@ -106,13 +106,8 @@ public class FragmentPenawaranHistory extends Fragment {
     public List<Offer> filter(List<Offer> offers){
         List<Offer> temp = new ArrayList<>();
         for (int n=0;n<offers.size();n++){
-            for (int m=0;m<offers.get(n).getOffer_art().size();m++){
-                if (offers.get(n).getOffer_art().get(m).getArt_id().equals(user.getId())) {
-                    if (!offers.get(n).getOffer_art().get(m).getStatus().equals(0)) {
-                        temp.add(offers.get(n));
-                    }
-                    break;
-                }
+            if (offers.get(n).getStatus() != 0) {
+                temp.add(offers.get(n));
             }
         }
         return temp;

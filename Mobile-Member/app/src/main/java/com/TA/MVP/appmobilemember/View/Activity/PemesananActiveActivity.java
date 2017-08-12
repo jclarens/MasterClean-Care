@@ -141,7 +141,7 @@ public class PemesananActiveActivity extends ParentActivity {
                 btnextra.setVisibility(View.GONE);
                 break;
             case 5:
-                btnextra.setText("Report");
+                btnextra.setText("Laporkan");
 //                btnextra.setVisibility(View.GONE);
                 break;
         }
@@ -371,7 +371,7 @@ public class PemesananActiveActivity extends ParentActivity {
                 waktuselesai.add(Calendar.HOUR_OF_DAY, 1);
                 if (calendar.after(waktuselesai)){
                     if (order.getStatus_member() == 0 || order.getStatus_art() == 0) {
-                        abuildermessage("Pemesanan ini tidak dikonfirmasi oleh salah satu pihak member atau asisten, silahkan laporkan masalah ini pada tab Riwayat>Pemesanan>Report.", "Pemberitahuan");
+                        abuildermessage("Pemesanan ini tidak dikonfirmasi oleh salah satu pihak member atau asisten, silahkan laporkan masalah ini pada tab Riwayat>Pemesanan>Laporkan.", "Pemberitahuan");
                         abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {

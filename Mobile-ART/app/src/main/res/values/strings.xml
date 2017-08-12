@@ -107,7 +107,7 @@
     <string name="pager_pesan_terkirim">Pesan Terkirim</string>
     <string name="pager_penawaran">Penawaran</string>
     <string name="pager_penawaran_all">Penawaran</string>
-    <string name="pager_penawaran_accepted">Diajukan</string>
+    <string name="pager_penawaran_accepted">Pending</string>
     <string name="pager_penawaran_history">Riwayat</string>
 
     <string name="filter_nama">Nama:</string>

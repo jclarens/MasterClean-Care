@@ -27,6 +27,7 @@ import com.TA.MVP.appmobilemember.Model.Basic.Order;
 import com.TA.MVP.appmobilemember.Model.Basic.StaticData;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.RoundedTransformation;
 import com.TA.MVP.appmobilemember.Route.Repositories.OrderRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
@@ -156,7 +157,7 @@ public class AsistenActivity extends ParentActivity {
             temp = temp + staticData.getJobs().get(art.getUser_job().get(n).getJob_id()-1);
         }
         txtprofesi.setText(temp);
-        temp = "Dapat Berbahasa : ";
+        temp = "";
         for(int n=0;n<art.getUser_language().size();n++){
             if (n != 0)
                 temp = temp + ", ";
@@ -223,6 +224,7 @@ public class AsistenActivity extends ParentActivity {
                 .load(Settings.getRetrofitAPIUrl()+"image/small/"+art.getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
+                .transform(new RoundedTransformation(10, 0))
                 .into(imageView);
 
         //toolbar
@@ -275,19 +277,6 @@ public class AsistenActivity extends ParentActivity {
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 super.onFailure(call, t);
-//                abuildermessage("Reconnect?","No Connection");
-//                abuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        showDialog();
-//                    }
-//                });
-//                abuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//
-//                    }
-//                });
                 Toast.makeText(getApplicationContext(),"Koneksi bermasalah", Toast.LENGTH_SHORT).show();
                 dismissDialog();
                 finish();

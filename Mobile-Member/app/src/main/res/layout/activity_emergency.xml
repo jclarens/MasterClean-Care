@@ -49,7 +49,6 @@
         android:text="Masukkan PASSWORD anda untuk kembali ke halaman awal "
         android:textAlignment="center"
         android:textColor="@color/colorBlack" />
-
     <EditText
         android:id="@+id/sos_et_code"
         android:layout_width="match_parent"
@@ -57,8 +56,17 @@
         android:ems="10"
         android:inputType="textPassword"
         android:textAlignment="center"
-        android:maxLength="30"/>
-
+        android:maxLength="30"
+        android:layout_marginBottom="5dp"/>
+    <EditText
+        android:id="@+id/reason"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp"
+        android:layout_weight="1"
+        android:gravity="top"
+        android:hint="Alasan"
+        android:background="@drawable/backgroundlightgray"/>
     <Button
         android:id="@+id/sos_btn_tutup"
         android:layout_width="match_parent"

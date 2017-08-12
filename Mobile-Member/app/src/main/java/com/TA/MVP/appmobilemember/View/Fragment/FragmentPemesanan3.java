@@ -169,7 +169,7 @@ public class FragmentPemesanan3 extends Fragment {
             @Override
             public void onClick(View view) {
                 if (ketentuan.isChecked()){
-                    postpemesanan();
+                    getjadwal();
                 }
                 else Toast.makeText(getContext(), "Anda tidak menyetujui ketentuan yang berlaku", Toast.LENGTH_SHORT).show();
             }
@@ -209,7 +209,7 @@ public class FragmentPemesanan3 extends Fragment {
         }
         return true;
     }
-    public void postpemesanan(){
+    public void getjadwal(){
         ((PemesananActivity)getActivity()).initProgressDialog("Pemesanan sedang diperoses");
         ((PemesananActivity)getActivity()).showDialog();
         Call<List<Order>> callerjadwal = APIManager.getRepository(OrderRepo.class).getordersByArtstatus(art.getId(), 1);
@@ -219,45 +219,7 @@ public class FragmentPemesanan3 extends Fragment {
                 super.onSuccess(call, response);
                 //check jadwal bentrok
                 if (validasijadwal(response.body())){
-                    calendar = Calendar.getInstance();
-                    HashMap<String,Object> map = new HashMap<>();
-                    map.put("member_id", member.getId().toString());
-                    map.put("art_id", art.getId().toString());
-                    map.put("work_time_id", order.getWork_time_id().toString());
-                    map.put("job_id", order.getJob_id().toString());
-                    map.put("cost", order.getCost().toString());
-                    map.put("start_date", order.getStart_date());
-                    map.put("end_date", order.getEnd_date());
-                    map.put("remark", order.getRemark());
-                    map.put("status", "0");
-                    map.put("status_member", "0");
-                    map.put("status_art", "0");
-                    map.put("contact", order.getContact());
-                    map.put("created_at", fixFormat.format(calendar.getTime()));
-                    map.put("orderTaskList", order.getOrder_task_list());
-                    Call<OrderResponse> caller = APIManager.getRepository(OrderRepo.class).postorder(map);
-                    caller.enqueue(new APICallback<OrderResponse>() {
-                        @Override
-                        public void onSuccess(Call<OrderResponse> call, Response<OrderResponse> response) {
-                            super.onSuccess(call, response);
-                            ((PemesananActivity)getActivity()).dismissDialog();
-                            ((PemesananActivity)getActivity()).abuildermessage("Penawaran anda berhasil dibuat. Silahkan buka tab Transaksi>Pemesanan untuk info lebih lanjut.","Pemberitahuan");
-                            ((PemesananActivity)getActivity()).abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    getActivity().finish();
-                                }
-                            });
-                            ((PemesananActivity)getActivity()).showalertdialog();
-                        }
-
-                        @Override
-                        public void onFailure(Call<OrderResponse> call, Throwable t) {
-                            super.onFailure(call, t);
-                            ((PemesananActivity)getActivity()).dismissDialog();
-                            Toast.makeText(getContext(), "Koneksi bermasalah silahkan coba lagi", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    postpemesanan();
                 }
                 else Toast.makeText(getContext(), "Asisten tidak dapat menerima pemesanan pada jam ini. Harap periksa jadwal asisten sebelum melakukan pemesanan.", Toast.LENGTH_SHORT).show();
                 ((PemesananActivity)getActivity()).dismissDialog();
@@ -270,6 +232,47 @@ public class FragmentPemesanan3 extends Fragment {
                 Toast.makeText(getContext(), "Koneksi bermasalah silahkan coba lagi", Toast.LENGTH_SHORT).show();
             }
 
+        });
+    }
+    public void postpemesanan(){
+        calendar = Calendar.getInstance();
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("member_id", member.getId().toString());
+        map.put("art_id", art.getId().toString());
+        map.put("work_time_id", order.getWork_time_id().toString());
+        map.put("job_id", order.getJob_id().toString());
+        map.put("cost", order.getCost().toString());
+        map.put("start_date", order.getStart_date());
+        map.put("end_date", order.getEnd_date());
+        map.put("remark", order.getRemark());
+        map.put("status", "0");
+        map.put("status_member", "0");
+        map.put("status_art", "0");
+        map.put("contact", order.getContact());
+        map.put("created_at", fixFormat.format(calendar.getTime()));
+        map.put("orderTaskList", order.getOrder_task_list());
+        Call<OrderResponse> caller = APIManager.getRepository(OrderRepo.class).postorder(map);
+        caller.enqueue(new APICallback<OrderResponse>() {
+            @Override
+            public void onSuccess(Call<OrderResponse> call, Response<OrderResponse> response) {
+                super.onSuccess(call, response);
+                ((PemesananActivity)getActivity()).dismissDialog();
+                ((PemesananActivity)getActivity()).abuildermessage("Penawaran anda berhasil dibuat. Silahkan buka tab Transaksi>Pemesanan untuk info lebih lanjut.","Pemberitahuan");
+                ((PemesananActivity)getActivity()).abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        getActivity().finish();
+                    }
+                });
+                ((PemesananActivity)getActivity()).showalertdialog();
+            }
+
+            @Override
+            public void onFailure(Call<OrderResponse> call, Throwable t) {
+                super.onFailure(call, t);
+                ((PemesananActivity)getActivity()).dismissDialog();
+                Toast.makeText(getContext(), "Koneksi bermasalah silahkan coba lagi", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 }

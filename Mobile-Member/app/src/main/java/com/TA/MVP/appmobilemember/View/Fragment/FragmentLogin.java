@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,7 @@ public class FragmentLogin extends Fragment {
         tvdaftar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((AuthActivity)getActivity()).doChangeFragment(new FragmentRegister());
+                ((AuthActivity)getActivity()).doChangeFragmentRegister();
             }
         });
         btnlogin.setOnClickListener(new View.OnClickListener() {
@@ -59,6 +60,8 @@ public class FragmentLogin extends Fragment {
                 hidekeyboard();
                 if (email.getText().toString().equals("") || katasandi.getText().toString().equals("")){
                     Toast.makeText(getContext(),"Email atau katasandi belum diisi", Toast.LENGTH_SHORT).show();
+                }else if (!isValidEmail(email.getText().toString())){
+                    Toast.makeText(getContext(),"Input Email tidak benar.", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     dologin();
@@ -77,15 +80,23 @@ public class FragmentLogin extends Fragment {
             @Override
             public void onSuccess(Call<LoginResponse> call, Response<LoginResponse> response) {
                 super.onSuccess(call, response);
-                try{
-                    SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
-                    SharedPref.save(SharedPref.ACCESS_TOKEN, response.body().getToken().getAccess_token());
-                    ((AuthActivity) getActivity()).dismissDialog();
-                    Intent i = new Intent();
-                    i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
-                    ((AuthActivity) getActivity()).dismissDialog();
-                    ((AuthActivity)getActivity()).dofinishActivity(i);
-                }catch (NullPointerException e){
+                try {
+                    if (response.body().getUser().getRole_id() != 2){
+                        Toast.makeText(getContext(),"Anda tidak memiliki hak akses", Toast.LENGTH_SHORT).show();
+                        ((AuthActivity) getActivity()).dismissDialog();
+                    } else if (response.body().getUser().getActivation() == 0){
+                        Toast.makeText(getContext(),"Anda belum mendapat hak akses", Toast.LENGTH_SHORT).show();
+                        ((AuthActivity) getActivity()).dismissDialog();
+                    } else {
+                        SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
+                        SharedPref.save(SharedPref.ACCESS_TOKEN, response.body().getToken().getAccess_token());
+                        ((AuthActivity) getActivity()).dismissDialog();
+                        Intent i = new Intent();
+                        i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
+                        ((AuthActivity) getActivity()).dismissDialog();
+                        ((AuthActivity) getActivity()).dofinishActivity(i);
+                    }
+                } catch (NullPointerException e) {
                     Toast.makeText(getContext(), "Email atau katasandi salah", Toast.LENGTH_SHORT).show();
                     ((AuthActivity) getActivity()).dismissDialog();
                 }
@@ -119,5 +130,8 @@ public class FragmentLogin extends Fragment {
             InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+    public final static boolean isValidEmail(CharSequence target) {
+        return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 }

@@ -19,7 +19,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Anda tidak memiliki pemesanan diterima."
+                    android:text="Anda tidak memiliki pesanan aktif saat ini."
                     android:textColor="@color/colorBlack"
                     android:gravity="center"
                     android:textSize="20sp"/>

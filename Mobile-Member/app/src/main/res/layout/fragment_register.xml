@@ -61,6 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
+                android:maxLength="12"
                 android:ems="10"
                 android:hint="@string/katasandi"
                 android:inputType="textPassword" />
@@ -71,6 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
+                android:maxLength="12"
                 android:ems="10"
                 android:hint="@string/konfkatasandi"
                 android:inputType="textPassword" />
@@ -154,8 +156,6 @@
                 android:id="@+id/reg_et_notelp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/reg_et_konfkatasandi"
-                android:layout_centerHorizontal="true"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:ems="10"

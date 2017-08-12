@@ -25,6 +25,7 @@ import com.TA.MVP.appmobilemember.Model.Basic.UserContact;
 import com.TA.MVP.appmobilemember.Model.Responses.UploadResponse;
 import com.TA.MVP.appmobilemember.Model.Responses.UserResponse;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.RoundedTransformation;
 import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
@@ -57,7 +58,7 @@ public class EditProfileActivity extends ParentActivity {
     private User user;
     private Toolbar toolbar;
     private ImageView imgfoto;
-    private EditText nama, alamat, notelp;
+    private EditText nama, alamat, notelp, notelp2;
     private Button btnsimpan, btnbatal;
     private BufferedInputStream bufferedInputStream;
     private CropSquareTransformation cropSquareTransformation = new CropSquareTransformation();
@@ -74,6 +75,7 @@ public class EditProfileActivity extends ParentActivity {
         nama = (EditText) findViewById(R.id.eprof_et_nama);
         alamat = (EditText) findViewById(R.id.eprof_et_alamat);
         notelp = (EditText) findViewById(R.id.eprof_et_notelp);
+        notelp2 = (EditText) findViewById(R.id.eprof_et_notelp2);
         btnsimpan = (Button) findViewById(R.id.eprof_btn_simpan);
         btnbatal = (Button) findViewById(R.id.eprof_btn_batal);
 
@@ -91,10 +93,12 @@ public class EditProfileActivity extends ParentActivity {
         try{
             alamat.setText(user.getContact().getAddress());
             notelp.setText(user.getContact().getPhone());
+            notelp2.setText(user.getContact().getEmergency_numb());
         }
         catch (NullPointerException e){
             alamat.setText("-");
             notelp.setText("-");
+            notelp2.setText("-");
         }
 
         btnsimpan.setOnClickListener(new View.OnClickListener() {
@@ -117,9 +121,10 @@ public class EditProfileActivity extends ParentActivity {
         });
 
         Picasso.with(getApplicationContext())
-                .load(Settings.getRetrofitAPIUrl()+"image/"+user.getAvatar())
+                .load(Settings.getRetrofitAPIUrl()+"image/small/"+user.getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
+                .transform(new RoundedTransformation(10, 0))
                 .into(imgfoto);
 
 
@@ -238,6 +243,7 @@ public class EditProfileActivity extends ParentActivity {
         user.setName(nama.getText().toString());
         user.getContact().setAddress(alamat.getText().toString());
         user.getContact().setPhone(notelp.getText().toString());
+        user.getContact().setEmergency_numb(notelp2.getText().toString());
         if (imagechanged){
             map.put("avatar", newimage);
         }

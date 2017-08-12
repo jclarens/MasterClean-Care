@@ -3,16 +3,12 @@ package com.mvp.mobile_art.View.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.mvp.mobile_art.Model.Basic.User;
 import com.mvp.mobile_art.Model.Responses.LoginResponse;
-import com.mvp.mobile_art.Model.Responses.Token;
-import com.mvp.mobile_art.Model.Responses.UserResponse;
 import com.mvp.mobile_art.R;
 import com.mvp.mobile_art.Route.Repositories.UserRepo;
 import com.mvp.mobile_art.lib.api.APICallback;
@@ -20,7 +16,6 @@ import com.mvp.mobile_art.lib.api.APIManager;
 import com.mvp.mobile_art.lib.database.SharedPref;
 import com.mvp.mobile_art.lib.utils.ConstClass;
 import com.mvp.mobile_art.lib.utils.GsonUtils;
-import com.mvp.mobile_art.lib.utils.Settings;
 
 import java.util.HashMap;
 
@@ -57,12 +52,22 @@ public class LoginActivity extends ParentActivity {
                     @Override
                     public void onSuccess(Call<LoginResponse> call, Response<LoginResponse> response) {
                         super.onSuccess(call, response);
-                        SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
-                        SharedPref.save(SharedPref.ACCESS_TOKEN, response.body().getToken().getAccess_token());
                         dismissDialog();
-                        Intent i = new Intent();
-                        i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
-                        dofinishActivity(i);
+                        try {
+                            if (response.body().getUser().getRole_id() != 3) {
+                                Toast.makeText(getApplicationContext(), "Anda tidak memiliki hak akses", Toast.LENGTH_SHORT).show();
+                            } else if (response.body().getUser().getActivation() == 0) {
+                                Toast.makeText(getApplicationContext(), "Anda belum mendapat hak akses", Toast.LENGTH_SHORT).show();
+                            } else {
+                                SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
+                                SharedPref.save(SharedPref.ACCESS_TOKEN, response.body().getToken().getAccess_token());
+                                Intent i = new Intent();
+                                i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
+                                dofinishActivity(i);
+                            }
+                        } catch(NullPointerException e){
+                            Toast.makeText(getApplicationContext(), "Email atau katasandi salah", Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override

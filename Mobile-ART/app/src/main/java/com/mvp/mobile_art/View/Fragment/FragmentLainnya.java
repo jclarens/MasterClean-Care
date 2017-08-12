@@ -20,6 +20,7 @@ import com.mvp.mobile_art.View.Activity.KetentuanActivity;
 import com.mvp.mobile_art.View.Activity.LoginActivity;
 import com.mvp.mobile_art.View.Activity.MainActivity;
 import com.mvp.mobile_art.View.Activity.ProfileActivity;
+import com.mvp.mobile_art.View.Activity.SaranActivity;
 import com.mvp.mobile_art.View.Activity.TulisPesanActivity;
 import com.mvp.mobile_art.lib.api.APICallback;
 import com.mvp.mobile_art.lib.api.APIManager;
@@ -35,7 +36,6 @@ import retrofit2.Response;
  */
 
 public class FragmentLainnya extends Fragment {
-
     private ImageView imageprofile, imageketentuan, imagelogout, contactus;
     private TextView txtprofile, txtketentuan, txtlogout;
     private Context context;
@@ -45,7 +45,6 @@ public class FragmentLainnya extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_lainnya, container, false);
         imageprofile = (ImageView) _view.findViewById(R.id.iv_profile);
-//        imagebantuan = (ImageView) _view.findViewById(R.id.iv_bantuan);
         imageketentuan = (ImageView) _view.findViewById(R.id.iv_ketentuan);
         contactus = (ImageView) _view.findViewById(R.id.iv_contactus);
         imagelogout = (ImageView) _view.findViewById(R.id.iv_logout);
@@ -64,7 +63,8 @@ public class FragmentLainnya extends Fragment {
         contactus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getadmin();
+                Intent intent = new Intent(getContext(), SaranActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -116,40 +116,5 @@ public class FragmentLainnya extends Fragment {
         });
 
         return _view;
-    }
-    public void getadmin(){
-        ((MainActivity)getActivity()).initProgressDialog("Memuat");
-        ((MainActivity)getActivity()).showDialog();
-        Call<User> caller = APIManager.getRepository(UserRepo.class).getadmin();
-        caller.enqueue(new APICallback<User>() {
-            @Override
-            public void onSuccess(Call<User> call, Response<User> response) {
-                super.onSuccess(call, response);
-                User me = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
-                User admin = response.body();
-                admin.setName("Admin");
-                MyMessage msg = new MyMessage();
-                msg.setSender_id(admin);
-                msg.setReceiver_id(me);
-                Intent intent = new Intent(getContext(), TulisPesanActivity.class);
-                intent.putExtra("msg",GsonUtils.getJsonFromObject(msg));
-                ((MainActivity)getActivity()).dismissDialog();
-                startActivity(intent);
-            }
-
-            @Override
-            public void onError(Call<User> call, Response<User> response) {
-                super.onError(call, response);
-                ((MainActivity)getActivity()).dismissDialog();
-                Toast.makeText(getContext(),"Terjadi kesalahan", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                super.onFailure(call, t);
-                ((MainActivity)getActivity()).dismissDialog();
-                Toast.makeText(getContext(),"Koneksi bermasalah", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }

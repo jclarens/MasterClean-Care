@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Fragment.FragmentLogin;
+import com.TA.MVP.appmobilemember.View.Fragment.FragmentRegister;
 
 /**
  * Created by Zackzack on 08/06/2017.
@@ -16,11 +17,15 @@ public class AuthActivity extends ParentActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
-        doChangeFragment(new FragmentLogin());
+        doChangeFragmentlogin();
     }
 
-    public void doChangeFragment(Fragment fragment){
-        getSupportFragmentManager().beginTransaction().replace(R.id.activity_auth, fragment).commit();
+    public void doChangeFragmentlogin(){
+        getSupportFragmentManager().beginTransaction().replace(R.id.activity_auth, new FragmentLogin()).commit();
+    }
+
+    public void doChangeFragmentRegister(){
+        getSupportFragmentManager().beginTransaction().replace(R.id.activity_auth, new FragmentRegister()).commit();
     }
 
     public void dofinishActivity(Intent intent){

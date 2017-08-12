@@ -4,6 +4,7 @@ import com.TA.MVP.appmobilemember.Model.Basic.StaticData;
 import com.TA.MVP.appmobilemember.Route.Repositories.AdditionalInfoRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.EmergencycallRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.JobRepo;
+import com.TA.MVP.appmobilemember.Route.Repositories.KdanSRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.LanguageRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.MessageRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.MyTaskRepo;
@@ -76,6 +77,7 @@ public class MasterCleanApplication extends Application {
         APIManager.registerRepository(LanguageRepo.class);
         APIManager.registerRepository(JobRepo.class);
         APIManager.registerRepository(WTRepo.class);
+        APIManager.registerRepository(KdanSRepo.class);
         APIManager.registerRepository(ReportRepo.class);
         APIManager.registerRepository(AdditionalInfoRepo.class);
         APIManager.registerRepository(EmergencycallRepo.class);

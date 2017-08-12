@@ -24,11 +24,13 @@ import com.mvp.mobile_art.Model.Array.ArrayBulan;
 import com.mvp.mobile_art.Model.Basic.MyTask;
 import com.mvp.mobile_art.Model.Basic.Offer;
 import com.mvp.mobile_art.Model.Basic.OfferArt;
+import com.mvp.mobile_art.Model.Basic.Order;
 import com.mvp.mobile_art.Model.Basic.StaticData;
 import com.mvp.mobile_art.Model.Basic.User;
 import com.mvp.mobile_art.Model.Responses.OfferResponse;
 import com.mvp.mobile_art.R;
 import com.mvp.mobile_art.Route.Repositories.OfferRepo;
+import com.mvp.mobile_art.Route.Repositories.OrderRepo;
 import com.mvp.mobile_art.lib.api.APICallback;
 import com.mvp.mobile_art.lib.api.APIManager;
 import com.mvp.mobile_art.lib.database.SharedPref;
@@ -73,6 +75,9 @@ public class OfferActivity extends ParentActivity {
     private ArrayBulan arrayBulan = new ArrayBulan();
     private Calendar calendar = Calendar.getInstance();
     private Calendar waktumulai = new GregorianCalendar();
+    private Calendar waktuselesai = new GregorianCalendar();
+    private Calendar batasmulai = new GregorianCalendar();
+    private Calendar batasselesai = new GregorianCalendar();
 
     private Offer offer = new Offer();
     private Toolbar toolbar;
@@ -166,6 +171,15 @@ public class OfferActivity extends ParentActivity {
                 break;
         }
 
+        switch (offer.getStatus()){
+            case 0:
+                bersedia.setVisibility(View.VISIBLE);
+                break;
+            case 1:
+                bersedia.setVisibility(View.GONE);
+                break;
+        }
+
         kembali.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -184,7 +198,7 @@ public class OfferActivity extends ParentActivity {
                     abuilder.setPositiveButton("Terima", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            addthisarttooffer();
+                            getjadwal();
                         }
                     });
                     abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
@@ -246,11 +260,11 @@ public class OfferActivity extends ParentActivity {
             @Override
             public void onSuccess(Call<OfferResponse> call, Response<OfferResponse> response) {
                 super.onSuccess(call, response);
+                dismissDialog();
                 abuildermessage("Pendaftaran berhasil. Lihat status pada tab Jadwal>Penawaran untuk info lebih lanjut.", "Sukses");
                 abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        dismissDialog();
                         finish();
                     }
                 });
@@ -260,11 +274,13 @@ public class OfferActivity extends ParentActivity {
             @Override
             public void onError(Call<OfferResponse> call, Response<OfferResponse> response) {
                 super.onError(call, response);
+                dismissDialog();
             }
 
             @Override
             public void onFailure(Call<OfferResponse> call, Throwable t) {
                 super.onFailure(call, t);
+                dismissDialog();
             }
         });
     }
@@ -342,33 +358,8 @@ public class OfferActivity extends ParentActivity {
             @Override
             public void onSuccess(Call<OfferArt> call, Response<OfferArt> response) {
                 super.onSuccess(call, response);
-//                Toast.makeText(getApplicationContext(),"Pengajuan anda sudah dibatalkan", Toast.LENGTH_SHORT).show();
-                bersedia.setText("Bersedia");
-                bersedia.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        abuildermessage("Bersedia menerima tawaran ini?", "Konfirmasi");
-                        abuilder.setPositiveButton("Terima", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                bersedia.setText("Batalkan");
-                                bersedia.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View view) {
-                                        addthisarttooffer();
-                                    }
-                                });
-                            }
-                        });
-                        abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        });
-                        showalertdialog();
-                    }
-                });
+                Toast.makeText(getApplicationContext(),"Berhasil dibatalkan", Toast.LENGTH_SHORT).show();
+                finish();
                 dismissDialog();
             }
 
@@ -408,5 +399,53 @@ public class OfferActivity extends ParentActivity {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
+    }
+    public void getjadwal(){
+        initProgressDialog("Pemesanan sedang diperoses");
+        showDialog();
+        Call<List<Order>> callerjadwal = APIManager.getRepository(OrderRepo.class).getordersByArtstatus(user.getId(), 1);
+        callerjadwal.enqueue(new APICallback<List<Order>>() {
+            @Override
+            public void onSuccess(Call<List<Order>> call, Response<List<Order>> response) {
+                super.onSuccess(call, response);
+                //check jadwal bentrok
+                if (validasijadwal(response.body())){
+                    addthisarttooffer();
+                }
+                else Toast.makeText(getApplicationContext(), "Anda tidak dapat menerima pemesanan pada jam ini. Harap periksa jadwal asisten sebelum melakukan pemesanan.", Toast.LENGTH_SHORT).show();
+                dismissDialog();
+            }
+
+            @Override
+            public void onFailure(Call<List<Order>> call, Throwable t) {
+                super.onFailure(call, t);
+                dismissDialog();
+                Toast.makeText(getApplicationContext(), "Koneksi bermasalah silahkan coba lagi", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+    }
+    public boolean validasijadwal(List<Order> orders){
+        try {
+            waktumulai.setTime(getdateFormat.parse(offer.getStart_date()));
+            waktuselesai.setTime(getdateFormat.parse(offer.getEnd_date()));
+        } catch (ParseException e) {
+//            e.printStackTrace();
+        }
+        for (int n=0;n<orders.size();n++){
+            try {
+                batasmulai.setTime(getdateFormat.parse(orders.get(n).getStart_date()));
+                batasselesai.setTime(getdateFormat.parse(orders.get(n).getEnd_date()));
+                batasmulai.add(Calendar.HOUR_OF_DAY, -1);
+                batasselesai.add(Calendar.HOUR_OF_DAY, 1);
+            } catch (ParseException e) {
+//                e.printStackTrace();
+            }
+            if (waktumulai.after(batasmulai) && waktumulai.before(batasselesai))
+                return false;
+            if (waktuselesai.after(batasmulai) && waktuselesai.before(batasselesai))
+                return false;
+        }
+        return true;
     }
 }

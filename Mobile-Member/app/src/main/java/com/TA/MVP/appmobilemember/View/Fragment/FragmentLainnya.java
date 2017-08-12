@@ -21,6 +21,7 @@ import com.TA.MVP.appmobilemember.View.Activity.BantuanActivity;
 import com.TA.MVP.appmobilemember.View.Activity.KetentuanActivity;
 import com.TA.MVP.appmobilemember.View.Activity.MainActivity;
 import com.TA.MVP.appmobilemember.View.Activity.ProfileActivity;
+import com.TA.MVP.appmobilemember.View.Activity.SaranActivity;
 import com.TA.MVP.appmobilemember.View.Activity.TulisPesanActivity;
 import com.TA.MVP.appmobilemember.View.Activity.WalletActivity;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
@@ -71,8 +72,10 @@ public class FragmentLainnya extends Fragment {
                 if (SharedPref.getValueString(SharedPref.ACCESS_TOKEN) == ""){
                     Toast.makeText(context,"Silahkan login terlebih dahulu.", Toast.LENGTH_SHORT).show();
                 }
-                else
-                    getadmin();
+                else{
+                    Intent intent = new Intent(getContext(), SaranActivity.class);
+                    startActivity(intent);
+                }
             }
         });
 
@@ -150,40 +153,5 @@ public class FragmentLainnya extends Fragment {
         });
 
         return _view;
-    }
-    public void getadmin(){
-        ((MainActivity)getActivity()).initProgressDialog("Memuat");
-        ((MainActivity)getActivity()).showDialog();
-        Call<User> caller = APIManager.getRepository(UserRepo.class).getadmin();
-        caller.enqueue(new APICallback<User>() {
-            @Override
-            public void onSuccess(Call<User> call, Response<User> response) {
-                super.onSuccess(call, response);
-                User me = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
-                User admin = response.body();
-                admin.setName("Admin");
-                MyMessage msg = new MyMessage();
-                msg.setSender_id(admin);
-                msg.setReceiver_id(me);
-                Intent intent = new Intent(getContext(), TulisPesanActivity.class);
-                intent.putExtra("msg",GsonUtils.getJsonFromObject(msg));
-                ((MainActivity)getActivity()).dismissDialog();
-                startActivity(intent);
-            }
-
-            @Override
-            public void onError(Call<User> call, Response<User> response) {
-                super.onError(call, response);
-                ((MainActivity)getActivity()).dismissDialog();
-                Toast.makeText(getContext(),"Terjadi kesalahan", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                super.onFailure(call, t);
-                ((MainActivity)getActivity()).dismissDialog();
-                Toast.makeText(getContext(),"Koneksi bermasalah", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 }

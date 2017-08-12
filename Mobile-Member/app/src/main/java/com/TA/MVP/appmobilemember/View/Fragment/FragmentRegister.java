@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,6 +59,7 @@ public class FragmentRegister extends Fragment {
     private String[] genders = new String[]{"Pria","Wanita"};
     private DatePickerDialog datePickerDialog1;
     private OrderTime now = new OrderTime();
+    private User user = new User();
     private Calendar calendar = Calendar.getInstance();
     private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-d", Locale.ENGLISH);
     private DateFormat tahunFormat = new SimpleDateFormat("yyyy", Locale.ENGLISH);
@@ -93,7 +95,7 @@ public class FragmentRegister extends Fragment {
                 calendar.set(Calendar.DAY_OF_MONTH,i2);
                 tgl.setText(costumedateformat(calendar.getTime()));
             }
-        }, now.year, now.month, now.day);
+        }, now.year-27, now.month, now.day);
         tgl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,74 +114,72 @@ public class FragmentRegister extends Fragment {
             @Override
             public void onClick(View view) {
                 if (valid()) {
-                    try {
-                        ((AuthActivity) getActivity()).showDialog("registering");
-                        HashMap<String, Object> map = new HashMap<>();
-                        map.put("name", nama.getText().toString());
-                        map.put("email", email.getText().toString());
-                        map.put("password", katasandi.getText().toString());
-                        map.put("gender", String.valueOf(spinnergender.getSelectedItemPosition() + 1));
-                        map.put("born_place", bplace.getText().toString());
-                        map.put("born_date", tgl.getText());
-                        map.put("religion", String.valueOf(spinneragama.getSelectedItemPosition() + 1));
-                        map.put("role_id", String.valueOf(2));
-                        map.put("status", String.valueOf(1));
-                        map.put("activation", String.valueOf(1));
-                        UserContact userContact = new UserContact();
-                        userContact.setAddress(alamat.getText().toString());
-                        userContact.setCity((spinnerkota.getSelectedItemPosition() + 1));
-                        userContact.setPhone(notelp.getText().toString());
-                        userContact.setLocation("3.584949, 98.672400");//harusnya get location
-                        map.put("contact", userContact);//cek lg
-                        Call<UserResponse> caller = APIManager.getRepository(UserRepo.class).registeruser(map);
-                        caller.enqueue(new APICallback<UserResponse>() {
-                            @Override
-                            public void onSuccess(Call<UserResponse> call, Response<UserResponse> response) {
-                                super.onSuccess(call, response);
-                                User user = response.body().getUser();
-                                getToken(user, katasandi.getText().toString());
-                            }
+                    ((AuthActivity)getActivity()).initProgressDialog("Mendaftarkan");
+                    ((AuthActivity)getActivity()).showDialog();
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("name", nama.getText().toString());
+                    map.put("email", email.getText().toString());
+                    map.put("password", katasandi.getText().toString());
+                    map.put("gender", String.valueOf(spinnergender.getSelectedItemPosition() + 1));
+                    map.put("born_place", bplace.getText().toString());
+                    map.put("born_date", dateFormat.format(calendar.getTime()));
+                    map.put("religion", String.valueOf(spinneragama.getSelectedItemPosition() + 1));
+                    map.put("role_id", String.valueOf(2));
+                    map.put("status", String.valueOf(1));
+                    map.put("activation", String.valueOf(1));
+                    map.put("avatar", "users/default.png");
+                    map.put("user_wallet", 0);
+                    UserContact userContact = new UserContact();
+                    userContact.setAddress(alamat.getText().toString());
+                    userContact.setCity((spinnerkota.getSelectedItemPosition() + 1));
+                    userContact.setPhone(notelp.getText().toString());
+                    userContact.setEmergency_numb("082168360303");
+                    userContact.setLocation("3.584949, 98.672400");//harusnya get location
+                    map.put("contact", userContact);//cek lg
+                    Call<UserResponse> caller = APIManager.getRepository(UserRepo.class).registeruser(map);
+                    caller.enqueue(new APICallback<UserResponse>() {
+                        @Override
+                        public void onSuccess(Call<UserResponse> call, Response<UserResponse> response) {
+                            super.onSuccess(call, response);
+                            getToken(email.getText().toString(), katasandi.getText().toString());
+                            ((AuthActivity)getActivity()).dismissDialog();
+                        }
 
-                            @Override
-                            public void onUnprocessableEntity(Call<UserResponse> call, Response<UserResponse> response) {
-                                super.onUnprocessableEntity(call, response);
-                                ((AuthActivity) getActivity()).dismissDialog();
-                            }
+                        @Override
+                        public void onUnprocessableEntity(Call<UserResponse> call, Response<UserResponse> response) {
+                            super.onUnprocessableEntity(call, response);
+                            ((AuthActivity)getActivity()).dismissDialog();
+                        }
 
-                            @Override
-                            public void onError(Call<UserResponse> call, Response<UserResponse> response) {
-                                super.onError(call, response);
-                                ((AuthActivity) getActivity()).dismissDialog();
-                            }
+                        @Override
+                        public void onError(Call<UserResponse> call, Response<UserResponse> response) {
+                            super.onError(call, response);
+                            ((AuthActivity)getActivity()).dismissDialog();
+                        }
 
-                            @Override
-                            public void onFailure(Call<UserResponse> call, Throwable t) {
-                                super.onFailure(call, t);
-                                ((AuthActivity) getActivity()).dismissDialog();
-                            }
-                        });
-                    }
-                    catch (NullPointerException e){
-                        Toast.makeText(getContext(), "Data tidak lengkap.", Toast.LENGTH_SHORT);
-                    }
+                        @Override
+                        public void onFailure(Call<UserResponse> call, Throwable t) {
+                            super.onFailure(call, t);
+                            ((AuthActivity)getActivity()).dismissDialog();
+                        }
+                    });
                 }
-
             }
         });
 
         tvlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((AuthActivity)getActivity()).doChangeFragment(new FragmentLogin());
+                ((AuthActivity)getActivity()).doChangeFragmentlogin();
             }
         });
 
         return _view;
     }
-    public void getToken(final User user, String pass){
+    public void getToken(String email, String pass){
         ((AuthActivity) getActivity()).showDialog("Logging in");
         HashMap<String, Object> map = new HashMap<>();
-        map.put("email", user.getEmail());
+        map.put("email", email);
         map.put("password", pass);
         Call<LoginResponse> caller = APIManager.getRepository(UserRepo.class).loginmember(map);
         caller.enqueue(new APICallback<LoginResponse>() {
@@ -188,9 +188,9 @@ public class FragmentRegister extends Fragment {
                 super.onSuccess(call, response);
                 SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
                 SharedPref.save(SharedPref.ACCESS_TOKEN, response.body().getToken().getAccess_token());
-                ((AuthActivity) getActivity()).dismissDialog();
                 Intent i = new Intent();
                 i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
+                ((AuthActivity) getActivity()).dismissDialog();
                 ((AuthActivity)getActivity()).dofinishActivity(i);
             }
 
@@ -198,7 +198,7 @@ public class FragmentRegister extends Fragment {
             public void onUnauthorized(Call<LoginResponse> call, Response<LoginResponse> response) {
                 super.onUnauthorized(call, response);
                 ((AuthActivity) getActivity()).dismissDialog();
-                Toast.makeText(getContext(), "Email or Password is wrong", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Email atau katasandi salah.", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -225,8 +225,20 @@ public class FragmentRegister extends Fragment {
         now.minute = calendar.get(Calendar.MINUTE);
     }
     public boolean valid(){
-        if (katasandi.getText().toString() != konfkatasandi.getText().toString()){
-            Toast.makeText(getContext(), "Konfirmasi katasandi tidak sesuai", Toast.LENGTH_SHORT);
+        if (nama.getText().toString().equals("") || email.getText().toString().equals("") || bplace.getText().toString().equals("") || notelp.getText().toString().equals("") || alamat.getText().toString().equals("")) {
+            Toast.makeText(getContext(), "Data tidak lengkap.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!isValidEmail(email.getText().toString())){
+            Toast.makeText(getContext(), "Input Email tidak benar.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (katasandi.getText().toString().equals("") || konfkatasandi.getText().toString().equals("")){
+            Toast.makeText(getContext(), "Katasandi belum diidsi.", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (!katasandi.getText().toString().equals(konfkatasandi.getText().toString())){
+            Toast.makeText(getContext(), "Konfirmasi katasandi tidak sesuai."+katasandi.getText().toString()+konfkatasandi.getText().toString(), Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -234,5 +246,12 @@ public class FragmentRegister extends Fragment {
     public String costumedateformat(Date date){
         String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date))-1);
         return tglFormat.format(date) + " " + bulan + " " + tahunFormat.format(date);
+    }
+    public final static boolean isValidEmail(CharSequence target) {
+        if (TextUtils.isEmpty(target)) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
     }
 }

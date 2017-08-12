@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Basic.UserContact;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.RoundedTransformation;
 import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
@@ -121,11 +122,12 @@ public class ProfileActivity extends ParentActivity {
         });
 
         Picasso.with(getApplicationContext())
-                .load(Settings.getRetrofitAPIUrl()+"image/"+user.getAvatar())
+                .load(Settings.getRetrofitAPIUrl()+"image/small/"+user.getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
-                .resize(imgfoto.getWidth(), imgfoto.getHeight())
+                .transform(new RoundedTransformation(10, 0))
                 .into(imgfoto);
+//                .resize(imgfoto.getWidth(), imgfoto.getHeight())
 
         dismissDialog();
     }

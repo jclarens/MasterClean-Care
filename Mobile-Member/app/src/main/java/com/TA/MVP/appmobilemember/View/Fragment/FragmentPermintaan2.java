@@ -139,6 +139,7 @@ public class FragmentPermintaan2 extends Fragment {
                 tmp = Integer.valueOf(estimasi.getText().toString());
                 if (tmp < maxestimasi)
                     estimasi.setText(String.valueOf(tmp + 1));
+                estimasi.clearFocus();
             }
         });
         down.setOnClickListener(new View.OnClickListener() {
@@ -147,6 +148,7 @@ public class FragmentPermintaan2 extends Fragment {
                 tmp = Integer.valueOf(estimasi.getText().toString());
                 if (tmp > minestimasi)
                     estimasi.setText(String.valueOf(tmp - 1));
+                estimasi.clearFocus();
             }
         });
 
@@ -577,21 +579,21 @@ public class FragmentPermintaan2 extends Fragment {
         offer.setCost(total);
 //              ///loading pls
         if (offer.getCost() > user.getUser_wallet().getAmt()) {
-            ((PemesananActivity) getActivity()).abuildermessage("Wallet anda tidak mencukupi untuk melakukan pemesanan\nWallet anda:" + setRP(user.getUser_wallet().getAmt()), "Pemberitahuan");
-            ((PemesananActivity) getActivity()).abuilder.setPositiveButton("Top up", new DialogInterface.OnClickListener() {
+            ((PermintaanActivity) getActivity()).abuildermessage("Wallet anda tidak mencukupi untuk melakukan pemesanan\nWallet anda:" + setRP(user.getUser_wallet().getAmt()), "Pemberitahuan");
+            ((PermintaanActivity) getActivity()).abuilder.setPositiveButton("Top up", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     Intent intent = new Intent(getContext(), WalletActivity.class);
                     startActivity(intent);
                 }
             });
-            ((PemesananActivity) getActivity()).abuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+            ((PermintaanActivity) getActivity()).abuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
 
                 }
             });
-            ((PemesananActivity) getActivity()).showalertdialog();
+            ((PermintaanActivity) getActivity()).showalertdialog();
         } else if (validasi()) {
             //save data from this fragment ----------------------------------------------------------------------------------------------------
             offer.setStart_date(fixstart);

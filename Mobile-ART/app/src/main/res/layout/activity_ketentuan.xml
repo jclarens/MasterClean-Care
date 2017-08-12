@@ -2,8 +2,165 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <include
         android:id="@+id/toolbar_main"
         layout="@layout/toolbar_main"/>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="15dp">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ketentuan"
+            android:textSize="30sp"
+            android:layout_marginBottom="20dp"
+            android:textAlignment="center"
+            android:textColor="@color/colorBlack"
+            android:background="@drawable/bordersolidblack"/>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="15dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="1. Master Clean-Care hanya menyediakan sebuah platform pemesanan layanan Asisten Rumah Tangga (ART). Master Clean-Care tidak mempekerjakan para ART. Master Clean-Care hanya bertindak sebagai mediator antara ART dengan member."
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:textAlignment="center"/>
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:text=""-->
+                <!--android:layout_marginStart="20dp"-->
+                <!--android:textColor="@color/colorBlack"/>-->
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="15dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2. Setiap persetujuan yang dilakukan antara Anda dengan ART di luar dari layanan yang disediakan sistem, tidak menjadi tanggung jawab pihak Master Clean-Care."
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:textAlignment="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="15dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3. ART hanya dapat dipesan untuk bekerja dari jam 08.00 WIB - 17.00 WIB. Pemesanan Layanan ART per jam hanya dapat dipesan untuk jangka waktu 2 jam kedepan."
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:textAlignment="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="15dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="4. Master Clean-Care memberikan layanan minimal pemesanan per 2 jam."
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:textAlignment="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="15dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="5. report (spam report, spam order, spam segalanya) ban sementara (suka2 admin) atau selamanya."
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:textAlignment="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="15dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="6. Master Clean-Care tidak bertanggung jawab atas kerusakan, pengeluaran, kerugian, tuntutan dan/atau kontroversi (secara kolektif,kewajiban) yang mungkin timbul, selama penggunaan layanan."
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:textAlignment="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="15dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="7. Refund wallet dilakukan apabila ART tidak datang untuk bekerja."
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:textAlignment="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="15dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="8. Anda tetap harus berhati-hati terhadap keselamatan pribadi dan properti, sama seperti ketika berinteraksi dengan orang yang baru dikenal. (diharapkan adanya pengawasan selama layanan berlangsung)"
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:textAlignment="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="15dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="9. Anda wajib memberikan informasi yang diminta dengan lengkap, faktual dan benar. Kerugian karena Anda yang memberikan informasi kurang lengkap bukanlah bagian dari tanggung jawab pihak Master Clean Care. Jika Anda membatalkan pemesanan yang telah disetujui dengan ART maka akan tetap dikenakan biaya pembatalan sesuai dengan total biaya pemesanan."
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:textAlignment="center"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginBottom="15dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="10. Pembobotan waktu minimal untuk menyapu ialah 30 menit, untuk mengepel ialah 30 menit, untuk mencuci piring 1 jam, untuk menyetrika dan melipat yaitu 1 jam dengan estimasi 15 pakaian. Untuk menyapu dan mengepel dilakukan dengan pertimbangan luas tempat tinggal maksimal 60m2. Sehingga untuk luas lebih dari 60m2, Anda harus menaikkan estimasi waktu pengerjaan lebih dari 2 jam atau menambah jumlah ART yang dipesan sehingga pelayanan lebih maksimal. Jika Anda tetap memilih 2 jam, Anda harus menginformasikan pekerjaan yang harus diprioritaskan pembersihannya kepada ART."
+                android:textStyle="bold"
+                android:textColor="@color/colorBlack"
+                android:textAlignment="center"/>
+        </LinearLayout>
+
+    </LinearLayout>
+    </ScrollView>
 </LinearLayout>

@@ -135,9 +135,12 @@ public class FragmentHome extends Fragment {
         rec_Adapter = new RecyclerAdapterAsisten(getContext());
         recyclerView.setAdapter(rec_Adapter);
 
+        if (filterresult == null)
+            SharedPref.save("searching", "");
         if (SharedPref.getValueString("searching").equals("")) {
             getarts();
         }
+//        getarts();
 
         Log.d("why","ooooooooooooooooooooooooooooooooo");
         return _view;
@@ -191,11 +194,23 @@ public class FragmentHome extends Fragment {
             addtag(staticData.getJobs().get(profesi-1).getJob());
         }
         else profesi = null;
+
         languages = (List<Language>) GsonUtils.getObjectFromJson(filterresult.getStringExtra("listbahasa"), new TypeToken<List<Language>>(){}.getType());
+
+        if (languages.size() > 0){
+            String temp = "";
+            for (int n=0; n < languages.size(); n++){
+                if (n != 0){
+                    temp = temp + ",";
+                }
+                temp = temp + languages.get(n).getLanguage();
+            }
+            addtag("Bahasa:(" + temp +")");
+        }
 
         usiamin = Integer.valueOf(filterresult.getStringExtra("usiamin"));
         usiamax = Integer.valueOf(filterresult.getStringExtra("usiamax"));
-        if (usiamin != 20 && usiamax!=70)
+        if (usiamin != 20 || usiamax!=70)
             addtag("Usia:" + usiamin + "-" + usiamax);
 
         gaji = filterresult.getIntExtra("gaji", 0);
@@ -233,6 +248,8 @@ public class FragmentHome extends Fragment {
 
     public List<User> secondfilter(List<User> users , @Nullable Integer wt_id, @Nullable Integer prof_id, Integer usiamin, Integer usimax, List<Language> languagess, @Nullable Integer gajii, @Nullable Integer kota){
         List<User> result = users;
+
+        Log.d("Filtersecond"," " + wt_id + prof_id + " "+usiamin + usimax +" "+ languages.size() + gaji + kota);
 
         //filter status
         users = result;
