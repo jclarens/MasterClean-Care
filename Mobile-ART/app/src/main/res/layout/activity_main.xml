@@ -7,7 +7,41 @@
     android:layout_height="match_parent"
     tools:context="com.mvp.mobile_art.View.Activity.MainActivity">
 
+    <LinearLayout
+        android:id="@+id/splashscreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Master\nClean - Care"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="40sp"
+                    android:textStyle="bold"/>
+                <ProgressBar
+                    android:visibility="invisible"
+                    android:id="@+id/splashprogressbar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
     <include
+        android:visibility="gone"
         android:id="@+id/toolbar_main"
         layout="@layout/toolbar_main"/>
 
@@ -23,6 +57,7 @@
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

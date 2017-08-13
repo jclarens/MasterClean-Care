@@ -59,8 +59,7 @@ public class FragmentHome extends Fragment {
     private Calendar calendar = Calendar.getInstance();
     private int thisyear, tempyear;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private LinearLayout layoutnolist, layouttags;
-    private RelativeLayout layoutshow;
+    private LinearLayout layoutnolist, layouttags, layoutloading, layoutnoconnection;
     private TextView tags, clear;
     private String stringtags;
     private Intent filterresult;
@@ -87,7 +86,8 @@ public class FragmentHome extends Fragment {
         swipeRefreshLayout = (SwipeRefreshLayout) _view.findViewById(R.id.swipeRefreshLayout);
         filter = (FloatingActionButton) _view.findViewById(R.id.carilist_btn_filter);
         layoutnolist = (LinearLayout) _view.findViewById(R.id.layout_nolist);
-        layoutshow = (RelativeLayout) _view.findViewById(R.id.layout_showlist);
+        layoutloading = (LinearLayout) _view.findViewById(R.id.layout_loading);
+        layoutnoconnection = (LinearLayout) _view.findViewById(R.id.layout_noconnection);
         layouttags = (LinearLayout) _view.findViewById(R.id.layout_tagfilter);
         tags = (TextView) _view.findViewById(R.id.filtertags);
         clear = (TextView) _view.findViewById(R.id.clear);
@@ -183,7 +183,7 @@ public class FragmentHome extends Fragment {
         }
         if (filterresult.getStringExtra("WT") != null){
             map.put("work_time", filterresult.getStringExtra("WT"));
-            addtag("Waktu Kerja" + staticData.getWaktu_kerjas().get(Integer.valueOf(filterresult.getStringExtra("WT"))-1).getWork_time());
+            addtag("Waktu Kerja:" + staticData.getWaktu_kerjas().get(Integer.valueOf(filterresult.getStringExtra("WT"))-1).getWork_time());
         }else wkid = null;
         if (filterresult.getStringExtra("profesi") != null){
             map.put("job", filterresult.getStringExtra("profesi"));
@@ -216,14 +216,17 @@ public class FragmentHome extends Fragment {
             map.put("maxCost",String.valueOf(gaji));
         }
         swipeRefreshLayout.setRefreshing(true);
-//        map.put("page", String.valueOf(1));
+        showloading();
         Call<GetArtsResponse> caller = APIManager.getRepository(UserRepo.class).searcharts(map);
         caller.enqueue(new APICallback<GetArtsResponse>() {
             @Override
             public void onSuccess(Call<GetArtsResponse> call, Response<GetArtsResponse> response) {
                 super.onSuccess(call, response);
-                currentpage = response.body().getCurrent_page();
-                lastpage = response.body().getLast_page();
+                hidenoconnection();
+                currentpage = 1;
+                lastpage = 1;
+//                currentpage = response.body().getCurrent_page();
+//                lastpage = response.body().getLast_page();
                 if (response.body().getData().size() > 0){
                     rec_Adapter.setART(response.body().getData());
                     showlist();
@@ -234,11 +237,14 @@ public class FragmentHome extends Fragment {
                 tags.setText(stringtags);
                 if(!stringtags.equals(""))
                     layouttags.setVisibility(View.VISIBLE);
+                hideloading();
             }
             @Override
             public void onFailure(Call<GetArtsResponse> call, Throwable t) {
                 super.onFailure(call, t);
                 swipeRefreshLayout.setRefreshing(false);
+                hideloading();
+                shownoconnection();
             }
         });
     }
@@ -250,6 +256,7 @@ public class FragmentHome extends Fragment {
             @Override
             public void onSuccess(Call<GetArtsResponse> call, Response<GetArtsResponse> response) {
                 super.onSuccess(call, response);
+                hidenoconnection();
 //                arts = removeinactive(response.body().getData());
                 currentpage = response.body().getCurrent_page();
                 lastpage = response.body().getLast_page();
@@ -258,13 +265,15 @@ public class FragmentHome extends Fragment {
                 if (response.body().getData().size() > 0){
                     showlist();
                 } else nolist();
+                hideloading();
             }
 
             @Override
             public void onFailure(Call<GetArtsResponse> call, Throwable t) {
                 super.onFailure(call, t);
                 swipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(getContext(),"Koneksi bermasalah", Toast.LENGTH_SHORT).show();
+                shownoconnection();
+                hideloading();
             }
         });
     }
@@ -280,11 +289,27 @@ public class FragmentHome extends Fragment {
 
     public void nolist(){
         layoutnolist.setVisibility(View.VISIBLE);
-        layoutshow.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.GONE);
     }
     public void showlist(){
         layoutnolist.setVisibility(View.GONE);
-        layoutshow.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.VISIBLE);
+    }
+    public void showloading(){
+        layoutloading.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+    public void hideloading(){
+        layoutloading.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+    }
+    public void shownoconnection(){
+        layoutnoconnection.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+    public void hidenoconnection(){
+        layoutnoconnection.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
     public void addtag(String string){
@@ -379,8 +404,8 @@ public class FragmentHome extends Fragment {
                     public void onSuccess(Call<GetArtsResponse> call, Response<GetArtsResponse> response) {
                         super.onSuccess(call, response);
                         rec_Adapter.addmore(response.body().getData());
-                        currentpage = response.body().getCurrent_page();
-                        lastpage = response.body().getLast_page();
+//                        currentpage = response.body().getCurrent_page();
+//                        lastpage = response.body().getLast_page();
                         swipeRefreshLayout.setRefreshing(false);
 
                         //tags
@@ -396,91 +421,5 @@ public class FragmentHome extends Fragment {
                 });
             }
         }
-    }
-
-    //    public List<User> secondfilter(List<User> users , @Nullable Integer wt_id, @Nullable Integer prof_id, Integer usiamin, Integer usimax, List<Language> languagess, @Nullable Integer gajii, @Nullable Integer kota){
-    public List<User> secondfilter(List<User> users , Integer usiamin, Integer usimax, List<Language> languagess, @Nullable Integer gajii){
-        List<User> result = users;
-
-        //filter status
-        users = result;
-        result = new ArrayList<>();
-        for (int n = 0; n<users.size(); n++){
-            if (users.get(n).getStatus() == 1){
-                result.add(users.get(n));
-            }
-        }
-
-        //filter work time
-//        if (wt_id != null){
-//            users = result;
-//            result = new ArrayList<>();
-//            for (int n=0; n<users.size();n++){
-//                for (int m=0; m<users.get(n).getUser_work_time().size();m++){
-//                    if (users.get(n).getUser_work_time().get(m).getWork_time_id() == wt_id)
-//                        result.add(users.get(n));
-//                }
-//            }
-//        }
-
-        //filter profesi
-//        if (prof_id != null){
-//            users = result;
-//            result = new ArrayList<>();
-//            for (int n=0; n<users.size();n++) {
-//                for (int m = 0; m < users.get(n).getUser_job().size(); m++) {
-//                    if (users.get(n).getUser_job().get(m).getJob_id() == prof_id)
-//                        result.add(users.get(n));
-//                }
-//            }
-//        }
-
-        //filter usia
-        users = result;
-        result = new ArrayList<>();
-        for (int n=0; n<users.size();n++) {
-            calendar.setTime(users.get(n).getBorn_date());
-            tempyear = calendar.get(Calendar.YEAR);
-            if (thisyear - tempyear >= usiamin && thisyear - tempyear <= usimax){
-                result.add(users.get(n));
-            }
-        }
-
-        //filter bahasa
-        for (int n = 0; n<languagess.size(); n++){
-            users = result;
-            result = new ArrayList<>();
-            for (int m = 0; m<users.size();m++){
-                for (int o=0;o<users.get(m).getUser_language().size() ;o++){
-//                    Log.d("Bahasa =============",languagess.get(n).getId()+" - "+users.get(m).getId() + " - " + users.get(m).getUser_language().get(o).getLanguage_id());
-                    if (languagess.get(n).getId() == users.get(m).getUser_language().get(o).getLanguage_id())
-                        result.add(users.get(m));
-                }
-            }
-        }
-
-        //filter kota
-//        if (kota != null){
-//            users = result;
-//            result = new ArrayList<>();
-//            for (int n=0;n< users.size();n++){
-//                if (users.get(n).getContact().getCity().equals(kota)){
-//                    result.add(users.get(n));
-//                }
-//            }
-//        }
-
-        //filter gaji
-//        if (gajii != 0 && wt_id !=null){
-//            users = result;
-//            result = new ArrayList<>();
-//            for (int n=0; n<users.size();n++){
-//                for (int m=0; m<users.get(n).getUser_work_time().size();m++){
-//                    if (users.get(n).getUser_work_time().get(m).getWork_time_id() == wt_id  && users.get(n).getUser_work_time().get(m).getCost() <= gajii)
-//                        result.add(users.get(n));
-//                }
-//            }
-//        }
-        return result;
     }
 }

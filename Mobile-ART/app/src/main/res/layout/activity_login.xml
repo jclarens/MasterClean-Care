@@ -68,15 +68,15 @@
         android:layout_below="@+id/lgn_et_katasandi"
         android:layout_centerHorizontal="true"
         android:text="Login"
+        android:background="@drawable/buttonshape"
         android:textAllCaps="false" />
 
     <EditText
         android:id="@+id/lgn_et_katasandi"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingBottom="10dp"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/tv_password"
         android:layout_marginLeft="15dp"

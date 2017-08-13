@@ -46,7 +46,7 @@ public class FragmentStatusPermintaan extends Fragment {
     private User user;
     private SwipeRefreshLayout swipeRefreshLayout;
     private FloatingActionButton btnadd;
-    private LinearLayout layoutnolist;
+    private LinearLayout layoutnolist, layoutloading, layoutnoconnection;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -54,6 +54,8 @@ public class FragmentStatusPermintaan extends Fragment {
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
 
         layoutnolist = (LinearLayout) _view.findViewById(R.id.layout_nolist);
+        layoutloading = (LinearLayout) _view.findViewById(R.id.layout_loading);
+        layoutnoconnection = (LinearLayout) _view.findViewById(R.id.layout_noconnection);
         btnadd = (FloatingActionButton) _view.findViewById(R.id.btn_addpermintaan);
         swipeRefreshLayout = (SwipeRefreshLayout) _view.findViewById(R.id.swipeRefreshLayout);
 //        btn_add = (Button) _view.findViewById(R.id.btn_addpermintaan);
@@ -74,6 +76,7 @@ public class FragmentStatusPermintaan extends Fragment {
         recyclerView.setAdapter(rec_Adapter);
         rec_Adapter.setcontext(getActivity());
 
+        showloading();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -90,6 +93,7 @@ public class FragmentStatusPermintaan extends Fragment {
             @Override
             public void onSuccess(Call<List<Offer>> call, Response<List<Offer>> response) {
                 super.onSuccess(call, response);
+                hidenoconnection();
                 offers = filter(response.body());
                 if (offers.size() < 1)
                     hidelist();
@@ -98,6 +102,7 @@ public class FragmentStatusPermintaan extends Fragment {
                     rec_Adapter.setOffers(offers);
                 }
                 swipeRefreshLayout.setRefreshing(false);
+                hideloading();
             }
 
             @Override
@@ -110,8 +115,9 @@ public class FragmentStatusPermintaan extends Fragment {
             @Override
             public void onFailure(Call<List<Offer>> call, Throwable t) {
                 super.onFailure(call, t);
-                Toast.makeText(getContext(), "Koneksi bermasalah", Toast.LENGTH_SHORT).show();
                 swipeRefreshLayout.setRefreshing(false);
+                shownoconnection();
+                hideloading();
             }
         });
     }
@@ -122,6 +128,22 @@ public class FragmentStatusPermintaan extends Fragment {
     public void showlist(){
         recyclerView.setVisibility(View.VISIBLE);
         layoutnolist.setVisibility(View.GONE);
+    }
+    public void showloading(){
+        layoutloading.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+    public void hideloading(){
+        layoutloading.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+    }
+    public void shownoconnection(){
+        layoutnoconnection.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+    public void hidenoconnection(){
+        layoutnoconnection.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
     public List<Offer> filter(List<Offer> offers){
         List<Offer> result = new ArrayList<>();

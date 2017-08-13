@@ -41,8 +41,8 @@ public class RecyclerAdapterPemesanan extends RecyclerView.Adapter<RecyclerAdapt
     private DateFormat bulanFormat = new SimpleDateFormat("MM", Locale.ENGLISH);
     private DateFormat tglFormat = new SimpleDateFormat("d", Locale.ENGLISH);
     private DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
-    private List<Order> orders = new ArrayList<>();
     private ArrayBulan arrayBulan = new ArrayBulan();
+    private List<Order> orders = new ArrayList<>();
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
     private Context context;
     class ViewHolder extends RecyclerView.ViewHolder{

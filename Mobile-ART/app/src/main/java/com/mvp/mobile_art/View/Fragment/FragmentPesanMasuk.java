@@ -37,13 +37,15 @@ public class FragmentPesanMasuk extends Fragment {
     private RecyclerAdapterPesanMasuk rec_Adapter;
     private List<MyMessage> myMessages = new ArrayList<>();
     private SwipeRefreshLayout swipeRefreshLayout;
-    private LinearLayout layoutnolist;
+    private LinearLayout layoutnolist, layoutloading, layoutnoconnection;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_pesan_masuk, container, false);
 
         layoutnolist = (LinearLayout) _view.findViewById(R.id.layout_nolist);
+        layoutloading = (LinearLayout) _view.findViewById(R.id.layout_loading);
+        layoutnoconnection = (LinearLayout) _view.findViewById(R.id.layout_noconnection);
         swipeRefreshLayout = (SwipeRefreshLayout) _view.findViewById(R.id.swipeRefreshLayout);
         recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_pesan);
         rec_LayoutManager = new LinearLayoutManager(getContext());
@@ -53,6 +55,7 @@ public class FragmentPesanMasuk extends Fragment {
         rec_Adapter.setPesan(myMessages);
         rec_Adapter.setcontext(getActivity());
 
+        showloading();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -69,6 +72,7 @@ public class FragmentPesanMasuk extends Fragment {
         caller.enqueue(new APICallback<List<MyMessage>>() {
             @Override
             public void onSuccess(Call<List<MyMessage>> call, Response<List<MyMessage>> response) {
+                hidenoconnection();
                 super.onSuccess(call, response);
                 myMessages = response.body();
                 if (myMessages.size() < 1){
@@ -78,18 +82,15 @@ public class FragmentPesanMasuk extends Fragment {
                     rec_Adapter.setPesan(response.body());
                 }
                 swipeRefreshLayout.setRefreshing(false);
-            }
-
-            @Override
-            public void onUnauthorized(Call<List<MyMessage>> call, Response<List<MyMessage>> response) {
-                super.onUnauthorized(call, response);
-                swipeRefreshLayout.setRefreshing(false);
+                hideloading();
             }
 
             @Override
             public void onFailure(Call<List<MyMessage>> call, Throwable t) {
                 super.onFailure(call, t);
                 swipeRefreshLayout.setRefreshing(false);
+                hideloading();
+                shownoconnection();
             }
         });
     }
@@ -100,5 +101,21 @@ public class FragmentPesanMasuk extends Fragment {
     public void showlist(){
         recyclerView.setVisibility(View.VISIBLE);
         layoutnolist.setVisibility(View.GONE);
+    }
+    public void showloading(){
+        layoutloading.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+    public void hideloading(){
+        layoutloading.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+    }
+    public void shownoconnection(){
+        layoutnoconnection.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+    public void hidenoconnection(){
+        layoutnoconnection.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 }

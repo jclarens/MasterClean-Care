@@ -10,21 +10,21 @@
         android:orientation="horizontal">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="8dp"
+            android:layout_height="4dp"
             android:layout_weight="1"
             android:background="@color/colorBiruGelap">
 
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="8dp"
+            android:layout_height="4dp"
             android:layout_weight="1"
             android:background="@color/colorBiruGelap">
 
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="8dp"
+            android:layout_height="4dp"
             android:layout_weight="1"
             android:background="@color/colorBiruGelap">
 
@@ -43,7 +43,6 @@
             android:padding="15dp">
 
             <TextView
-                android:id="@+id/textView33"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
@@ -63,18 +62,22 @@
                 android:id="@+id/pms3_et_worktime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:ems="10"
                 android:enabled="false"
                 android:focusable="false"
+                android:background="@drawable/backgroundedittext"
                 android:textColor="@color/colorBlack"/>
 
             <EditText
                 android:id="@+id/pms3_et_job"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:ems="10"
                 android:enabled="false"
                 android:focusable="false"
+                android:background="@drawable/backgroundedittext"
                 android:textColor="@color/colorBlack"/>
 
             <android.support.v7.widget.RecyclerView
@@ -91,7 +94,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginBottom="5dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -103,21 +107,21 @@
                     android:layout_height="wrap_content"
                     android:enabled="false"
                     android:focusable="false"
+                    android:background="@drawable/backgroundedittext"
                     android:textColor="@color/colorBlack"/>
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/textView37"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/mulai"
-                android:textColor="@android:color/black" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
-
+                android:layout_marginBottom="5dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/mulai"
+                    android:textColor="@android:color/black" />
                 <EditText
                     android:id="@+id/pms3_et_mulai"
                     android:layout_width="match_parent"
@@ -127,22 +131,20 @@
                     android:enabled="false"
                     android:focusable="false"
                     android:inputType="time"
+                    android:background="@drawable/backgroundedittext"
                     android:textColor="@color/colorBlack"/>
-
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/textView38"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/selesai"
-                android:textColor="@android:color/black" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
-
+                android:layout_marginBottom="5dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/selesai"
+                    android:textColor="@android:color/black" />
                 <EditText
                     android:id="@+id/pms3_et_selesai"
                     android:layout_width="match_parent"
@@ -152,12 +154,11 @@
                     android:enabled="false"
                     android:focusable="false"
                     android:inputType="time"
+                    android:background="@drawable/backgroundedittext"
                     android:textColor="@color/colorBlack" />
-
             </LinearLayout>
 
             <TextView
-                android:id="@+id/textView46"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/total"
@@ -168,11 +169,13 @@
                 android:id="@+id/pms3_et_total"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:ems="10"
                 android:enabled="false"
                 android:focusable="false"
                 android:inputType="textPersonName"
                 android:textColor="@color/colorBlack"
+                android:background="@drawable/backgroundedittext"
                 android:textAlignment="center"/>
 
             <LinearLayout
@@ -224,7 +227,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/btn_pesan"
+                    android:text="Konfirmasi"
                     android:textAllCaps="false"
                     tools:ignore="ButtonStyle"
                     android:textColor="#000000"

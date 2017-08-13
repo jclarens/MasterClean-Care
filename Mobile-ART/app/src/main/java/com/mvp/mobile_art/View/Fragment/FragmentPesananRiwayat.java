@@ -43,13 +43,15 @@ public class FragmentPesananRiwayat extends Fragment{
     private List<Order> orders = new ArrayList<>();
     private User user = new User();
     private SwipeRefreshLayout swipeRefreshLayout;
-    private LinearLayout layoutnolist;
+    private LinearLayout layoutnolist, layoutloading, layoutnoconnection;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_history, container, false);
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
 
         layoutnolist = (LinearLayout) _view.findViewById(R.id.layout_nolist);
+        layoutloading = (LinearLayout) _view.findViewById(R.id.layout_loading);
+        layoutnoconnection = (LinearLayout) _view.findViewById(R.id.layout_noconnection);
         swipeRefreshLayout = (SwipeRefreshLayout) _view.findViewById(R.id.swipeRefreshLayout);
         recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_order);
         rec_LayoutManager = new LinearLayoutManager(getContext());
@@ -58,6 +60,7 @@ public class FragmentPesananRiwayat extends Fragment{
         rec_Adapter.setcontext(getActivity());
         recyclerView.setAdapter(rec_Adapter);
 
+        showloading();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -73,6 +76,7 @@ public class FragmentPesananRiwayat extends Fragment{
             @Override
             public void onSuccess(Call<List<Order>> call, Response<List<Order>> response) {
                 super.onSuccess(call, response);
+                hidenoconnection();
                 orders = filter(response.body());
                 if (orders.size() < 1){
                     hidelist();
@@ -81,13 +85,15 @@ public class FragmentPesananRiwayat extends Fragment{
                     rec_Adapter.setOrders(orders);
                 }
                 swipeRefreshLayout.setRefreshing(false);
+                hideloading();
             }
 
             @Override
             public void onFailure(Call<List<Order>> call, Throwable t) {
                 super.onFailure(call, t);
-                Toast.makeText(getContext(),"Koneksi bermasalah", Toast.LENGTH_SHORT).show();
                 swipeRefreshLayout.setRefreshing(false);
+                hideloading();
+                shownoconnection();
             }
         });
     }
@@ -106,5 +112,21 @@ public class FragmentPesananRiwayat extends Fragment{
     public void showlist(){
         recyclerView.setVisibility(View.VISIBLE);
         layoutnolist.setVisibility(View.GONE);
+    }
+    public void showloading(){
+        layoutloading.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+    public void hideloading(){
+        layoutloading.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+    }
+    public void shownoconnection(){
+        layoutnoconnection.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+    public void hidenoconnection(){
+        layoutnoconnection.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 }

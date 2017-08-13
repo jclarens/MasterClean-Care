@@ -81,10 +81,7 @@ public class FragmentLogin extends Fragment {
             public void onSuccess(Call<LoginResponse> call, Response<LoginResponse> response) {
                 super.onSuccess(call, response);
                 try {
-                    if (response.body().getUser().getRole_id() != 2){
-                        Toast.makeText(getContext(),"Anda tidak memiliki hak akses", Toast.LENGTH_SHORT).show();
-                        ((AuthActivity) getActivity()).dismissDialog();
-                    } else if (response.body().getUser().getActivation() == 0){
+                    if (response.body().getUser().getActivation() == 0){
                         Toast.makeText(getContext(),"Anda belum mendapat hak akses", Toast.LENGTH_SHORT).show();
                         ((AuthActivity) getActivity()).dismissDialog();
                     } else {

@@ -80,14 +80,9 @@ public class MainActivity extends ParentActivity {
     private Fragment fragment;
     private FragmentManager fragmentManager;
     private Toolbar toolbar;
-    private Context context;
-    private boolean success;
-    private ProgressDialog progressDialog;
-    private AlertDialog.Builder alertDialog;
     public StaticData staticData = new StaticData();
     private User user;
     private Integer posisiF;
-    private ImageView splash;
     private LinearLayout splashscreen;
     private FrameLayout frameLayout;
     private ProgressBar progressBar;
@@ -101,10 +96,6 @@ public class MainActivity extends ParentActivity {
         progressBar = (ProgressBar) findViewById(R.id.splashprogressbar);
         splashscreen = (LinearLayout) findViewById(R.id.splashscreen);
         frameLayout = (FrameLayout) findViewById(R.id.main_container);
-//        if (SharedPref.getValueString(ConstClass.EMERGENCY_EXTRA).equals("on")){
-//            Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
-//            startActivity(intent);
-//        }
         getstaticData1();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
@@ -112,14 +103,12 @@ public class MainActivity extends ParentActivity {
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));//warna text toolbar
 
         bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
-        if (SharedPref.getValueString(SharedPref.ACCESS_TOKEN) == "") {
+        if (SharedPref.getValueString(SharedPref.ACCESS_TOKEN).equals("")) {
             bottomNavigation.inflateMenu(R.menu.navigation2);
         }
         else
             bottomNavigation.inflateMenu(R.menu.navigation);
         fragmentManager = getSupportFragmentManager();
-
-        context = getApplicationContext();
 
         posisiF =1;
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -172,7 +161,7 @@ public class MainActivity extends ParentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_alarm:
-                if (SharedPref.getValueString(ConstClass.USER) == ""){
+                if (SharedPref.getValueString(ConstClass.USER).equals("")){
                     Toast.makeText(getApplicationContext(), "Fitur membutuhkan authentikasi",Toast.LENGTH_SHORT).show();
                 }
                 else {
@@ -188,7 +177,7 @@ public class MainActivity extends ParentActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         bottomNavigation.getMenu().clear();
-        if (SharedPref.getValueString(SharedPref.ACCESS_TOKEN) == "")
+        if (SharedPref.getValueString(SharedPref.ACCESS_TOKEN).equals(""))
             bottomNavigation.inflateMenu(R.menu.navigation2);
         else
             bottomNavigation.inflateMenu(R.menu.navigation);
@@ -222,13 +211,13 @@ public class MainActivity extends ParentActivity {
                 fragment = new FragmentCari();
                 break;
             case 3:
-                if (SharedPref.getValueString(ConstClass.USER) == "")
+                if (SharedPref.getValueString(ConstClass.USER).equals(""))
                     fragment = new FragmentUnauthorized();
                 else
                     fragment = new FragmentStatus();
                 break;
             case 4:
-                if (SharedPref.getValueString(ConstClass.USER) == "")
+                if (SharedPref.getValueString(ConstClass.USER).equals(""))
                     fragment = new FragmentUnauthorized();
                 else
                     fragment = new FragmentPesan();
@@ -243,7 +232,6 @@ public class MainActivity extends ParentActivity {
     }
 
     public void getstaticData1() {
-        success = false;
         Call<List<Place>> caller1 = APIManager.getRepository(PlaceRepo.class).getplaces();
         caller1.enqueue(new APICallback<List<Place>>() {
             @Override
@@ -256,18 +244,14 @@ public class MainActivity extends ParentActivity {
             @Override
             public void onFailure(Call<List<Place>> call, Throwable t) {
                 super.onFailure(call, t);
-                success = false;
-//                Toast.makeText(context,"Failed", Toast.LENGTH_SHORT).show();
-//                dismissDialog();
-                abuildermessage("Reconnect?","No Connection");
-                abuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                abuildermessage("Koneksi bermasalah. Muat ulang?","Pemberitahuan");
+                abuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-//                        showDialog();
                         getstaticData1();
                     }
                 });
-                abuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         finish();
@@ -290,6 +274,20 @@ public class MainActivity extends ParentActivity {
             @Override
             public void onFailure(Call<List<Language>> call, Throwable t) {
                 super.onFailure(call, t);
+                abuildermessage("Koneksi bermasalah. Muat ulang?","Pemberitahuan");
+                abuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        getstaticData2();
+                    }
+                });
+                abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+                showalertdialog();
             }
         });
     }
@@ -306,6 +304,20 @@ public class MainActivity extends ParentActivity {
             @Override
             public void onFailure(Call<List<Job>> call, Throwable t) {
                 super.onFailure(call, t);
+                abuildermessage("Koneksi bermasalah. Muat ulang?","Pemberitahuan");
+                abuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        getstaticData3();
+                    }
+                });
+                abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+                showalertdialog();
             }
         });
     }
@@ -322,6 +334,20 @@ public class MainActivity extends ParentActivity {
             @Override
             public void onFailure(Call<List<Waktu_Kerja>> call, Throwable t) {
                 super.onFailure(call, t);
+                abuildermessage("Koneksi bermasalah. Muat ulang?","Pemberitahuan");
+                abuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        getstaticData4();
+                    }
+                });
+                abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+                showalertdialog();
             }
         });
     }
@@ -338,6 +364,20 @@ public class MainActivity extends ParentActivity {
             @Override
             public void onFailure(Call<List<AdditionalInfo>> call, Throwable t) {
                 super.onFailure(call, t);
+                abuildermessage("Koneksi bermasalah. Muat ulang?","Pemberitahuan");
+                abuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        getstaticData5();
+                    }
+                });
+                abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+                showalertdialog();
             }
         });
     }
@@ -354,6 +394,20 @@ public class MainActivity extends ParentActivity {
             @Override
             public void onFailure(Call<List<MyTask>> call, Throwable t) {
                 super.onFailure(call, t);
+                abuildermessage("Koneksi bermasalah. Muat ulang?","Pemberitahuan");
+                abuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        getstaticData6();
+                    }
+                });
+                abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+                showalertdialog();
             }
         });
     }
@@ -365,7 +419,6 @@ public class MainActivity extends ParentActivity {
                 super.onSuccess(call, response);
                 staticData.setWallets(response.body());
 //                Toast.makeText(context,"Success", Toast.LENGTH_SHORT).show();
-                success = true;
                 splashout();
                 if (SharedPref.getValueString(SharedPref.ACCESS_TOKEN) != "")
                     getemergencystatus();
@@ -374,6 +427,20 @@ public class MainActivity extends ParentActivity {
             @Override
             public void onFailure(Call<List<Wallet>> call, Throwable t) {
                 super.onFailure(call, t);
+                abuildermessage("Koneksi bermasalah. Muat ulang?","Pemberitahuan");
+                abuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        getstaticData7();
+                    }
+                });
+                abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+                showalertdialog();
             }
         });
         ((MasterCleanApplication) getApplication()).setGlobalStaticData(staticData);

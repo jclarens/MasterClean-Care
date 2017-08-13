@@ -104,10 +104,10 @@ public class FragmentLainnya extends Fragment {
         imageketentuan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                MainActivity.doStartActivity(getContext(), KetentuanActivity.class);
-                Uri uri = Uri.parse("http://masterclean-care.tk/term-mobile");
-                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-                startActivity(intent);
+                MainActivity.doStartActivity(getContext(), KetentuanActivity.class);
+//                Uri uri = Uri.parse("http://masterclean-care.tk/term-mobile");
+//                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+//                startActivity(intent);
 
             }
         });

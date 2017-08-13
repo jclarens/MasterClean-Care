@@ -116,7 +116,7 @@ public class OfferActivity extends ParentActivity {
         //toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Permintaan");
+        getSupportActionBar().setTitle("Penawaran Kerja");
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

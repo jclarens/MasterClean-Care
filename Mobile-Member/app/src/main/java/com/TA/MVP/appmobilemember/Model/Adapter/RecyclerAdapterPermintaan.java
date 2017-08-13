@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.TA.MVP.appmobilemember.Model.Array.ArrayBulan;
 import com.TA.MVP.appmobilemember.Model.Basic.Offer;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.View.Activity.MainActivity;
@@ -17,16 +18,27 @@ import com.TA.MVP.appmobilemember.View.Activity.PermintaanActiveActivity;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by jcla123ns on 24/07/17.
  */
 
 public class RecyclerAdapterPermintaan extends RecyclerView.Adapter<RecyclerAdapterPermintaan.ViewHolder> {
+    private DateFormat fixFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
+    private DateFormat tahunFormat = new SimpleDateFormat("yyyy", Locale.ENGLISH);
+    private DateFormat bulanFormat = new SimpleDateFormat("MM", Locale.ENGLISH);
+    private DateFormat tglFormat = new SimpleDateFormat("d", Locale.ENGLISH);
+    private DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
+    private ArrayBulan arrayBulan = new ArrayBulan();
     private List<Offer> offers = new ArrayList<>();
     private Context context;
 
@@ -63,7 +75,11 @@ public class RecyclerAdapterPermintaan extends RecyclerView.Adapter<RecyclerAdap
     public void onBindViewHolder(RecyclerAdapterPermintaan.ViewHolder holder, int position) {
         holder.itemjumlah.setText(String.valueOf(offers.get(position).getOffer_art().size()));
         holder.itemprofesi.setText(offers.get(position).getWork_time().getWork_time());
-        holder.itemmulai.setText(offers.get(position).getStart_date());
+        try {
+            holder.itemmulai.setText(costumedateformat(fixFormat.parse(offers.get(position).getStart_date())));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -86,5 +102,9 @@ public class RecyclerAdapterPermintaan extends RecyclerView.Adapter<RecyclerAdap
                 return obj2.getStart_date().compareToIgnoreCase(obj1.getStart_date());
             }
         });
+    }
+    public String costumedateformat(Date date){
+        String bulan = arrayBulan.getArrayList().get(Integer.parseInt(bulanFormat.format(date))-1);
+        return tglFormat.format(date) + " " + bulan + " " + tahunFormat.format(date) + " " + timeFormat.format(date);
     }
 }

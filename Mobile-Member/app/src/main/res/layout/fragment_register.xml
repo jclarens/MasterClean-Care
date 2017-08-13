@@ -10,6 +10,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:padding="10dp"
             android:orientation="vertical">
             <TextView
                 android:id="@+id/textView2"
@@ -41,8 +42,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:ems="10"
                 android:hint="@string/nama"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/backgroundedittext"
                 android:inputType="textPersonName" />
 
             <EditText
@@ -51,8 +56,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:ems="10"
                 android:hint="@string/email"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/backgroundedittext"
                 android:inputType="textEmailAddress" />
 
             <EditText
@@ -61,8 +70,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:maxLength="12"
                 android:ems="10"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/backgroundedittext"
                 android:hint="@string/katasandi"
                 android:inputType="textPassword" />
 
@@ -72,42 +85,30 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:maxLength="12"
                 android:ems="10"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/backgroundedittext"
                 android:hint="@string/konfkatasandi"
                 android:inputType="textPassword" />
 
-            <LinearLayout
+            <EditText
+                android:id="@+id/reg_et_tgl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:layout_marginStart="15dp"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/reg_et_tgl"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="date"
-                    android:hint="Tanggal Lahir"
-                    android:focusable="false"
-                    android:textColor="@color/colorBlack"/>
-            </LinearLayout>
-            <!--<EditText-->
-            <!--android:id="@+id/reg_et_borndate"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginEnd="15dp"-->
-            <!--android:layout_marginLeft="15dp"-->
-            <!--android:layout_marginRight="15dp"-->
-            <!--android:layout_marginStart="15dp"-->
-            <!--android:ems="10"-->
-            <!--android:hint="Tanggal Lahir"-->
-            <!--android:inputType="date" />-->
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:ems="10"
+                android:inputType="date"
+                android:hint="Tanggal Lahir"
+                android:focusable="false"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/backgroundedittext"
+                android:textColor="@color/colorBlack"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -129,9 +130,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginEnd="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
                 android:layout_marginStart="15dp"
                 android:background="@drawable/backgroundlightgray">
                 <Spinner
@@ -144,10 +144,14 @@
                 android:id="@+id/reg_et_notelp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
                 android:ems="10"
                 android:hint="@string/notelp"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/backgroundedittext"
                 android:inputType="phone" />
 
 
@@ -156,6 +160,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:layout_marginEnd="15dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
@@ -171,10 +176,14 @@
                 android:id="@+id/reg_et_alamat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
                 android:ems="10"
                 android:hint="@string/alamat"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/backgroundedittext"
                 android:inputType="textPersonName" />
 
             <Button

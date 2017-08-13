@@ -1,8 +1,13 @@
 package com.TA.MVP.appmobilemember.View.Activity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 
 import com.TA.MVP.appmobilemember.R;
 
@@ -12,6 +17,7 @@ import com.TA.MVP.appmobilemember.R;
 
 public class KetentuanActivity extends ParentActivity {
     private Toolbar toolbar;
+    private WebView webview;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +28,28 @@ public class KetentuanActivity extends ParentActivity {
         getSupportActionBar().setTitle(R.string.ketentuan);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        webview = (WebView) findViewById(R.id.webView);
+        webview.getSettings().setJavaScriptEnabled(true);
+        webview.getSettings().setLoadWithOverviewMode(true);
+        webview.getSettings().setUseWideViewPort(true);
+        webview.setWebViewClient(new MyBrowser());
+
+        initProgressDialog("Loading");
+        showDialog();
+        webview.loadUrl("http://masterclean-care.tk/term_mobile");
+    }
+    private class MyBrowser extends WebViewClient{
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            view.loadUrl(url);
+            return true;
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            dismissDialog();
+        }
     }
 
     @Override

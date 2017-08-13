@@ -318,7 +318,7 @@ public class FragmentPermintaan2 extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loaduser();
+                gonext();
             }
         });
 
@@ -549,55 +549,12 @@ public class FragmentPermintaan2 extends Fragment {
             rec_Adapter.clearselectedlist();
         }
     }
-    public void loaduser(){
-        ((PermintaanActivity) getActivity()).initProgressDialog("Loading");
-        ((PermintaanActivity) getActivity()).showDialog();
-        Call<User> caller = APIManager.getRepository(UserRepo.class).getuser(user.getId().toString());
-        caller.enqueue(new APICallback<User>() {
-            @Override
-            public void onSuccess(Call<User> call, Response<User> response) {
-                super.onSuccess(call, response);
-                user = response.body();
-                ((PermintaanActivity) getActivity()).dismissDialog();
-                gonext();
-            }
-
-            @Override
-            public void onError(Call<User> call, Response<User> response) {
-                super.onError(call, response);
-                ((PermintaanActivity) getActivity()).dismissDialog();
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                super.onFailure(call, t);
-                ((PermintaanActivity) getActivity()).dismissDialog();
-            }
-        });
-    }
     public void gonext() {
-        offer.setCost(total);
-//              ///loading pls
-        if (offer.getCost() > user.getUser_wallet().getAmt()) {
-            ((PermintaanActivity) getActivity()).abuildermessage("Wallet anda tidak mencukupi untuk melakukan pemesanan\nWallet anda:" + setRP(user.getUser_wallet().getAmt()), "Pemberitahuan");
-            ((PermintaanActivity) getActivity()).abuilder.setPositiveButton("Top up", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    Intent intent = new Intent(getContext(), WalletActivity.class);
-                    startActivity(intent);
-                }
-            });
-            ((PermintaanActivity) getActivity()).abuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-
-                }
-            });
-            ((PermintaanActivity) getActivity()).showalertdialog();
-        } else if (validasi()) {
+        if (validasi()) {
             //save data from this fragment ----------------------------------------------------------------------------------------------------
             offer.setStart_date(fixstart);
             offer.setEnd_date(fixend);
+            offer.setCost(total);
             try {
                 offer.setRemark(cttntmbhn.getText().toString());
             } catch (NullPointerException e) {

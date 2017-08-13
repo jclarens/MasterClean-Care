@@ -245,6 +245,7 @@
                         android:text="Terima"
                         android:textAllCaps="false"
                         tools:ignore="ButtonStyle"
+                        android:background="@drawable/buttonshape"
                         android:visibility="gone"/>
                     <Button
                         android:id="@+id/pmsa_btn_kembali"

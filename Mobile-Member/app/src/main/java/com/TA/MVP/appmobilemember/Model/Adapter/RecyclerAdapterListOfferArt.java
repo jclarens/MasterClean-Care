@@ -19,14 +19,17 @@ import com.TA.MVP.appmobilemember.Model.Responses.OrderResponse;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.OfferRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.OrderRepo;
+import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.View.Activity.AsistenActivity;
 import com.TA.MVP.appmobilemember.View.Activity.PermintaanActiveActivity;
+import com.TA.MVP.appmobilemember.View.Activity.WalletActivity;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
 import java.text.DateFormat;
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,6 +49,7 @@ public class RecyclerAdapterListOfferArt extends RecyclerView.Adapter<RecyclerAd
     private List<OfferArt> offerArts = new ArrayList<>();
     private Offer offer;
     private Context context;
+    private NumberFormat numberFormat = NumberFormat.getNumberInstance();
     public RecyclerAdapterListOfferArt(Offer offer, Context context){
         this.offer = offer;
         this.context = context;
@@ -90,7 +94,9 @@ public class RecyclerAdapterListOfferArt extends RecyclerView.Adapter<RecyclerAd
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             int position = getAdapterPosition();
-                            postpemesanan(offerArts.get(position).getId(),offerArts.get(position).getArt_id());
+//                            postpemesanan(offerArts.get(position).getId(),offerArts.get(position).getArt_id());
+                            offerArts.get(position).setStatus(1);
+                            confirmoffer();
                         }
                     });
                     ((PermintaanActiveActivity)context).abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
@@ -127,88 +133,140 @@ public class RecyclerAdapterListOfferArt extends RecyclerView.Adapter<RecyclerAd
         this.offerArts = offerArts;
         notifyDataSetChanged();
     }
-    public void postpemesanan(final Integer offerartid, Integer artid){
-        ((PermintaanActiveActivity)context).initProgressDialog("Pemesanan sedang diperoses");
-        ((PermintaanActiveActivity)context).showDialog();
-        Calendar calendar = Calendar.getInstance();
-
+//    public void postpemesanan(final Integer offerartid, Integer artid){
+//        ((PermintaanActiveActivity)context).initProgressDialog("Pemesanan sedang diperoses");
+//        ((PermintaanActiveActivity)context).showDialog();
+//        Calendar calendar = Calendar.getInstance();
+//
+//        HashMap<String,Object> map = new HashMap<>();
+//        map.put("member_id", offer.getMember_id().toString());
+//        map.put("art_id", artid.toString());
+//        map.put("work_time_id", offer.getWork_time_id().toString());
+//        map.put("job_id", offer.getJob_id().toString());
+//        map.put("cost", offer.getCost().toString());
+//        map.put("start_date", offer.getStart_date());
+//        map.put("end_date", offer.getEnd_date());
+//        map.put("remark", offer.getRemark());
+//        map.put("status", "1");
+//        map.put("status_member", "0");
+//        map.put("status_art", "0");
+//        map.put("contact", offer.getContact());
+//        map.put("created_at", fixFormat.format(calendar.getTime()));
+//        map.put("orderTaskList", offer.getOffer_task_list());
+//        Call<OrderResponse> caller = APIManager.getRepository(OrderRepo.class).postorder(map);
+//        caller.enqueue(new APICallback<OrderResponse>() {
+//            @Override
+//            public void onSuccess(Call<OrderResponse> call, Response<OrderResponse> response) {
+//                super.onSuccess(call, response);
+//                gantistatusoffer();
+//                gantistatusart(offerartid);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<OrderResponse> call, Throwable t) {
+//                super.onFailure(call, t);
+//                ((PermintaanActiveActivity)context).dismissDialog();
+////                Toast.makeText(getContext(), "Koneksi bermasalah silahkan coba lagi", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+    public void confirmoffer(){
         HashMap<String,Object> map = new HashMap<>();
-        map.put("member_id", offer.getMember_id().toString());
-        map.put("art_id", artid.toString());
-        map.put("work_time_id", offer.getWork_time_id().toString());
-        map.put("job_id", offer.getJob_id().toString());
-        map.put("cost", offer.getCost().toString());
-        map.put("start_date", offer.getStart_date());
-        map.put("end_date", offer.getEnd_date());
-        map.put("remark", offer.getRemark());
-        map.put("status", "1");
-        map.put("status_member", "0");
-        map.put("status_art", "0");
-        map.put("contact", offer.getContact());
-        map.put("created_at", fixFormat.format(calendar.getTime()));
-        map.put("orderTaskList", offer.getOffer_task_list());
-        Call<OrderResponse> caller = APIManager.getRepository(OrderRepo.class).postorder(map);
-        caller.enqueue(new APICallback<OrderResponse>() {
-            @Override
-            public void onSuccess(Call<OrderResponse> call, Response<OrderResponse> response) {
-                super.onSuccess(call, response);
-                gantistatusoffer();
-                gantistatusart(offerartid);
-            }
-
-            @Override
-            public void onFailure(Call<OrderResponse> call, Throwable t) {
-                super.onFailure(call, t);
-                ((PermintaanActiveActivity)context).dismissDialog();
-//                Toast.makeText(getContext(), "Koneksi bermasalah silahkan coba lagi", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-    public void gantistatusoffer(){
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("status", "1");
+        map.put("status", 1);
+        map.put("offer_art", offerArts);
         Call<OfferResponse> caller = APIManager.getRepository(OfferRepo.class).patchoffer(offer.getId(), map);
         caller.enqueue(new APICallback<OfferResponse>() {
             @Override
             public void onSuccess(Call<OfferResponse> call, Response<OfferResponse> response) {
                 super.onSuccess(call, response);
                 ((PermintaanActiveActivity)context).dismissDialog();
-                ((PermintaanActiveActivity)context).finish();
-            }
-
-            @Override
-            public void onNotFound(Call<OfferResponse> call, Response<OfferResponse> response) {
-                super.onNotFound(call, response);
-                ((PermintaanActiveActivity)context).dismissDialog();
+                ((PermintaanActiveActivity)context).abuildermessage("Penawaran ini sudah menjadi pemesanan aktif. silahkan lihat info lengkap pada menu Pemesanan.", "Pemberitahuan");
+                ((PermintaanActiveActivity)context).abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        ((PermintaanActiveActivity)context).finish();
+                    }
+                });
+                ((PermintaanActiveActivity)context).showalertdialog();
             }
 
             @Override
             public void onFailure(Call<OfferResponse> call, Throwable t) {
+                super.onFailure(call, t);
+                ((PermintaanActiveActivity)context).dismissDialog();
+                Toast.makeText(context,"Koneksi bermasalah.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+//    public void gantistatusart(Integer offerartid){
+//        HashMap<String,Object> map = new HashMap<>();
+////        map.put("offer_id", offer.getId().toString());
+//        map.put("status", "1");
+//        Call<OfferResponse> caller = APIManager.getRepository(OfferRepo.class).patchofferart(offerartid, map);
+//        caller.enqueue(new APICallback<OfferResponse>() {
+//            @Override
+//            public void onSuccess(Call<OfferResponse> call, Response<OfferResponse> response) {
+//                super.onSuccess(call, response);
+//            }
+//
+//            @Override
+//            public void onError(Call<OfferResponse> call, Response<OfferResponse> response) {
+//                super.onError(call, response);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<OfferResponse> call, Throwable t) {
+//                super.onFailure(call, t);
+//            }
+//        });
+//    }
+
+    public void loaduser(){
+        ((PermintaanActiveActivity)context).initProgressDialog("Pemesanan sedang diperoses");
+        ((PermintaanActiveActivity)context).showDialog();
+        Call<User> caller = APIManager.getRepository(UserRepo.class).getuser(offer.getMember_id().toString());
+        caller.enqueue(new APICallback<User>() {
+            @Override
+            public void onSuccess(Call<User> call, Response<User> response) {
+                super.onSuccess(call, response);
+                if (response.body().getUser_wallet().getAmt() >= offer.getCost()){
+                    confirmoffer();
+                }else{
+                    ((PermintaanActiveActivity)context).dismissDialog();
+                    ((PermintaanActiveActivity)context).abuildermessage("Wallet anda tidak mencukupi untuk melakukan pemesanan\nWallet anda:" + setRP(response.body().getUser_wallet().getAmt()), "Pemberitahuan");
+                    ((PermintaanActiveActivity)context).abuilder.setPositiveButton("Top up", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent(context, WalletActivity.class);
+                            context.startActivity(intent);
+                        }
+                    });
+                    ((PermintaanActiveActivity)context).abuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+                    ((PermintaanActiveActivity)context).showalertdialog();
+                }
+            }
+
+            @Override
+            public void onError(Call<User> call, Response<User> response) {
+                super.onError(call, response);
+                ((PermintaanActiveActivity)context).dismissDialog();
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
                 super.onFailure(call, t);
                 ((PermintaanActiveActivity)context).dismissDialog();
             }
         });
     }
-    public void gantistatusart(Integer offerartid){
-        HashMap<String,Object> map = new HashMap<>();
-//        map.put("offer_id", offer.getId().toString());
-        map.put("status", "1");
-        Call<OfferResponse> caller = APIManager.getRepository(OfferRepo.class).patchofferart(offerartid, map);
-        caller.enqueue(new APICallback<OfferResponse>() {
-            @Override
-            public void onSuccess(Call<OfferResponse> call, Response<OfferResponse> response) {
-                super.onSuccess(call, response);
-            }
-
-            @Override
-            public void onError(Call<OfferResponse> call, Response<OfferResponse> response) {
-                super.onError(call, response);
-            }
-
-            @Override
-            public void onFailure(Call<OfferResponse> call, Throwable t) {
-                super.onFailure(call, t);
-            }
-        });
+    public String setRP(Integer number){
+        String tempp = "Rp. ";
+        tempp = tempp + numberFormat.format(number);
+        return tempp;
     }
 }
