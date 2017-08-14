@@ -194,7 +194,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/btn_pesan"
+                    android:text="Konfirmasi"
                     android:textAllCaps="false"
                     android:background="@drawable/buttonshape"
                     tools:ignore="ButtonStyle" />

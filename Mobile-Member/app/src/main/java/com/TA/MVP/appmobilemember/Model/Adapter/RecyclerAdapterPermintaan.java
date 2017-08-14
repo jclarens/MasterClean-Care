@@ -54,10 +54,8 @@ public class RecyclerAdapterPermintaan extends RecyclerView.Adapter<RecyclerAdap
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
-//                    Toast.makeText(itemview.getContext(), "Clicking card number " + position, Toast.LENGTH_SHORT).show();
                     Intent i = new Intent(itemview.getContext(), PermintaanActiveActivity.class);
                     i.putExtra(ConstClass.OFFER_EXTRA, GsonUtils.getJsonFromObject(offers.get(position)));
-//                    itemview.getContext().startActivity(i);
                     ((MainActivity) context).startActivityForResult(i, MainActivity.REQUEST_OFFER);
                 }
             });

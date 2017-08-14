@@ -131,6 +131,7 @@ public class ReviewActivity extends ParentActivity{
                 super.onSuccess(call, response);
                 ratingBar.setIsIndicator(true);
                 simpan.setEnabled(false);
+                simpan.setVisibility(View.GONE);
                 editText.setEnabled(false);
                 ratingBar.setRating(response.body().getRate());
                 editText.setText(response.body().getRemark());

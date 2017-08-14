@@ -376,7 +376,7 @@ public class FragmentPekerjaan extends Fragment implements OnMapReadyCallback {
                 }
             });
         }catch (NullPointerException e){
-            Toast.makeText(getContext(), "Terjadi kesalahan. Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "Terjadi kesalahan. Silahkan coba lagi.", Toast.LENGTH_SHORT).show();
         }
     }
 }

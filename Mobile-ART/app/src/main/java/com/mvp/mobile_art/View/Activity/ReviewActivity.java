@@ -13,9 +13,12 @@ import android.widget.Toast;
 
 import com.mvp.mobile_art.Model.Basic.Order;
 import com.mvp.mobile_art.Model.Basic.ReviewOrder;
+import com.mvp.mobile_art.Model.Basic.User;
 import com.mvp.mobile_art.Model.Responses.ReviewOrderResponse;
 import com.mvp.mobile_art.R;
 import com.mvp.mobile_art.Route.Repositories.ReviewOrderRepo;
+import com.mvp.mobile_art.Route.Repositories.UserRepo;
+import com.mvp.mobile_art.View.Fragment.FragmentMembermini;
 import com.mvp.mobile_art.lib.api.APICallback;
 import com.mvp.mobile_art.lib.api.APIManager;
 import com.mvp.mobile_art.lib.utils.ConstClass;
@@ -37,6 +40,7 @@ public class ReviewActivity extends ParentActivity{
     private Button kembali;
     private Order order;
     private Toolbar toolbar;
+    private FragmentMembermini fragmentMembermini;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,11 +59,6 @@ public class ReviewActivity extends ParentActivity{
             }
         });
 
-//        fragmentAsistenmini = new FragmentAsistenmini();
-//        Bundle b = new Bundle();
-//        b.putString(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(order.getArt()));
-//        fragmentAsistenmini.setArguments(b);
-//        getSupportFragmentManager().beginTransaction().replace(R.id.layout_asisten, fragmentAsistenmini).commit();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
@@ -81,7 +80,7 @@ public class ReviewActivity extends ParentActivity{
                 editText.setEnabled(false);
                 ratingBar.setRating(response.body().getRate());
                 editText.setText(response.body().getRemark());
-                dismissDialog();
+                getuser(order.getMember_id());
             }
 
             @Override
@@ -116,5 +115,42 @@ public class ReviewActivity extends ParentActivity{
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+    public void getuser(Integer id){
+        Call<User> caller = APIManager.getRepository(UserRepo.class).getuser(id.toString());
+        caller.enqueue(new APICallback<User>() {
+            @Override
+            public void onSuccess(Call<User> call, Response<User> response) {
+                super.onSuccess(call, response);
+                loadmini(response.body());
+                dismissDialog();
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                super.onFailure(call, t);
+                dismissDialog();
+                abuildermessage("Koneksi bermasalah. Coba lagi?","Pemberitahuan");
+                abuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        getuser(order.getMember_id());
+                    }
+                });
+                abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+            }
+        });
+    }
+    public void loadmini(User member){
+        fragmentMembermini = new FragmentMembermini();
+        Bundle b = new Bundle();
+        b.putString(ConstClass.MEMBER_EXTRA, GsonUtils.getJsonFromObject(member));
+        fragmentMembermini.setArguments(b);
+        getSupportFragmentManager().beginTransaction().replace(R.id.layout_member, fragmentMembermini).commit();
     }
 }

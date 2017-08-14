@@ -42,6 +42,10 @@ public interface OrderRepo {
     Call<OrderResponse> deleteorderById(@Path("id") String id);
 
     @Headers("Accept: application/json")
+    @GET("api/order/review/{art}")
+    Call<List<Order>> getorderreviewByArt(@Path("art") Integer art);
+
+    @Headers("Accept: application/json")
     @GET("api/order/art/{art}")
     Call<List<Order>> getorderByArt(@Path("art") String art);
 

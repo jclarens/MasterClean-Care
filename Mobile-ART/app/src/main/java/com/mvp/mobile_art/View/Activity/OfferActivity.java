@@ -31,6 +31,8 @@ import com.mvp.mobile_art.Model.Responses.OfferResponse;
 import com.mvp.mobile_art.R;
 import com.mvp.mobile_art.Route.Repositories.OfferRepo;
 import com.mvp.mobile_art.Route.Repositories.OrderRepo;
+import com.mvp.mobile_art.Route.Repositories.UserRepo;
+import com.mvp.mobile_art.View.Fragment.FragmentMembermini;
 import com.mvp.mobile_art.lib.api.APICallback;
 import com.mvp.mobile_art.lib.api.APIManager;
 import com.mvp.mobile_art.lib.database.SharedPref;
@@ -63,6 +65,7 @@ public class OfferActivity extends ParentActivity {
     private RecyclerAdapterListKerjaShow rec_Adapter;
     private User user = new User();
     private StaticData staticData;
+    private FragmentMembermini fragmentMembermini;
 
     private EditText mulaitime, mulaidate, selesaitime, selesaidate, total, cttn, alamat, profesi, worktime;
     private DateFormat getdateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
@@ -112,6 +115,8 @@ public class OfferActivity extends ParentActivity {
         btnlocation = (ImageButton) findViewById(R.id.btnlocation);
         tugastext = (TextView) findViewById(R.id.tugas);
         recyclerView = (RecyclerView) findViewById(R.id.listkerja);
+
+        getuser(offer.getMember_id());
 
         //toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
@@ -447,5 +452,42 @@ public class OfferActivity extends ParentActivity {
                 return false;
         }
         return true;
+    }
+    public void getuser(Integer id){
+        Call<User> caller = APIManager.getRepository(UserRepo.class).getuser(id.toString());
+        caller.enqueue(new APICallback<User>() {
+            @Override
+            public void onSuccess(Call<User> call, Response<User> response) {
+                super.onSuccess(call, response);
+                loadmini(response.body());
+                dismissDialog();
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                super.onFailure(call, t);
+                dismissDialog();
+                abuildermessage("Koneksi bermasalah. Coba lagi?","Pemberitahuan");
+                abuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        getuser(offer.getMember_id());
+                    }
+                });
+                abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+            }
+        });
+    }
+    public void loadmini(User member){
+        fragmentMembermini = new FragmentMembermini();
+        Bundle b = new Bundle();
+        b.putString(ConstClass.MEMBER_EXTRA, GsonUtils.getJsonFromObject(member));
+        fragmentMembermini.setArguments(b);
+        getSupportFragmentManager().beginTransaction().replace(R.id.layout_member, fragmentMembermini).commit();
     }
 }

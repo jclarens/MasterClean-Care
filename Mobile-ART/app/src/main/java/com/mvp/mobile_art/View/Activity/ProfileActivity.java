@@ -3,24 +3,31 @@ package com.mvp.mobile_art.View.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mvp.mobile_art.MasterCleanApplication;
+import com.mvp.mobile_art.Model.Adapter.RecyclerAdapterReview;
 import com.mvp.mobile_art.Model.Array.ArrayAgama;
+import com.mvp.mobile_art.Model.Basic.Order;
 import com.mvp.mobile_art.Model.Basic.StaticData;
 import com.mvp.mobile_art.Model.Basic.User;
 import com.mvp.mobile_art.Model.Responses.UserResponse;
 import com.mvp.mobile_art.R;
+import com.mvp.mobile_art.Route.Repositories.OrderRepo;
 import com.mvp.mobile_art.Route.Repositories.UserRepo;
 import com.mvp.mobile_art.lib.api.APICallback;
 import com.mvp.mobile_art.lib.api.APIManager;
@@ -35,6 +42,7 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -49,6 +57,10 @@ public class ProfileActivity extends ParentActivity {
     public final static int REQUEST_EDITFOTO = 3;
     public final static int RESULT_SUCCESS = 1;
     public final static int RESULT_CANCEL = 2;
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager rec_LayoutManager;
+    private RecyclerAdapterReview rec_Adapter;
+    private LinearLayout layoutreview;
     private Toolbar toolbar;
     private ImageView image;
     private RatingBar ratingBar;
@@ -71,6 +83,7 @@ public class ProfileActivity extends ParentActivity {
         Log.d("temporary","onCreate:"+ SharedPref.getValueString(ConstClass.USER));
         staticData = ((MasterCleanApplication)getApplication()).globalStaticData;
 
+        layoutreview = (LinearLayout) findViewById(R.id.layout_review);
         image = (ImageView) findViewById(R.id.prof_img);
         ratingBar = (RatingBar) findViewById(R.id.prof_rate);
         keterangan = (EditText) findViewById(R.id.keterangan);
@@ -83,6 +96,13 @@ public class ProfileActivity extends ParentActivity {
         profesi = (TextView) findViewById(R.id.prof);
         bahasa = (TextView) findViewById(R.id.bahasa);
         aSwitch  = (Switch) findViewById(R.id.prof_switch);
+
+
+        recyclerView = (RecyclerView) findViewById(R.id.recycleview_review);
+        rec_LayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(rec_LayoutManager);
+        rec_Adapter = new RecyclerAdapterReview(this);
+        recyclerView.setAdapter(rec_Adapter);
 
         getallinfo(user.getId());
 
@@ -196,7 +216,7 @@ public class ProfileActivity extends ParentActivity {
         };
         aSwitch.setOnCheckedChangeListener(changelistener);
 
-        Log.d("Image path ", Settings.getRetrofitAPIUrl()+"image/"+user.getAvatar());
+//        Log.d("Image path ", Settings.getRetrofitAPIUrl()+"image/"+user.getAvatar());
         Picasso.with(getApplicationContext())
                 .load(Settings.getRetrofitAPIUrl()+"image/small/"+user.getAvatar())
                 .placeholder(R.drawable.default_profile)
@@ -286,6 +306,7 @@ public class ProfileActivity extends ParentActivity {
                 SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(user));
                 settampilan();
                 dismissDialog();
+                getreviews();
             }
 
             @Override
@@ -301,5 +322,31 @@ public class ProfileActivity extends ParentActivity {
         String tempp = "Rp. ";
         tempp = tempp + numberFormat.format(number) + ".00";
         return tempp;
+    }
+    public void getreviews(){
+        Call<List<Order>> caller = APIManager.getRepository(OrderRepo.class).getorderreviewByArt(user.getId());
+        caller.enqueue(new APICallback<List<Order>>() {
+            @Override
+            public void onSuccess(Call<List<Order>> call, Response<List<Order>> response) {
+                super.onSuccess(call, response);
+                if (response.body().size() > 0){
+                    rec_Adapter.setlist(response.body());
+                    layoutreview.setVisibility(View.VISIBLE);
+                }
+                dismissDialog();
+            }
+
+            @Override
+            public void onError(Call<List<Order>> call, Response<List<Order>> response) {
+                super.onError(call, response);
+                dismissDialog();
+            }
+
+            @Override
+            public void onFailure(Call<List<Order>> call, Throwable t) {
+                super.onFailure(call, t);
+                dismissDialog();
+            }
+        });
     }
 }

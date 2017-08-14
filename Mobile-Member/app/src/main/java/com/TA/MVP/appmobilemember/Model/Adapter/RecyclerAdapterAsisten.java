@@ -89,7 +89,6 @@ public class RecyclerAdapterAsisten extends RecyclerView.Adapter<RecyclerAdapter
                 .load(Settings.getRetrofitAPIUrl()+"image/small/"+users.get(position).getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
-                .resize(100, 100)
                 .transform(new RoundedTransformation(10, 0))
                 .into(holder.imageView);
 

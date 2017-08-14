@@ -8,17 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.mvp.mobile_art.Model.Basic.User;
 import com.mvp.mobile_art.R;
+import com.mvp.mobile_art.RoundedTransformation;
+import com.mvp.mobile_art.View.Activity.MemberActivity;
 import com.mvp.mobile_art.lib.utils.ConstClass;
 import com.mvp.mobile_art.lib.utils.GsonUtils;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import com.mvp.mobile_art.lib.utils.Settings;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by Zackzack on 18/07/2017.
@@ -38,17 +37,24 @@ public class FragmentMembermini extends Fragment {
         nama = (TextView) _view.findViewById(R.id.nama);
         telp = (TextView) _view.findViewById(R.id.telp);
         imageView = (ImageView) _view.findViewById(R.id.img);
-        btn_moreinfo = (Button) _view.findViewById(R.id.asism_btninfo);
+        btn_moreinfo = (Button) _view.findViewById(R.id.btninfo);
 
         nama.setText(member.getName());
         telp.setText(member.getContact().getPhone());
 
+        Picasso.with(getContext())
+                .load(Settings.getRetrofitAPIUrl()+"image/small/"+member.getAvatar())
+                .placeholder(R.drawable.default_profile)
+                .error(R.drawable.default_profile)
+                .transform(new RoundedTransformation(10, 0))
+                .into(imageView);
+
         btn_moreinfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent i = new Intent(getContext(), MemberActivity.class);
-//                i.putExtra(ConstClass.MEMBER_EXTRA, GsonUtils.getJsonFromObject(member));
-//                startActivity(i);
+                Intent i = new Intent(getContext(), MemberActivity.class);
+                i.putExtra(ConstClass.MEMBER_EXTRA, GsonUtils.getJsonFromObject(member));
+                startActivity(i);
             }
         });
 

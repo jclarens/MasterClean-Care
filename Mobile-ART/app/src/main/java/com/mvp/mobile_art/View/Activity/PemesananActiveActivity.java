@@ -24,10 +24,13 @@ import com.mvp.mobile_art.Model.Basic.MyTask;
 import com.mvp.mobile_art.Model.Basic.Order;
 import com.mvp.mobile_art.Model.Basic.ReviewOrder;
 import com.mvp.mobile_art.Model.Basic.StaticData;
+import com.mvp.mobile_art.Model.Basic.User;
 import com.mvp.mobile_art.Model.Responses.OrderResponse;
 import com.mvp.mobile_art.R;
 import com.mvp.mobile_art.Route.Repositories.OrderRepo;
 import com.mvp.mobile_art.Route.Repositories.ReviewOrderRepo;
+import com.mvp.mobile_art.Route.Repositories.UserRepo;
+import com.mvp.mobile_art.View.Fragment.FragmentMembermini;
 import com.mvp.mobile_art.lib.api.APICallback;
 import com.mvp.mobile_art.lib.api.APIManager;
 import com.mvp.mobile_art.lib.utils.ConstClass;
@@ -56,7 +59,7 @@ public class PemesananActiveActivity extends ParentActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager rec_LayoutManager;
     private RecyclerAdapterListKerjaEdit rec_Adapter;
-    private List<MyTask> myTasks = new ArrayList<>();
+    private FragmentMembermini fragmentMembermini;
 
     private EditText mulaitime, mulaidate, selesaitime, selesaidate, total, cttn, profesi, worktime, alamat;
     private DateFormat getdateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
@@ -109,6 +112,8 @@ public class PemesananActiveActivity extends ParentActivity {
         btnlocation = (ImageButton) findViewById(R.id.btnlocation);
         tugastext = (TextView) findViewById(R.id.pmsa_tv_tugas);
         recyclerView = (RecyclerView) findViewById(R.id.pmsa_rec_listkerja);
+
+        getuser(order.getMember_id());
 
         //toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
@@ -608,5 +613,42 @@ public class PemesananActiveActivity extends ParentActivity {
 //                Toast.makeText(getApplicationContext(),"Koneksi bermasalah, silahkan coba lagi", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    public void getuser(Integer id){
+        Call<User> caller = APIManager.getRepository(UserRepo.class).getuser(id.toString());
+        caller.enqueue(new APICallback<User>() {
+            @Override
+            public void onSuccess(Call<User> call, Response<User> response) {
+                super.onSuccess(call, response);
+                loadmini(response.body());
+                dismissDialog();
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                super.onFailure(call, t);
+                dismissDialog();
+                abuildermessage("Koneksi bermasalah. Coba lagi?","Pemberitahuan");
+                abuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        getuser(order.getMember_id());
+                    }
+                });
+                abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+            }
+        });
+    }
+    public void loadmini(User member){
+        fragmentMembermini = new FragmentMembermini();
+        Bundle b = new Bundle();
+        b.putString(ConstClass.MEMBER_EXTRA, GsonUtils.getJsonFromObject(member));
+        fragmentMembermini.setArguments(b);
+        getSupportFragmentManager().beginTransaction().replace(R.id.layout_member, fragmentMembermini).commit();
     }
 }
