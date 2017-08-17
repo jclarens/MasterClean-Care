@@ -188,6 +188,8 @@
                     android:layout_weight="1"
                     android:text="@string/btn_kmbl"
                     android:textAllCaps="false"
+                    android:background="@drawable/buttonshape"
+                    android:textColor="@color/buttontext"
                     tools:ignore="ButtonStyle" />
 
                 <Button
@@ -197,6 +199,8 @@
                     android:layout_weight="1"
                     android:text="Selesaikan"
                     android:textAllCaps="false"
+                    android:background="@drawable/buttonshape"
+                    android:textColor="@color/buttontext"
                     tools:ignore="ButtonStyle" />
             </LinearLayout>
         </LinearLayout>

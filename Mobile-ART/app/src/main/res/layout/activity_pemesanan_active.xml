@@ -236,6 +236,7 @@
                         android:layout_weight="1"
                         android:textAllCaps="false"
                         android:background="@drawable/buttonshape"
+                        android:textColor="@color/buttontext"
                         tools:ignore="ButtonStyle" />
                     <Button
                         android:id="@+id/pmsa_btn_terima"
@@ -246,6 +247,7 @@
                         android:textAllCaps="false"
                         tools:ignore="ButtonStyle"
                         android:background="@drawable/buttonshape"
+                        android:textColor="@color/buttontext"
                         android:visibility="gone"/>
                     <Button
                         android:id="@+id/pmsa_btn_kembali"
@@ -255,7 +257,8 @@
                         android:text="@string/btn_kmbl"
                         android:textAllCaps="false"
                         tools:ignore="ButtonStyle"
-                        android:background="@drawable/buttonshape"/>
+                        android:background="@drawable/buttonshape"
+                        android:textColor="@color/buttontext"/>
                 </LinearLayout>
             </LinearLayout>
         </ScrollView>

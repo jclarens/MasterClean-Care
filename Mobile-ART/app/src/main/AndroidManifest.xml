@@ -63,6 +63,10 @@
             android:screenOrientation="sensorPortrait" />
         <activity android:name="com.mvp.mobile_art.View.Activity.MemberActivity"
             android:screenOrientation="sensorPortrait" />
+        <activity android:name="com.mvp.mobile_art.View.Activity.LogWalletActivity"
+            android:screenOrientation="sensorPortrait" />
+        <activity android:name="com.mvp.mobile_art.View.Activity.PencairanActivity"
+            android:screenOrientation="sensorPortrait" />
         <activity
             android:name="com.mvp.mobile_art.View.Activity.MainActivity"
             android:label="@string/app_name"

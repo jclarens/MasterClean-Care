@@ -71,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Ketentuan"
+                android:text="Syarat\ndan Ketentuan"
                 android:textAlignment="center"
                 android:textColor="@color/colorBlack"
                 android:textSize="20dp"/>
@@ -118,7 +118,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Hubungi Kami"
+                android:text="Kritik\ndan Saran"
                 android:textColor="@color/colorBlack"
                 android:textAlignment="center"
                 android:textSize="20dp"/>

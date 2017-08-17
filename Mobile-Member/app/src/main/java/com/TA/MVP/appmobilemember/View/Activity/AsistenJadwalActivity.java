@@ -56,6 +56,7 @@ public class AsistenJadwalActivity extends ParentActivity {
         getSupportActionBar().setTitle(R.string.toolbar_jadwal);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
 
         //recyclerview
         recyclerView = (RecyclerView) findViewById(R.id.recycleview_jadwalasisten);

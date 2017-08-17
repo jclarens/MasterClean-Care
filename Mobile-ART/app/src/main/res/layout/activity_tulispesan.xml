@@ -31,8 +31,7 @@
             android:enabled="false"
             android:focusable="false"
             android:textColor="@color/colorBlack"
-            android:background="@drawable/backgroundlightgray"
-            />
+            android:background="@drawable/backgroundlightgray"/>
 
         <TextView
             android:id="@+id/textView53"
@@ -90,7 +89,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
-                android:text="@string/btn_btl" />
+                android:text="@string/btn_btl"
+                android:textColor="@color/buttontext"
+                android:background="@drawable/buttonshape"/>
 
             <Button
                 android:id="@+id/tp_btn_krm"
@@ -98,7 +99,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
-                android:text="@string/btn_krm" />
+                android:text="@string/btn_krm"
+                android:textColor="@color/buttontext"
+                android:background="@drawable/buttonshape" />
         </LinearLayout>
     </LinearLayout>
 

@@ -20,7 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="Konfirmasi Permintaan"
+                android:text="Konfirmasi Penawaran"
                 android:textAlignment="center"
                 android:textColor="@android:color/black"
                 android:textSize="24sp" />
@@ -146,6 +146,7 @@
                 android:focusable="false"
                 android:inputType="textPersonName"
                 android:textColor="@color/colorBlack"
+                android:background="@drawable/backgroundedittext"
                 android:textAlignment="center"/>
 
             <LinearLayout
@@ -163,7 +164,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text=" ketentuan "
+                    android:text=" Syarat dan Ketentuan "
                     android:textColor="#0000ff"/>
                 <TextView
                     android:layout_width="wrap_content"

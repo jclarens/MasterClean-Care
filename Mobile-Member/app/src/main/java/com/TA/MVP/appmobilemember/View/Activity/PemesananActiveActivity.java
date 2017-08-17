@@ -108,6 +108,7 @@ public class PemesananActiveActivity extends ParentActivity {
         getSupportActionBar().setTitle(R.string.toolbar_pemesanan);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -115,6 +116,14 @@ public class PemesananActiveActivity extends ParentActivity {
                 reload();
             }
         });
+
+        if (order.getStatus() == 1){
+            checkselesai();
+            checksedangberlangsung();
+        }
+        else if (order.getStatus() == 0){
+            checkexpired();
+        }
 
         loadtampilan();
     }
@@ -224,9 +233,11 @@ public class PemesananActiveActivity extends ParentActivity {
                             });
                             showalertdialog();
                         }
-                        Intent intent1 = new Intent(getApplicationContext(), TulisPesanActivity.class);
-                        intent1.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(order.getArt()));
-                        startActivity(intent1);
+                        else {
+                            Intent intent1 = new Intent(getApplicationContext(), TulisPesanActivity.class);
+                            intent1.putExtra(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(order.getArt()));
+                            startActivity(intent1);
+                        }
                         break;
                     case 2:
 //                        abuildermessage("Hapus riwayat pemesanan ini?","Konfirmasi");
@@ -282,13 +293,6 @@ public class PemesananActiveActivity extends ParentActivity {
                 startActivity(intent);
             }
         });
-        if (order.getStatus() == 1){
-            checkselesai();
-            checksedangberlangsung();
-        }
-        else if (order.getStatus() == 0){
-            checkexpired();
-        }
     }
 
     @Override
@@ -424,6 +428,7 @@ public class PemesananActiveActivity extends ParentActivity {
         }
         if (calendar.after(waktumulai)){
             sdgbrlgsg = true;
+            btnextra.setText("Selesai");
             if (order.getStatus_member().equals(1)) {
                 btnextra.setEnabled(false);
             }

@@ -45,10 +45,10 @@ public class FilterActivity extends ParentActivity{
 
     private RecyclerView recviewbahasa;
     private EditText nama, gaji, usiamin, usiamax, pk, suku;
-    private Spinner spinnerkota, spinneragama, spinnersuku, spinnerprofesi, spinnerwaktukrj;
+    private Spinner spinnerkota, spinneragama, spinnergender, spinnerprofesi, spinnerwaktukrj;
     private Button btncari, btnbatal, btnuminup, btnumindown, btnumaxup, btnumaxdown;
     private TextView textgaji;
-    private SpinnerAdapter spinnerAdapterkota, spinnerAdapteragama;
+    private SpinnerAdapter spinnerAdapterGender, spinnerAdapteragama;
     private FilterArrays filterArrays;
     private Integer tmp;
     private ArrayAdapter arrayAdapterJob, arrayAdapterWaktu, arrayAdapterKota;
@@ -75,6 +75,8 @@ public class FilterActivity extends ParentActivity{
                     i.putExtra("kota", String.valueOf(spinnerkota.getSelectedItemPosition()));
                 if (spinneragama.getSelectedItemPosition() != 0)
                     i.putExtra("agama", String.valueOf(spinneragama.getSelectedItemPosition()));
+                if (spinnergender.getSelectedItemPosition() != 0)
+                    i.putExtra("gender", String.valueOf(spinnergender.getSelectedItemPosition()));
                 i.putExtra("suku", suku.getText().toString());
                 if (spinnerprofesi.getSelectedItemPosition() != 0)
                     i.putExtra("profesi", String.valueOf(spinnerprofesi.getSelectedItemPosition()));
@@ -148,7 +150,7 @@ public class FilterActivity extends ParentActivity{
         suku = (EditText) findViewById(R.id.filter_et_suku);
         spinnerkota = (Spinner) findViewById(R.id.filter_spinner_kota);
         spinneragama = (Spinner) findViewById(R.id.filter_spinner_agama);
-        spinnersuku = (Spinner) findViewById(R.id.filter_spinner_suku);
+        spinnergender = (Spinner) findViewById(R.id.filter_spinner_gender);
         spinnerprofesi = (Spinner) findViewById(R.id.filter_spinner_profesi);
         spinnerwaktukrj = (Spinner) findViewById(R.id.filter_spinner_waktukrj);
         recviewbahasa = (RecyclerView) findViewById(R.id.filter_recview_bahasa);
@@ -169,6 +171,7 @@ public class FilterActivity extends ParentActivity{
         getSupportActionBar().setTitle(R.string.toolbar_filter);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
 
         //recviewbahasa
         rec_LayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -207,6 +210,8 @@ public class FilterActivity extends ParentActivity{
 
         spinnerAdapteragama = new SpinnerAdapter(this, filterArrays.getArrayAgama().getArrayList2());
         spinneragama.setAdapter(spinnerAdapteragama.getArrayAdapter());
+        spinnerAdapterGender = new SpinnerAdapter(this, filterArrays.getArrayGender().getArrayList2());
+        spinnergender.setAdapter(spinnerAdapterGender.getArrayAdapter());
 
         gaji.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override

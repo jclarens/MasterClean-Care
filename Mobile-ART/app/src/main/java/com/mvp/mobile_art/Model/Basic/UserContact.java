@@ -13,6 +13,15 @@ public class UserContact {
     private Integer province;
     private Integer city;
     private String emergency_numb;
+    private String acc_no;
+
+    public String getAcc_no() {
+        return acc_no;
+    }
+
+    public void setAcc_no(String acc_no) {
+        this.acc_no = acc_no;
+    }
 
     public Integer getId() {
         return id;

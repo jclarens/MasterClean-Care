@@ -193,7 +193,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text=" ketentuan "
+                    android:text=" Syarat dan ketentuan "
                     android:textColor="#0000ff"/>
                 <TextView
                     android:layout_width="wrap_content"

@@ -12,6 +12,7 @@ public class UserContact {
     private String location;
     private Integer city;
     private String emergency_numb;
+    private String acc_no;
 
     public Integer getId() {
         return id;
@@ -63,5 +64,13 @@ public class UserContact {
 
     public void setEmergency_numb(String emergency_numb) {
         this.emergency_numb = emergency_numb;
+    }
+
+    public String getAcc_no() {
+        return acc_no;
+    }
+
+    public void setAcc_no(String acc_no) {
+        this.acc_no = acc_no;
     }
 }

@@ -80,7 +80,7 @@ public class RecyclerAdapterAsisten extends RecyclerView.Adapter<RecyclerAdapter
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if (position == users.size()-1){
+        if (position == users.size()-2){
             fragmentHome.loadmore();
         }
         Log.d("Listposition",GsonUtils.getJsonFromObject(users.get(position)));
@@ -89,7 +89,8 @@ public class RecyclerAdapterAsisten extends RecyclerView.Adapter<RecyclerAdapter
                 .load(Settings.getRetrofitAPIUrl()+"image/small/"+users.get(position).getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
-                .transform(new RoundedTransformation(10, 0))
+                .fit().centerCrop()
+                .transform(new RoundedTransformation(1000, 0))
                 .into(holder.imageView);
 
         holder.itemnama.setText(users.get(position).getName());

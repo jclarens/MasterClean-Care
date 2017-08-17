@@ -46,7 +46,7 @@ import retrofit2.Response;
 public class MemberActivity extends ParentActivity {
     private Toolbar toolbar;
     private ImageView imageView;
-    private TextView alamat, notelp, agama, usia, nama;
+    private TextView alamat, notelp, agama, usia, nama, kota;
     private StaticData staticData;
     private User member = new User();
     private ArrayAgama arrayAgama = new ArrayAgama();
@@ -84,6 +84,7 @@ public class MemberActivity extends ParentActivity {
         notelp = (TextView) findViewById(R.id.notelp);
         agama = (TextView) findViewById(R.id.agama);
         usia = (TextView) findViewById(R.id.usia);
+        kota = (TextView) findViewById(R.id.kota);
         imageView = (ImageView) findViewById(R.id.imageView);
         setAll();
 
@@ -93,14 +94,16 @@ public class MemberActivity extends ParentActivity {
     private void setAll(){
         //toolbar
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Info Member");
+        getSupportActionBar().setTitle("Informasi Member");
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
 
         nama.setText(member.getName());
         alamat.setText(member.getContact().getAddress());
         notelp.setText(member.getContact().getPhone());
         agama.setText(arrayAgama.getArrayList().get(member.getReligion()-1));
+        kota.setText(staticData.getPlaces().get(member.getContact().getCity()-1).getName());
 
         thisYear = calendar.get(Calendar.YEAR);
         artbornyear = Integer.valueOf(yearformat.format(member.getBorn_date()));
@@ -110,7 +113,8 @@ public class MemberActivity extends ParentActivity {
                 .load(Settings.getRetrofitAPIUrl()+"image/small/"+member.getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
-                .transform(new RoundedTransformation(10, 0))
+                .resize(200, 200)
+                .transform(new RoundedTransformation(100, 0))
                 .into(imageView);
 
 

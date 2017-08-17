@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.TA.MVP.appmobilemember.Model.Array.ArrayAgama;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.RoundedTransformation;
 import com.TA.MVP.appmobilemember.View.Activity.AsistenActivity;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
@@ -75,6 +76,8 @@ public class FragmentAsistenmini extends Fragment {
                 .load(Settings.getRetrofitAPIUrl()+"image/small/"+art.getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
+                .fit().centerCrop()
+                .transform(new RoundedTransformation(1000, 0))
                 .into(imageView);
 
         return _view;

@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.Model.Array.ArrayBulan;
+import com.TA.MVP.appmobilemember.Model.Basic.MyMessage;
 import com.TA.MVP.appmobilemember.Model.Basic.Wallet;
 import com.TA.MVP.appmobilemember.Model.Basic.WalletTransaction;
 import com.TA.MVP.appmobilemember.R;
@@ -18,6 +19,8 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -102,6 +105,7 @@ public class RecyclerAdapterLogWallet extends RecyclerView.Adapter<RecyclerAdapt
 
     public void setLogWallets(List<WalletTransaction> walletTransactions) {
         this.walletTransactions = walletTransactions;
+        doshorting();
         notifyDataSetChanged();
     }
     public String costumedateformat(Date date){
@@ -112,5 +116,12 @@ public class RecyclerAdapterLogWallet extends RecyclerView.Adapter<RecyclerAdapt
         String tempp = "Rp. ";
         tempp = tempp + numberFormat.format(number) + ".00";
         return tempp;
+    }
+    public void doshorting(){
+        Collections.sort(walletTransactions, new Comparator<WalletTransaction>(){
+            public int compare(WalletTransaction obj1, WalletTransaction obj2) {
+                return obj2.getTrc_time().compareToIgnoreCase(obj1.getTrc_time());
+            }
+        });
     }
 }

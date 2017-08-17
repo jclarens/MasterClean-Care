@@ -73,8 +73,8 @@ public class RecyclerAdapterReview extends RecyclerView.Adapter<RecyclerAdapterR
                 .load(Settings.getRetrofitAPIUrl()+"image/small/"+orders.get(position).getMember().getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
-                .resize(100, 100)
-                .transform(new RoundedTransformation(10, 0))
+                .fit().centerCrop()
+                .transform(new RoundedTransformation(1000, 0))
                 .into(holder.imageView);
     }
 

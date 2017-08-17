@@ -49,7 +49,8 @@ public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterW
                 public void onClick(View view) {
                     final int position = getAdapterPosition();
                     nominal = setRP(wallets.get(position).getAmt());
-                    abuildermessage("Request pembelian wallet "+nominal,"Konfirmasi Request", itemview.getContext());
+                    abuildermessage("Transfer uang anda ke nomor rekening: 1004874201, Dan kirimkan bukti transfer.\n" +
+                            "Pembelian wallet "+nominal,"Konfirmasi Request", itemview.getContext());
                     abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {

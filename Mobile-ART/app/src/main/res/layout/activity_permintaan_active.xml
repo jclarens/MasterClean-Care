@@ -231,6 +231,7 @@
                         android:text="Bersedia"
                         android:textAllCaps="false"
                         android:background="@drawable/buttonshape"
+                        android:textColor="@color/buttontext"
                         tools:ignore="ButtonStyle" />
                     <Button
                         android:id="@+id/kembali"
@@ -240,6 +241,7 @@
                         android:text="@string/btn_kmbl"
                         android:textAllCaps="false"
                         android:background="@drawable/buttonshape"
+                        android:textColor="@color/buttontext"
                         tools:ignore="ButtonStyle" />
                 </LinearLayout>
             </LinearLayout>

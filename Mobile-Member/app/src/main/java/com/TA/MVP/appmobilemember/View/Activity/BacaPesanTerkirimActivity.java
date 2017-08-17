@@ -83,6 +83,7 @@ public class BacaPesanTerkirimActivity extends ParentActivity {
         getSupportActionBar().setTitle(R.string.toolbar_pesan);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
     }
 
     @Override

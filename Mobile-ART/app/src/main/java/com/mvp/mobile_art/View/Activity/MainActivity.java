@@ -83,6 +83,7 @@ public class MainActivity extends ParentActivity {
         setContentView(R.layout.activity_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
 
         splashscreen = (LinearLayout) findViewById(R.id.splashscreen);
         bottomNavigation = (BottomNavigationView) findViewById(R.id.navigation);

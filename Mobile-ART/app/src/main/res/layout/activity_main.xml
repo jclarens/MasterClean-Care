@@ -21,15 +21,20 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="70dp"
                 android:orientation="vertical"
                 android:layout_gravity="center_vertical">
+                <ImageView
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:src="@drawable/logo"/>
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Master\nClean - Care"
+                    android:text="Temukan solusi kebersihan dan perawatan rumah tangga terbaik."
                     android:textAlignment="center"
                     android:textColor="@color/colorWhite"
-                    android:textSize="40sp"
+                    android:textSize="20sp"
                     android:textStyle="bold"/>
                 <ProgressBar
                     android:visibility="invisible"

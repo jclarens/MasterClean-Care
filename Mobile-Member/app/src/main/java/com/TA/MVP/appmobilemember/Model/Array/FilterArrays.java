@@ -10,13 +10,19 @@ public class FilterArrays {
     private  ArrayProfesi arrayProfesi;
     private ArraySuku arraySuku;
     private ArrayWaktukrj arrayWaktukrj;
+    private ArrayGender arrayGender;
 
     public FilterArrays() {
         arrayAgama = new ArrayAgama();
+        arrayGender = new ArrayGender();
         arrayKota = new ArrayKota();
         arrayProfesi = new ArrayProfesi();
         arraySuku = new ArraySuku();
         arrayWaktukrj = new ArrayWaktukrj();
+    }
+
+    public ArrayGender getArrayGender() {
+        return arrayGender;
     }
 
     public ArrayKota getArrayKota() {

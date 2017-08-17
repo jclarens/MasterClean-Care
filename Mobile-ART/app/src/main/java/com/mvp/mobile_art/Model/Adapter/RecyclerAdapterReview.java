@@ -1,6 +1,8 @@
 package com.mvp.mobile_art.Model.Adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,13 +12,26 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.mvp.mobile_art.Model.Basic.Order;
+import com.mvp.mobile_art.Model.Basic.User;
 import com.mvp.mobile_art.R;
 import com.mvp.mobile_art.RoundedTransformation;
+import com.mvp.mobile_art.Route.Repositories.UserRepo;
+import com.mvp.mobile_art.View.Activity.MemberActivity;
+import com.mvp.mobile_art.View.Activity.ProfileActivity;
+import com.mvp.mobile_art.lib.api.APICallback;
+import com.mvp.mobile_art.lib.api.APIManager;
+import com.mvp.mobile_art.lib.utils.ConstClass;
+import com.mvp.mobile_art.lib.utils.GsonUtils;
 import com.mvp.mobile_art.lib.utils.Settings;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Response;
 
 /**
  * Created by Zackzack on 08/07/2017.
@@ -42,6 +57,13 @@ public class RecyclerAdapterReview extends RecyclerView.Adapter<RecyclerAdapterR
             imageView = (ImageView) itemview.findViewById(R.id.img);
             imgheigh = imageView.getHeight();
             imgwidth = imageView.getWidth();
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    ((ProfileActivity)context).getuser(orders.get(position).getMember_id());
+                }
+            });
         }
     }
 
@@ -62,8 +84,8 @@ public class RecyclerAdapterReview extends RecyclerView.Adapter<RecyclerAdapterR
                 .load(Settings.getRetrofitAPIUrl()+"image/small/"+orders.get(position).getMember().getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
-                .resize(100, 100)
-                .transform(new RoundedTransformation(10, 0))
+                .fit().centerCrop()
+                .transform(new RoundedTransformation(1000, 0))
                 .into(holder.imageView);
     }
 
@@ -73,14 +95,14 @@ public class RecyclerAdapterReview extends RecyclerView.Adapter<RecyclerAdapterR
     }
     public void setlist(List<Order> orders){
         this.orders = orders;
-//        doshorting();
+        doshorting();
         notifyDataSetChanged();
     }
-//    public void doshorting(){
-//        Collections.sort(reviewOrders, new Comparator<User>(){
-//            public int compare(User obj1, User obj2) {
-//                return Float.toString(obj2.getRate()).compareTo(Float.toString(obj1.getRate()));
-//            }
-//        });
-//    }
+    public void doshorting(){
+        Collections.sort(orders, new Comparator<Order>(){
+            public int compare(Order obj1, Order obj2) {
+                return obj2.getReview_order().getCreated_at().compareToIgnoreCase(obj1.getReview_order().getCreated_at());
+            }
+        });
+    }
 }

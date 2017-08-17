@@ -101,7 +101,7 @@ public class MainActivity extends ParentActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-        toolbar.setTitleTextColor(getResources().getColor(R.color.colorWhite));//warna text toolbar
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
 
         bottomNavigation = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         if (SharedPref.getValueString(SharedPref.ACCESS_TOKEN).equals("")) {
@@ -482,9 +482,9 @@ public class MainActivity extends ParentActivity {
             public void onSuccess(Call<Emergencycall> call, Response<Emergencycall> response) {
                 super.onSuccess(call, response);
                 try{
-                    if (response.body().getStatus() == 1){
+                    if (response.body().getStatus() == 1) {
                         Intent intent = new Intent(getApplicationContext(), EmergencyActivity.class);
-                        intent.putExtra("item",GsonUtils.getJsonFromObject(response.body()));
+                        intent.putExtra("item", GsonUtils.getJsonFromObject(response.body()));
                         startActivity(intent);
                     }
                 }catch (NullPointerException e){

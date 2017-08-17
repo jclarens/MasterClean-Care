@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content">
                 <ImageView
                     android:id="@+id/prof_img"
-                    android:layout_width="180dp"
+                    android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
@@ -113,6 +113,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="top"
+                        android:text="No. Rekening"
+                        android:textColor="@android:color/black" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
                         android:layout_column="1"
                         android:layout_row="1"
                         android:text=" : "
@@ -164,6 +171,13 @@
                         android:layout_height="wrap_content"
                         android:layout_column="1"
                         android:layout_row="8"
+                        android:text=" : "
+                        android:textColor="@android:color/black" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="1"
+                        android:layout_row="9"
                         android:text=" : "
                         android:textColor="@android:color/black" />
 
@@ -238,6 +252,14 @@
                         android:layout_row="8"
                         android:text=" - "
                         android:textColor="@android:color/black" />
+                    <TextView
+                        android:id="@+id/norek"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_column="2"
+                        android:layout_row="9"
+                        android:text=" - "
+                        android:textColor="@android:color/black" />
 
                 </GridLayout>
             </LinearLayout>
@@ -261,6 +283,7 @@
                 android:id="@+id/keterangan"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:textColor="@color/colorBlack"
                 android:background="@drawable/backgroundlightgray"
                 android:enabled="false"
@@ -269,6 +292,63 @@
                 android:lines="5"
                 android:gravity="top"
                 android:ems="10"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:text="Wallet :"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="24sp" />
+
+                <TextView
+                    android:id="@+id/prof_tv_nominal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text=" "
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:textColor="@android:color/black"
+                    android:textSize="24sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/prof_btn_isi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="5dp"
+                        android:text="Status Transaksi"
+                        android:textAllCaps="false"
+                        android:textColor="@color/buttontext"
+                        android:textSize="14dp"
+                        android:background="@drawable/buttonshape"/>
+
+                    <Button
+                        android:id="@+id/prof_btn_tarik"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Tarik Wallet"
+                        android:textAllCaps="false"
+                        android:textColor="@color/buttontext"
+                        android:textSize="14dp"
+                        android:background="@drawable/buttonshape"/>
+                </LinearLayout>
+            </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/layout_review"
                 android:layout_width="match_parent"

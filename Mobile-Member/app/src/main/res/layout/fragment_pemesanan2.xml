@@ -269,7 +269,6 @@
                     android:text="@string/btn_prev"
                     android:textAllCaps="false"
                     tools:ignore="ButtonStyle"
-                    android:textColor="#FFFFFF"
                     android:textSize="16dp"
                     android:background="@drawable/buttonshape"
                     />
@@ -282,7 +281,6 @@
                     android:text="@string/btn_next"
                     android:textAllCaps="false"
                     tools:ignore="ButtonStyle"
-                    android:textColor="#FFFFFF"
                     android:textSize="16dp"
                     android:background="@drawable/buttonshape"
                     />

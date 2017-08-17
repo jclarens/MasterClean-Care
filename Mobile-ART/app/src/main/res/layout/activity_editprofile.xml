@@ -9,90 +9,121 @@
         android:id="@+id/toolbar_main"
         layout="@layout/toolbar_main" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="15dp">
+        android:layout_weight="1">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:text="Nama"
-                android:textColor="@color/colorBlack"/>
-            <EditText
-                android:id="@+id/et_nama"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="15dp">
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/backgroundedittext"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="No. Telp"
-                android:textColor="@color/colorBlack"/>
-            <EditText
-                android:id="@+id/notelp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:background="@drawable/backgroundedittext"
-                android:inputType="phone"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="No. Telp Darurat"
-                android:textColor="@color/colorBlack"/>
-            <EditText
-                android:id="@+id/notelp2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/backgroundedittext"
-                android:inputType="phone"/>
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/foto"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="false"
+                    app:srcCompat="@drawable/default_profile" />
+            </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@drawable/backgroundsoftgray">
-                <Spinner
-                    android:id="@+id/spinnerkota"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:text="Nama"
+                    android:textColor="@color/colorBlack"/>
+                <EditText
+                    android:id="@+id/et_nama"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                </Spinner>
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/backgroundedittext"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No. Telp"
+                    android:textColor="@color/colorBlack"/>
+                <EditText
+                    android:id="@+id/notelp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/backgroundedittext"
+                    android:inputType="phone"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No. Telp Darurat"
+                    android:textColor="@color/colorBlack"/>
+                <EditText
+                    android:id="@+id/notelp2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/backgroundedittext"
+                    android:inputType="phone"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nomor Rekening"
+                    android:textColor="@color/colorBlack"/>
+                <EditText
+                    android:id="@+id/norek"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/backgroundedittext"
+                    android:inputType="numberDecimal"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/backgroundsoftgray">
+                    <Spinner
+                        android:id="@+id/spinnerkota"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                    </Spinner>
+                </LinearLayout>
             </LinearLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="top"
+                android:text="Keterangan"
+                android:textColor="@android:color/black" />
+
+            <EditText
+                android:id="@+id/keterangan"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:textColor="@color/colorBlack"
+                android:background="@drawable/backgroundsoftgray"
+                android:padding="5dp"
+                android:gravity="top"
+                android:lines="5"
+                android:ems="10"/>
+
+            <Button
+                android:id="@+id/simpan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Simpan"
+                android:background="@drawable/buttonshape"
+                android:textColor="@color/buttontext"
+                android:textAllCaps="false" />
         </LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_gravity="top"
-            android:text="Keterangan"
-            android:textColor="@android:color/black" />
+    </ScrollView>
 
-        <EditText
-            android:id="@+id/keterangan"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="5dp"
-            android:layout_weight="1"
-            android:textColor="@color/colorBlack"
-            android:background="@drawable/backgroundsoftgray"
-            android:padding="5dp"
-            android:gravity="top"
-            android:ems="10"/>
-
-        <Button
-            android:id="@+id/simpan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Simpan"
-            android:background="@drawable/buttonshape"
-            android:textAllCaps="false" />
-    </LinearLayout>
 
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.TA.MVP.appmobilemember.View.Activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -59,6 +60,9 @@ public class TakePictureActivity extends ParentActivity{
     private Wallet wallet = new Wallet();
     private String selectedimagepath;
     private Uri selectedImageUri;
+    private ContentValues values;
+    private Uri imageUri;
+    private Bitmap thumbnail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,25 +82,35 @@ public class TakePictureActivity extends ParentActivity{
             }
         });
         final Activity activity = this;
+        ActivityCompat.requestPermissions(activity,
+                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE},
+                PERMS_REQUEST_CODE);
         btnkonfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ActivityCompat.requestPermissions(activity,
-                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                                Manifest.permission.READ_EXTERNAL_STORAGE},
-                        PERMS_REQUEST_CODE);
+                if (picturetaken)
+                    posttransaction(selectedimagepath);
+                else Toast.makeText(getApplicationContext(),"Gambar belum diambil.", Toast.LENGTH_SHORT).show();
             }
         });
 
-        dispatchTakePictureIntent();
-
     }
     private void dispatchTakePictureIntent() {
+        values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "New Picture");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
+        imageUri = getContentResolver().insert(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(intent, REQUEST_IMAGE_CAPTURE);
 
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
+
+//        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+//            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+//        }
 
 //        File photo = null;
 //        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -114,32 +128,45 @@ public class TakePictureActivity extends ParentActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-//            Bundle extras = data.getExtras();
-//            Bitmap imageBitmap = (Bitmap) extras.get("data");
-//            imageView.setImageBitmap(imageBitmap);
-
-            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            imageView.setImageBitmap(thumbnail);
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-            File destination = new File(Environment.getExternalStorageDirectory(),"temp.jpg");
-            FileOutputStream fo;
             try {
-                fo = new FileOutputStream(destination);
-                fo.write(bytes.toByteArray());
-                fo.close();
-            } catch (IOException e) {
+                thumbnail = MediaStore.Images.Media.getBitmap(
+                        getContentResolver(), imageUri);
+                imageView.setImageBitmap(thumbnail);
+                selectedimagepath = getRealPathFromURI(imageUri);
+                picturetaken = true;
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-            selectedimagepath = destination.getAbsolutePath();
-            picturetaken = true;
+
+//            Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
+//            imageView.setImageBitmap(thumbnail);
+//            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+////            thumbnail.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
+//            File destination = new File(Environment.getExternalStorageDirectory(),"temp.jpg");
+//            FileOutputStream fo;
+//            try {
+//                fo = new FileOutputStream(destination);
+//                fo.write(bytes.toByteArray());
+//                fo.close();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            selectedimagepath = destination.getAbsolutePath();
+//            picturetaken = true;
 
 //            new uploadFileToServerTask().execute(destination.getAbsolutePath());
-
 //            Uri imageuri = selectedImageUri;
 //            selectedimagepath = getrealpathURI(imageuri);
 //            picturetaken = true;
         }
+    }
+    public String getRealPathFromURI(Uri contentUri) {
+        String[] proj = { MediaStore.Images.Media.DATA };
+        Cursor cursor = managedQuery(contentUri, proj, null, null, null);
+        int column_index = cursor
+                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
     }
     public String getrealpathURI(Uri contentURI){
         Cursor cursor = getApplicationContext().getContentResolver().query(contentURI, null, null, null, null);
@@ -157,11 +184,10 @@ public class TakePictureActivity extends ParentActivity{
         switch (requestCode) {
             case PERMS_REQUEST_CODE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    if (picturetaken) {
-                        posttransaction(selectedimagepath);
-                    }
+                    dispatchTakePictureIntent();
                 } else {
                     Toast.makeText(getApplicationContext(),"Fitur tidak dapat dijalankan tanpa izin pengguna", Toast.LENGTH_SHORT).show();
+                    finish();
                 }
                 return;
             }
@@ -173,7 +199,6 @@ public class TakePictureActivity extends ParentActivity{
 
         File file = new File(path);
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("image", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
-//        MultipartBody.Part namaRequestBody description =
         RequestBody user_id = RequestBody.create(okhttp3.MultipartBody.FORM, user.getId().toString());
         RequestBody amt = RequestBody.create(okhttp3.MultipartBody.FORM, wallet.getAmt().toString());
         Call<WalletTransactionResponse> caller = APIManager.getRepository(WalletTransactionRepo.class).uploadtransaction(filePart, user_id, amt);

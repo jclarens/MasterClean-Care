@@ -224,7 +224,8 @@ public class AsistenActivity extends ParentActivity {
                 .load(Settings.getRetrofitAPIUrl()+"image/small/"+art.getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
-                .transform(new RoundedTransformation(10, 0))
+                .fit().centerCrop()
+                .transform(new RoundedTransformation(1000, 0))
                 .into(imageView);
 
         //toolbar
@@ -232,6 +233,7 @@ public class AsistenActivity extends ParentActivity {
         getSupportActionBar().setTitle(R.string.toolbar_asisten);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
     }
 
     @Override

@@ -21,6 +21,7 @@ import com.TA.MVP.appmobilemember.Model.Adapter.SpinnerAdapter;
 import com.TA.MVP.appmobilemember.Model.Array.ArrayAgama;
 import com.TA.MVP.appmobilemember.Model.Array.ArrayBulan;
 import com.TA.MVP.appmobilemember.Model.Basic.OrderTime;
+import com.TA.MVP.appmobilemember.Model.Basic.Place;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Basic.UserContact;
 import com.TA.MVP.appmobilemember.Model.Responses.LoginResponse;
@@ -39,6 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -49,8 +51,8 @@ import retrofit2.Response;
  */
 
 public class FragmentRegister extends Fragment {
-    private EditText nama, email, katasandi, konfkatasandi, notelp, alamat, bdate, tgl;
-    private Spinner spinnergender, spinnerkota, spinneragama;
+    private EditText nama, email, katasandi, konfkatasandi, notelp, alamat, tgl;
+    private Spinner spinnergender, spinnerkota, spinnerkotakelahiran, spinneragama;
     private Button btndaftar;
     private TextView tvlogin;
     private ArrayAdapter arrayAdaptergender, arrayAdapterkota;
@@ -66,10 +68,12 @@ public class FragmentRegister extends Fragment {
     private DateFormat bulanFormat = new SimpleDateFormat("MM", Locale.ENGLISH);
     private DateFormat tglFormat = new SimpleDateFormat("d", Locale.ENGLISH);
     private ArrayBulan arrayBulan = new ArrayBulan();
+    private List<Place> places;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_register, container, false);
+        places = ((MasterCleanApplication) getActivity().getApplication()).getGlobalStaticData().getPlaces();
 
         nama = (EditText) _view.findViewById(R.id.reg_et_nama);
         email = (EditText) _view.findViewById(R.id.reg_et_email);
@@ -79,6 +83,7 @@ public class FragmentRegister extends Fragment {
         spinnergender = (Spinner) _view.findViewById(R.id.reg_spinner_gender);
         spinneragama = (Spinner) _view.findViewById(R.id.reg_spinner_agama);
         notelp = (EditText) _view.findViewById(R.id.reg_et_notelp);
+        spinnerkotakelahiran = (Spinner) _view.findViewById(R.id.reg_spinner_kotakelahiran);
         spinnerkota = (Spinner) _view.findViewById(R.id.reg_spinner_kota);
         alamat = (EditText) _view.findViewById(R.id.reg_et_alamat);
         btndaftar = (Button) _view.findViewById(R.id.reg_btn_daftar);
@@ -104,8 +109,10 @@ public class FragmentRegister extends Fragment {
 
         arrayAdaptergender = new ArrayAdapter(getContext(), R.layout.spinner_item, genders);
         spinnergender.setAdapter(arrayAdaptergender);
-        arrayAdapterkota = new ArrayAdapter(getContext(), R.layout.spinner_item, ((MasterCleanApplication) getActivity().getApplication()).getGlobalStaticData().getPlaces());
+        arrayAdapterkota = new ArrayAdapter(getContext(), R.layout.spinner_item, places);
         spinnerkota.setAdapter(arrayAdapterkota);
+        arrayAdapterkota = new ArrayAdapter(getContext(), R.layout.spinner_item, places);
+        spinnerkotakelahiran.setAdapter(arrayAdapterkota);
         spinnerAdapteragama = new SpinnerAdapter(getContext(), arrayAgama.getArrayList());
         spinneragama.setAdapter(spinnerAdapteragama.getArrayAdapter());
 
@@ -119,20 +126,23 @@ public class FragmentRegister extends Fragment {
                     map.put("name", nama.getText().toString());
                     map.put("email", email.getText().toString());
                     map.put("password", katasandi.getText().toString());
-                    map.put("gender", String.valueOf(spinnergender.getSelectedItemPosition() + 1));
-                    map.put("born_place", "");
+                    map.put("gender", String.valueOf((spinnergender.getSelectedItemPosition() + 1)));
+                    map.put("born_place", places.get((spinnergender.getSelectedItemPosition() + 1)).getName());
                     map.put("born_date", dateFormat.format(calendar.getTime()));
                     map.put("religion", String.valueOf(spinneragama.getSelectedItemPosition() + 1));
                     map.put("role_id", String.valueOf(2));
                     map.put("status", String.valueOf(1));
                     map.put("activation", String.valueOf(1));
-                    map.put("avatar", "users/default.png");
-                    map.put("user_wallet", 0);
+                    if ((spinnergender.getSelectedItemPosition() + 1) == 1){
+                        map.put("avatar", "users/profile3.png");
+                    } else map.put("avatar", "users/profile1.png");
+//                    map.put("user_wallet", 0);
                     UserContact userContact = new UserContact();
                     userContact.setAddress(alamat.getText().toString());
                     userContact.setCity((spinnerkota.getSelectedItemPosition() + 1));
                     userContact.setPhone(notelp.getText().toString());
                     userContact.setEmergency_numb("082168360303");
+                    userContact.setAcc_no("");
                     userContact.setLocation("3.584949, 98.672400");//harusnya get location
                     map.put("contact", userContact);//cek lg
                     Call<UserResponse> caller = APIManager.getRepository(UserRepo.class).registeruser(map);
@@ -141,7 +151,6 @@ public class FragmentRegister extends Fragment {
                         public void onSuccess(Call<UserResponse> call, Response<UserResponse> response) {
                             super.onSuccess(call, response);
                             getToken(email.getText().toString(), katasandi.getText().toString());
-                            ((AuthActivity)getActivity()).dismissDialog();
                         }
 
                         @Override

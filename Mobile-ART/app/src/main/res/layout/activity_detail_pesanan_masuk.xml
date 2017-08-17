@@ -188,6 +188,8 @@
                     android:layout_weight="1"
                     android:text="Kembali"
                     android:textAllCaps="false"
+                    android:background="@drawable/buttonshape"
+                    android:textColor="@color/buttontext"
                     tools:ignore="ButtonStyle" />
 
                 <Button
@@ -197,6 +199,8 @@
                     android:layout_weight="1"
                     android:text="Tolak"
                     android:textAllCaps="false"
+                    android:background="@drawable/buttonshape"
+                    android:textColor="@color/buttontext"
                     tools:ignore="ButtonStyle" />
 
                 <Button
@@ -206,6 +210,8 @@
                     android:layout_weight="1"
                     android:text="Terima"
                     android:textAllCaps="false"
+                    android:background="@drawable/buttonshape"
+                    android:textColor="@color/buttontext"
                     tools:ignore="ButtonStyle" />
             </LinearLayout>
         </LinearLayout>

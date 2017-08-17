@@ -37,19 +37,30 @@
             android:hint="@string/katasandibarukonfirm"
             android:inputType="textPassword" />
 
-        <Button
-            android:id="@+id/epass_btn_simpan"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/simpan"
-            android:textAllCaps="false" />
-
-        <Button
-            android:id="@+id/epass_btn_batal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/batal"
-            android:textAllCaps="false" />
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/epass_btn_batal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/batal"
+                android:background="@drawable/buttonshape"
+                android:textColor="@color/buttontext"
+                android:textAllCaps="false" />
+            <Button
+                android:id="@+id/epass_btn_simpan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/simpan"
+                android:background="@drawable/buttonshape"
+                android:textColor="@color/buttontext"
+                android:textAllCaps="false" />
+        </LinearLayout>
 
     </LinearLayout>
 

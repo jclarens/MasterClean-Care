@@ -41,6 +41,7 @@ public class WalletActivity extends ParentActivity {
         getSupportActionBar().setTitle("Top Up");
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
     }
 
     @Override

@@ -65,6 +65,7 @@ public class ReviewActivity extends ParentActivity{
         getSupportActionBar().setTitle("Review");
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
 
         getreview();
     }

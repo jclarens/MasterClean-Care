@@ -113,9 +113,10 @@ public class PermintaanActiveActivity extends ParentActivity {
         //toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Permintaan");
+        getSupportActionBar().setTitle("Informasi Penawaran");
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

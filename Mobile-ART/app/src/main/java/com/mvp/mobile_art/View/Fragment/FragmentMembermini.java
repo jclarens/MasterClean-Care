@@ -46,7 +46,8 @@ public class FragmentMembermini extends Fragment {
                 .load(Settings.getRetrofitAPIUrl()+"image/small/"+member.getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
-                .transform(new RoundedTransformation(10, 0))
+                .resize(100, 100)
+                .transform(new RoundedTransformation(50, 0))
                 .into(imageView);
 
         btn_moreinfo.setOnClickListener(new View.OnClickListener() {

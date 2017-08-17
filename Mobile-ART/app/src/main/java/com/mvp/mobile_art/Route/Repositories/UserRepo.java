@@ -5,19 +5,23 @@ import com.mvp.mobile_art.Model.Basic.User;
 import com.mvp.mobile_art.Model.Basic.WalletTransaction;
 import com.mvp.mobile_art.Model.Responses.LoginResponse;
 import com.mvp.mobile_art.Model.Responses.Token;
+import com.mvp.mobile_art.Model.Responses.UploadResponse;
 import com.mvp.mobile_art.Model.Responses.UserResponse;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 
@@ -29,6 +33,10 @@ public interface UserRepo {
     @Headers("Accept: application/json")
     @POST("api/check_login/3")
     Call<LoginResponse> loginasisten(@Body HashMap map);
+
+    @Multipart
+    @POST("api/image")
+    Call<UploadResponse> uploadimg(@Part MultipartBody.Part filePart);
 
     @Headers("Accept: application/json")
     @POST("api/check_login")

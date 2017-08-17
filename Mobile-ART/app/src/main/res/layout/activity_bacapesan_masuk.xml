@@ -96,6 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/buttonshape"
+                android:textColor="@color/buttontext"
                 android:text="@string/btn_hps" />
 
             <Button
@@ -104,15 +105,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@drawable/buttonshape"
+                android:textColor="@color/buttontext"
                 android:text="@string/btn_bls" />
-
-            <Button
-                android:id="@+id/bp_btn_kembali"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/buttonshape"
-                android:text="@string/btn_kmbl" />
         </LinearLayout>
     </LinearLayout>
 

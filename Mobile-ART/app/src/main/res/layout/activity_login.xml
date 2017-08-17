@@ -69,6 +69,7 @@
         android:layout_centerHorizontal="true"
         android:text="Login"
         android:background="@drawable/buttonshape"
+        android:textColor="@color/buttontext"
         android:textAllCaps="false" />
 
     <EditText

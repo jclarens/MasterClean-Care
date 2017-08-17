@@ -121,6 +121,7 @@ public class PemesananActiveActivity extends ParentActivity {
         getSupportActionBar().setTitle(R.string.toolbar_pemesanan);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -281,7 +282,7 @@ public class PemesananActiveActivity extends ParentActivity {
                         break;
                     case 5:
                         Intent intent = new Intent(getApplicationContext(), ReportActivity.class);
-                        intent.putExtra("target", GsonUtils.getJsonFromObject(order.getArt()));
+                        intent.putExtra("target", GsonUtils.getJsonFromObject(order.getMember()));
                         startActivity(intent);
                         break;
                 }

@@ -69,6 +69,7 @@ public class ProfileActivity extends ParentActivity {
         getSupportActionBar().setTitle(R.string.toolbar_profile);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
     }
 
     @Override
@@ -125,7 +126,8 @@ public class ProfileActivity extends ParentActivity {
                 .load(Settings.getRetrofitAPIUrl()+"image/small/"+user.getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
-                .transform(new RoundedTransformation(10, 0))
+                .fit().centerCrop()
+                .transform(new RoundedTransformation(1000, 0))
                 .into(imgfoto);
 //                .resize(imgfoto.getWidth(), imgfoto.getHeight())
 

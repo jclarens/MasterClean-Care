@@ -58,9 +58,10 @@ public class LogWalletActivity extends ParentActivity {
         //toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.toolbar_logwallet);
+        getSupportActionBar().setTitle("Status Transaksi");
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
 
         //recyclerview
         recyclerView = (RecyclerView) findViewById(R.id.recycleview_logwallet);

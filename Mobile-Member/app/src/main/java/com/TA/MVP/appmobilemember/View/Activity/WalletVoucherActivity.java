@@ -44,6 +44,7 @@ public class WalletVoucherActivity extends ParentActivity {
         getSupportActionBar().setTitle(R.string.toolbar_walletvoucher);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
     }
 
     @Override

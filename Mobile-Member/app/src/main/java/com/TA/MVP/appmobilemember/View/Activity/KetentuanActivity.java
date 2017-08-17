@@ -28,11 +28,13 @@ public class KetentuanActivity extends ParentActivity {
         getSupportActionBar().setTitle(R.string.ketentuan);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
 
         webview = (WebView) findViewById(R.id.webView);
         webview.getSettings().setJavaScriptEnabled(true);
         webview.getSettings().setLoadWithOverviewMode(true);
         webview.getSettings().setUseWideViewPort(true);
+        webview.getSettings().setDomStorageEnabled(true);
         webview.setWebViewClient(new MyBrowser());
 
         initProgressDialog("Loading");

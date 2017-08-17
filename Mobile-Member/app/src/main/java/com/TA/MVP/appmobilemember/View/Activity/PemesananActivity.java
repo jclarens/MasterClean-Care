@@ -57,6 +57,7 @@ public class PemesananActivity extends ParentActivity {
         getSupportActionBar().setTitle(R.string.toolbar_pemesanan);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
 
         SharedPref.save(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
         SharedPref.save(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(order));

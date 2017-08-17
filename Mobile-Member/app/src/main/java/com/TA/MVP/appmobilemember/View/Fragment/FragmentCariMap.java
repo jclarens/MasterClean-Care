@@ -18,11 +18,14 @@ import android.widget.ImageButton;
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Basic.Job;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
+import com.TA.MVP.appmobilemember.Model.Basic.UserContact;
+import com.TA.MVP.appmobilemember.Model.Responses.UserResponse;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.View.Activity.AsistenActivity;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
+import com.TA.MVP.appmobilemember.lib.database.SharedPref;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
 import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -56,6 +59,7 @@ public class FragmentCariMap extends Fragment implements OnMapReadyCallback {
     private List<User> arts = new ArrayList<>();
     private List<Job> defaultjobs = new ArrayList<>();
     private String[] latlng;
+    private User user = new User();
     CameraPosition targetcamera;
     GoogleMap mGoogleMap;
     MapView mMapView;
@@ -70,6 +74,10 @@ public class FragmentCariMap extends Fragment implements OnMapReadyCallback {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         _view = inflater.inflate(R.layout.fragment_cari_map, container, false);
         defaultjobs = ((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getJobs();
+
+        if (!SharedPref.getValueString(ConstClass.USER).equals("")){
+            user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
+        }
 
         if (getContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             location = getLastKnownLocation();
@@ -167,6 +175,8 @@ public class FragmentCariMap extends Fragment implements OnMapReadyCallback {
         if (location != null){
             targetcamera = CameraPosition.builder().target(new LatLng(location.getLatitude(),location.getLongitude())).zoom(14).bearing(0).tilt(45).build();
             mGoogleMap.moveCamera(CameraUpdateFactory.newCameraPosition(targetcamera));
+            if (!SharedPref.getValueString(ConstClass.USER).equals(""))
+                updatemylocation(location.getLatitude(), location.getLongitude());
         }
 
 
@@ -200,5 +210,28 @@ public class FragmentCariMap extends Fragment implements OnMapReadyCallback {
             }
             mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(latlng[0]),Double.parseDouble(latlng[1]))).title(art.get(i).getName()).snippet(temp)).setTag(art.get(i));
         }
+    }
+    public void updatemylocation(Double lat, Double lng){
+        HashMap<String, Object> map = new HashMap<>();
+        UserContact userContact = user.getContact();
+        userContact.setLocation(lat+", "+lng);
+        map.put("contact", userContact);
+        Call<UserResponse> caller = APIManager.getRepository(UserRepo.class).updateuser(user.getId().toString(), map);
+        caller.enqueue(new APICallback<UserResponse>() {
+            @Override
+            public void onSuccess(Call<UserResponse> call, Response<UserResponse> response) {
+                super.onSuccess(call, response);
+            }
+
+            @Override
+            public void onError(Call<UserResponse> call, Response<UserResponse> response) {
+                super.onError(call, response);
+            }
+
+            @Override
+            public void onFailure(Call<UserResponse> call, Throwable t) {
+                super.onFailure(call, t);
+            }
+        });
     }
 }

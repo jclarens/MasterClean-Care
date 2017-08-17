@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:text="Keritik dan Saran"
+        android:text="Kritik dan Saran"
         android:textStyle="bold"
         android:textSize="30sp"
         android:textColor="@color/colorPrimary"

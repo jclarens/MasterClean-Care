@@ -124,6 +124,7 @@ public class OfferActivity extends ParentActivity {
         getSupportActionBar().setTitle("Penawaran Kerja");
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -181,6 +182,9 @@ public class OfferActivity extends ParentActivity {
                 bersedia.setVisibility(View.VISIBLE);
                 break;
             case 1:
+                bersedia.setVisibility(View.GONE);
+                break;
+            case 2:
                 bersedia.setVisibility(View.GONE);
                 break;
         }

@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterAsisten;
 import com.TA.MVP.appmobilemember.Model.Array.ArrayAgama;
+import com.TA.MVP.appmobilemember.Model.Array.ArrayGender;
 import com.TA.MVP.appmobilemember.Model.Basic.Language;
 import com.TA.MVP.appmobilemember.Model.Basic.StaticData;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
@@ -65,6 +66,7 @@ public class FragmentHome extends Fragment {
     private Intent filterresult;
     private StaticData staticData;
     private ArrayAgama arrayAgama = new ArrayAgama();
+    private ArrayGender arrayGender = new ArrayGender();
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
     private Integer currentpage = 1;
     private Integer lastpage = 1;
@@ -74,6 +76,7 @@ public class FragmentHome extends Fragment {
     Integer usiamax;
     Integer gaji;
     Integer kota;
+    Integer gender;
     View _view;
 
     @Override
@@ -137,8 +140,10 @@ public class FragmentHome extends Fragment {
         rec_Adapter = new RecyclerAdapterAsisten(getContext(), this);
         recyclerView.setAdapter(rec_Adapter);
 
-        if (filterresult == null)
+        if (filterresult == null) {
             SharedPref.save("searching", "");
+        }
+        else searchuser();
         if (SharedPref.getValueString("searching").equals("")) {
             getarts();
         }
@@ -155,6 +160,7 @@ public class FragmentHome extends Fragment {
             if (resultCode == Activity.RESULT_OK){
                 filterresult = data;
                 //search users
+                showloading();
                 searchuser();
             }
             if (resultCode == Activity.RESULT_CANCELED){
@@ -163,6 +169,7 @@ public class FragmentHome extends Fragment {
         }
     }
     public void searchuser(){
+//        showloading();
         stringtags = "";
         Map<String,String> map = new HashMap<>();
         if (!filterresult.getStringExtra("nama").equals("")) {
@@ -180,6 +187,10 @@ public class FragmentHome extends Fragment {
         if (filterresult.getStringExtra("agama") != null){
             map.put("religion", filterresult.getStringExtra("agama"));
             addtag("Agama:" + arrayAgama.getArrayList().get(Integer.valueOf(filterresult.getStringExtra("agama"))-1));
+        }
+        if (filterresult.getStringExtra("gender") != null){
+            map.put("gender", filterresult.getStringExtra("gender"));
+            addtag("Gender:" + arrayGender.getArrayList().get(Integer.valueOf(filterresult.getStringExtra("gender"))-1));
         }
         if (filterresult.getStringExtra("WT") != null){
             map.put("work_time", filterresult.getStringExtra("WT"));
@@ -215,18 +226,18 @@ public class FragmentHome extends Fragment {
             addtag("Gaji:" + setRP(gaji));
             map.put("maxCost",String.valueOf(gaji));
         }
-        swipeRefreshLayout.setRefreshing(true);
-        showloading();
+//        swipeRefreshLayout.setRefreshing(true);
+        map.put("page","1");
         Call<GetArtsResponse> caller = APIManager.getRepository(UserRepo.class).searcharts(map);
         caller.enqueue(new APICallback<GetArtsResponse>() {
             @Override
             public void onSuccess(Call<GetArtsResponse> call, Response<GetArtsResponse> response) {
                 super.onSuccess(call, response);
                 hidenoconnection();
-                currentpage = 1;
-                lastpage = 1;
-//                currentpage = response.body().getCurrent_page();
-//                lastpage = response.body().getLast_page();
+//                currentpage = 1;
+//                lastpage = 1;
+                currentpage = response.body().getCurrent_page();
+                lastpage = response.body().getLast_page();
                 if (response.body().getData().size() > 0){
                     rec_Adapter.setART(response.body().getData());
                     showlist();
@@ -237,6 +248,7 @@ public class FragmentHome extends Fragment {
                 tags.setText(stringtags);
                 if(!stringtags.equals(""))
                     layouttags.setVisibility(View.VISIBLE);
+
                 hideloading();
             }
             @Override
@@ -357,20 +369,25 @@ public class FragmentHome extends Fragment {
                 }
                 if (filterresult.getStringExtra("kota") != null){
                     map.put("city", filterresult.getStringExtra("kota"));
-                    addtag(staticData.getPlaces().get(kota-1).getName());
+                    addtag("Kota:" + staticData.getPlaces().get(Integer.valueOf(filterresult.getStringExtra("kota"))-1).getName());
                 }
                 if (filterresult.getStringExtra("agama") != null){
                     map.put("religion", filterresult.getStringExtra("agama"));
-                    addtag(arrayAgama.getArrayList().get(Integer.valueOf(filterresult.getStringExtra("agama"))-1));
+                    addtag("Agama:" + arrayAgama.getArrayList().get(Integer.valueOf(filterresult.getStringExtra("agama"))-1));
+                }
+                if (filterresult.getStringExtra("gender") != null){
+                    map.put("gender", filterresult.getStringExtra("gender"));
+                    addtag("Gender:" + arrayGender.getArrayList().get(Integer.valueOf(filterresult.getStringExtra("gender"))-1));
                 }
                 if (filterresult.getStringExtra("WT") != null){
                     map.put("work_time", filterresult.getStringExtra("WT"));
-                    addtag(staticData.getWaktu_kerjas().get(wkid-1).getWork_time());
+                    addtag("Waktu Kerja:" + staticData.getWaktu_kerjas().get(Integer.valueOf(filterresult.getStringExtra("WT"))-1).getWork_time());
                 }else wkid = null;
                 if (filterresult.getStringExtra("profesi") != null){
                     map.put("job", filterresult.getStringExtra("profesi"));
-                    addtag(staticData.getJobs().get(profesi-1).getJob());
-                }else profesi = null;
+                    addtag("Profesi:" + staticData.getJobs().get(Integer.valueOf(filterresult.getStringExtra("profesi"))-1).getJob());
+                }
+                else profesi = null;
                 languages = (List<Language>) GsonUtils.getObjectFromJson(filterresult.getStringExtra("listbahasa"), new TypeToken<List<Language>>(){}.getType());
                 if (languages.size() > 0){
                     String temp = "";
@@ -397,15 +414,15 @@ public class FragmentHome extends Fragment {
                     map.put("maxCost",String.valueOf(gaji));
                 }
                 swipeRefreshLayout.setRefreshing(true);
-//                map.put("page", String.valueOf(currentpage+1));
+                map.put("page", String.valueOf(currentpage+1));
                 Call<GetArtsResponse> caller = APIManager.getRepository(UserRepo.class).searcharts(map);
                 caller.enqueue(new APICallback<GetArtsResponse>() {
                     @Override
                     public void onSuccess(Call<GetArtsResponse> call, Response<GetArtsResponse> response) {
                         super.onSuccess(call, response);
                         rec_Adapter.addmore(response.body().getData());
-//                        currentpage = response.body().getCurrent_page();
-//                        lastpage = response.body().getLast_page();
+                        currentpage = response.body().getCurrent_page();
+                        lastpage = response.body().getLast_page();
                         swipeRefreshLayout.setRefreshing(false);
 
                         //tags

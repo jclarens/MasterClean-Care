@@ -278,31 +278,18 @@ public class FragmentPemesanan2 extends Fragment {
                         break;
                     case 2:
                         //Perawat Lansia
-                        rec_Adapter.setshowtask(2);
                         asistenrt = false;
-                        if (order.getWork_time_id().equals(1)) {
-                            rec_Adapter.addallshown();
-                        }
                         order.setJob_id(2);
                         break;
                     case 3:
                         //Babysitter
-                        rec_Adapter.setshowtask(3);
                         asistenrt = false;
-                        if (order.getWork_time_id().equals(1)){
-                            rec_Adapter.addallshown();
-                        }
                         order.setJob_id(3);
                         break;
                     case 4:
                         //Perawat Balita
 //                        rec_Adapter.setList(orderTasks);
-                        rec_Adapter.setshowtask(4);
                         asistenrt = false;
-                        if (estimasiwaktutext.getText().toString().equals("Jam")) {
-                            estimasi.setEnabled(true);
-                            rec_Adapter.addallshown();
-                        }
                         order.setJob_id(4);
                         break;
                 }

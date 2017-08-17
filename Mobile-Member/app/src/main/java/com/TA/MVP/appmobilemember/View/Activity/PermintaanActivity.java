@@ -45,9 +45,10 @@ public class PermintaanActivity extends ParentActivity{
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Penawaran");
+        getSupportActionBar().setTitle("Buat Penawaran");
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
 
         SharedPref.save(ConstClass.ART_EXTRA, GsonUtils.getJsonFromObject(art));
         SharedPref.save(ConstClass.ORDER_EXTRA, GsonUtils.getJsonFromObject(order));

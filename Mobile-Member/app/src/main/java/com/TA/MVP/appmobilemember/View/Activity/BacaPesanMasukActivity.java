@@ -30,7 +30,7 @@ import retrofit2.Response;
 
 public class BacaPesanMasukActivity extends ParentActivity {
     private EditText nama, sub, msg;
-    private Button kembali, hapus, balas;
+    private Button hapus, balas;
     private Toolbar toolbar;
     private MyMessage myMessage;
     @Override
@@ -43,7 +43,6 @@ public class BacaPesanMasukActivity extends ParentActivity {
         nama = (EditText) findViewById(R.id.bp_et_sender);
         sub = (EditText) findViewById(R.id.bp_et_subject);
         msg = (EditText) findViewById(R.id.bp_et_pesan);
-        kembali = (Button) findViewById(R.id.bp_btn_kembali);
         hapus = (Button) findViewById(R.id.bp_btn_hps);
         balas = (Button) findViewById(R.id.bp_btn_balas);
 
@@ -72,12 +71,6 @@ public class BacaPesanMasukActivity extends ParentActivity {
                 showalertdialog();
             }
         });
-        kembali.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
         balas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,6 +85,7 @@ public class BacaPesanMasukActivity extends ParentActivity {
         getSupportActionBar().setTitle(R.string.toolbar_pesan);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
     }
 
     @Override

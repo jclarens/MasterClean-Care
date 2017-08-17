@@ -87,7 +87,7 @@ public class RecyclerAdapterRiwayat extends RecyclerView.Adapter<RecyclerAdapter
                 holder.itemstatus.setText("Belum Selesai");
                 break;
         }
-        holder.itemnama.setText(orders.get(position).getArt().getName());
+        holder.itemnama.setText(orders.get(position).getMember().getName());
         holder.itemprofesi.setText(orders.get(position).getWork_time().getWork_time());
         try{
             holder.itemmulai.setText(costumedateformat(fixFormat.parse(orders.get(position).getStart_date())));

@@ -93,6 +93,7 @@ public class EditProfileActivity extends ParentActivity {
         try{
             alamat.setText(user.getContact().getAddress());
             notelp.setText(user.getContact().getPhone());
+//            if (user.getContact().getEmergency_numb() == "0812")
             notelp2.setText(user.getContact().getEmergency_numb());
         }
         catch (NullPointerException e){
@@ -124,7 +125,8 @@ public class EditProfileActivity extends ParentActivity {
                 .load(Settings.getRetrofitAPIUrl()+"image/small/"+user.getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
-                .transform(new RoundedTransformation(10, 0))
+                .fit().centerCrop()
+                .transform(new RoundedTransformation(1000, 0))
                 .into(imgfoto);
 
 
@@ -133,6 +135,7 @@ public class EditProfileActivity extends ParentActivity {
         getSupportActionBar().setTitle(R.string.toolbar_editprofile);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
     }
 
     @Override
@@ -191,7 +194,6 @@ public class EditProfileActivity extends ParentActivity {
                 super.onCreated(call, response);
                 newimage = response.body().getImage();
                 updateprofile();
-                dismissDialog();
             }
 
             @Override
@@ -240,13 +242,13 @@ public class EditProfileActivity extends ParentActivity {
         userContact.setAddress(alamat.getText().toString());
         userContact.setPhone(notelp.getText().toString());
         map.put("contact", userContact);
+        if (imagechanged){
+            map.put("avatar", newimage);
+        }
         user.setName(nama.getText().toString());
         user.getContact().setAddress(alamat.getText().toString());
         user.getContact().setPhone(notelp.getText().toString());
         user.getContact().setEmergency_numb(notelp2.getText().toString());
-        if (imagechanged){
-            map.put("avatar", newimage);
-        }
         SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(user));
 
 

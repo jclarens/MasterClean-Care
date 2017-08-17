@@ -91,6 +91,7 @@ public class EditPassActivity extends ParentActivity{
         getSupportActionBar().setTitle(R.string.toolbar_editpass);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
     }
 
     @Override

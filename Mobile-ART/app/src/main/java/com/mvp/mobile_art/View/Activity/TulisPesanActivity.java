@@ -81,28 +81,34 @@ public class TulisPesanActivity extends ParentActivity {
         kirim.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                abuildermessage("Kirim pesan?", "Pesan");
-                abuilder.setPositiveButton("Kirim", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        sendmessage();
-                    }
-                });
-                abuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                if (sub.getText().toString().equals("") || msg.getText().toString().equals("")){
+                    Toast.makeText(getApplicationContext(),"Pesan dan Subject Tidak boleh kosong",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    abuildermessage("Kirim pesan?", "Pesan");
+                    abuilder.setPositiveButton("Kirim", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            sendmessage();
+                        }
+                    });
+                    abuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
 
-                    }
-                });
-                showalertdialog();
+                        }
+                    });
+                    showalertdialog();
+                }
             }
         });
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.toolbar_pesan);
+        getSupportActionBar().setTitle("Kirim pesan");
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
     }
     public void sendmessage(){
         HashMap<String,String> map = new HashMap<>();

@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.Model.Basic.Offer;
 import com.TA.MVP.appmobilemember.Model.Basic.OfferArt;
+import com.TA.MVP.appmobilemember.Model.Basic.Order;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Responses.OfferResponse;
 import com.TA.MVP.appmobilemember.Model.Responses.OrderResponse;
@@ -30,9 +31,11 @@ import com.TA.MVP.appmobilemember.lib.utils.GsonUtils;
 
 import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -50,6 +53,12 @@ public class RecyclerAdapterListOfferArt extends RecyclerView.Adapter<RecyclerAd
     private Offer offer;
     private Context context;
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
+
+    private Calendar calendar = Calendar.getInstance();
+    private Calendar waktumulai = new GregorianCalendar();
+    private Calendar waktuselesai = new GregorianCalendar();
+    private Calendar batasmulai = new GregorianCalendar();
+    private Calendar batasselesai = new GregorianCalendar();
     public RecyclerAdapterListOfferArt(Offer offer, Context context){
         this.offer = offer;
         this.context = context;
@@ -89,14 +98,14 @@ public class RecyclerAdapterListOfferArt extends RecyclerView.Adapter<RecyclerAd
             terima.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ((PermintaanActiveActivity)context).abuildermessage("Terima art ini?", "Konfirmasi");
+                    final int position = getAdapterPosition();
+                    ((PermintaanActiveActivity)context).abuildermessage("Menerima " + offerArts.get(position).getArt().getName() +" untuk bekerja?", "Konfirmasi");
                     ((PermintaanActiveActivity)context).abuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            int position = getAdapterPosition();
 //                            postpemesanan(offerArts.get(position).getId(),offerArts.get(position).getArt_id());
                             offerArts.get(position).setStatus(1);
-                            confirmoffer();
+                            loaduser(offerArts.get(position).getArt().getId());
                         }
                     });
                     ((PermintaanActiveActivity)context).abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
@@ -132,6 +141,130 @@ public class RecyclerAdapterListOfferArt extends RecyclerView.Adapter<RecyclerAd
     public void setlistart(List<OfferArt> offerArts) {
         this.offerArts = offerArts;
         notifyDataSetChanged();
+    }
+    public String setRP(Integer number){
+        String tempp = "Rp. ";
+        tempp = tempp + numberFormat.format(number);
+        return tempp;
+    }
+    public void loaduser(final Integer id){
+        ((PermintaanActiveActivity)context).initProgressDialog("Pemesanan sedang diperoses");
+        ((PermintaanActiveActivity)context).showDialog();
+        Call<User> caller = APIManager.getRepository(UserRepo.class).getuser(offer.getMember_id().toString());
+        caller.enqueue(new APICallback<User>() {
+            @Override
+            public void onSuccess(Call<User> call, Response<User> response) {
+                super.onSuccess(call, response);
+                if (response.body().getUser_wallet().getAmt() >= offer.getCost()){
+                    getjadwal(id);
+                }else{
+                    ((PermintaanActiveActivity)context).dismissDialog();
+                    ((PermintaanActiveActivity)context).abuildermessage("Wallet anda tidak mencukupi untuk melakukan pemesanan\nWallet anda:" + setRP(response.body().getUser_wallet().getAmt()), "Pemberitahuan");
+                    ((PermintaanActiveActivity)context).abuilder.setPositiveButton("Top up", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent(context, WalletActivity.class);
+                            context.startActivity(intent);
+                        }
+                    });
+                    ((PermintaanActiveActivity)context).abuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+                    ((PermintaanActiveActivity)context).showalertdialog();
+                }
+            }
+
+            @Override
+            public void onError(Call<User> call, Response<User> response) {
+                super.onError(call, response);
+                ((PermintaanActiveActivity)context).dismissDialog();
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                super.onFailure(call, t);
+                ((PermintaanActiveActivity)context).dismissDialog();
+            }
+        });
+    }
+    public void getjadwal(Integer id){
+        Call<List<Order>> callerjadwal = APIManager.getRepository(OrderRepo.class).getordersByArtstatus( id , 1);
+        callerjadwal.enqueue(new APICallback<List<Order>>() {
+            @Override
+            public void onSuccess(Call<List<Order>> call, Response<List<Order>> response) {
+                super.onSuccess(call, response);
+                //check jadwal bentrok
+                if (validasijadwal(response.body())){
+                    confirmoffer();
+                }
+                else {
+                    ((PermintaanActiveActivity) context).dismissDialog();
+                    Toast.makeText(context, "Asisten sudah tidak dapat menerima pemesanan pada jam ini.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<Order>> call, Throwable t) {
+                super.onFailure(call, t);
+                ((PermintaanActiveActivity)context).dismissDialog();
+                Toast.makeText(context, "Koneksi bermasalah silahkan coba lagi", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+    }
+    public boolean validasijadwal(List<Order> orders){
+        try {
+            waktumulai.setTime(fixFormat.parse(offer.getStart_date()));
+            waktuselesai.setTime(fixFormat.parse(offer.getEnd_date()));
+        } catch (ParseException e) {
+//            e.printStackTrace();
+        }
+        for (int n=0;n<orders.size();n++){
+            try {
+                batasmulai.setTime(fixFormat.parse(orders.get(n).getStart_date()));
+                batasselesai.setTime(fixFormat.parse(orders.get(n).getEnd_date()));
+                batasmulai.add(Calendar.HOUR_OF_DAY, -1);
+                batasselesai.add(Calendar.HOUR_OF_DAY, 1);
+            } catch (ParseException e) {
+//                e.printStackTrace();
+            }
+            if (waktumulai.after(batasmulai) && waktumulai.before(batasselesai))
+                return false;
+            if (waktuselesai.after(batasmulai) && waktuselesai.before(batasselesai))
+                return false;
+        }
+        return true;
+    }
+    public void confirmoffer(){
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("status", 1);
+        map.put("offer_art", offerArts);
+        Call<OfferResponse> caller = APIManager.getRepository(OfferRepo.class).patchoffer(offer.getId(), map);
+        caller.enqueue(new APICallback<OfferResponse>() {
+            @Override
+            public void onSuccess(Call<OfferResponse> call, Response<OfferResponse> response) {
+                super.onSuccess(call, response);
+                ((PermintaanActiveActivity)context).dismissDialog();
+                ((PermintaanActiveActivity)context).abuildermessage("Penawaran ini sudah menjadi pemesanan aktif. silahkan lihat info lengkap pada menu Pemesanan.", "Pemberitahuan");
+                ((PermintaanActiveActivity)context).abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        ((PermintaanActiveActivity)context).finish();
+                    }
+                });
+                ((PermintaanActiveActivity)context).showalertdialog();
+            }
+
+            @Override
+            public void onFailure(Call<OfferResponse> call, Throwable t) {
+                super.onFailure(call, t);
+                ((PermintaanActiveActivity)context).dismissDialog();
+                Toast.makeText(context,"Koneksi bermasalah.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 //    public void postpemesanan(final Integer offerartid, Integer artid){
 //        ((PermintaanActiveActivity)context).initProgressDialog("Pemesanan sedang diperoses");
@@ -170,34 +303,6 @@ public class RecyclerAdapterListOfferArt extends RecyclerView.Adapter<RecyclerAd
 //            }
 //        });
 //    }
-    public void confirmoffer(){
-        HashMap<String,Object> map = new HashMap<>();
-        map.put("status", 1);
-        map.put("offer_art", offerArts);
-        Call<OfferResponse> caller = APIManager.getRepository(OfferRepo.class).patchoffer(offer.getId(), map);
-        caller.enqueue(new APICallback<OfferResponse>() {
-            @Override
-            public void onSuccess(Call<OfferResponse> call, Response<OfferResponse> response) {
-                super.onSuccess(call, response);
-                ((PermintaanActiveActivity)context).dismissDialog();
-                ((PermintaanActiveActivity)context).abuildermessage("Penawaran ini sudah menjadi pemesanan aktif. silahkan lihat info lengkap pada menu Pemesanan.", "Pemberitahuan");
-                ((PermintaanActiveActivity)context).abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        ((PermintaanActiveActivity)context).finish();
-                    }
-                });
-                ((PermintaanActiveActivity)context).showalertdialog();
-            }
-
-            @Override
-            public void onFailure(Call<OfferResponse> call, Throwable t) {
-                super.onFailure(call, t);
-                ((PermintaanActiveActivity)context).dismissDialog();
-                Toast.makeText(context,"Koneksi bermasalah.", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 //    public void gantistatusart(Integer offerartid){
 //        HashMap<String,Object> map = new HashMap<>();
 ////        map.put("offer_id", offer.getId().toString());
@@ -221,52 +326,4 @@ public class RecyclerAdapterListOfferArt extends RecyclerView.Adapter<RecyclerAd
 //        });
 //    }
 
-    public void loaduser(){
-        ((PermintaanActiveActivity)context).initProgressDialog("Pemesanan sedang diperoses");
-        ((PermintaanActiveActivity)context).showDialog();
-        Call<User> caller = APIManager.getRepository(UserRepo.class).getuser(offer.getMember_id().toString());
-        caller.enqueue(new APICallback<User>() {
-            @Override
-            public void onSuccess(Call<User> call, Response<User> response) {
-                super.onSuccess(call, response);
-                if (response.body().getUser_wallet().getAmt() >= offer.getCost()){
-                    confirmoffer();
-                }else{
-                    ((PermintaanActiveActivity)context).dismissDialog();
-                    ((PermintaanActiveActivity)context).abuildermessage("Wallet anda tidak mencukupi untuk melakukan pemesanan\nWallet anda:" + setRP(response.body().getUser_wallet().getAmt()), "Pemberitahuan");
-                    ((PermintaanActiveActivity)context).abuilder.setPositiveButton("Top up", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            Intent intent = new Intent(context, WalletActivity.class);
-                            context.startActivity(intent);
-                        }
-                    });
-                    ((PermintaanActiveActivity)context).abuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-
-                        }
-                    });
-                    ((PermintaanActiveActivity)context).showalertdialog();
-                }
-            }
-
-            @Override
-            public void onError(Call<User> call, Response<User> response) {
-                super.onError(call, response);
-                ((PermintaanActiveActivity)context).dismissDialog();
-            }
-
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                super.onFailure(call, t);
-                ((PermintaanActiveActivity)context).dismissDialog();
-            }
-        });
-    }
-    public String setRP(Integer number){
-        String tempp = "Rp. ";
-        tempp = tempp + numberFormat.format(number);
-        return tempp;
-    }
 }

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -27,6 +28,7 @@ import com.mvp.mobile_art.Model.Basic.StaticData;
 import com.mvp.mobile_art.Model.Basic.User;
 import com.mvp.mobile_art.Model.Responses.UserResponse;
 import com.mvp.mobile_art.R;
+import com.mvp.mobile_art.RoundedTransformation;
 import com.mvp.mobile_art.Route.Repositories.OrderRepo;
 import com.mvp.mobile_art.Route.Repositories.UserRepo;
 import com.mvp.mobile_art.lib.api.APICallback;
@@ -64,7 +66,8 @@ public class ProfileActivity extends ParentActivity {
     private Toolbar toolbar;
     private ImageView image;
     private RatingBar ratingBar;
-    private TextView nama, telp, usia, agama, suku, kota, profesi, bahasa;
+    private TextView nama, telp, usia, agama, suku, kota, profesi, bahasa, nominal, norek;
+    private Button btnlog, tarik;
     private EditText keterangan;
     private Switch aSwitch;
     private User user = new User();
@@ -96,6 +99,10 @@ public class ProfileActivity extends ParentActivity {
         profesi = (TextView) findViewById(R.id.prof);
         bahasa = (TextView) findViewById(R.id.bahasa);
         aSwitch  = (Switch) findViewById(R.id.prof_switch);
+        nominal = (TextView) findViewById(R.id.prof_tv_nominal);
+        norek = (TextView) findViewById(R.id.norek);
+        btnlog =(Button) findViewById(R.id.prof_btn_isi);
+        tarik =(Button) findViewById(R.id.prof_btn_tarik);
 
 
         recyclerView = (RecyclerView) findViewById(R.id.recycleview_review);
@@ -111,6 +118,7 @@ public class ProfileActivity extends ParentActivity {
         getSupportActionBar().setTitle(R.string.toolbar_profile);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
     }
 
     @Override
@@ -149,6 +157,8 @@ public class ProfileActivity extends ParentActivity {
         agama.setText(arrayAgama.getArrayList().get(user.getReligion()-1));
         suku.setText(user.getRace());
         kota.setText(staticData.getPlaces().get(user.getContact().getCity()-1).getName());
+        if (user.getContact().getAcc_no() != null)
+            norek.setText(user.getContact().getAcc_no());
         String temp = "";
         for(int n=0;n<user.getUser_job().size();n++){
             if (n != 0)
@@ -173,6 +183,13 @@ public class ProfileActivity extends ParentActivity {
                 aSwitch.setText("Aktif");
                 aSwitch.setChecked(true);
                 break;
+        }
+
+        try{
+            nominal.setText(setRP(user.getUser_wallet().getAmt()));
+        }
+        catch (NullPointerException e){
+            nominal.setText("Rp. 0.00");
         }
 
         changelistener = new CompoundButton.OnCheckedChangeListener() {
@@ -216,11 +233,28 @@ public class ProfileActivity extends ParentActivity {
         };
         aSwitch.setOnCheckedChangeListener(changelistener);
 
+        btnlog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), LogWalletActivity.class);
+                startActivity(i);
+            }
+        });
+        tarik.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(), PencairanActivity.class);
+                startActivity(i);
+            }
+        });
+
 //        Log.d("Image path ", Settings.getRetrofitAPIUrl()+"image/"+user.getAvatar());
         Picasso.with(getApplicationContext())
                 .load(Settings.getRetrofitAPIUrl()+"image/small/"+user.getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
+                .fit().centerCrop()
+                .transform(new RoundedTransformation(1000, 0))
                 .into(image);
     }
     public void gantistatus(final Integer integer){
@@ -348,5 +382,42 @@ public class ProfileActivity extends ParentActivity {
                 dismissDialog();
             }
         });
+    }
+    public void getuser(final Integer id){
+        initProgressDialog("Memuat...");
+        showDialog();
+        Call<User> caller = APIManager.getRepository(UserRepo.class).getuser(id.toString());
+        caller.enqueue(new APICallback<User>() {
+            @Override
+            public void onSuccess(Call<User> call, Response<User> response) {
+                super.onSuccess(call, response);
+                openmemberactivity(response.body());
+                dismissDialog();
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                super.onFailure(call, t);
+                dismissDialog();
+                abuildermessage("Koneksi bermasalah. Coba lagi?","Pemberitahuan");
+                abuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        getuser(id);
+                    }
+                });
+                abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+            }
+        });
+    }
+    public void openmemberactivity(User member){
+        Intent i = new Intent(getApplicationContext(), MemberActivity.class);
+        i.putExtra(ConstClass.MEMBER_EXTRA, GsonUtils.getJsonFromObject(member));
+        startActivity(i);
     }
 }
