@@ -9,6 +9,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -98,14 +99,6 @@ public class FragmentPekerjaan extends Fragment implements OnMapReadyCallback {
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
         defaultwk = ((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getWaktu_kerjas();
 
-        if (getContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            location = getLastKnownLocation();
-        }
-        else{
-            String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
-            requestPermissions(permissions, PERMS_REQUEST_CODE);
-        }
-
         imgcari = (ImageButton) _view.findViewById(R.id.carimap_icon_cari);
         namalokasi = (EditText) _view.findViewById(R.id.carimap_et_carilokasi);
 
@@ -158,19 +151,24 @@ public class FragmentPekerjaan extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        boolean allowed = true;
         switch (requestCode){
             case PERMS_REQUEST_CODE:
-                for (int res : grantResults){
-                    allowed = allowed && (res == PackageManager.PERMISSION_GRANTED);
+                if (ActivityCompat.checkSelfPermission(getActivity(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    location = getLastKnownLocation();
+                    mGoogleMap.setMyLocationEnabled(true);
+                    mGoogleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+                        @Override
+                        public boolean onMyLocationButtonClick() {
+                            return false;
+                        }
+                    });
+                }else{
+
                 }
                 break;
             default:
-                allowed = false;
                 break;
         }
-        if (allowed)
-            location = getLastKnownLocation();
 
     }
 
@@ -192,6 +190,7 @@ public class FragmentPekerjaan extends Fragment implements OnMapReadyCallback {
         mGoogleMap = googleMap;
         mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         if (getContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            location = getLastKnownLocation();
             mGoogleMap.setMyLocationEnabled(true);
             mGoogleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
                 @Override

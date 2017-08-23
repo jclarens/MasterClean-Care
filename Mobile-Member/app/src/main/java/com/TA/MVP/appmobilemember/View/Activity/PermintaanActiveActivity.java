@@ -180,6 +180,22 @@ public class PermintaanActiveActivity extends ParentActivity {
                 tugastext.setVisibility(View.GONE);
                 break;
         }
+        switch (offer.getJob_id()){
+            case 1:
+                break;
+            case 2:
+                recyclerView.setVisibility(View.GONE);
+                tugastext.setVisibility(View.GONE);
+                break;
+            case 3:
+                recyclerView.setVisibility(View.GONE);
+                tugastext.setVisibility(View.GONE);
+                break;
+            case 4:
+                recyclerView.setVisibility(View.GONE);
+                tugastext.setVisibility(View.GONE);
+                break;
+        }
 
         kembali.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -250,7 +266,7 @@ public class PermintaanActiveActivity extends ParentActivity {
     }
     public String setRP(Integer number){
         String tempp = "Rp. ";
-        tempp = tempp + numberFormat.format(number) + ".00";
+        tempp = tempp + numberFormat.format(number);
         return tempp;
     }
     public void getarts(){
@@ -263,6 +279,7 @@ public class PermintaanActiveActivity extends ParentActivity {
                 if (response.body().size() == 0){
                     recyclerViewart.setVisibility(View.GONE);
                 }else penerima.setVisibility(View.GONE);
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
@@ -290,6 +307,7 @@ public class PermintaanActiveActivity extends ParentActivity {
             public void onSuccess(Call<OfferResponse> call, Response<OfferResponse> response) {
                 super.onSuccess(call, response);
                 dismissDialog();
+                Toast.makeText(getApplicationContext(),"Penawaran dibatalkan.", Toast.LENGTH_SHORT).show();
                 finish();
             }
 
@@ -297,12 +315,14 @@ public class PermintaanActiveActivity extends ParentActivity {
             public void onNotFound(Call<OfferResponse> call, Response<OfferResponse> response) {
                 super.onNotFound(call, response);
                 dismissDialog();
+                Toast.makeText(getApplicationContext(),"Terjadi kesalahan", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call<OfferResponse> call, Throwable t) {
                 super.onFailure(call, t);
                 dismissDialog();
+                Toast.makeText(getApplicationContext(),"Koneksi bermasalah", Toast.LENGTH_SHORT).show();
             }
         });
     }

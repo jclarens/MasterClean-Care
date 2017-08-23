@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterLogWallet;
@@ -101,11 +102,14 @@ public class LogWalletActivity extends ParentActivity {
                     showlist();
                     rec_Adapter.setLogWallets(walletTransactions);
                 }
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onFailure(Call<List<WalletTransaction>> call, Throwable t) {
                 super.onFailure(call, t);
+                swipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(getApplicationContext(),"Koneksi bermasalah harap coba lagi", Toast.LENGTH_SHORT).show();
             }
         });
     }

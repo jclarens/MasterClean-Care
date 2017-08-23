@@ -19,7 +19,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/app_name"
                 android:textAlignment="center"
-                android:textColor="@android:color/black"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
@@ -37,6 +37,13 @@
                 android:textColor="@android:color/black"
                 android:textSize="18sp" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:textColor="@color/colorPrimary"
+                android:text="Nama"/>
             <EditText
                 android:id="@+id/reg_et_nama"
                 android:layout_width="match_parent"
@@ -46,11 +53,17 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:ems="10"
-                android:hint="@string/nama"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/backgroundedittext"
                 android:inputType="textPersonName" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:textColor="@color/colorPrimary"
+                android:text="Email"/>
             <EditText
                 android:id="@+id/reg_et_email"
                 android:layout_width="match_parent"
@@ -60,11 +73,17 @@
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:ems="10"
-                android:hint="@string/email"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/backgroundedittext"
                 android:inputType="textEmailAddress" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:textColor="@color/colorPrimary"
+                android:text="Kata sandi"/>
             <EditText
                 android:id="@+id/reg_et_katasandi"
                 android:layout_width="match_parent"
@@ -77,9 +96,15 @@
                 android:ems="10"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/backgroundedittext"
-                android:hint="@string/katasandi"
                 android:inputType="textPassword" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:textColor="@color/colorPrimary"
+                android:text="Konfirmasi kata sandi"/>
             <EditText
                 android:id="@+id/reg_et_konfkatasandi"
                 android:layout_width="match_parent"
@@ -92,19 +117,22 @@
                 android:ems="10"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/backgroundedittext"
-                android:hint="@string/konfkatasandi"
                 android:inputType="textPassword" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:textColor="@color/colorPrimary"
+                android:text="Kota kelahiran"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
                 android:layout_marginEnd="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
                 android:layout_marginStart="15dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/backgroundlightgray">
                 <Spinner
                     android:id="@+id/reg_spinner_kotakelahiran"
@@ -112,30 +140,42 @@
                     android:layout_height="40dp" />
             </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:textColor="@color/colorPrimary"
+                android:text="Tanggal kelahiran"/>
             <EditText
                 android:id="@+id/reg_et_tgl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="5dp"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:ems="10"
                 android:inputType="date"
-                android:hint="Tanggal Lahir"
                 android:focusable="false"
-                android:layout_marginBottom="5dp"
                 android:background="@drawable/backgroundedittext"
                 android:textColor="@color/colorBlack"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:textColor="@color/colorPrimary"
+                android:text="Gender"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_marginEnd="15dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
                 android:layout_marginStart="15dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/backgroundlightgray">
                 <Spinner
                     android:id="@+id/reg_spinner_gender"
@@ -143,6 +183,13 @@
                     android:layout_height="40dp" />
             </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:textColor="@color/colorPrimary"
+                android:text="Agama"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -158,6 +205,13 @@
                     android:layout_height="40dp" />
             </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:textColor="@color/colorPrimary"
+                android:text="No. Telepon"/>
             <EditText
                 android:id="@+id/reg_et_notelp"
                 android:layout_width="match_parent"
@@ -167,16 +221,21 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
                 android:ems="10"
-                android:hint="@string/notelp"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/backgroundedittext"
                 android:inputType="phone" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:textColor="@color/colorPrimary"
+                android:text="Kota sekarang"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginEnd="15dp"
                 android:layout_marginLeft="15dp"
@@ -189,6 +248,13 @@
                     android:layout_height="40dp" />
             </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:textColor="@color/colorPrimary"
+                android:text="Alamat"/>
             <EditText
                 android:id="@+id/reg_et_alamat"
                 android:layout_width="match_parent"
@@ -198,7 +264,6 @@
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
                 android:ems="10"
-                android:hint="@string/alamat"
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/backgroundedittext"
                 android:inputType="textPersonName" />

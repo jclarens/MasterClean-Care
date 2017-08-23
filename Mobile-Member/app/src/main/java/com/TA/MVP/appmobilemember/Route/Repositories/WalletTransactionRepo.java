@@ -3,9 +3,12 @@ package com.TA.MVP.appmobilemember.Route.Repositories;
 import com.TA.MVP.appmobilemember.Model.Responses.UploadResponse;
 import com.TA.MVP.appmobilemember.Model.Responses.WalletTransactionResponse;
 
+import java.util.HashMap;
+
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Headers;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -17,8 +20,8 @@ import retrofit2.http.Part;
 
 public interface WalletTransactionRepo {
     @Headers("Accept: application/json")
-    @POST("api/")
-    Call<WalletTransactionResponse> getwallettransaction();
+    @POST("api/wallet_transaction/")
+    Call<WalletTransactionResponse> postwallettransaction(@Body HashMap map);
 
     @Multipart
     @POST("api/wallet_transaction/image")

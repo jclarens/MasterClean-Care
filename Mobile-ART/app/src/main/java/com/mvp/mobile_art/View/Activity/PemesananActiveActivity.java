@@ -129,7 +129,6 @@ public class PemesananActiveActivity extends ParentActivity {
                 reload();
             }
         });
-        reload();
     }
     public void loadtampilan(){
         try{
@@ -155,6 +154,15 @@ public class PemesananActiveActivity extends ParentActivity {
         recyclerView.setAdapter(rec_Adapter);
         rec_Adapter.setDefaulttask(staticData.getMyTasks());
         rec_Adapter.setList(order.getOrder_task_list());
+
+        if (order.getStatus() == 1){
+            checkselesai();
+            checksedangberlangsung();
+        }
+        else if (order.getStatus() == 0){
+            checkexpired();
+        }
+
         switch (order.getWork_time_id()){
             case 1:
 //                estimasitext.setText("Jam");
@@ -168,6 +176,22 @@ public class PemesananActiveActivity extends ParentActivity {
                 break;
             case 3:
 //                estimasitext.setText("Bulan");
+                recyclerView.setVisibility(View.GONE);
+                tugastext.setVisibility(View.GONE);
+                break;
+        }
+        switch (order.getJob_id()){
+            case 1:
+                break;
+            case 2:
+                recyclerView.setVisibility(View.GONE);
+                tugastext.setVisibility(View.GONE);
+                break;
+            case 3:
+                recyclerView.setVisibility(View.GONE);
+                tugastext.setVisibility(View.GONE);
+                break;
+            case 4:
                 recyclerView.setVisibility(View.GONE);
                 tugastext.setVisibility(View.GONE);
                 break;
@@ -297,13 +321,6 @@ public class PemesananActiveActivity extends ParentActivity {
                 startActivity(intent);
             }
         });
-        if (order.getStatus() == 1){
-            checkselesai();
-            checksedangberlangsung();
-        }
-        else if (order.getStatus() == 0){
-            checkexpired();
-        }
     }
 
     @Override
@@ -317,7 +334,7 @@ public class PemesananActiveActivity extends ParentActivity {
     }
     public String setRP(Integer number){
         String tempp = "Rp. ";
-        tempp = tempp + numberFormat.format(number) + ".00";
+        tempp = tempp + numberFormat.format(number);
         return tempp;
     }
     public void terimaorder(final Integer id){
@@ -495,6 +512,7 @@ public class PemesananActiveActivity extends ParentActivity {
             if (order.getStatus_art().equals(1)) {
                 rec_Adapter.setStatus(false);
                 btnextra.setEnabled(false);
+                btnextra.setVisibility(View.GONE);
             }
             else {
                 rec_Adapter.setStatus(true);
@@ -622,6 +640,7 @@ public class PemesananActiveActivity extends ParentActivity {
             public void onSuccess(Call<User> call, Response<User> response) {
                 super.onSuccess(call, response);
                 loadmini(response.body());
+                reload();
                 dismissDialog();
             }
 

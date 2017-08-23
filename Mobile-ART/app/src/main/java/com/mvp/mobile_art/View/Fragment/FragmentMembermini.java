@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mvp.mobile_art.Model.Array.ArrayAgama;
 import com.mvp.mobile_art.Model.Basic.User;
 import com.mvp.mobile_art.R;
 import com.mvp.mobile_art.RoundedTransformation;
@@ -24,10 +25,11 @@ import com.squareup.picasso.Picasso;
  */
 
 public class FragmentMembermini extends Fragment {
-    private TextView nama,telp;
+    private TextView nama,telp,agama;
     private Button btn_moreinfo;
     private ImageView imageView;
     private User member;
+    private ArrayAgama arrayAgama = new ArrayAgama();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,11 +38,13 @@ public class FragmentMembermini extends Fragment {
 
         nama = (TextView) _view.findViewById(R.id.nama);
         telp = (TextView) _view.findViewById(R.id.telp);
+        agama = (TextView) _view.findViewById(R.id.agama);
         imageView = (ImageView) _view.findViewById(R.id.img);
         btn_moreinfo = (Button) _view.findViewById(R.id.btninfo);
 
         nama.setText(member.getName());
         telp.setText(member.getContact().getPhone());
+        agama.setText(arrayAgama.getArrayList().get(member.getReligion()-1));
 
         Picasso.with(getContext())
                 .load(Settings.getRetrofitAPIUrl()+"image/small/"+member.getAvatar())

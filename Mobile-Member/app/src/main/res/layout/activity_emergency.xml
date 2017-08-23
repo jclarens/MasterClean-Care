@@ -74,7 +74,7 @@
         android:layout_marginTop="20dp"
         android:text="@string/tutup"
         android:textAllCaps="false"
-        android:textSize="18dp"
+        android:textColor="@color/buttontext"
         android:background="@drawable/buttonshape"
         />
 </LinearLayout>

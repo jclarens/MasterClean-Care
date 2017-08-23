@@ -31,7 +31,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Bekerja sebagai :"
-                        android:textColor="@color/colorBlack" />
+                        android:textColor="@color/colorPrimary" />
                     <EditText
                         android:id="@+id/profesi"
                         android:layout_width="match_parent"
@@ -50,7 +50,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Type waktu :"
-                        android:textColor="@color/colorBlack" />
+                        android:textColor="@color/colorPrimary" />
                     <EditText
                         android:id="@+id/worktime"
                         android:layout_width="match_parent"
@@ -66,7 +66,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:text="Tugas :"
-                    android:textColor="@color/colorBlack"/>
+                    android:textColor="@color/colorPrimary"/>
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/pmsa_rec_listkerja"
                     android:layout_width="match_parent"
@@ -81,21 +81,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Alamat Pemesanan :"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/colorPrimary" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:layout_weight="1">
                         <EditText
                             android:id="@+id/pmsa_et_alamat"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_marginEnd="5dp"
+                            android:minLines="2"
+                            android:maxLines="4"
                             android:enabled="false"
                             android:focusable="false"
                             android:textColor="@color/colorBlack"
@@ -118,7 +120,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Catatan :"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/colorPrimary" />
                 <EditText
                     android:id="@+id/pmsa_et_catatan"
                     android:layout_width="match_parent"
@@ -134,7 +136,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/mulai"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/colorPrimary" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -171,7 +173,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/selesai"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/colorPrimary" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -209,7 +211,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/total"
                     android:textAlignment="center"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/colorPrimary" />
                 <EditText
                     android:id="@+id/pmsa_et_total"
                     android:layout_width="match_parent"
@@ -234,8 +236,7 @@
                         android:text="@string/btn_btlkn"
                         tools:ignore="ButtonStyle"
                         android:textAllCaps="false"
-                        android:textColor="#000000"
-                        android:textSize="14dp"
+                        android:textColor="@color/buttontext"
                         android:background="@drawable/buttonshape"
                         />
                     <Button
@@ -246,8 +247,7 @@
                         android:text="@string/btn_kmbl"
                         tools:ignore="ButtonStyle"
                         android:textAllCaps="false"
-                        android:textColor="#000000"
-                        android:textSize="14dp"
+                        android:textColor="@color/buttontext"
                         android:background="@drawable/buttonshape"
                         />
                 </LinearLayout>

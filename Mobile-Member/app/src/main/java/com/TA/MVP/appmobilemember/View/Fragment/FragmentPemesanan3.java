@@ -183,7 +183,7 @@ public class FragmentPemesanan3 extends Fragment {
     }
     public String setRP(Integer number){
         String tempp = "Rp. ";
-        tempp = tempp + numberFormat.format(number) + ".00";
+        tempp = tempp + numberFormat.format(number);
         return tempp;
     }
     public boolean validasijadwal(List<Order> orders){
@@ -245,9 +245,9 @@ public class FragmentPemesanan3 extends Fragment {
         map.put("start_date", order.getStart_date());
         map.put("end_date", order.getEnd_date());
         map.put("remark", order.getRemark());
-        map.put("status", "0");
-        map.put("status_member", "0");
-        map.put("status_art", "0");
+        map.put("status", 0);
+        map.put("status_member", 0);
+        map.put("status_art", 0);
         map.put("contact", order.getContact());
         map.put("created_at", fixFormat.format(calendar.getTime()));
         map.put("orderTaskList", order.getOrder_task_list());
@@ -261,6 +261,12 @@ public class FragmentPemesanan3 extends Fragment {
                 ((PemesananActivity)getActivity()).abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        getActivity().finish();
+                    }
+                });
+                ((PemesananActivity)getActivity()).abuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
                         getActivity().finish();
                     }
                 });

@@ -111,6 +111,8 @@ public class TulisPesanActivity extends ParentActivity {
         toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));
     }
     public void sendmessage(){
+        initProgressDialog("Mengirim pesan.");
+        showDialog();
         HashMap<String,String> map = new HashMap<>();
         map.put("sender_id", user.getId().toString());
         map.put("receiver_id", targetid.toString());
@@ -118,22 +120,22 @@ public class TulisPesanActivity extends ParentActivity {
         map.put("message", msg.getText().toString());
         map.put("status_member", "0");
         map.put("status_art", "1");
-//        calendar = Calendar.getInstance();
-//        calendar.add(Calendar.HOUR_OF_DAY, -5); // beda waktu
-//        map.put("created_at", fixFormat.format(calendar.getTime()));
         Log.d("testing", map.toString());
         Call<MyMessageResponse> caller = APIManager.getRepository(MessageRepo.class).postmessage(map);
         caller.enqueue(new APICallback<MyMessageResponse>() {
             @Override
             public void onSuccess(Call<MyMessageResponse> call, Response<MyMessageResponse> response) {
                 super.onSuccess(call, response);
-                Log.d("response on success", GsonUtils.getJsonFromObject(response.body()));
+                dismissDialog();
+                Toast.makeText(getApplicationContext(),"Pesan terkirim", Toast.LENGTH_SHORT).show();
                 finish();
             }
 
             @Override
             public void onFailure(Call<MyMessageResponse> call, Throwable t) {
                 super.onFailure(call, t);
+                Toast.makeText(getApplicationContext(),"Koneksi bermasalah", Toast.LENGTH_SHORT).show();
+                dismissDialog();
             }
         });
     }

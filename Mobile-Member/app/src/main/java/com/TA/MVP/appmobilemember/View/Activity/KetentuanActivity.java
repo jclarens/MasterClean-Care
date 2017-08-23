@@ -25,7 +25,7 @@ public class KetentuanActivity extends ParentActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(R.string.ketentuan);
+        getSupportActionBar().setTitle("Syarat dan Ketentuan");
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.setTitleTextColor(getResources().getColor(R.color.toolbartitle));

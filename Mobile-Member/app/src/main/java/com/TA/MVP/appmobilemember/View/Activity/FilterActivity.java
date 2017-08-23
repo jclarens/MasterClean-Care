@@ -83,8 +83,18 @@ public class FilterActivity extends ParentActivity{
                 if (spinnerwaktukrj.getSelectedItemPosition() != 0)
                     i.putExtra("WT", String.valueOf(spinnerwaktukrj.getSelectedItemPosition()));
                 i.putExtra("gaji", Integer.valueOf(gaji.getText().toString().replace("Rp. ","").replace(",","")));
-                i.putExtra("usiamin", usiamin.getText().toString());
-                i.putExtra("usiamax", usiamax.getText().toString());
+                if (Integer.valueOf(usiamin.getText().toString()) < 20)
+                    i.putExtra("usiamin", "20");
+                else if (Integer.valueOf(usiamin.getText().toString()) > 70)
+                    i.putExtra("usiamin", "70");
+                else
+                    i.putExtra("usiamin", usiamin.getText().toString());
+                if (Integer.valueOf(usiamax.getText().toString()) < 20)
+                    i.putExtra("usiamax", "20");
+                else if (Integer.valueOf(usiamax.getText().toString()) > 70)
+                    i.putExtra("usiamax", "70");
+                else
+                    i.putExtra("usiamax", usiamax.getText().toString());
                 i.putExtra("listbahasa", GsonUtils.getJsonFromObject(rec_Adapter.getselectedlist()));
                 setResult(Activity.RESULT_OK, i);
                 finish();

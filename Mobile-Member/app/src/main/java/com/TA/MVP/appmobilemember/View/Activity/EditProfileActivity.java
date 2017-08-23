@@ -14,12 +14,16 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.CropSquareTransformation;
+import com.TA.MVP.appmobilemember.MasterCleanApplication;
+import com.TA.MVP.appmobilemember.Model.Basic.Place;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Basic.UserContact;
 import com.TA.MVP.appmobilemember.Model.Responses.UploadResponse;
@@ -41,6 +45,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.util.List;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -65,11 +70,15 @@ public class EditProfileActivity extends ParentActivity {
     private String selectedimagepath;
     private boolean imagechanged = false;
     private String newimage;
+    private ArrayAdapter arrayAdapterkota;
+    private Spinner kota;
+    private List<Place> places;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editprofile);
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
+        places = ((MasterCleanApplication)getApplication()).getGlobalStaticData().getPlaces();
 
         imgfoto = (ImageView) findViewById(R.id.eprof_iv_foto);
         nama = (EditText) findViewById(R.id.eprof_et_nama);
@@ -78,6 +87,7 @@ public class EditProfileActivity extends ParentActivity {
         notelp2 = (EditText) findViewById(R.id.eprof_et_notelp2);
         btnsimpan = (Button) findViewById(R.id.eprof_btn_simpan);
         btnbatal = (Button) findViewById(R.id.eprof_btn_batal);
+        kota = (Spinner) findViewById(R.id.eprof_spinner_kota);
 
         final Activity activity = this;
         imgfoto.setOnClickListener(new View.OnClickListener() {
@@ -89,12 +99,18 @@ public class EditProfileActivity extends ParentActivity {
             }
         });
 
+        arrayAdapterkota = new ArrayAdapter(getApplicationContext(), R.layout.spinner_item, places);
+        kota.setAdapter(arrayAdapterkota);
+        kota.setSelection(user.getContact().getCity()-1);
+
         nama.setText(user.getName());
         try{
             alamat.setText(user.getContact().getAddress());
             notelp.setText(user.getContact().getPhone());
-//            if (user.getContact().getEmergency_numb() == "0812")
-            notelp2.setText(user.getContact().getEmergency_numb());
+            if (user.getContact().getEmergency_numb().equals("082168360303"))
+                notelp2.setText("");
+            else
+                notelp2.setText(user.getContact().getEmergency_numb());
         }
         catch (NullPointerException e){
             alamat.setText("-");
@@ -105,12 +121,16 @@ public class EditProfileActivity extends ParentActivity {
         btnsimpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                initProgressDialog("Sedang Memperoses ...");
-                showDialog();
-                if (imagechanged){
-                    upload(selectedimagepath);
+                if (nama.getText().toString().equals("") || alamat.getText().toString().equals("") || notelp.getText().toString().equals("")){
+                    Toast.makeText(getApplicationContext(),"Data tidak boleh kosong", Toast.LENGTH_SHORT).show();
+                }else {
+                    initProgressDialog("Sedang Memperoses ...");
+                    showDialog();
+                    if (imagechanged){
+                        upload(selectedimagepath);
+                    }
+                    else updateprofile();
                 }
-                else updateprofile();
             }
         });
 
@@ -239,8 +259,13 @@ public class EditProfileActivity extends ParentActivity {
         HashMap<String, Object> map = new HashMap<>();
         map.put("name", nama.getText().toString());
         UserContact userContact = user.getContact();
+        userContact.setCity((kota.getSelectedItemPosition() + 1));
         userContact.setAddress(alamat.getText().toString());
         userContact.setPhone(notelp.getText().toString());
+        if (notelp2.getText().toString().equals(""))
+            userContact.setEmergency_numb("082168360303");
+        else
+            userContact.setEmergency_numb(notelp2.getText().toString());
         map.put("contact", userContact);
         if (imagechanged){
             map.put("avatar", newimage);

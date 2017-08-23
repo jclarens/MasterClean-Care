@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.TA.MVP.appmobilemember.MasterCleanApplication;
+import com.TA.MVP.appmobilemember.Model.Basic.Place;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Basic.UserContact;
 import com.TA.MVP.appmobilemember.R;
@@ -25,6 +27,7 @@ import com.TA.MVP.appmobilemember.lib.utils.Settings;
 import com.squareup.picasso.Picasso;
 
 import java.text.NumberFormat;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Response;
@@ -43,15 +46,17 @@ public class ProfileActivity extends ParentActivity {
     private UserContact userContact = new UserContact();
     private Toolbar toolbar;
     private ImageView imgfoto;
-    private TextView nama, alamat, notelp, email, nominal;
+    private TextView nama, alamat, notelp, email, nominal, kota;
     private Button btnlog;
     private Intent intent = new Intent();
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
+    private List<Place> places;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
+        places = ((MasterCleanApplication)getApplication()).getGlobalStaticData().getPlaces();
         getallinfo(user.getId());
 
         imgfoto = (ImageView) findViewById(R.id.prof_iv_foto);
@@ -60,6 +65,7 @@ public class ProfileActivity extends ParentActivity {
         notelp = (TextView) findViewById(R.id.prof_tv_notelp);
         email = (TextView) findViewById(R.id.prof_tv_email);
         nominal = (TextView) findViewById(R.id.prof_tv_nominal);
+        kota = (TextView) findViewById(R.id.prof_tv_kota);
         btnlog =(Button) findViewById(R.id.prof_btn_isi);
 
 
@@ -98,6 +104,7 @@ public class ProfileActivity extends ParentActivity {
     public void setdata(){
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
         nama.setText(user.getName());
+        kota.setText(places.get(user.getContact().getCity()-1).getName());
         try{
             alamat.setText(user.getContact().getAddress());
             notelp.setText(user.getContact().getPhone());
@@ -140,8 +147,7 @@ public class ProfileActivity extends ParentActivity {
         switch (requestCode){
             case REQUEST_EDIT:
                 if (resultCode == RESULT_SUCCESS) {
-                    user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
-                    setdata();
+                    getallinfo(user.getId());
                 }
                 break;
         }
@@ -170,7 +176,7 @@ public class ProfileActivity extends ParentActivity {
     }
     public String setRP(Integer number){
         String tempp = "Rp. ";
-        tempp = tempp + numberFormat.format(number) + ".00";
+        tempp = tempp + numberFormat.format(number);
         return tempp;
     }
 }

@@ -13,29 +13,47 @@
         android:orientation="vertical"
         android:padding="15dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kata sandi"
+            android:textColor="@color/colorPrimary"/>
         <EditText
             android:id="@+id/epass_et_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/katasandi"
+            android:maxLength="16"
+            android:background="@drawable/backgroundedittext"
             android:inputType="textPassword" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kata sandi baru"
+            android:textColor="@color/colorPrimary"/>
         <EditText
             android:id="@+id/epass_et_newpass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/katasandibaru"
+            android:maxLength="16"
+            android:background="@drawable/backgroundedittext"
             android:inputType="textPassword" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Konfirmasi kata sandi baru"
+            android:textColor="@color/colorPrimary"/>
         <EditText
             android:id="@+id/epass_et_knewpass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="10dp"
             android:ems="10"
-            android:hint="@string/katasandibarukonfirm"
+            android:maxLength="16"
+            android:background="@drawable/backgroundedittext"
             android:inputType="textPassword" />
 
         <LinearLayout
@@ -49,6 +67,7 @@
                 android:layout_weight="1"
                 android:text="@string/batal"
                 android:textAllCaps="false"
+                android:textColor="@color/buttontext"
                 android:background="@drawable/buttonshape"/>
             <Button
                 android:id="@+id/epass_btn_simpan"
@@ -58,6 +77,7 @@
                 android:layout_marginBottom="5dp"
                 android:text="@string/simpan"
                 android:textAllCaps="false"
+                android:textColor="@color/buttontext"
                 android:background="@drawable/buttonshape"/>
         </LinearLayout>
 

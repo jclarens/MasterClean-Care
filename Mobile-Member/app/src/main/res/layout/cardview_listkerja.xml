@@ -8,8 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
         android:background="#eeeeee">
         <CheckBox
             android:id="@+id/card_listkerja_item"

@@ -54,13 +54,21 @@ public class EditPassActivity extends ParentActivity{
         btnsimpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hidekeyboard();
                 //validasi
                 valid = true;
 
-                if (pass.getText().toString() == "" || newpass.getText().toString() == "" || knewpass.getText().toString() == "")
+                if (pass.getText().toString().equals("") || newpass.getText().toString().equals("") || knewpass.getText().toString().equals("")) {
                     valid = false;
-                if (newpass.getText().toString() != knewpass.getText().toString()) {
+                    Toast.makeText(getApplicationContext(), "Data tidak lengkap.", Toast.LENGTH_LONG).show();
+                }
+                if (!newpass.getText().toString().equals(knewpass.getText().toString())) {
                     valid = false;
+                    Toast.makeText(getApplicationContext(), "Konfirmasi kata sandi tidak sesuai.", Toast.LENGTH_LONG).show();
+                }
+                if (newpass.getText().toString().length() <= 4) {
+                    valid = false;
+                    Toast.makeText(getApplicationContext(), "Kata sandi terlalu singkat.", Toast.LENGTH_LONG).show();
                 }
                 if (valid){
                     abuildermessage("Simpan password baru?", "Ubah Password");
@@ -104,8 +112,6 @@ public class EditPassActivity extends ParentActivity{
         return super.onOptionsItemSelected(item);
     }
     public void gantipass(){
-        initProgressDialog("Sedang Memperoses ...");
-        showDialog();
         HashMap<String, Object> map = new HashMap<>();
         map.put("password", newpass.getText().toString());
         Call<UserResponse> caller = APIManager.getRepository(UserRepo.class).updateuser(String.valueOf(user.getId()),map);
@@ -124,6 +130,7 @@ public class EditPassActivity extends ParentActivity{
             public void onUnprocessableEntity(Call<UserResponse> call, Response<UserResponse> response) {
                 super.onUnprocessableEntity(call, response);
                 dismissDialog();
+                Toast.makeText(getApplicationContext(), "Data tidak dapat diperoses.", Toast.LENGTH_LONG).show();
             }
 
             @Override
@@ -135,7 +142,8 @@ public class EditPassActivity extends ParentActivity{
         });
     }
     public void checkoldpass(){
-        showDialog("Logging in");
+        initProgressDialog("Sedang Memperoses ...");
+        showDialog();
         HashMap<String, Object> map = new HashMap<>();
         map.put("email", user.getEmail());
         map.put("password", pass.getText().toString());
@@ -144,9 +152,12 @@ public class EditPassActivity extends ParentActivity{
             @Override
             public void onSuccess(Call<LoginResponse> call, Response<LoginResponse> response) {
                 super.onSuccess(call, response);
-                SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
-                SharedPref.save(SharedPref.ACCESS_TOKEN, response.body().getToken().getAccess_token());
-                gantipass();
+                if (response.body().status.equals("403")){
+                    Toast.makeText(getApplicationContext(), "Kata sandi tidak benar.", Toast.LENGTH_SHORT).show();
+                    dismissDialog();
+                }else {
+                    gantipass();
+                }
             }
 
             @Override

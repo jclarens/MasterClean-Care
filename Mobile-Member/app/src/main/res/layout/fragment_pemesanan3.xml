@@ -48,13 +48,12 @@
                 android:layout_margin="5dp"
                 android:text="Konfirmasi Pemesanan"
                 android:textAlignment="center"
-                android:textColor="@android:color/black"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="24sp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="20dp"
                 android:id="@id/layout_asisten">
             </RelativeLayout>
 
@@ -100,11 +99,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Alamat pemesanan"
-                    android:textColor="@color/colorBlack"/>
+                    android:textColor="@color/colorPrimary"/>
                 <EditText
                     android:id="@+id/alamat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:minLines="2"
+                    android:maxLines="4"
                     android:enabled="false"
                     android:focusable="false"
                     android:background="@drawable/backgroundedittext"
@@ -121,7 +122,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/mulai"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/colorPrimary" />
                 <EditText
                     android:id="@+id/pms3_et_mulai"
                     android:layout_width="match_parent"
@@ -144,7 +145,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/selesai"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/colorPrimary" />
                 <EditText
                     android:id="@+id/pms3_et_selesai"
                     android:layout_width="match_parent"
@@ -163,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/total"
                 android:textAlignment="center"
-                android:textColor="@android:color/black" />
+                android:textColor="@color/colorPrimary" />
 
             <EditText
                 android:id="@+id/pms3_et_total"
@@ -217,8 +218,7 @@
                     android:text="@string/btn_prev"
                     android:textAllCaps="false"
                     tools:ignore="ButtonStyle"
-                    android:textColor="#000000"
-                    android:textSize="16dp"
+                    android:textColor="@color/buttontext"
                     android:background="@drawable/buttonshape"
                     />
 
@@ -230,8 +230,7 @@
                     android:text="Konfirmasi"
                     android:textAllCaps="false"
                     tools:ignore="ButtonStyle"
-                    android:textColor="#000000"
-                    android:textSize="16dp"
+                    android:textColor="@color/buttontext"
                     android:background="@drawable/buttonshape"
                     />
             </LinearLayout>

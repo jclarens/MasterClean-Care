@@ -255,6 +255,12 @@ public class RecyclerAdapterListOfferArt extends RecyclerView.Adapter<RecyclerAd
                         ((PermintaanActiveActivity)context).finish();
                     }
                 });
+                ((PermintaanActiveActivity)context).abuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        ((PermintaanActiveActivity)context).finish();
+                    }
+                });
                 ((PermintaanActiveActivity)context).showalertdialog();
             }
 

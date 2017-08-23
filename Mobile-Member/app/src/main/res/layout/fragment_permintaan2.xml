@@ -21,7 +21,7 @@
                 android:layout_margin="5dp"
                 android:text="Waktu dan Pekerjaan"
                 android:textAlignment="center"
-                android:textColor="@android:color/black"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="24sp" />
 
             <LinearLayout
@@ -70,7 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/mulai"
-                android:textColor="@android:color/black" />
+                android:textColor="@color/colorPrimary"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -88,7 +88,7 @@
                     android:focusable="false"
                     android:inputType="date"
                     android:textColor="@color/colorBlack"
-                    android:hint="Date"/>
+                    android:hint="Tanggal"/>
 
                 <EditText
                     android:id="@+id/pmr2_et_mulaitime"
@@ -101,7 +101,7 @@
                     android:inputType="time"
                     android:textAlignment="center"
                     android:textColor="@color/colorBlack"
-                    android:hint="time"/>
+                    android:hint="Jam"/>
             </LinearLayout>
 
             <LinearLayout
@@ -115,7 +115,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:text="@string/estimasi"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/colorPrimary" />
 
                 <TextView
                     android:id="@+id/pmr2_tv_estimasiwaktu"
@@ -123,7 +123,7 @@
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:text="Jam"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/colorPrimary" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -159,7 +159,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/selesai"
-                android:textColor="@android:color/black" />
+                android:textColor="@color/colorPrimary" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -177,7 +177,7 @@
                     android:textColor="@color/colorLightBlack"
                     android:layout_marginEnd="5dp"
                     android:background="@drawable/backgroundedittext"
-                    android:hint="Date"/>
+                    android:hint="Tanggal"/>
                 <EditText
                     android:id="@+id/pmr2_et_selesaitime"
                     android:layout_width="match_parent"
@@ -190,14 +190,14 @@
                     android:textColor="@color/colorLightBlack"
                     android:textAlignment="center"
                     android:background="@drawable/backgroundedittext"
-                    android:hint="Time"/>
+                    android:hint="Jam"/>
             </LinearLayout>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/cttn"
-                android:textColor="@android:color/black" />
+                android:textColor="@color/colorPrimary" />
 
             <EditText
                 android:id="@+id/pmr2_et_cttn"
@@ -216,7 +216,7 @@
                 android:layout_height="wrap_content"
                 android:text="Honor yang ditawarkan :"
                 android:textAlignment="center"
-                android:textColor="@android:color/black" />
+                android:textColor="@color/colorPrimary" />
 
             <EditText
                 android:id="@+id/pmr2_et_total"
@@ -243,6 +243,7 @@
                     android:text="@string/btn_prev"
                     android:textAllCaps="false"
                     tools:ignore="ButtonStyle"
+                    android:textColor="@color/buttontext"
                     android:background="@drawable/buttonshape"/>
 
                 <Button
@@ -252,6 +253,7 @@
                     android:layout_weight="1"
                     android:text="@string/btn_next"
                     android:textAllCaps="false"
+                    android:textColor="@color/buttontext"
                     android:background="@drawable/buttonshape"
                     tools:ignore="ButtonStyle" />
             </LinearLayout>

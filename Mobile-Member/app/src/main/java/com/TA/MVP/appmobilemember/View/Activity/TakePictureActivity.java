@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -22,8 +23,10 @@ import android.widget.Toast;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
 import com.TA.MVP.appmobilemember.Model.Basic.Wallet;
 import com.TA.MVP.appmobilemember.Model.Basic.WalletTransaction;
+import com.TA.MVP.appmobilemember.Model.Responses.UploadResponse;
 import com.TA.MVP.appmobilemember.Model.Responses.WalletTransactionResponse;
 import com.TA.MVP.appmobilemember.R;
+import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.Route.Repositories.WalletTransactionRepo;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
@@ -37,8 +40,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -51,6 +58,7 @@ import retrofit2.Response;
  */
 
 public class TakePictureActivity extends ParentActivity{
+    private DateFormat fixFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
     private static final int PERMS_REQUEST_CODE = 123;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageView imageView;
@@ -63,6 +71,7 @@ public class TakePictureActivity extends ParentActivity{
     private ContentValues values;
     private Uri imageUri;
     private Bitmap thumbnail;
+    private String newimage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,8 +98,10 @@ public class TakePictureActivity extends ParentActivity{
         btnkonfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (picturetaken)
-                    posttransaction(selectedimagepath);
+                if (picturetaken) {
+                    upload(selectedimagepath);
+
+                }
                 else Toast.makeText(getApplicationContext(),"Gambar belum diambil.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -193,35 +204,141 @@ public class TakePictureActivity extends ParentActivity{
             }
         }
     }
-    public void posttransaction(String path){
+//    public void posttransaction(String path){
+//        initProgressDialog("Uploading..");
+//        showDialog();
+//
+//        File file = new File(path);
+//        MultipartBody.Part filePart = MultipartBody.Part.createFormData("image", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
+//        RequestBody user_id = RequestBody.create(okhttp3.MultipartBody.FORM, user.getId().toString());
+//        RequestBody amt = RequestBody.create(okhttp3.MultipartBody.FORM, wallet.getAmt().toString());
+//        Call<WalletTransactionResponse> caller = APIManager.getRepository(WalletTransactionRepo.class).uploadtransaction(filePart, user_id, amt);
+//        caller.enqueue(new APICallback<WalletTransactionResponse>() {
+//            @Override
+//            public void onSuccess(Call<WalletTransactionResponse> call, Response<WalletTransactionResponse> response) {
+//                super.onSuccess(call, response);
+//                dismissDialog();
+//                abuildermessage("Pengisian wallet anda akan segera kami proses, lihat status transaksi dihalaman profile.", "Pemberitahuan");
+//                abuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+//                    @Override
+//                    public void onCancel(DialogInterface dialogInterface) {
+//                        finish();
+//                    }
+//                });
+//                abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        finish();
+//                    }
+//                });
+//                showalertdialog();
+//            }
+//
+//            @Override
+//            public void onError(Call<WalletTransactionResponse> call, Response<WalletTransactionResponse> response) {
+//                super.onError(call, response);
+//                dismissDialog();
+//                Toast.makeText(getApplicationContext(), "Terjadi kesalahan pada server", Toast.LENGTH_SHORT).show();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<WalletTransactionResponse> call, Throwable t) {
+//                super.onFailure(call, t);
+//                dismissDialog();
+//                Toast.makeText(getApplicationContext(), "Koneksi bermasalah", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+
+    public void upload(String path){
         initProgressDialog("Uploading..");
         showDialog();
-
         File file = new File(path);
+
         MultipartBody.Part filePart = MultipartBody.Part.createFormData("image", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
-        RequestBody user_id = RequestBody.create(okhttp3.MultipartBody.FORM, user.getId().toString());
-        RequestBody amt = RequestBody.create(okhttp3.MultipartBody.FORM, wallet.getAmt().toString());
-        Call<WalletTransactionResponse> caller = APIManager.getRepository(WalletTransactionRepo.class).uploadtransaction(filePart, user_id, amt);
+        Call<UploadResponse> caller = APIManager.getRepository(UserRepo.class).uploadimg(filePart);
+        caller.enqueue(new APICallback<UploadResponse>() {
+            @Override
+            public void onSuccess(Call<UploadResponse> call, Response<UploadResponse> response) {
+                super.onSuccess(call, response);
+                dismissDialog();
+            }
+
+            @Override
+            public void onCreated(Call<UploadResponse> call, Response<UploadResponse> response) {
+                super.onCreated(call, response);
+                newimage = response.body().getImage();
+                posttrans();
+            }
+
+            @Override
+            public void onError(Call<UploadResponse> call, Response<UploadResponse> response) {
+                super.onError(call, response);
+                dismissDialog();
+            }
+
+            @Override
+            public void onFailure(Call<UploadResponse> call, Throwable t) {
+                super.onFailure(call, t);
+                dismissDialog();
+            }
+        });
+    }
+    public void posttrans(){
+        HashMap<String,Object> map = new HashMap<>();
+        map.put("user_id", user.getId());
+        map.put("amount", wallet.getAmt());
+        map.put("trc_type", 0);
+        Calendar calendar = Calendar.getInstance();
+        map.put("trc_time", fixFormat.format(calendar.getTime()));
+        map.put("trc_img", newimage);
+        map.put("acc_no", " ");
+        map.put("status", 0);
+        Call<WalletTransactionResponse> caller = APIManager.getRepository(WalletTransactionRepo.class).postwallettransaction(map);
         caller.enqueue(new APICallback<WalletTransactionResponse>() {
             @Override
             public void onSuccess(Call<WalletTransactionResponse> call, Response<WalletTransactionResponse> response) {
                 super.onSuccess(call, response);
                 dismissDialog();
-                finish();
+                abuildermessage("Pengisian wallet anda akan segera kami proses, lihat status transaksi dihalaman profile.", "Pemberitahuan");
+                abuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        finish();
+                    }
+                });
+                abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+                showalertdialog();
             }
 
             @Override
-            public void onError(Call<WalletTransactionResponse> call, Response<WalletTransactionResponse> response) {
-                super.onError(call, response);
+            public void onCreated(Call<WalletTransactionResponse> call, Response<WalletTransactionResponse> response) {
+                super.onCreated(call, response);
                 dismissDialog();
-                Toast.makeText(getApplicationContext(), "Terjadi kesalahan pada server", Toast.LENGTH_SHORT).show();
+                abuildermessage("Pengisian wallet anda akan segera kami proses, lihat status transaksi dihalaman profile.", "Pemberitahuan");
+                abuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        finish();
+                    }
+                });
+                abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+                showalertdialog();
             }
 
             @Override
             public void onFailure(Call<WalletTransactionResponse> call, Throwable t) {
                 super.onFailure(call, t);
-                dismissDialog();
-                Toast.makeText(getApplicationContext(), "Koneksi bermasalah", Toast.LENGTH_SHORT).show();
             }
         });
     }

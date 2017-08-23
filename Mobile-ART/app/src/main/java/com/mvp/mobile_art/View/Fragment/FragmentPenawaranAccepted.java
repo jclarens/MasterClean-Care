@@ -40,13 +40,15 @@ public class FragmentPenawaranAccepted extends Fragment{
     private List<Offer> offers = new ArrayList<>();
     private User user = new User();
     private SwipeRefreshLayout swipeRefreshLayout;
-    private LinearLayout layoutnolist;
+    private LinearLayout layoutnolist, layoutloading, layoutnoconnection;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View _view = inflater.inflate(R.layout.fragment_penawaran_accepted, container, false);
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
 
         layoutnolist = (LinearLayout) _view.findViewById(R.id.layout_nolist);
+        layoutloading = (LinearLayout) _view.findViewById(R.id.layout_loading);
+        layoutnoconnection = (LinearLayout) _view.findViewById(R.id.layout_noconnection);
         swipeRefreshLayout = (SwipeRefreshLayout) _view.findViewById(R.id.swipeRefreshLayout);
         recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_penawaran);
         rec_LayoutManager = new LinearLayoutManager(getContext());
@@ -56,6 +58,7 @@ public class FragmentPenawaranAccepted extends Fragment{
         rec_Adapter.setDefaultwk(((MasterCleanApplication)getActivity().getApplication()).globalStaticData.getWaktu_kerjas());
         rec_Adapter.setcontext(getContext());
 
+        showloading();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -72,6 +75,7 @@ public class FragmentPenawaranAccepted extends Fragment{
             @Override
             public void onSuccess(Call<List<Offer>> call, Response<List<Offer>> response) {
                 super.onSuccess(call, response);
+                hidenoconnection();
                 offers = filter(response.body());
                 if (offers.size() < 1)
                     hidelist();
@@ -80,11 +84,14 @@ public class FragmentPenawaranAccepted extends Fragment{
                     rec_Adapter.setOffers(offers, user.getId());
                 }
                 swipeRefreshLayout.setRefreshing(false);
+                hideloading();
             }
 
             @Override
             public void onError(Call<List<Offer>> call, Response<List<Offer>> response) {
                 super.onError(call, response);
+                hideloading();
+                shownoconnection();
                 swipeRefreshLayout.setRefreshing(false);
             }
 
@@ -102,6 +109,22 @@ public class FragmentPenawaranAccepted extends Fragment{
     public void showlist(){
         recyclerView.setVisibility(View.VISIBLE);
         layoutnolist.setVisibility(View.GONE);
+    }
+    public void showloading(){
+        layoutloading.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+    public void hideloading(){
+        layoutloading.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+    }
+    public void shownoconnection(){
+        layoutnoconnection.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+    public void hidenoconnection(){
+        layoutnoconnection.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
     public List<Offer> filter(List<Offer> offers){
         List<Offer> temp = new ArrayList<>();

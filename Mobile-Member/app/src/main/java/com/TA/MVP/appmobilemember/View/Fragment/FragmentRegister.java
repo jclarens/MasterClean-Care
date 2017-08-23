@@ -134,15 +134,15 @@ public class FragmentRegister extends Fragment {
                     map.put("status", String.valueOf(1));
                     map.put("activation", String.valueOf(1));
                     if ((spinnergender.getSelectedItemPosition() + 1) == 1){
-                        map.put("avatar", "users/profile3.png");
-                    } else map.put("avatar", "users/profile1.png");
+                        map.put("avatar", "users/profile3.jpg");
+                    } else map.put("avatar", "users/profile1.jpg");
 //                    map.put("user_wallet", 0);
                     UserContact userContact = new UserContact();
                     userContact.setAddress(alamat.getText().toString());
                     userContact.setCity((spinnerkota.getSelectedItemPosition() + 1));
                     userContact.setPhone(notelp.getText().toString());
                     userContact.setEmergency_numb("082168360303");
-                    userContact.setAcc_no("");
+                    userContact.setAcc_no(" ");
                     userContact.setLocation("3.584949, 98.672400");//harusnya get location
                     map.put("contact", userContact);//cek lg
                     Call<UserResponse> caller = APIManager.getRepository(UserRepo.class).registeruser(map);

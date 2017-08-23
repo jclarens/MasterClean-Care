@@ -6,8 +6,17 @@ package com.mvp.mobile_art.Model.Basic;
 
 public class UserWorkTime {
     private User user;
+    private Integer user_id;
     private Integer work_time_id;
     private Integer cost;
+
+    public Integer getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(Integer user_id) {
+        this.user_id = user_id;
+    }
 
     public User getUser() {
         return user;

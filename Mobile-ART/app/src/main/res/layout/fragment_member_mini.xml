@@ -35,17 +35,22 @@
                 android:id="@+id/nama"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:text="@string/namalengkap"
                 android:textColor="@android:color/black"
                 android:textSize="18sp"
                 android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/agama"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:textColor="@android:color/black" />
 
             <TextView
                 android:id="@+id/telp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="5dp"
-                android:text=" - "
                 android:textColor="@android:color/black" />
 
             <Button

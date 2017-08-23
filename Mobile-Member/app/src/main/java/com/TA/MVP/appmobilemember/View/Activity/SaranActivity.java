@@ -43,7 +43,20 @@ public class SaranActivity extends ParentActivity {
             @Override
             public void onClick(View view) {
                 if (!content.getText().toString().equals("")){
-                    postsaran();
+                    abuildermessage("Kirim kritik dan saran?","Konfirmasi");
+                    abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            postsaran();
+                        }
+                    });
+                    abuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+                    showalertdialog();
                 }else Toast.makeText(getApplicationContext(),"Anda belum mengisi Keritik atau saran anda.", Toast.LENGTH_SHORT).show();
             }
         });

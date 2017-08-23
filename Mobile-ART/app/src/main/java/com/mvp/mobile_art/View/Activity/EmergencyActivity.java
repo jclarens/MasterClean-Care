@@ -62,6 +62,7 @@ public class EmergencyActivity extends ParentActivity {
         if (SharedPref.getValueString(ConstClass.EMERGENCY_EXTRA).equals("")) {
             addtoemergencylist();
             SharedPref.save(ConstClass.EMERGENCY_EXTRA, "on");
+            calladmin();
         }
 
         calllayout = (FrameLayout) findViewById(R.id.layout_call);
@@ -79,9 +80,11 @@ public class EmergencyActivity extends ParentActivity {
         tutup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //validasi code
-                if (code.getText().equals("")){
-                    Toast.makeText(getApplicationContext(), "Input Password kosong", Toast.LENGTH_SHORT).show();
+                hidekeyboard();
+                if (code.getText().toString().equals("")){
+                    Toast.makeText(getApplicationContext(), "Input kata sandi kosong", Toast.LENGTH_SHORT).show();
+                }else if (reason.getText().toString().equals("")){
+                    Toast.makeText(getApplicationContext(), "Harap tuliskan alasan anda menekan tombol darurat.", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     trypass();
@@ -163,8 +166,6 @@ public class EmergencyActivity extends ParentActivity {
         Toast.makeText(getApplicationContext(), "Harap gunakan tombol tutup", Toast.LENGTH_SHORT).show();
     }
     public void addtoemergencylist(){
-        initProgressDialog("Sedang memperoses");
-        showDialog();
         Calendar calendar = Calendar.getInstance();
         HashMap<String,Object> map = new HashMap<>();
         map.put("user_id", user.getId().toString());
@@ -176,15 +177,12 @@ public class EmergencyActivity extends ParentActivity {
             @Override
             public void onSuccess(Call<EmergencyCallResponse> call, Response<EmergencyCallResponse> response) {
                 super.onSuccess(call, response);
-                dismissDialog();
                 EC = response.body().getEmergencycall();
-                calladmin();
             }
 
             @Override
             public void onFailure(Call<EmergencyCallResponse> call, Throwable t) {
                 super.onFailure(call, t);
-                dismissDialog();
             }
         });
     }

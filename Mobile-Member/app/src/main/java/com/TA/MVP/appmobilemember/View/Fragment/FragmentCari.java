@@ -1,35 +1,37 @@
 package com.TA.MVP.appmobilemember.View.Fragment;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Basic.Job;
 import com.TA.MVP.appmobilemember.Model.Basic.User;
+import com.TA.MVP.appmobilemember.Model.Responses.GetArtsResponse;
 import com.TA.MVP.appmobilemember.R;
 import com.TA.MVP.appmobilemember.Route.Repositories.UserRepo;
 import com.TA.MVP.appmobilemember.View.Activity.AsistenActivity;
+import com.TA.MVP.appmobilemember.View.Activity.MainActivity;
 import com.TA.MVP.appmobilemember.lib.api.APICallback;
 import com.TA.MVP.appmobilemember.lib.api.APIManager;
 import com.TA.MVP.appmobilemember.lib.utils.ConstClass;
@@ -66,6 +68,8 @@ public class FragmentCari extends Fragment  implements OnMapReadyCallback {
     private List<User> arts = new ArrayList<>();
     private List<Job> defaultjobs = new ArrayList<>();
     private String[] latlng;
+    private Integer currentpage = 1;
+    private Integer lastpage = 1;
     CameraPosition targetcamera;
     GoogleMap mGoogleMap;
     MapView mMapView;
@@ -81,18 +85,8 @@ public class FragmentCari extends Fragment  implements OnMapReadyCallback {
         _view = inflater.inflate(R.layout.fragment_cari_map, container, false);
         defaultjobs = ((MasterCleanApplication)getActivity().getApplication()).getGlobalStaticData().getJobs();
 
-//        if (getContext().checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-        if (ActivityCompat.checkSelfPermission(getActivity(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            location = getLastKnownLocation();
-        }
-        else{
-            String[] permissions = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
-            requestPermissions(permissions, PERMS_REQUEST_CODE);
-        }
-
         imgcari = (ImageButton) _view.findViewById(R.id.carimap_icon_cari);
         namalokasi = (EditText) _view.findViewById(R.id.carimap_et_carilokasi);
-        imgcari = (ImageButton) _view.findViewById(R.id.carimap_icon_cari);
 
 
         namalokasi.setOnKeyListener(new View.OnKeyListener() {
@@ -107,12 +101,7 @@ public class FragmentCari extends Fragment  implements OnMapReadyCallback {
         imgcari.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try{
-
-                }
-                catch (Error error){
-
-                }
+                ((MainActivity)getActivity()).hidekeyboard();
                 focusmap();
             }
         });
@@ -144,19 +133,24 @@ public class FragmentCari extends Fragment  implements OnMapReadyCallback {
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        boolean allowed = true;
         switch (requestCode){
             case PERMS_REQUEST_CODE:
-                for (int res : grantResults){
-                    allowed = allowed && (res == PackageManager.PERMISSION_GRANTED);
+                if (ActivityCompat.checkSelfPermission(getActivity(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    location = getLastKnownLocation();
+                    mGoogleMap.setMyLocationEnabled(true);
+                    mGoogleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+                        @Override
+                        public boolean onMyLocationButtonClick() {
+                            return false;
+                        }
+                    });
+                }else{
+
                 }
                 break;
             default:
-                allowed = false;
                 break;
         }
-        if (allowed)
-            location = getLastKnownLocation();
 
     }
 
@@ -178,6 +172,7 @@ public class FragmentCari extends Fragment  implements OnMapReadyCallback {
             mGoogleMap = googleMap;
             mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
             if (ActivityCompat.checkSelfPermission(getActivity(),Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                location = getLastKnownLocation();
                 mGoogleMap.setMyLocationEnabled(true);
                 mGoogleMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
                     @Override
@@ -207,19 +202,22 @@ public class FragmentCari extends Fragment  implements OnMapReadyCallback {
 
             //get users
             Map<String,String> map = new HashMap<>();
-            map.put("role_id","3");
-            map.put("status","1");
-            Call<List<User>> caller = APIManager.getRepository(UserRepo.class).searchuser(map);
-            caller.enqueue(new APICallback<List<User>>() {
+            map.put("page","1");
+            Call<GetArtsResponse> caller = APIManager.getRepository(UserRepo.class).getarts(map);
+            caller.enqueue(new APICallback<GetArtsResponse>() {
                 @Override
-                public void onSuccess(Call<List<User>> call, Response<List<User>> response) {
+                public void onSuccess(Call<GetArtsResponse> call, Response<GetArtsResponse> response) {
                     super.onSuccess(call, response);
-                    arts = response.body();
+                    arts = response.body().getData();
+                    currentpage = response.body().getCurrent_page();
+                    lastpage = response.body().getLast_page();
                     resetmapview(arts);
+                    if (currentpage < lastpage)
+                        loadmore();
                 }
 
                 @Override
-                public void onFailure(Call<List<User>> call, Throwable t) {
+                public void onFailure(Call<GetArtsResponse> call, Throwable t) {
                     super.onFailure(call, t);
                 }
             });
@@ -227,6 +225,28 @@ public class FragmentCari extends Fragment  implements OnMapReadyCallback {
             Toast.makeText(getContext(),"Terjadi masalah harap muat ulang", Toast.LENGTH_SHORT).show();
         }
 
+    }
+    public void loadmore(){
+        Map<String,String> map = new HashMap<>();
+        map.put("page",String.valueOf(currentpage+1));
+        Call<GetArtsResponse> caller = APIManager.getRepository(UserRepo.class).getarts(map);
+        caller.enqueue(new APICallback<GetArtsResponse>() {
+            @Override
+            public void onSuccess(Call<GetArtsResponse> call, Response<GetArtsResponse> response) {
+                super.onSuccess(call, response);
+                arts.addAll(response.body().getData());
+                currentpage = response.body().getCurrent_page();
+                lastpage = response.body().getLast_page();
+                resetmapview(arts);
+                if (currentpage < lastpage)
+                    loadmore();
+            }
+
+            @Override
+            public void onFailure(Call<GetArtsResponse> call, Throwable t) {
+                super.onFailure(call, t);
+            }
+        });
     }
     public void resetmapview(List<User> arts){
         mGoogleMap.clear();
@@ -237,9 +257,39 @@ public class FragmentCari extends Fragment  implements OnMapReadyCallback {
                 if (n != 0)
                     temp = temp + ", ";
                 temp = temp + defaultjobs.get(arts.get(i).getUser_job().get(n).getJob_id()-1);
+                if (n == 1 && arts.get(i).getUser_job().size() != 2)
+                    temp = temp + "\n";
             }
             mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(Double.parseDouble(latlng[0]),Double.parseDouble(latlng[1]))).title(arts.get(i).getName()).snippet(temp)).setTag(arts.get(i));
         }
+        mGoogleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+
+            @Override
+            public View getInfoWindow(Marker arg0) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+                LinearLayout info = new LinearLayout(getContext());
+                info.setOrientation(LinearLayout.VERTICAL);
+
+                TextView title = new TextView(getContext());
+                title.setTextColor(Color.BLACK);
+                title.setGravity(Gravity.CENTER);
+                title.setTypeface(null, Typeface.BOLD);
+                title.setText(marker.getTitle());
+
+                TextView snippet = new TextView(getContext());
+                snippet.setTextColor(Color.GRAY);
+                snippet.setText(marker.getSnippet());
+
+                info.addView(title);
+                info.addView(snippet);
+
+                return info;
+            }
+        });
     }
     public void focusmap(){
         String stringlocation = namalokasi.getText().toString();
@@ -257,7 +307,7 @@ public class FragmentCari extends Fragment  implements OnMapReadyCallback {
                 mGoogleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
             }
             catch (IndexOutOfBoundsException e){
-                Toast.makeText(getContext(), "Coba kata kunci lain", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Lokasi tidak ditemukan, Coba kata kunci lain", Toast.LENGTH_SHORT).show();
             }
             catch (NullPointerException e){
 //                Toast.makeText(getContext(), "", Toast.LENGTH_SHORT).show();

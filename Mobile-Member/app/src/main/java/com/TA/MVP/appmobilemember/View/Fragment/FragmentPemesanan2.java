@@ -467,15 +467,15 @@ public class FragmentPemesanan2 extends Fragment {
             return false;
         }
         if (startdate.before(getbatasmulai())){
-            Toast.makeText(getContext(), "Tidak dapat menerima pesanan sebelum jam 8 Pagi", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Tidak dapat membuat pemesanan sebelum jam 8 Pagi", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (startdate.after(getbatasselesai())){
-            Toast.makeText(getContext(), "Tidak dapat menerima pesanan setelah jam 5 Sore", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Tidak dapat membuat pemesanan setelah jam 5 Sore", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (enddate.after(getbatasselesai2())){
-            Toast.makeText(getContext(), "Tidak dapat menerima pesanan setelah jam 5 Sore", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Tidak dapat membuat pemesanan setelah jam 5 Sore", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (startdate.before(getbatassekarang())){
@@ -521,7 +521,7 @@ public class FragmentPemesanan2 extends Fragment {
     }
     public String setRP(Integer number){
         String tempp = "Rp. ";
-        tempp = tempp + numberFormat.format(number) + ".00";
+        tempp = tempp + numberFormat.format(number);
         return tempp;
     }
     public void settotal(){

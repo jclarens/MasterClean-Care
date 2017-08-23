@@ -49,13 +49,11 @@ public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterW
                 public void onClick(View view) {
                     final int position = getAdapterPosition();
                     nominal = setRP(wallets.get(position).getAmt());
-                    abuildermessage("Transfer uang anda ke nomor rekening: 1004874201, Dan kirimkan bukti transfer.\n" +
+                    abuildermessage("Transfer uang anda ke nomor rekening: 1004874201(Maybank), Dan kirimkan bukti transfer.\n" +
                             "Pembelian wallet "+nominal,"Konfirmasi Request", itemview.getContext());
                     abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            //do request transaction trs type = 3
-                            //admin nnti ubah 3 ke 1
                             Intent intent = new Intent(itemview.getContext(), TakePictureActivity.class);
                             intent.putExtra("wallet", GsonUtils.getJsonFromObject(wallets.get(position)));
                             ((WalletActivity)context).startActivity(intent);
@@ -113,7 +111,7 @@ public class RecyclerAdapterWallet extends RecyclerView.Adapter<RecyclerAdapterW
     }
     public String setRP(Integer number){
         String tempp = "Rp. ";
-        tempp = tempp + numberFormat.format(number) + ".00";
+        tempp = tempp + numberFormat.format(number);
         return tempp;
     }
 }

@@ -14,8 +14,10 @@
         android:layout_height="match_parent"
         android:layout_weight="1">
         <LinearLayout
+            android:id="@+id/editprof_inner_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:focusableInTouchMode="true"
             android:orientation="vertical"
             android:padding="15dp">
             <RelativeLayout
@@ -36,62 +38,186 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
                     android:text="Nama"
-                    android:textColor="@color/colorBlack"/>
+                    android:textColor="@color/colorPrimary"/>
                 <EditText
                     android:id="@+id/et_nama"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
+                    android:nextFocusUp="@id/et_nama"
+                    android:nextFocusLeft="@id/et_nama"
                     android:background="@drawable/backgroundedittext"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="No. Telp"
-                    android:textColor="@color/colorBlack"/>
+                    android:textColor="@color/colorPrimary"/>
                 <EditText
                     android:id="@+id/notelp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
+                    android:nextFocusUp="@id/notelp"
+                    android:nextFocusLeft="@id/notelp"
                     android:background="@drawable/backgroundedittext"
                     android:inputType="phone"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="No. Telp Darurat"
-                    android:textColor="@color/colorBlack"/>
+                    android:textColor="@color/colorPrimary"/>
                 <EditText
                     android:id="@+id/notelp2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
+                    android:nextFocusUp="@id/notelp2"
+                    android:nextFocusLeft="@id/notelp2"
                     android:background="@drawable/backgroundedittext"
                     android:inputType="phone"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Nomor Rekening"
-                    android:textColor="@color/colorBlack"/>
+                    android:textColor="@color/colorPrimary"/>
                 <EditText
                     android:id="@+id/norek"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dp"
+                    android:nextFocusUp="@id/norek"
+                    android:nextFocusLeft="@id/norek"
                     android:background="@drawable/backgroundedittext"
                     android:inputType="numberDecimal"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Kota saat ini"
+                    android:textColor="@color/colorPrimary"/>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="5dp"
                     android:orientation="vertical"
                     android:background="@drawable/backgroundsoftgray">
                     <Spinner
                         android:id="@+id/spinnerkota"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="match_parent">
                     </Spinner>
                 </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bahasa yang dikuasai"
+                    android:textColor="@color/colorPrimary"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:orientation="vertical">
+                    <CheckBox
+                        android:id="@+id/indo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Indonesia"/>
+                    <CheckBox
+                        android:id="@+id/eng"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Inggris" />
+                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Gaji"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorPrimary"/>
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bordertablegaji"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="10dp">
+                    <TableRow
+                        android:layout_marginBottom="2dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:text="Per Jam"
+                            android:textColor="@color/colorPrimary"/>
+                        <EditText
+                            android:id="@+id/nominal1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:maxLength="14"
+                            android:background="@drawable/backgroundedittext"
+                            android:textColor="@color/colorBlack"
+                            android:inputType="numberDecimal"/>
+                        <CheckBox
+                            android:id="@+id/checkbox1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_gravity="center"
+                            android:checked="false"/>
+                    </TableRow>
+                    <TableRow
+                        android:layout_marginBottom="2dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:text="Per Hari"
+                            android:textColor="@color/colorPrimary"/>
+                        <EditText
+                            android:id="@+id/nominal2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:maxLength="14"
+                            android:background="@drawable/backgroundedittext"
+                            android:textColor="@color/colorBlack"
+                            android:inputType="numberDecimal"/>
+                        <CheckBox
+                            android:id="@+id/checkbox2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_gravity="center"
+                            android:checked="false"/>
+                    </TableRow>
+                    <TableRow
+                        android:layout_marginBottom="2dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="5dp"
+                            android:text="Per Bulan"
+                            android:textColor="@color/colorPrimary"/>
+                        <EditText
+                            android:id="@+id/nominal3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:maxLength="14"
+                            android:background="@drawable/backgroundedittext"
+                            android:textColor="@color/colorBlack"
+                            android:inputType="numberDecimal"/>
+                        <CheckBox
+                            android:id="@+id/checkbox3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_gravity="center"
+                            android:checked="false"/>
+                    </TableRow>
+                </TableLayout>
             </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
@@ -99,14 +225,17 @@
                 android:layout_marginTop="5dp"
                 android:layout_gravity="top"
                 android:text="Keterangan"
-                android:textColor="@android:color/black" />
+                android:textColor="@color/colorPrimary" />
 
             <EditText
                 android:id="@+id/keterangan"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
-                android:layout_weight="1"
+                android:nextFocusUp="@id/keterangan"
+                android:nextFocusLeft="@id/keterangan"
+                android:minLines="3"
+                android:maxLines="6"
                 android:textColor="@color/colorBlack"
                 android:background="@drawable/backgroundsoftgray"
                 android:padding="5dp"

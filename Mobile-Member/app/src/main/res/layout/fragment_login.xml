@@ -11,10 +11,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="108dp"
+        android:layout_marginTop="80dp"
         android:text="@string/app_name"
         android:textAllCaps="false"
-        android:textColor="@android:color/black"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="30sp"
         android:textStyle="bold" />
 
@@ -26,66 +26,60 @@
         android:layout_below="@id/textView"
         android:visibility="visible" />
 
-    <TextView
-        android:id="@+id/tv_email"
+    <LinearLayout
+        android:id="@+id/layoutform"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/space"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:text="@string/email"
-        android:textColor="@android:color/black" />
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical"
+        android:layout_below="@id/space">
+        <TextView
+            android:id="@+id/tv_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/email"
+            android:textColor="@color/colorPrimary"/>
 
-    <EditText
-        android:id="@+id/lgn_et_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@id/tv_email"
-        android:layout_below="@id/tv_email"
-        android:layout_marginEnd="15dp"
-        android:ems="10"
-        android:hint="@string/email"
-        android:inputType="textEmailAddress" />
+        <EditText
+            android:id="@+id/lgn_et_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:ems="10"
+            android:background="@drawable/backgroundedittext"
+            android:inputType="textEmailAddress" />
 
-    <TextView
-        android:id="@+id/tv_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/lgn_et_email"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:text="@string/katasandi"
-        android:textColor="@android:color/black" />
+        <TextView
+            android:id="@+id/tv_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/katasandi"
+            android:textColor="@color/colorPrimary"/>
 
-    <EditText
-        android:id="@+id/lgn_et_katasandi"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/tv_password"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:ems="10"
-        android:nextFocusUp="@id/lgn_et_katasandi"
-        android:nextFocusLeft="@id/lgn_et_katasandi"
-        android:hint="@string/katasandi"
-        android:inputType="textPassword" />
+        <EditText
+            android:id="@+id/lgn_et_katasandi"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:nextFocusUp="@id/lgn_et_katasandi"
+            android:nextFocusLeft="@id/lgn_et_katasandi"
+            android:background="@drawable/backgroundedittext"
+            android:inputType="textPassword" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/lgn_btn_login"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="@string/login"
-        android:layout_below="@id/lgn_et_katasandi"
+        android:layout_below="@id/layoutform"
         android:layout_centerHorizontal="true"
-        android:textColor="#000000"
         android:textAllCaps="false"
         android:textSize="16dp"
         android:background="@drawable/buttonshape"
-        />
+        android:textColor="@color/buttontext"/>
 
     <TextView
         android:id="@+id/lgn_tv_daftar"

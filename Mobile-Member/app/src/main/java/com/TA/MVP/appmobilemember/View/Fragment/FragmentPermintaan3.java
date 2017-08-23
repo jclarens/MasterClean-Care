@@ -167,7 +167,7 @@ public class FragmentPermintaan3 extends Fragment {
     }
     public String setRP(Integer number){
         String tempp = "Rp. ";
-        tempp = tempp + numberFormat.format(number) + ".00";
+        tempp = tempp + numberFormat.format(number);
         return tempp;
     }
     public void postpemesanan(Offer offer){

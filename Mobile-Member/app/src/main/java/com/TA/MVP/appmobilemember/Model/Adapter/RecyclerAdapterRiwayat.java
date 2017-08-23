@@ -43,9 +43,13 @@ public class RecyclerAdapterRiwayat extends RecyclerView.Adapter<RecyclerAdapter
     private Context context;
     class ViewHolder extends RecyclerView.ViewHolder{
         public TextView itemnama, itemprofesi, itemmulai, itemstatus;
+        public int hijau,merah,kuning;
 
         public ViewHolder(final View itemview){
             super(itemview);
+            hijau = itemview.getResources().getColor(R.color.colorGreen);
+            merah = itemview.getResources().getColor(R.color.colorRed);
+            kuning = itemview.getResources().getColor(R.color.colorYellow);
             itemnama = (TextView) itemview.findViewById(R.id.card_pms_nama);
             itemprofesi = (TextView) itemview.findViewById(R.id.card_pms_prof);
             itemmulai = (TextView) itemview.findViewById(R.id.card_pms_mulai);
@@ -76,15 +80,19 @@ public class RecyclerAdapterRiwayat extends RecyclerView.Adapter<RecyclerAdapter
         switch (orders.get(position).getStatus()){
             case 2:
                 holder.itemstatus.setText("Dibatalkan");
+                holder.itemstatus.setTextColor(holder.merah);
                 break;
             case 3:
                 holder.itemstatus.setText("Selesai");
+                holder.itemstatus.setTextColor(holder.hijau);
                 break;
             case 4:
                 holder.itemstatus.setText("Ditolak");
+                holder.itemstatus.setTextColor(holder.merah);
                 break;
             case 5:
                 holder.itemstatus.setText("Belum Selesai");
+                holder.itemstatus.setTextColor(holder.kuning);
                 break;
         }
         holder.itemnama.setText(orders.get(position).getArt().getName());
@@ -116,7 +124,7 @@ public class RecyclerAdapterRiwayat extends RecyclerView.Adapter<RecyclerAdapter
     public void doshorting(){
         Collections.sort(orders, new Comparator<Order>(){
             public int compare(Order obj1, Order obj2) {
-                return obj2.getStart_date().compareToIgnoreCase(obj1.getStart_date());
+                return obj2.getEnd_date().compareToIgnoreCase(obj1.getEnd_date());
             }
         });
     }

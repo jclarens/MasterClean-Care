@@ -104,20 +104,21 @@ public class ReviewActivity extends ParentActivity{
             public void onSuccess(Call<ReviewOrderResponse> call, Response<ReviewOrderResponse> response) {
                 super.onSuccess(call, response);
                 dismissDialog();
+                Toast.makeText(getApplicationContext(),"Review anda telah tersimpan.", Toast.LENGTH_SHORT).show();
                 finish();
             }
 
             @Override
             public void onError(Call<ReviewOrderResponse> call, Response<ReviewOrderResponse> response) {
                 super.onError(call, response);
-                Toast.makeText(getApplicationContext(),"Terjadi kesalahan pada server", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Terjadi kesalahan pada server.", Toast.LENGTH_SHORT).show();
                 dismissDialog();
             }
 
             @Override
             public void onFailure(Call<ReviewOrderResponse> call, Throwable t) {
                 super.onFailure(call, t);
-                Toast.makeText(getApplicationContext(),"Koneksi bermasalah, silahkan coba lagi", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Koneksi bermasalah, silahkan coba lagi.", Toast.LENGTH_SHORT).show();
                 dismissDialog();
             }
         });

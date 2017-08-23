@@ -44,7 +44,8 @@
             android:layout_marginBottom="5dp"
             android:textColor="@color/colorBlack"
             android:maxLength="14"
-            android:background="@drawable/backgroundedittext"/>
+            android:background="@drawable/backgroundedittext"
+            android:inputType="numberDecimal"/>
         <Button
             android:id="@+id/tarik"
             android:layout_width="wrap_content"

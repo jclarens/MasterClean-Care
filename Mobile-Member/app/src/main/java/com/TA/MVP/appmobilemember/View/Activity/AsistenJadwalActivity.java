@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.TA.MVP.appmobilemember.MasterCleanApplication;
 import com.TA.MVP.appmobilemember.Model.Adapter.RecyclerAdapterJadwal;
@@ -84,11 +85,14 @@ public class AsistenJadwalActivity extends ParentActivity {
                 if (response.body().size() > 0){
                     showlist();
                 } else hidelist();
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
             public void onFailure(Call<List<Order>> call, Throwable t) {
                 super.onFailure(call, t);
+                swipeRefreshLayout.setRefreshing(false);
+                Toast.makeText(getApplicationContext(),"Koneksi bermasalah harap coba lagi", Toast.LENGTH_SHORT).show();
             }
         });
     }

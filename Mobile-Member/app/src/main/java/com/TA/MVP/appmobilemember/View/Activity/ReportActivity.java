@@ -94,7 +94,10 @@ public class ReportActivity extends ParentActivity {
         HashMap<String,String> map = new HashMap<>();
         map.put("user_id", target.getId().toString());
         map.put("reporter_id", user.getId().toString());
-        map.put("remark", remark.getText().toString());
+        if (getIntent().getStringExtra("orderid") != null){
+            map.put("remark", "[Perihal pemesanan ("+getIntent().getStringExtra("orderid")+")] " + remark.getText().toString());
+        }else
+            map.put("remark", remark.getText().toString());
         Call<ReportResponse> caller = APIManager.getRepository(ReportRepo.class).postreport(map);
         caller.enqueue(new APICallback<ReportResponse>() {
             @Override

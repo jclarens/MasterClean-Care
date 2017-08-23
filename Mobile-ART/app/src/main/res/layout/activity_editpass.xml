@@ -13,28 +13,44 @@
         android:orientation="vertical"
         android:padding="15dp">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kata sandi"
+            android:textColor="@color/colorPrimary"/>
         <EditText
             android:id="@+id/epass_et_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:ems="10"
-            android:hint="@string/katasandi"
+            android:background="@drawable/backgroundedittext"
             android:inputType="textPassword" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kata sandi baru"
+            android:textColor="@color/colorPrimary"/>
         <EditText
             android:id="@+id/epass_et_newpass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/katasandibaru"
+            android:background="@drawable/backgroundedittext"
             android:inputType="textPassword" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Konfirmasi kata sandi baru"
+            android:textColor="@color/colorPrimary"/>
         <EditText
             android:id="@+id/epass_et_knewpass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="@string/katasandibarukonfirm"
+            android:background="@drawable/backgroundedittext"
             android:inputType="textPassword" />
 
         <LinearLayout

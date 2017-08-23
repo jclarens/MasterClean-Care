@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,6 +58,7 @@ public class PencairanActivity extends ParentActivity {
             norek.setText(user.getContact().getAcc_no());
         else {
             Toast.makeText(getApplicationContext(), "Anda belum mendaftarkan nomor rekening.", Toast.LENGTH_SHORT).show();
+            finish();
         }
 
         textWatcher = new TextWatcher() {
@@ -89,7 +91,10 @@ public class PencairanActivity extends ParentActivity {
             public void onClick(View view) {
                 if (total < 50.000){
                     Toast.makeText(getApplicationContext(), "Jumlah penarikan harus lebih besar dari "+setRP(50000), Toast.LENGTH_SHORT).show();
-                }else posttransaksi();
+                }else if (total > user.getUser_wallet().getAmt()){
+                    Toast.makeText(getApplicationContext(), "Tidak dapat melakukan penarikan. Jumlah wallet anda "+setRP(user.getUser_wallet().getAmt()), Toast.LENGTH_SHORT).show();
+                }
+                else posttransaksi();
             }
         });
 
@@ -129,7 +134,7 @@ public class PencairanActivity extends ParentActivity {
         map.put("amount", total);
         map.put("trc_type", 1);
         map.put("trc_time", getdateFormat.format(calendar.getTime()));
-        map.put("trc_img", user.getContact().getAcc_no());
+        map.put("acc_no", user.getContact().getAcc_no());
         map.put("status", 0);
         Call<WalletTransactionResponse> caller = APIManager.getRepository(WalletTransactionRepo.class).postwallettransaction(map);
         caller.enqueue(new APICallback<WalletTransactionResponse>() {
@@ -161,5 +166,14 @@ public class PencairanActivity extends ParentActivity {
                 Toast.makeText(getApplicationContext(), "Koneksi bermasalah.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

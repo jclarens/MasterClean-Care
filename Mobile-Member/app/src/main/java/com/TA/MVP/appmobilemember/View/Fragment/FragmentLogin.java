@@ -94,7 +94,7 @@ public class FragmentLogin extends Fragment {
                         ((AuthActivity) getActivity()).dofinishActivity(i);
                     }
                 } catch (NullPointerException e) {
-                    Toast.makeText(getContext(), "Email atau katasandi salah", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), response.body().message, Toast.LENGTH_SHORT).show();
                     ((AuthActivity) getActivity()).dismissDialog();
                 }
             }

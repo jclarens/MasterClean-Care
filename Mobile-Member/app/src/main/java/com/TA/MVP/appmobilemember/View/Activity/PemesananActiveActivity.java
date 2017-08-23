@@ -69,6 +69,7 @@ public class PemesananActiveActivity extends ParentActivity {
     private ImageButton btnlocation;
     private TextView tugastext;
     private boolean sdgbrlgsg = false;
+    private boolean dptdiselesaikan = false;
 
     private Calendar calendar = Calendar.getInstance();
     private Calendar waktumulai = new GregorianCalendar();
@@ -117,6 +118,10 @@ public class PemesananActiveActivity extends ParentActivity {
             }
         });
 
+        loadtampilan();
+    }
+
+    public void loadtampilan(){
         if (order.getStatus() == 1){
             checkselesai();
             checksedangberlangsung();
@@ -125,10 +130,6 @@ public class PemesananActiveActivity extends ParentActivity {
             checkexpired();
         }
 
-        loadtampilan();
-    }
-
-    public void loadtampilan(){
         switch (order.getStatus()){
             case 0:
                 btnextra.setText("Batalkan");
@@ -136,7 +137,8 @@ public class PemesananActiveActivity extends ParentActivity {
             case 1:
                 if (sdgbrlgsg)
                     btnextra.setText("Selesai");
-                btnextra.setText("Kirim Pesan");
+                else
+                    btnextra.setText("Kirim Pesan");
                 break;
             case 2:
 //                btnextra.setText("Hapus");
@@ -202,6 +204,22 @@ public class PemesananActiveActivity extends ParentActivity {
                 tugastext.setVisibility(View.GONE);
                 break;
         }
+        switch (order.getJob_id()){
+            case 1:
+                break;
+            case 2:
+                recyclerView.setVisibility(View.GONE);
+                tugastext.setVisibility(View.GONE);
+                break;
+            case 3:
+                recyclerView.setVisibility(View.GONE);
+                tugastext.setVisibility(View.GONE);
+                break;
+            case 4:
+                recyclerView.setVisibility(View.GONE);
+                tugastext.setVisibility(View.GONE);
+                break;
+        }
 
         kembali.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -218,20 +236,24 @@ public class PemesananActiveActivity extends ParentActivity {
                         break;
                     case 1:
                         if (sdgbrlgsg){
-                            abuildermessage("Asisten sudah menyelesaikan tugasnya?","Konfirmasi");
-                            abuilder.setPositiveButton("sudah", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    gantimystatus(1);
-                                }
-                            });
-                            abuilder.setNegativeButton("Belum", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
+                            if (dptdiselesaikan) {
+                                abuildermessage("Asisten sudah menyelesaikan tugasnya?", "Konfirmasi");
+                                abuilder.setPositiveButton("sudah", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        gantimystatus(1);
+                                    }
+                                });
+                                abuilder.setNegativeButton("Belum", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                                }
-                            });
-                            showalertdialog();
+                                    }
+                                });
+                                showalertdialog();
+                            }else {
+                                Toast.makeText(getApplicationContext(),"Asisten sedang mengerjakan pemesanan anda.", Toast.LENGTH_SHORT).show();
+                            }
                         }
                         else {
                             Intent intent1 = new Intent(getApplicationContext(), TulisPesanActivity.class);
@@ -279,6 +301,7 @@ public class PemesananActiveActivity extends ParentActivity {
                     case 5:
                         Intent intent = new Intent(getApplicationContext(), ReportActivity.class);
                         intent.putExtra("target", GsonUtils.getJsonFromObject(order.getArt()));
+                        intent.putExtra("orderid", GsonUtils.getJsonFromObject(order.getId()));
                         startActivity(intent);
                         break;
                 }
@@ -306,7 +329,7 @@ public class PemesananActiveActivity extends ParentActivity {
     }
     public String setRP(Integer number){
         String tempp = "Rp. ";
-        tempp = tempp + numberFormat.format(number) + ".00";
+        tempp = tempp + numberFormat.format(number);
         return tempp;
     }
     public void batalkanorder(final Integer id){
@@ -363,11 +386,18 @@ public class PemesananActiveActivity extends ParentActivity {
         }
         if (calendar.after(waktuselesai)){
             if (order.getStatus_member() == 1 && order.getStatus_art() == 1) {
+                btnextra.setVisibility(View.VISIBLE);
                 abuildermessage("Pemesanan ini sudah selesai. anda dapat melakukan review pada tab Riwayat", "Pemberitahuan");
                 abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                     gantistatus(3);
+                    }
+                });
+                abuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        gantistatus(3);
                     }
                 });
                 showalertdialog();
@@ -400,7 +430,20 @@ public class PemesananActiveActivity extends ParentActivity {
             public void onSuccess(Call<OrderResponse> call, Response<OrderResponse> response) {
                 super.onSuccess(call, response);
                 dismissDialog();
-                finish();
+                abuildermessage("Pemesanan ini sudah selesai. anda dapat melakukan review pada tab Riwayat", "Pemberitahuan");
+                abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+                abuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        finish();
+                    }
+                });
+                showalertdialog();
             }
 
             @Override
@@ -431,9 +474,10 @@ public class PemesananActiveActivity extends ParentActivity {
             btnextra.setText("Selesai");
             if (order.getStatus_member().equals(1)) {
                 btnextra.setEnabled(false);
+                btnextra.setVisibility(View.GONE);
             }
-            else {
-
+            if (order.getStatus_art().equals(1)){
+                dptdiselesaikan = true;
             }
         }
     }

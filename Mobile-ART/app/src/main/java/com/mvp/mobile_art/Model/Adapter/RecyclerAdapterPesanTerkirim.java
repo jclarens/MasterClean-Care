@@ -40,6 +40,7 @@ import retrofit2.Response;
 
 public class RecyclerAdapterPesanTerkirim extends RecyclerView.Adapter<RecyclerAdapterPesanTerkirim.ViewHolder> {
     private DateFormat getdateFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
+    private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-d", Locale.ENGLISH);
     private DateFormat timeFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
     private DateFormat tahunFormat = new SimpleDateFormat("yyyy", Locale.ENGLISH);
     private DateFormat bulanFormat = new SimpleDateFormat("MM", Locale.ENGLISH);
@@ -90,7 +91,7 @@ public class RecyclerAdapterPesanTerkirim extends RecyclerView.Adapter<RecyclerA
 
         }
         holder.itemsubject.setText(myMessages.get(position).getSubject());
-        if (myMessages.get(position).getStatus_art() == 0){
+        if (myMessages.get(position).getStatus_member() == 0){
             holder.imageView.setImageResource(R.drawable.ic_closed_msg);
         } else holder.imageView.setImageResource(R.drawable.ic_opened_msg);
     }
@@ -103,7 +104,7 @@ public class RecyclerAdapterPesanTerkirim extends RecyclerView.Adapter<RecyclerA
     public void setPesan(List<MyMessage> myMessages){
         this.myMessages = myMessages;
         for (int n=0;n<myMessages.size();n++){
-            if (myMessages.get(n).getStatus_art() == 2){
+            if (myMessages.get(n).getStatus_member() == 2){
                 myMessages.remove(myMessages.get(n));
             }
         }

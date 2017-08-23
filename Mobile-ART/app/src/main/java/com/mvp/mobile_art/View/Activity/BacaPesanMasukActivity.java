@@ -56,8 +56,6 @@ public class BacaPesanMasukActivity extends ParentActivity {
                 abuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        initProgressDialog("Menghapus pesan");
-                        showDialog();
                         hapuspesan();
                     }
                 });
@@ -89,6 +87,8 @@ public class BacaPesanMasukActivity extends ParentActivity {
         return super.onOptionsItemSelected(item);
     }
     public void hapuspesan(){
+        initProgressDialog("Menghapus pesan");
+        showDialog();
         Call<MyMessageResponse> caller = APIManager.getRepository(MessageRepo.class).patchmessage(myMessage.getId().toString(), 2);
         caller.enqueue(new APICallback<MyMessageResponse>() {
             @Override

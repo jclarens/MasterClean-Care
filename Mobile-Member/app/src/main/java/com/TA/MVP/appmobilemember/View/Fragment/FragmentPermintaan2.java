@@ -80,6 +80,7 @@ public class FragmentPermintaan2 extends Fragment {
     private List<Waktu_Kerja> defaultWK = new ArrayList<>();
     private List<Job> defaultProf = new ArrayList<>();
     private TextWatcher textWatcher = null;
+    private TextWatcher textWatcher2 = null;
 
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
     private int minestimasi = 1;
@@ -322,19 +323,34 @@ public class FragmentPermintaan2 extends Fragment {
             }
         });
 
-        estimasi.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        textWatcher2 = new TextWatcher() {
             @Override
-            public void onFocusChange(View view, boolean b) {
-                if (!b) {
-                    tmp = Integer.valueOf(estimasi.getText().toString());
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                estimasi.removeTextChangedListener(textWatcher2);
+                if (estimasi.getText().toString().equals(""))
+                    estimasi.setText(String.valueOf(minestimasi));
+                else {
+                    tmp = Integer.valueOf(estimasi.getText().toString().replace(".",""));
                     if (tmp > maxestimasi)
                         estimasi.setText(String.valueOf(maxestimasi));
                     else if (tmp < minestimasi)
                         estimasi.setText(String.valueOf(minestimasi));
-                    settanggal();
                 }
+                settanggal();
+                estimasi.addTextChangedListener(textWatcher2);
             }
-        });
+        };
+        estimasi.addTextChangedListener(textWatcher2);
 
 
         return _view;
@@ -453,19 +469,19 @@ public class FragmentPermintaan2 extends Fragment {
             return false;
         }
         if (startdate.before(getbatasmulai())){
-            Toast.makeText(getContext(), "Tidak dapat menerima pesanan sebelum jam 8 Pagi", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Tidak dapat membuat penawaran sebelum jam 8 Pagi", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (startdate.after(getbatasselesai())){
-            Toast.makeText(getContext(), "Tidak dapat menerima pesanan setelah jam 5 Sore", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Tidak dapat membuat penawaran setelah jam 5 Sore", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (enddate.after(getbatasselesai2())){
-            Toast.makeText(getContext(), "Tidak dapat menerima pesanan setelah jam 5 Sore", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Tidak dapat membuat penawaran setelah jam 5 Sore", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (startdate.before(getbatassekarang())){
-            Toast.makeText(getContext(), "Harap memesan untuk 2 jam kedepan", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Harap menawarkan untuk 2 jam kedepan", Toast.LENGTH_SHORT).show();
             return false;
         }
         if (total < 10000){

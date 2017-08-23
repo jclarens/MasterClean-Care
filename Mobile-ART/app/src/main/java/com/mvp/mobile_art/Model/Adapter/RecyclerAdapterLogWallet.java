@@ -111,7 +111,7 @@ public class RecyclerAdapterLogWallet extends RecyclerView.Adapter<RecyclerAdapt
     }
     public String setRP(Integer number){
         String tempp = "Rp. ";
-        tempp = tempp + numberFormat.format(number) + ".00";
+        tempp = tempp + numberFormat.format(number);
         return tempp;
     }
     public void doshorting(){

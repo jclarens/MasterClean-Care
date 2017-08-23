@@ -22,7 +22,7 @@
                 android:layout_margin="5dp"
                 android:text="Konfirmasi Penawaran"
                 android:textAlignment="center"
-                android:textColor="@android:color/black"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="24sp" />
 
             <EditText
@@ -69,11 +69,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Alamat pemesanan"
-                    android:textColor="@color/colorBlack"/>
+                    android:textColor="@color/colorPrimary"/>
                 <EditText
                     android:id="@+id/alamat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:minLines="2"
+                    android:maxLines="4"
                     android:enabled="false"
                     android:focusable="false"
                     android:background="@drawable/backgroundedittext"
@@ -90,7 +92,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/mulai"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/colorPrimary" />
 
                 <EditText
                     android:id="@+id/pmr3_et_mulai"
@@ -115,7 +117,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/selesai"
-                    android:textColor="@android:color/black" />
+                    android:textColor="@color/colorPrimary" />
                 <EditText
                     android:id="@+id/pmr3_et_selesai"
                     android:layout_width="match_parent"
@@ -135,7 +137,7 @@
                 android:layout_height="wrap_content"
                 android:text="Honor yang ditawarkan :"
                 android:textAlignment="center"
-                android:textColor="@android:color/black" />
+                android:textColor="@color/colorPrimary" />
 
             <EditText
                 android:id="@+id/pmr3_et_total"
@@ -188,6 +190,7 @@
                     android:text="@string/btn_prev"
                     android:textAllCaps="false"
                     android:background="@drawable/buttonshape"
+                    android:textColor="@color/buttontext"
                     tools:ignore="ButtonStyle" />
 
                 <Button
@@ -197,6 +200,7 @@
                     android:layout_weight="1"
                     android:text="Konfirmasi"
                     android:textAllCaps="false"
+                    android:textColor="@color/buttontext"
                     android:background="@drawable/buttonshape"
                     tools:ignore="ButtonStyle" />
             </LinearLayout>

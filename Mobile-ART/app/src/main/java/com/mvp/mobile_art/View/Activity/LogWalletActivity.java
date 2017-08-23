@@ -86,6 +86,7 @@ public class LogWalletActivity extends ParentActivity {
             @Override
             public void onSuccess(Call<List<WalletTransaction>> call, Response<List<WalletTransaction>> response) {
                 super.onSuccess(call, response);
+                swipeRefreshLayout.setRefreshing(false);
                 walletTransactions = response.body();
                 if (walletTransactions.size() < 1){
                     hidelist();

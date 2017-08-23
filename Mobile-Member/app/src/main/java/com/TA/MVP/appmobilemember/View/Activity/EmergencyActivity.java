@@ -83,9 +83,11 @@ public class EmergencyActivity extends ParentActivity {
         tutup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //validasi code
-                if (code.getText().equals("")){
-                    Toast.makeText(getApplicationContext(), "Input Password kosong", Toast.LENGTH_SHORT).show();
+                hidekeyboard();
+                if (code.getText().toString().equals("")){
+                    Toast.makeText(getApplicationContext(), "Input kata sandi kosong", Toast.LENGTH_SHORT).show();
+                }else if (reason.getText().toString().equals("")){
+                    Toast.makeText(getApplicationContext(), "Harap tuliskan alasan anda menekan tombol darurat.", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     trypass();

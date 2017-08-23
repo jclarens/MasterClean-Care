@@ -176,6 +176,22 @@ public class OfferActivity extends ParentActivity {
                 tugastext.setVisibility(View.GONE);
                 break;
         }
+        switch (offer.getJob_id()){
+            case 1:
+                break;
+            case 2:
+                recyclerView.setVisibility(View.GONE);
+                tugastext.setVisibility(View.GONE);
+                break;
+            case 3:
+                recyclerView.setVisibility(View.GONE);
+                tugastext.setVisibility(View.GONE);
+                break;
+            case 4:
+                recyclerView.setVisibility(View.GONE);
+                tugastext.setVisibility(View.GONE);
+                break;
+        }
 
         switch (offer.getStatus()){
             case 0:
@@ -256,7 +272,7 @@ public class OfferActivity extends ParentActivity {
     }
     public String setRP(Integer number){
         String tempp = "Rp. ";
-        tempp = tempp + numberFormat.format(number) + ".00";
+        tempp = tempp + numberFormat.format(number);
         return tempp;
     }
     public void addthisarttooffer(){

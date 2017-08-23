@@ -14,12 +14,12 @@
             android:layout_margin="5dp"
             android:text="Lokasi"
             android:textAlignment="center"
-            android:textColor="@color/colorBlack"
+            android:textColor="@color/colorPrimaryDark"
             android:textSize="24sp" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pilih Lokasi Pemesanan"
+            android:text="Pilih Lokasi"
             android:textColor="@color/colorBlack"/>
 
         <Button
@@ -28,12 +28,16 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:text="Pilih"
+            android:textColor="@color/buttontext"
             android:background="@drawable/buttonshape"
             android:textAllCaps="false" />
         <EditText
             android:id="@+id/prm1_et_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="top"
+            android:minLines="2"
+            android:maxLines="4"
             android:background="@drawable/backgroundedittext"/>
         <LinearLayout
             android:layout_width="match_parent"
@@ -48,6 +52,7 @@
             android:layout_height="wrap_content"
             android:text="@string/btn_next"
             android:textAllCaps="false"
+            android:textColor="@color/buttontext"
             android:background="@drawable/buttonshape"/>
     </LinearLayout>
 </LinearLayout>

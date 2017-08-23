@@ -14,6 +14,7 @@ public class WalletTransaction {
     private String trc_time;
     private String trc_img;
     private Integer status;
+    private String acc_no;
 
     public Integer getId() {
         return id;
@@ -57,5 +58,21 @@ public class WalletTransaction {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getTrc_img() {
+        return trc_img;
+    }
+
+    public void setTrc_img(String trc_img) {
+        this.trc_img = trc_img;
+    }
+
+    public String getAcc_no() {
+        return acc_no;
+    }
+
+    public void setAcc_no(String acc_no) {
+        this.acc_no = acc_no;
     }
 }

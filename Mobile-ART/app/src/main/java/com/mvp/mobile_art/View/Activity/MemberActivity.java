@@ -45,7 +45,7 @@ import retrofit2.Response;
 
 public class MemberActivity extends ParentActivity {
     private Toolbar toolbar;
-    private ImageView imageView;
+    private ImageView imageView, lapor;
     private TextView alamat, notelp, agama, usia, nama, kota;
     private StaticData staticData;
     private User member = new User();
@@ -86,6 +86,7 @@ public class MemberActivity extends ParentActivity {
         usia = (TextView) findViewById(R.id.usia);
         kota = (TextView) findViewById(R.id.kota);
         imageView = (ImageView) findViewById(R.id.imageView);
+        lapor = (ImageView) findViewById(R.id.lapor);
         setAll();
 
 
@@ -104,6 +105,16 @@ public class MemberActivity extends ParentActivity {
         notelp.setText(member.getContact().getPhone());
         agama.setText(arrayAgama.getArrayList().get(member.getReligion()-1));
         kota.setText(staticData.getPlaces().get(member.getContact().getCity()-1).getName());
+
+
+        lapor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ReportActivity.class);
+                intent.putExtra("target", GsonUtils.getJsonFromObject(member));
+                startActivity(intent);
+            }
+        });
 
         thisYear = calendar.get(Calendar.YEAR);
         artbornyear = Integer.valueOf(yearformat.format(member.getBorn_date()));

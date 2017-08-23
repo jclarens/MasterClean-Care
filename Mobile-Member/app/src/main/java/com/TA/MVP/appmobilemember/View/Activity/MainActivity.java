@@ -198,6 +198,10 @@ public class MainActivity extends ParentActivity {
                 SharedPref.save(ConstClass.USER, data.getStringExtra(ConstClass.USER));
                 final FragmentTransaction transaction2 = fragmentManager.beginTransaction();
                 transaction2.replace(R.id.main_container, fragment).commit();
+                bottomNavigation.getMenu().clear();
+                bottomNavigation.inflateMenu(R.menu.navigation);
+                MenuItem item = bottomNavigation.getMenu().getItem(4); //5 = lainnya
+                item.setChecked(true);
             }
         }
         hidekeyboard();

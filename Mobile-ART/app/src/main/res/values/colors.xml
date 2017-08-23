@@ -21,6 +21,9 @@
     <color name="colorBiruTerang200">#81d4fa</color>
     <color name="toolbartitle">#ffffff</color>
     <color name="buttontext">#ffffff</color>
+    <color name="colorGreen">#00c800</color>
+    <color name="colorRed">#ff0000</color>
+    <color name="colorYellow">#fda101</color>
 </resources>
 
 <!--<color name="colorPrimaryDark">#408cab</color>-->

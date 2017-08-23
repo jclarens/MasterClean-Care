@@ -68,8 +68,8 @@ public class AsistenActivity extends ParentActivity {
     private ListStatus listStatus = new ListStatus();
     private StaticData staticData;
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
-    private LinearLayout layoutreview, layoutgaji, layoutstatus;
-    private ImageView imageView;
+    private LinearLayout layoutreview, layoutgaji, layoutstatus, layoutketerangan;
+    private ImageView imageView, lapor;
     private boolean minidetail = false;
 
     @Override
@@ -97,6 +97,7 @@ public class AsistenActivity extends ParentActivity {
     private void initAllView(){
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
         imageView = (ImageView) findViewById(R.id.imageView);
+        lapor = (ImageView) findViewById(R.id.lapor);
         nama = (TextView) findViewById(R.id.asis_tv_nama);
         ratingBar = (RatingBar) findViewById(R.id.asis_ratingBar);
         usia = (TextView) findViewById(R.id.asis_tv_usia);
@@ -111,12 +112,13 @@ public class AsistenActivity extends ParentActivity {
         gajibulan = (TextView) findViewById(R.id.asis_tv_gajibulan);
         txtprofesi = (TextView) findViewById(R.id.asis_tv_profesi);
         txtbhs = (TextView) findViewById(R.id.asis_tv_bhs);
-        tktanjg = (TextView) findViewById(R.id.asis_cb_tktanjg);
+        tktanjg = (TextView) findViewById(R.id.asis_tv_tktanjg);
         jadwal = (Button) findViewById(R.id.asis_btn_lhtjdwl);
         pemesanan = (Button) findViewById(R.id.asis_btn_pemesanan);
         layoutreview = (LinearLayout) findViewById(R.id.layout_review);
         layoutgaji = (LinearLayout) findViewById(R.id.layout_gaji);
         layoutstatus = (LinearLayout) findViewById(R.id.layout_status);
+        layoutketerangan = (LinearLayout) findViewById(R.id.layout_keterangan);
 
         setAll();
 
@@ -172,6 +174,20 @@ public class AsistenActivity extends ParentActivity {
             ratingBar.setRating(0);
         }
 
+        if (SharedPref.getValueString(ConstClass.USER).equals(""))
+            lapor.setVisibility(View.GONE);
+        else {
+            lapor.setVisibility(View.VISIBLE);
+            lapor.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(), ReportActivity.class);
+                    intent.putExtra("target", GsonUtils.getJsonFromObject(art));
+                    startActivity(intent);
+                }
+            });
+        }
+
 
         for (int n=0;n<art.getUser_work_time().size();n++){
             switch (art.getUser_work_time().get(n).getWork_time_id()){
@@ -186,13 +202,14 @@ public class AsistenActivity extends ParentActivity {
                     break;
             }
         }
-//        tktanjg.setChecked(false);
-        tktanjg.setVisibility(View.GONE);
+        if (!(art.getDescription().equals("") || art.getDescription() == null)){
+            layoutketerangan.setVisibility(View.VISIBLE);
+        }
+        tktanjg.setText("Tidak");
         if (art.getUser_additional_info().size() > 0) {
             switch (art.getUser_additional_info().get(0).getInfo_id()){
                 case 1:
-//                    tktanjg.setChecked(true);
-                    tktanjg.setVisibility(View.VISIBLE);
+                    tktanjg.setText("Ya");
                     break;
             }
         }
@@ -207,7 +224,7 @@ public class AsistenActivity extends ParentActivity {
         pemesanan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (SharedPref.getValueString(ConstClass.USER) == "")
+                if (SharedPref.getValueString(ConstClass.USER).equals(""))
                     Toast.makeText(getApplicationContext(),"Silahkan login terlebih dahulu", Toast.LENGTH_SHORT).show();
                 else if (art.getStatus() != 1){
                     Toast.makeText(getApplicationContext(),"Asisten ini sedang tidak aktif", Toast.LENGTH_SHORT).show();
@@ -249,7 +266,7 @@ public class AsistenActivity extends ParentActivity {
                 finish();
                 break;
             case R.id.prof_menu_pesan:
-                if (SharedPref.getValueString(ConstClass.USER) == "")
+                if (SharedPref.getValueString(ConstClass.USER).equals(""))
                     Toast.makeText(getApplicationContext(),"Silahkan login terlebih dahulu untuk mengirim pesan", Toast.LENGTH_SHORT).show();
                 else {
                     Intent i = new Intent(getApplicationContext(), TulisPesanActivity.class);

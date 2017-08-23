@@ -52,7 +52,7 @@ public class FragmentPenawaranAll extends Fragment {
     private List<Offer> offers = new ArrayList<>();
     private User user = new User();
     private SwipeRefreshLayout swipeRefreshLayout;
-    private LinearLayout layoutnolist;
+    private LinearLayout layoutnolist, layoutloading, layoutnoconnection;
     private Calendar calendar = Calendar.getInstance();
     private Calendar waktumulai = new GregorianCalendar();
     private Calendar waktuselesai = new GregorianCalendar();
@@ -64,6 +64,8 @@ public class FragmentPenawaranAll extends Fragment {
         user = GsonUtils.getObjectFromJson(SharedPref.getValueString(ConstClass.USER), User.class);
 
         layoutnolist = (LinearLayout) _view.findViewById(R.id.layout_nolist);
+        layoutloading = (LinearLayout) _view.findViewById(R.id.layout_loading);
+        layoutnoconnection = (LinearLayout) _view.findViewById(R.id.layout_noconnection);
         swipeRefreshLayout = (SwipeRefreshLayout) _view.findViewById(R.id.swipeRefreshLayout);
         recyclerView = (RecyclerView) _view.findViewById(R.id.recycleview_penawaran);
         rec_LayoutManager = new LinearLayoutManager(getContext());
@@ -73,6 +75,7 @@ public class FragmentPenawaranAll extends Fragment {
         rec_Adapter.setDefaultwk(((MasterCleanApplication)getActivity().getApplication()).globalStaticData.getWaktu_kerjas());
         rec_Adapter.setcontext(getContext());
 
+        showloading();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -129,6 +132,22 @@ public class FragmentPenawaranAll extends Fragment {
         recyclerView.setVisibility(View.VISIBLE);
         layoutnolist.setVisibility(View.GONE);
     }
+    public void showloading(){
+        layoutloading.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+    public void hideloading(){
+        layoutloading.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+    }
+    public void shownoconnection(){
+        layoutnoconnection.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+    public void hidenoconnection(){
+        layoutnoconnection.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+    }
     public List<Offer> validasijadwal(List<Order> orders, List<Offer> offers){
         List<Offer> result = new ArrayList<>();
         boolean bentrok = false;
@@ -165,6 +184,7 @@ public class FragmentPenawaranAll extends Fragment {
             @Override
             public void onSuccess(Call<List<Order>> call, Response<List<Order>> response) {
                 super.onSuccess(call, response);
+                hidenoconnection();
                 List<Offer> offerz = validasijadwal(response.body(), offers);
                 if (offerz.size() < 1)
                     hidelist();
@@ -173,12 +193,14 @@ public class FragmentPenawaranAll extends Fragment {
                     rec_Adapter.setOffers(offerz);
                 }
                 swipeRefreshLayout.setRefreshing(false);
+                hideloading();
             }
 
             @Override
             public void onFailure(Call<List<Order>> call, Throwable t) {
                 super.onFailure(call, t);
-                Toast.makeText(getContext(), "Koneksi bermasalah silahkan coba lagi", Toast.LENGTH_SHORT).show();
+                hideloading();
+                shownoconnection();
                 swipeRefreshLayout.setRefreshing(false);
             }
 
