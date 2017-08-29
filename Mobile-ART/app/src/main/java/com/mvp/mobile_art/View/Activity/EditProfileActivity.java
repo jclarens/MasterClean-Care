@@ -77,6 +77,7 @@ public class EditProfileActivity extends ParentActivity {
     private ImageView foto;
     private BufferedInputStream bufferedInputStream;
     private CropSquareTransformation cropSquareTransformation = new CropSquareTransformation();
+    private RoundedTransformation roundedTransformation = new RoundedTransformation(10000, 0);
     private String selectedimagepath;
     private boolean imagechanged = false;
     private String newimage;
@@ -258,8 +259,8 @@ public class EditProfileActivity extends ParentActivity {
                 .load(Settings.getRetrofitAPIUrl()+"image/small/"+user.getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
-                .resize(200, 200)
-                .transform(new RoundedTransformation(100, 0))
+                .fit().centerCrop()
+                .transform(new RoundedTransformation(1000, 0))
                 .into(foto);
 
         final Activity activity = this;
@@ -343,7 +344,7 @@ public class EditProfileActivity extends ParentActivity {
                 selectedimagepath = getrealpathURI(imageuri);
                 imagechanged = true;
 
-                foto.setImageBitmap(cropSquareTransformation.transform(bmp));
+                foto.setImageBitmap(roundedTransformation.transform(cropSquareTransformation.transform(bmp)));
             } catch (FileNotFoundException e) {
 
             }

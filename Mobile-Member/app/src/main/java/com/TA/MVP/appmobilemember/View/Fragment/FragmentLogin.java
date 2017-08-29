@@ -80,22 +80,19 @@ public class FragmentLogin extends Fragment {
             @Override
             public void onSuccess(Call<LoginResponse> call, Response<LoginResponse> response) {
                 super.onSuccess(call, response);
+                ((AuthActivity) getActivity()).dismissDialog();
                 try {
                     if (response.body().getUser().getActivation() == 0){
                         Toast.makeText(getContext(),"Anda belum mendapat hak akses", Toast.LENGTH_SHORT).show();
-                        ((AuthActivity) getActivity()).dismissDialog();
                     } else {
                         SharedPref.save(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
                         SharedPref.save(SharedPref.ACCESS_TOKEN, response.body().getToken().getAccess_token());
-                        ((AuthActivity) getActivity()).dismissDialog();
                         Intent i = new Intent();
                         i.putExtra(ConstClass.USER, GsonUtils.getJsonFromObject(response.body().getUser()));
-                        ((AuthActivity) getActivity()).dismissDialog();
                         ((AuthActivity) getActivity()).dofinishActivity(i);
                     }
                 } catch (NullPointerException e) {
                     Toast.makeText(getContext(), response.body().message, Toast.LENGTH_SHORT).show();
-                    ((AuthActivity) getActivity()).dismissDialog();
                 }
             }
 

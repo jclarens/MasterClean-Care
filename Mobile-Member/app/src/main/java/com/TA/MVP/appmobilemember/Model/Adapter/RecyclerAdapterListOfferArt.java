@@ -50,6 +50,7 @@ import retrofit2.Response;
 public class RecyclerAdapterListOfferArt extends RecyclerView.Adapter<RecyclerAdapterListOfferArt.ViewHolder> {
     private DateFormat fixFormat = new SimpleDateFormat("yyyy-MM-d HH:mm", Locale.ENGLISH);
     private List<OfferArt> offerArts = new ArrayList<>();
+    private OfferArt selectedart = new OfferArt();
     private Offer offer;
     private Context context;
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
@@ -105,6 +106,7 @@ public class RecyclerAdapterListOfferArt extends RecyclerView.Adapter<RecyclerAd
                         public void onClick(DialogInterface dialogInterface, int i) {
 //                            postpemesanan(offerArts.get(position).getId(),offerArts.get(position).getArt_id());
                             offerArts.get(position).setStatus(1);
+                            selectedart = offerArts.get(position);
                             loaduser(offerArts.get(position).getArt().getId());
                         }
                     });
@@ -190,7 +192,7 @@ public class RecyclerAdapterListOfferArt extends RecyclerView.Adapter<RecyclerAd
             }
         });
     }
-    public void getjadwal(Integer id){
+    public void getjadwal(final Integer id){
         Call<List<Order>> callerjadwal = APIManager.getRepository(OrderRepo.class).getordersByArtstatus( id , 1);
         callerjadwal.enqueue(new APICallback<List<Order>>() {
             @Override
@@ -241,14 +243,14 @@ public class RecyclerAdapterListOfferArt extends RecyclerView.Adapter<RecyclerAd
     public void confirmoffer(){
         HashMap<String,Object> map = new HashMap<>();
         map.put("status", 1);
-        map.put("offer_art", offerArts);
-        Call<OfferResponse> caller = APIManager.getRepository(OfferRepo.class).patchoffer(offer.getId(), map);
+//        map.put("offer_art", offerArts);
+        Call<OfferResponse> caller = APIManager.getRepository(OfferRepo.class).patchofferart(selectedart.getId(), map);
         caller.enqueue(new APICallback<OfferResponse>() {
             @Override
             public void onSuccess(Call<OfferResponse> call, Response<OfferResponse> response) {
                 super.onSuccess(call, response);
                 ((PermintaanActiveActivity)context).dismissDialog();
-                ((PermintaanActiveActivity)context).abuildermessage("Penawaran ini sudah menjadi pemesanan aktif. silahkan lihat info lengkap pada menu Pemesanan.", "Pemberitahuan");
+                ((PermintaanActiveActivity)context).abuildermessage("Penawaran ini sudah menjadi pemesanan aktif. silahkan lihat info lengkap pada menu Transaksi>Disetujui.", "Pemberitahuan");
                 ((PermintaanActiveActivity)context).abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

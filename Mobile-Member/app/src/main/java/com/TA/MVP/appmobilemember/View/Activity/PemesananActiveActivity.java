@@ -387,17 +387,17 @@ public class PemesananActiveActivity extends ParentActivity {
         if (calendar.after(waktuselesai)){
             if (order.getStatus_member() == 1 && order.getStatus_art() == 1) {
                 btnextra.setVisibility(View.VISIBLE);
-                abuildermessage("Pemesanan ini sudah selesai. anda dapat melakukan review pada tab Riwayat", "Pemberitahuan");
+                abuildermessage("Pemesanan ini tidak anda konfirmasi. Silahkan laporkan pada tab riwayat pemesanan.", "Pemberitahuan");
                 abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                    gantistatus(3);
+                    gantistatus(5);
                     }
                 });
                 abuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
                     @Override
                     public void onCancel(DialogInterface dialogInterface) {
-                        gantistatus(3);
+                        gantistatus(5);
                     }
                 });
                 showalertdialog();

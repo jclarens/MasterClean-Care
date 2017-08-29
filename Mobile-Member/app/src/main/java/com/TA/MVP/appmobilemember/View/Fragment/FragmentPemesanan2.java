@@ -543,8 +543,11 @@ public class FragmentPemesanan2 extends Fragment {
             minestimasi = bobot;
             if (tmp < minestimasi)
                 estimasi.setText(String.valueOf(minestimasi));
-        } else if (tmpbobot <= 20)
-            estimasi.setText(String.valueOf(2));
+        } else if (tmpbobot <= 20) {
+            minestimasi = 2;
+            if (Integer.valueOf(estimasi.getText().toString()) < 2)
+                estimasi.setText(String.valueOf(2));
+        }
         settanggal();
         settotal();
     }

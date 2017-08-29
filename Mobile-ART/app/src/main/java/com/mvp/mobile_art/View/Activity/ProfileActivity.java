@@ -57,6 +57,8 @@ public class ProfileActivity extends ParentActivity {
     public final static int REQUEST_EDIT = 1;
     public final static int REQUEST_EDITPASS = 2;
     public final static int REQUEST_EDITFOTO = 3;
+    public final static int REQUEST_LOG = 4;
+    public final static int REQUEST_TARIK = 5;
     public final static int RESULT_SUCCESS = 1;
     public final static int RESULT_CANCEL = 2;
     private RecyclerView recyclerView;
@@ -136,7 +138,7 @@ public class ProfileActivity extends ParentActivity {
             case R.id.prof_menu_edit:
 //                Toast.makeText(getApplicationContext(),"Sedang dalam pengembangan", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(), EditProfileActivity.class);
-                ProfileActivity.this.startActivityForResult(intent, REQUEST_EDIT);
+                startActivityForResult(intent, REQUEST_EDIT);
                 break;
             case R.id.prof_menu_editks:
 //                Toast.makeText(getApplicationContext(),"Sedang dalam pengembangan", Toast.LENGTH_SHORT).show();
@@ -237,14 +239,16 @@ public class ProfileActivity extends ParentActivity {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), LogWalletActivity.class);
-                startActivity(i);
+                startActivityForResult(i, REQUEST_LOG);
+//                startActivity(i);
             }
         });
         tarik.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), PencairanActivity.class);
-                startActivity(i);
+                startActivityForResult(i, REQUEST_TARIK);
+//                startActivity(i);
             }
         });
 
@@ -324,6 +328,12 @@ public class ProfileActivity extends ParentActivity {
                     getallinfo(user.getId());
                     dismissDialog();
                 }
+                break;
+            case REQUEST_LOG:
+                getallinfo(user.getId());
+                break;
+            case REQUEST_TARIK:
+                getallinfo(user.getId());
                 break;
         }
     }

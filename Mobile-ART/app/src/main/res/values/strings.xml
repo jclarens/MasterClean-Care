@@ -107,7 +107,7 @@
     <string name="pager_pesan_masuk">Pesan Masuk</string>
     <string name="pager_pesan_terkirim">Pesan Terkirim</string>
     <string name="pager_penawaran">Penawaran</string>
-    <string name="pager_penawaran_all">Penawaran</string>
+    <string name="pager_penawaran_all">Tersedia</string>
     <string name="pager_penawaran_accepted">Pending</string>
     <string name="pager_penawaran_history">Riwayat</string>
 

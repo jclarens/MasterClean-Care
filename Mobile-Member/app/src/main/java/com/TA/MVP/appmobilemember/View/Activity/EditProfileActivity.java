@@ -67,6 +67,7 @@ public class EditProfileActivity extends ParentActivity {
     private Button btnsimpan, btnbatal;
     private BufferedInputStream bufferedInputStream;
     private CropSquareTransformation cropSquareTransformation = new CropSquareTransformation();
+    private RoundedTransformation roundedTransformation = new RoundedTransformation(10000, 0);
     private String selectedimagepath;
     private boolean imagechanged = false;
     private String newimage;
@@ -191,7 +192,7 @@ public class EditProfileActivity extends ParentActivity {
                 selectedimagepath = getrealpathURI(imageuri);
                 imagechanged = true;
 
-                imgfoto.setImageBitmap(cropSquareTransformation.transform(bmp));
+                imgfoto.setImageBitmap(roundedTransformation.transform(cropSquareTransformation.transform(bmp)));
             } catch (FileNotFoundException e) {
 
             }

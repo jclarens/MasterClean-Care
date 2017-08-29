@@ -45,10 +45,10 @@ public class RecyclerAdapterListKerjaEdit extends RecyclerView.Adapter<RecyclerA
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                     int position = getAdapterPosition();
                     if (checkBox.isChecked()){
-                        ((PemesananActiveActivity)context).updateliststatus(orderTasks.get(position).getTask_list_id(),1);
+                        ((PemesananActiveActivity)context).updateliststatus(orderTasks.get(position).getId(),1);
                     }
                     else
-                        ((PemesananActiveActivity)context).updateliststatus(orderTasks.get(position).getTask_list_id(),0);
+                        ((PemesananActiveActivity)context).updateliststatus(orderTasks.get(position).getId(),0);
                 }
             });
         }

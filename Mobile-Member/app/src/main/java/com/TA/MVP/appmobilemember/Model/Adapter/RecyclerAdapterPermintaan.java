@@ -43,12 +43,13 @@ public class RecyclerAdapterPermintaan extends RecyclerView.Adapter<RecyclerAdap
     private Context context;
 
     class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView itemjumlah, itemprofesi, itemmulai;
+        public TextView itemjumlah, itemprofesi, itemmulai, itemjob;
 
         public ViewHolder(final View itemview) {
             super(itemview);
             itemjumlah = (TextView) itemview.findViewById(R.id.jumlah_penerima);
             itemprofesi = (TextView) itemview.findViewById(R.id.work_time);
+            itemjob = (TextView) itemview.findViewById(R.id.job);
             itemmulai = (TextView) itemview.findViewById(R.id.waktu_mulai);
             itemview.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -73,6 +74,7 @@ public class RecyclerAdapterPermintaan extends RecyclerView.Adapter<RecyclerAdap
     public void onBindViewHolder(RecyclerAdapterPermintaan.ViewHolder holder, int position) {
         holder.itemjumlah.setText(String.valueOf(offers.get(position).getOffer_art().size()));
         holder.itemprofesi.setText(offers.get(position).getWork_time().getWork_time());
+        holder.itemjob.setText(offers.get(position).getJob().getJob());
         try {
             holder.itemmulai.setText(costumedateformat(fixFormat.parse(offers.get(position).getStart_date())));
         } catch (ParseException e) {

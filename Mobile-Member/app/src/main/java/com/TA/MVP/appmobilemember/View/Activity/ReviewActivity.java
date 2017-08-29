@@ -59,20 +59,24 @@ public class ReviewActivity extends ParentActivity{
         simpan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                abuildermessage("Review tidak dapat diubah setelah disimpan.", "Konfirmasi.");
-                abuilder.setPositiveButton("Simpan", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        postreview();
-                    }
-                });
-                abuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+                if (ratingBar.getRating() != 0) {
+                    abuildermessage("Review tidak dapat diubah setelah disimpan.", "Konfirmasi.");
+                    abuilder.setPositiveButton("Simpan", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            postreview();
+                        }
+                    });
+                    abuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
 
-                    }
-                });
-                showalertdialog();
+                        }
+                    });
+                    showalertdialog();
+                }else {
+                    Toast.makeText(getApplicationContext(),"Harap pilih jumlah bintang terlebih dahulu.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

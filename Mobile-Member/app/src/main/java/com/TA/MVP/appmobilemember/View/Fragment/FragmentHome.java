@@ -140,6 +140,7 @@ public class FragmentHome extends Fragment {
         rec_Adapter = new RecyclerAdapterAsisten(getContext(), this);
         recyclerView.setAdapter(rec_Adapter);
 
+        showloading();
         if (filterresult == null) {
             SharedPref.save("searching", "");
         }
@@ -149,7 +150,7 @@ public class FragmentHome extends Fragment {
         }
 //        getarts();
 
-        Log.d("why","ooooooooooooooooooooooooooooooooo");
+//        Log.d("why","ooooooooooooooooooooooooooooooooo");
         return _view;
     }
 
@@ -347,12 +348,14 @@ public class FragmentHome extends Fragment {
                         rec_Adapter.addmore(response.body().getData());
                         currentpage = response.body().getCurrent_page();
                         lastpage = response.body().getLast_page();
+                        hideloading();
                     }
 
                     @Override
                     public void onFailure(Call<GetArtsResponse> call, Throwable t) {
                         super.onFailure(call, t);
                         swipeRefreshLayout.setRefreshing(false);
+                        hideloading();
                         Toast.makeText(getContext(), "Koneksi bermasalah", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -424,6 +427,7 @@ public class FragmentHome extends Fragment {
                         currentpage = response.body().getCurrent_page();
                         lastpage = response.body().getLast_page();
                         swipeRefreshLayout.setRefreshing(false);
+                        hideloading();
 
                         //tags
                         tags.setText(stringtags);
@@ -433,6 +437,7 @@ public class FragmentHome extends Fragment {
                     @Override
                     public void onFailure(Call<GetArtsResponse> call, Throwable t) {
                         super.onFailure(call, t);
+                        hideloading();
                         swipeRefreshLayout.setRefreshing(false);
                     }
                 });

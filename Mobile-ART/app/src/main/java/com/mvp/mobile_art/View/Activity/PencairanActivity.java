@@ -89,12 +89,28 @@ public class PencairanActivity extends ParentActivity {
         tarik.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hidekeyboard();
                 if (total < 50.000){
                     Toast.makeText(getApplicationContext(), "Jumlah penarikan harus lebih besar dari "+setRP(50000), Toast.LENGTH_SHORT).show();
                 }else if (total > user.getUser_wallet().getAmt()){
                     Toast.makeText(getApplicationContext(), "Tidak dapat melakukan penarikan. Jumlah wallet anda "+setRP(user.getUser_wallet().getAmt()), Toast.LENGTH_SHORT).show();
                 }
-                else posttransaksi();
+                else {
+                    abuildermessage("Penarikan " + setRP(total) + " akan dikirim ke rekening:" + user.getContact().getAcc_no(),"Konfirmasi");
+                    abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            posttransaksi();
+                        }
+                    });
+                    abuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+                    showalertdialog();
+                }
             }
         });
 

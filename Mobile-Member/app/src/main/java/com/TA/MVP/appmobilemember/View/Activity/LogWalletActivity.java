@@ -47,7 +47,7 @@ public class LogWalletActivity extends ParentActivity {
     private User user;
     private List<WalletTransaction> walletTransactions = new ArrayList<>();
     private SwipeRefreshLayout swipeRefreshLayout;
-    private LinearLayout layoutnolist;
+    private LinearLayout layoutnolist, layoutloading, layoutnoconnection;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logwallet);
@@ -55,6 +55,8 @@ public class LogWalletActivity extends ParentActivity {
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         layoutnolist = (LinearLayout) findViewById(R.id.layout_nolist);
+        layoutloading = (LinearLayout) findViewById(R.id.layout_loading);
+        layoutnoconnection = (LinearLayout) findViewById(R.id.layout_noconnection);
 
         //toolbar
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
@@ -71,6 +73,7 @@ public class LogWalletActivity extends ParentActivity {
         rec_Adapter = new RecyclerAdapterLogWallet();
         recyclerView.setAdapter(rec_Adapter);
 
+        showloading();
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -95,6 +98,7 @@ public class LogWalletActivity extends ParentActivity {
             @Override
             public void onSuccess(Call<List<WalletTransaction>> call, Response<List<WalletTransaction>> response) {
                 super.onSuccess(call, response);
+                hidenoconnection();
                 walletTransactions = response.body();
                 if (walletTransactions.size() < 1){
                     hidelist();
@@ -103,13 +107,15 @@ public class LogWalletActivity extends ParentActivity {
                     rec_Adapter.setLogWallets(walletTransactions);
                 }
                 swipeRefreshLayout.setRefreshing(false);
+                hideloading();
             }
 
             @Override
             public void onFailure(Call<List<WalletTransaction>> call, Throwable t) {
                 super.onFailure(call, t);
                 swipeRefreshLayout.setRefreshing(false);
-                Toast.makeText(getApplicationContext(),"Koneksi bermasalah harap coba lagi", Toast.LENGTH_SHORT).show();
+                hideloading();
+                shownoconnection();
             }
         });
     }
@@ -120,5 +126,21 @@ public class LogWalletActivity extends ParentActivity {
     public void showlist(){
         recyclerView.setVisibility(View.VISIBLE);
         layoutnolist.setVisibility(View.GONE);
+    }
+    public void showloading(){
+        layoutloading.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+    public void hideloading(){
+        layoutloading.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
+    }
+    public void shownoconnection(){
+        layoutnoconnection.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
+    }
+    public void hidenoconnection(){
+        layoutnoconnection.setVisibility(View.GONE);
+        recyclerView.setVisibility(View.VISIBLE);
     }
 }

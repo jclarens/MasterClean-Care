@@ -46,12 +46,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
                         android:text="Nama"
                         android:textColor="@android:color/black" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" : "
+                        android:layout_marginEnd="10dp"
+                        android:text=":"
                         android:textColor="@android:color/black" />
                     <TextView
                         android:id="@+id/nama"
@@ -59,6 +61,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text=" - "
+                        android:textStyle="bold"
                         android:textColor="@android:color/black" />
 
                 </TableRow>
@@ -66,12 +69,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
                         android:text="No. Telp"
                         android:textColor="@android:color/black" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" : "
+                        android:layout_marginEnd="10dp"
+                        android:text=":"
                         android:textColor="@android:color/black" />
                     <TextView
                         android:id="@+id/telp"
@@ -79,6 +84,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text=" - "
+                        android:textStyle="bold"
                         android:textColor="@android:color/black" />
 
                 </TableRow>
@@ -86,12 +92,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
                         android:text="Usia"
                         android:textColor="@android:color/black" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" : "
+                        android:layout_marginEnd="10dp"
+                        android:text=":"
                         android:textColor="@android:color/black" />
                     <TextView
                         android:id="@+id/usia"
@@ -99,6 +107,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text=" - "
+                        android:textStyle="bold"
                         android:textColor="@android:color/black" />
 
                 </TableRow>
@@ -106,12 +115,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
                         android:text="Agama"
                         android:textColor="@android:color/black" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" : "
+                        android:layout_marginEnd="10dp"
+                        android:text=":"
                         android:textColor="@android:color/black" />
                     <TextView
                         android:id="@+id/agama"
@@ -119,6 +130,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text=" - "
+                        android:textStyle="bold"
                         android:textColor="@android:color/black" />
 
                 </TableRow>
@@ -126,12 +138,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
                         android:text="Suku"
                         android:textColor="@android:color/black" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" : "
+                        android:layout_marginEnd="10dp"
+                        android:text=":"
                         android:textColor="@android:color/black" />
                     <TextView
                         android:id="@+id/suku"
@@ -139,6 +153,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text=" - "
+                        android:textStyle="bold"
                         android:textColor="@android:color/black" />
 
                 </TableRow>
@@ -146,12 +161,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
                         android:text="Kota"
                         android:textColor="@android:color/black" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" : "
+                        android:layout_marginEnd="10dp"
+                        android:text=":"
                         android:textColor="@android:color/black" />
                     <TextView
                         android:id="@+id/kota"
@@ -159,6 +176,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text=" - "
+                        android:textStyle="bold"
                         android:textColor="@android:color/black" />
 
                 </TableRow>
@@ -166,12 +184,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
                         android:text="Profesi"
                         android:textColor="@android:color/black" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" : "
+                        android:layout_marginEnd="10dp"
+                        android:text=":"
                         android:textColor="@android:color/black" />
                     <TextView
                         android:id="@+id/prof"
@@ -179,6 +199,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text=" - "
+                        android:textStyle="bold"
                         android:textColor="@android:color/black" />
 
                 </TableRow>
@@ -186,12 +207,14 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
                         android:text="Bahasa"
                         android:textColor="@android:color/black" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" : "
+                        android:layout_marginEnd="10dp"
+                        android:text=":"
                         android:textColor="@android:color/black" />
                     <TextView
                         android:id="@+id/bahasa"
@@ -199,18 +222,21 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text=" - "
+                        android:textStyle="bold"
                         android:textColor="@android:color/black" />
                 </TableRow>
                 <TableRow>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="10dp"
                         android:text="No. Rekening"
                         android:textColor="@android:color/black" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text=" : "
+                        android:layout_marginEnd="10dp"
+                        android:text=":"
                         android:textColor="@android:color/black" />
                     <TextView
                         android:id="@+id/norek"
@@ -218,6 +244,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text=" - "
+                        android:textStyle="bold"
                         android:textColor="@android:color/black" />
                 </TableRow>
             </TableLayout>

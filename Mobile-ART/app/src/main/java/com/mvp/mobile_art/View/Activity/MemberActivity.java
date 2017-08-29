@@ -124,8 +124,8 @@ public class MemberActivity extends ParentActivity {
                 .load(Settings.getRetrofitAPIUrl()+"image/small/"+member.getAvatar())
                 .placeholder(R.drawable.default_profile)
                 .error(R.drawable.default_profile)
-                .resize(200, 200)
-                .transform(new RoundedTransformation(100, 0))
+                .fit().centerCrop()
+                .transform(new RoundedTransformation(1000, 0))
                 .into(imageView);
 
 

@@ -82,7 +82,7 @@ public class TulisPesanActivity extends ParentActivity {
             @Override
             public void onClick(View view) {
                 if (sub.getText().toString().equals("") || msg.getText().toString().equals("")){
-                    Toast.makeText(getApplicationContext(),"Pesan dan Subject Tidak boleh kosong",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Subject dan Pesan Tidak boleh kosong",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     abuildermessage("Kirim pesan?", "Pesan");

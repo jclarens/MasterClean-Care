@@ -202,8 +202,9 @@ public class AsistenActivity extends ParentActivity {
                     break;
             }
         }
-        if (!(art.getDescription().equals("") || art.getDescription() == null)){
-            layoutketerangan.setVisibility(View.VISIBLE);
+        if (art.getDescription() != null){
+            if (art.getDescription().equals(""))
+                layoutketerangan.setVisibility(View.VISIBLE);
         }
         tktanjg.setText("Tidak");
         if (art.getUser_additional_info().size() > 0) {

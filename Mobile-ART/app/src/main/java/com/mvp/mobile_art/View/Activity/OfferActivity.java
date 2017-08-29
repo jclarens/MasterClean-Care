@@ -286,10 +286,16 @@ public class OfferActivity extends ParentActivity {
             public void onSuccess(Call<OfferResponse> call, Response<OfferResponse> response) {
                 super.onSuccess(call, response);
                 dismissDialog();
-                abuildermessage("Pendaftaran berhasil. Lihat status pada tab Jadwal>Penawaran untuk info lebih lanjut.", "Sukses");
+                abuildermessage("Pendaftaran berhasil. Lihat status pada tab Penawaran>Pending untuk info lebih lanjut.", "Sukses");
                 abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                });
+                abuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
                         finish();
                     }
                 });
@@ -368,6 +374,13 @@ public class OfferActivity extends ParentActivity {
             abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
+                    removeartfromoffer();
+                    finish();
+                }
+            });
+            abuilder.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialogInterface) {
                     removeartfromoffer();
                     finish();
                 }
@@ -500,6 +513,8 @@ public class OfferActivity extends ParentActivity {
                         finish();
                     }
                 });
+                abuilder.setCancelable(false);
+                showalertdialog();
             }
         });
     }

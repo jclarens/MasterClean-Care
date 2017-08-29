@@ -93,7 +93,7 @@ public class LoginActivity extends ParentActivity {
                         dofinishActivity(i);
                     }
                 } catch(NullPointerException e){
-                    Toast.makeText(getApplicationContext(), "Email atau katasandi salah.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), response.body().message, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -125,5 +125,10 @@ public class LoginActivity extends ParentActivity {
                 Toast.makeText(getApplicationContext(), "Terjadi kesalahan pada.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }

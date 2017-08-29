@@ -40,13 +40,14 @@ public class ProfileActivity extends ParentActivity {
     public final static int REQUEST_EDIT = 1;
     public final static int REQUEST_EDITPASS = 2;
     public final static int REQUEST_EDITFOTO = 3;
+    public final static int REQUEST_LOG = 4;
     public final static int RESULT_SUCCESS = 1;
     public final static int RESULT_CANCEL = 2;
     private User user = new User();
     private UserContact userContact = new UserContact();
     private Toolbar toolbar;
     private ImageView imgfoto;
-    private TextView nama, alamat, notelp, email, nominal, kota;
+    private TextView nama, alamat, notelp, notelp2, email, nominal, kota;
     private Button btnlog;
     private Intent intent = new Intent();
     private NumberFormat numberFormat = NumberFormat.getNumberInstance();
@@ -63,6 +64,7 @@ public class ProfileActivity extends ParentActivity {
         nama = (TextView) findViewById(R.id.prof_tv_nama);
         alamat = (TextView) findViewById(R.id.prof_tv_alamat);
         notelp = (TextView) findViewById(R.id.prof_tv_notelp);
+        notelp2 = (TextView) findViewById(R.id.prof_tv_notelp2);
         email = (TextView) findViewById(R.id.prof_tv_email);
         nominal = (TextView) findViewById(R.id.prof_tv_nominal);
         kota = (TextView) findViewById(R.id.prof_tv_kota);
@@ -107,25 +109,36 @@ public class ProfileActivity extends ParentActivity {
         kota.setText(places.get(user.getContact().getCity()-1).getName());
         try{
             alamat.setText(user.getContact().getAddress());
-            notelp.setText(user.getContact().getPhone());
         }
         catch (NullPointerException e){
             alamat.setText("-");
+        }
+        try{
+            notelp.setText(user.getContact().getPhone());
+        }
+        catch (NullPointerException e){
             notelp.setText("-");
+        }
+        try{
+            notelp2.setText(user.getContact().getEmergency_numb());
+        }
+        catch (NullPointerException e){
+            notelp2.setText("-");
         }
         email.setText(user.getEmail());
         try{
             nominal.setText(setRP(user.getUser_wallet().getAmt()));
         }
         catch (NullPointerException e){
-            nominal.setText("Rp. 0.00");
+            nominal.setText("Rp. 0");
         }
 
         btnlog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), LogWalletActivity.class);
-                startActivity(i);
+                startActivityForResult(i, REQUEST_LOG);
+//                startActivity(i);
             }
         });
 
@@ -136,7 +149,6 @@ public class ProfileActivity extends ParentActivity {
                 .fit().centerCrop()
                 .transform(new RoundedTransformation(1000, 0))
                 .into(imgfoto);
-//                .resize(imgfoto.getWidth(), imgfoto.getHeight())
 
         dismissDialog();
     }
@@ -149,6 +161,9 @@ public class ProfileActivity extends ParentActivity {
                 if (resultCode == RESULT_SUCCESS) {
                     getallinfo(user.getId());
                 }
+                break;
+            case REQUEST_LOG:
+                getallinfo(user.getId());
                 break;
         }
     }

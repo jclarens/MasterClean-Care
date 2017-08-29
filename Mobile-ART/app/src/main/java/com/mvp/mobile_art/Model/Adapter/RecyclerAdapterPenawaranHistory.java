@@ -47,9 +47,13 @@ public class RecyclerAdapterPenawaranHistory extends RecyclerView.Adapter<Recycl
 
     class ViewHolder extends RecyclerView.ViewHolder {
         public TextView itemstatus, itemprofesi, itemmulai;
+        public int hijau,merah,kuning;
 
         public ViewHolder(final View itemview) {
             super(itemview);
+            hijau = itemview.getResources().getColor(R.color.colorGreen);
+            merah = itemview.getResources().getColor(R.color.colorRed);
+            kuning = itemview.getResources().getColor(R.color.colorYellow);
             itemstatus = (TextView) itemview.findViewById(R.id.status);
             itemprofesi = (TextView) itemview.findViewById(R.id.work_time);
             itemmulai = (TextView) itemview.findViewById(R.id.waktu_mulai);
@@ -78,10 +82,13 @@ public class RecyclerAdapterPenawaranHistory extends RecyclerView.Adapter<Recycl
             holder.itemstatus.setText(status[0]);
         } else if (offers.get(position).getStatus() == 1 && myliststatus.get(position) == 1){
             holder.itemstatus.setText(status[1]);
-        } else if (offers.get(position).getStatus() == 1 && myliststatus.get(position) == 0){
+            holder.itemstatus.setTextColor(holder.hijau);
+        } else if (offers.get(position).getStatus() == 1 && myliststatus.get(position) == 2){
             holder.itemstatus.setText(status[2]);
+            holder.itemstatus.setTextColor(holder.kuning);
         } else if (offers.get(position).getStatus() == 2){
             holder.itemstatus.setText(status[3]);
+            holder.itemstatus.setTextColor(holder.merah);
         }
         holder.itemprofesi.setText(defaultwk.get(offers.get(position).getWork_time_id()-1).getWork_time());
         try {

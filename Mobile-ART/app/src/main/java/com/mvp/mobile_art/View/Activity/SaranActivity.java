@@ -57,7 +57,7 @@ public class SaranActivity extends ParentActivity {
                         }
                     });
                     showalertdialog();
-                }else Toast.makeText(getApplicationContext(),"Anda belum mengisi Keritik atau saran anda.", Toast.LENGTH_SHORT).show();
+                }else Toast.makeText(getApplicationContext(),"Anda belum mengisi Kritik atau saran anda.", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -70,7 +70,7 @@ public class SaranActivity extends ParentActivity {
             @Override
             public void onSuccess(Call<KdanSResponse> call, Response<KdanSResponse> response) {
                 super.onSuccess(call, response);
-                abuildermessage("Terima kasih sudah memberikan keritik dan saran anda.", "Pemberitahuan");
+                abuildermessage("Terima kasih sudah memberikan kritik dan saran anda.", "Pemberitahuan");
                 abuilder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

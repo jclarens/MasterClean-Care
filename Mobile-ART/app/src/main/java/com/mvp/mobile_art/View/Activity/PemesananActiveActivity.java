@@ -245,14 +245,14 @@ public class PemesananActiveActivity extends ParentActivity {
                         break;
                     case 1:
                         if (sdgbrlgsg){
-                            abuildermessage("Anda tidak dapat mengubah list kerja setelah menyimpan","Selesaikan");
-                            abuilder.setPositiveButton("Simpan", new DialogInterface.OnClickListener() {
+                            abuildermessage("Anda akan menyatakan pemesanan selesai.","Konfirmasi");
+                            abuilder.setPositiveButton("Selesai", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     gantimystatus(1);
                                 }
                             });
-                            abuilder.setNegativeButton("Batal", new DialogInterface.OnClickListener() {
+                            abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
 
@@ -373,11 +373,41 @@ public class PemesananActiveActivity extends ParentActivity {
         showalertdialog();
     }
     public void tolakorder(final Integer id){
-        abuildermessage("Anda yakin ingin menolak pesanan ini?","Konfirmasi");
+        abuildermessage("Anda yakin ingin menolak pesanan ini?", "Konfirmasi");
         abuilder.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-                gantistatus(4);
+                initProgressDialog("Sedang melakukan validasi");
+                showDialog();
+                Call<Order> caller = APIManager.getRepository(OrderRepo.class).getorderById(order.getId());
+                caller.enqueue(new APICallback<Order>() {
+                    @Override
+                    public void onSuccess(Call<Order> call, Response<Order> response) {
+                        super.onSuccess(call, response);
+                        dismissDialog();
+                        order = response.body();
+                        if (order.getStatus() == 0) {
+                            gantistatus(4);
+                        }else {
+                            Toast.makeText(getApplicationContext(),"Pemesanan sudah tidak dapat ditolak", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Call<Order> call, Response<Order> response) {
+                        super.onError(call, response);
+                        dismissDialog();
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+
+                    @Override
+                    public void onFailure(Call<Order> call, Throwable t) {
+                        super.onFailure(call, t);
+                        dismissDialog();
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
             }
         });
         abuilder.setNegativeButton("Tidak", new DialogInterface.OnClickListener() {
@@ -387,6 +417,7 @@ public class PemesananActiveActivity extends ParentActivity {
             }
         });
         showalertdialog();
+        swipeRefreshLayout.setRefreshing(false);
     }
     public boolean validasijadwal(List<Order> orders){
         try {

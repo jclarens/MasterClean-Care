@@ -233,6 +233,9 @@ public class FragmentPekerjaan extends Fragment implements OnMapReadyCallback {
         }
 
         offers = tempoffer;
+        if (tempoffer.size() < 1){
+            Toast.makeText(getContext(), "Tidak ada penawaran yang dapat anda terima saat ini", Toast.LENGTH_SHORT).show();
+        }
 
         mGoogleMap.clear();
         for (int i = 0; i < offers.size(); i++){

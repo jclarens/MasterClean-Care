@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -186,11 +187,20 @@ public class FragmentPenawaranAll extends Fragment {
                 super.onSuccess(call, response);
                 hidenoconnection();
                 List<Offer> offerz = validasijadwal(response.body(), offers);
-                if (offerz.size() < 1)
+                List<Offer> tempoffer = new ArrayList<>();
+                for (int n=0;n<offerz.size();n++){
+                    for (int m=0;m<user.getUser_job().size();m++){
+                        if (offerz.get(n).getJob_id() == user.getUser_job().get(m).getJob_id()) {
+                            tempoffer.add(offerz.get(n));
+                            break;
+                        }
+                    }
+                }
+                if (tempoffer.size() < 1)
                     hidelist();
                 else {
                     showlist();
-                    rec_Adapter.setOffers(offerz);
+                    rec_Adapter.setOffers(tempoffer);
                 }
                 swipeRefreshLayout.setRefreshing(false);
                 hideloading();
